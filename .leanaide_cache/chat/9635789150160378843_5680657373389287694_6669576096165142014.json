@@ -1,0 +1,96 @@
+{"usage":
+ {"total_tokens": 5657,
+  "prompt_tokens_details": {"cached_tokens": 0, "audio_tokens": 0},
+  "prompt_tokens": 4908,
+  "completion_tokens_details":
+  {"rejected_prediction_tokens": 0,
+   "reasoning_tokens": 0,
+   "audio_tokens": 0,
+   "accepted_prediction_tokens": 0},
+  "completion_tokens": 749},
+ "system_fingerprint": "fp_c7ca0ebaca",
+ "object": "chat.completion",
+ "model": "gpt-4o-2024-08-06",
+ "id": "chatcmpl-AcstjI6fQGHn9cHL1cO81aEppviUB",
+ "created": 1733830855,
+ "choices":
+ [{"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {E : Type u_1} [inst : NormedAddCommGroup E] [inst_1 : NormedSpace ℂ E] {γ : ℂ → E}, \n  (∀ z, DifferentiableAt ℂ γ z) → (∮ (z : ℂ) in γ, 0) = 0"},
+   "logprobs": null,
+   "index": 0,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {E : Type u_1} [inst : NormedAddCommGroup E] [inst_1 : NormedSpace ℂ E] {f : ℂ → E} {γ : Path ℂ},\n  (∀ z, DifferentiableAt ℂ f z) → γ.IsLoop → (∮ z in γ, f z) = 0"},
+   "logprobs": null,
+   "index": 1,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {U : Type u_1} [inst : TopologicalSpace U] [inst_1 : ComplexManifold U] {γ : Path ℂ} {f : ℂ → ℂ},\n  HolomorphicOn f U → γ.IsLoop → ShIntegral f γ = 0"},
+   "logprobs": null,
+   "index": 2,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {E : Type u_1} [inst : NormedAddCommGroup E] [inst_1 : NormedSpace ℂ E] {f : ℂ → E} {γ : Path ℂ},\n  (∀ z, DifferentiableAt ℂ f z) → γ.isClosed → (∮ (z : ℂ) in γ, f z) = 0"},
+   "logprobs": null,
+   "index": 3,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {E : Type u_1} [inst : NormedAddCommGroup E] [inst_1 : NormedSpace ℂ E] {f : ℂ → E} {γ : ℂ → ℂ} [inst_2 : IsClosed γ],\n  (∀ z, DifferentiableAt ℂ f z) → ShIntegral γ f = 0"},
+   "logprobs": null,
+   "index": 4,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {E : Type u_1} [inst : NormedAddCommGroup E] [inst_1 : NormedSpace ℂ E] {f : ℂ → E} {γ : Path ℂ},\n  (∀ z ∈ Set.Univ, DifferentiableAt ℂ f z) → (∮ (z : ℂ) in γ, f z) = 0"},
+   "logprobs": null,
+   "index": 5,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {E : Type u_1} [inst : NormedAddCommGroup E] [inst_1 : NormedSpace ℂ E] {γ : Path ℂ},\n  IsClosed γ → (∮ (z : ℂ) in γ, f z) = 0"},
+   "logprobs": null,
+   "index": 6,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {E : Type u} [inst : NormedAddCommGroup E] [inst_1 : NormedSpace ℂ E] {f : ℂ → E} {γ : ℂ → ℂ},\n  HolomorphicAt ℂ f (γ 0) → (∮ z in MeasureTheory.Measure.map γ MeasureTheory.Measure.zero, f z) = 0"},
+   "logprobs": null,
+   "index": 7,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {E : Type u_1} [inst : NormedAddCommGroup E] [inst_1 : NormedSpace ℂ E] {f : ℂ → E} {γ : Path ℂ},\n  (∀ z ∈ γ.range, DifferentiableAt ℂ f z) → ShIntegral ℂ γ f = 0"},
+   "logprobs": null,
+   "index": 8,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {E : Type u_1} [inst : NormedAddCommGroup E] [inst_1 : NormedSpace ℂ E] {γ : ℂ → ℂ} {f : ℂ → E},\n  (∀ z, DifferentiableAt ℂ f z) → (∮ z in γ, f z) = 0"},
+   "logprobs": null,
+   "index": 9,
+   "finish_reason": "stop"}]}

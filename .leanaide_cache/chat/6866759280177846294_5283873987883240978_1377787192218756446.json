@@ -1,0 +1,23 @@
+{"usage":
+ {"total_tokens": 814,
+  "prompt_tokens_details": {"cached_tokens": 0, "audio_tokens": 0},
+  "prompt_tokens": 321,
+  "completion_tokens_details":
+  {"rejected_prediction_tokens": 0,
+   "reasoning_tokens": 448,
+   "audio_tokens": 0,
+   "accepted_prediction_tokens": 0},
+  "completion_tokens": 493},
+ "system_fingerprint": "fp_35c19d48ca",
+ "object": "chat.completion",
+ "model": "o1-mini-2024-09-12",
+ "id": "chatcmpl-AcsrdzmTBWxg8URvIWTArq0yjLKiB",
+ "created": 1733830725,
+ "choices":
+ [{"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "false\nTheorem 1 does not specify the existence of elements in the Cartesian product."},
+   "index": 0,
+   "finish_reason": "stop"}]}

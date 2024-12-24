@@ -1,0 +1,87 @@
+{"usage":
+ {"total_tokens": 2562,
+  "prompt_tokens_details": {"cached_tokens": 0, "audio_tokens": 0},
+  "prompt_tokens": 2324,
+  "completion_tokens_details":
+  {"rejected_prediction_tokens": 0,
+   "reasoning_tokens": 0,
+   "audio_tokens": 0,
+   "accepted_prediction_tokens": 0},
+  "completion_tokens": 238},
+ "system_fingerprint": "fp_c7ca0ebaca",
+ "object": "chat.completion",
+ "model": "gpt-4o-2024-08-06",
+ "id": "chatcmpl-Acsra8MyZqAm3S8anFEbNREidURG6",
+ "created": 1733830722,
+ "choices":
+ [{"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content": "∀ {α : Type u_1} {β : Type u_2}, α × β"},
+   "logprobs": null,
+   "index": 0,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant", "refusal": null, "content": "∀ (A B : Type), A × B"},
+   "logprobs": null,
+   "index": 1,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content": "∀ {α : Type u_1} {β : Type u_2}, α × β"},
+   "logprobs": null,
+   "index": 2,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content": "∀ {α : Type u_1} {β : Type u_2}, α × β"},
+   "logprobs": null,
+   "index": 3,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content": "∀ (α β : Type u), Nonempty α → Nonempty β → Nonempty (α × β)"},
+   "logprobs": null,
+   "index": 4,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "theorem product : ∀ {α : Type u} [inst : CommMonoid α] (a b : α), a * b = b * a"},
+   "logprobs": null,
+   "index": 5,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content": "∀ {α : Type u_1} {β : Type u_2}, α × β"},
+   "logprobs": null,
+   "index": 6,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content": "∀ {α : Type u} [inst : CommMonoid α] (a b : α), a * b = b * a"},
+   "logprobs": null,
+   "index": 7,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {α : Type u_1} [inst : CommMonoid α] (a b : α), a * b = b * a"},
+   "logprobs": null,
+   "index": 8,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "theorem product {α : Type*} [CommMonoid α] (a b : α) : a * b = b * a := mul_comm a b"},
+   "logprobs": null,
+   "index": 9,
+   "finish_reason": "stop"}]}

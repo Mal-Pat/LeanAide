@@ -1,0 +1,96 @@
+{"usage":
+ {"total_tokens": 513,
+  "prompt_tokens_details": {"cached_tokens": 0, "audio_tokens": 0},
+  "prompt_tokens": 122,
+  "completion_tokens_details":
+  {"rejected_prediction_tokens": 0,
+   "reasoning_tokens": 0,
+   "audio_tokens": 0,
+   "accepted_prediction_tokens": 0},
+  "completion_tokens": 391},
+ "system_fingerprint": "fp_c7ca0ebaca",
+ "object": "chat.completion",
+ "model": "gpt-4o-2024-08-06",
+ "id": "chatcmpl-AcsrbnpElR9BwifcYldoV8ZB4QZ1m",
+ "created": 1733830723,
+ "choices":
+ [{"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "Given types of universes $u$ and $v$, there exists a type of universe $\\max(u, v)$."},
+   "logprobs": null,
+   "index": 0,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "For any two types, $\\alpha$ of universe level $u$ and $\\beta$ of universe level $v$, there exists a type of universe level $\\max(u, v)$."},
+   "logprobs": null,
+   "index": 1,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "If $\\alpha$ is a type of universe level $u$ and $\\beta$ is a type of universe level $v$, then the resultant type has a universe level of $\\max(u, v)$."},
+   "logprobs": null,
+   "index": 2,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "For any types $A$ and $B$ from universes $u$ and $v$ respectively, there exists a type in universe `max(u, v)`."},
+   "logprobs": null,
+   "index": 3,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "For any two types of universes $u$ and $v$, there exists a type in the universe of maximum level $\\max(u, v)$."},
+   "logprobs": null,
+   "index": 4,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "For any types $A$ of universe level $u$ and $B$ of universe level $v$, there exists a type of universe level $\\max(u, v)$."},
+   "logprobs": null,
+   "index": 5,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "For any types $A$ and $B$, there exists a type $C$ such that the universe level of $C$ is the maximum of the universe levels of $A$ and $B$."},
+   "logprobs": null,
+   "index": 6,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "If $A$ is a type of universe level $u$ and $B$ is a type of universe level $v$, then the type of pairs $(a, b)$ where $a \\in A$ and $b \\in B$ has universe level $\\max(u, v)$."},
+   "logprobs": null,
+   "index": 7,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "For any types $\\alpha$ and $\\beta$, there exists a type whose universe level is $\\max(u, v)$, where $u$ and $v$ are the universe levels of $\\alpha$ and $\\beta$, respectively."},
+   "logprobs": null,
+   "index": 8,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "For any types $\\alpha$ of universe level $u$ and $\\beta$ of universe level $v$, there exists a type of universe level $\\max(u, v)$."},
+   "logprobs": null,
+   "index": 9,
+   "finish_reason": "stop"}]}

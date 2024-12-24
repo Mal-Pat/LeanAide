@@ -1,0 +1,96 @@
+{"usage":
+ {"total_tokens": 3847,
+  "prompt_tokens_details": {"cached_tokens": 0, "audio_tokens": 0},
+  "prompt_tokens": 2791,
+  "completion_tokens_details":
+  {"rejected_prediction_tokens": 0,
+   "reasoning_tokens": 0,
+   "audio_tokens": 0,
+   "accepted_prediction_tokens": 0},
+  "completion_tokens": 1056},
+ "system_fingerprint": "fp_c7ca0ebaca",
+ "object": "chat.completion",
+ "model": "gpt-4o-2024-08-06",
+ "id": "chatcmpl-ActrN638Xw9E4xYbXudHOxvyh2ikU",
+ "created": 1733834553,
+ "choices":
+ [{"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ (n : ℕ) (a : ℕ → ℤ), (∀ i, ∃ (s₁ s₂ : Finset ℕ), s₁.card = n ∧ s₂.card = n ∧\n  s₁ ∩ s₂ = ∅ ∧ s₁ ∪ s₂ = Finset.erase (Finset.range (2 * n + 1)) i ∧\n  (s₁.sum a = s₂.sum a)) → ∀ i j, a i = a j"},
+   "logprobs": null,
+   "index": 0,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {n : ℕ} {a : Fin (2 * n + 1) → ℤ}, (∀ (i : Fin (2 * n + 1)), ∃ (s₁ s₂ : Finset (Fin (2 * n + 1))),\n  s₁.card = n ∧ s₂.card = n ∧ s₁ ∩ s₂ = ∅ ∧ s₁ ∪ s₂ = {j | j ≠ i} ∧ ∑ j in s₁, a j = ∑ j in s₂, a j) →\n  ∀ i j : Fin (2 * n + 1), a i = a j"},
+   "logprobs": null,
+   "index": 1,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {n : ℕ} {a : Fin (2 * n + 1) → ℤ},\n  (∀ i, ∃ (s : Finset (Fin (2 * n + 1))), s.card = n ∧ ∑ j in s, a j = ∑ j in (Finset.univ \\ s), a j) →\n  ∀ i j, a i = a j"},
+   "logprobs": null,
+   "index": 2,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {n : ℕ} {a : Fin (2 * n + 1) → ℤ},\n  (∀ i, ∃ (s : Finset (Fin (2 * n + 1))), s.card = n ∧ i ∉ s ∧ s.sum (fun j => a j) = Finset.univ \\ {i}.sum (fun j => a j)) →\n    ∀ i j, a i = a j"},
+   "logprobs": null,
+   "index": 3,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {n : ℕ} {a : Fin (2 * n + 1) → ℤ},\n  (∀ i : Fin (2 * n + 1),\n    ∃ (s t : Finset (Fin (2 * n + 1))),\n      s.card = n ∧ t.card = n ∧ s ∪ t = Finset.univ.erase i ∧ s.sum a = t.sum a) →\n  ∀ i j : Fin (2 * n + 1), a i = a j"},
+   "logprobs": null,
+   "index": 4,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {a : ℕ → ℤ} {n : ℕ}, (∀ i, ∃ (s t : Finset ℕ) (hs : s.card = n) (ht : t.card = n), s ∪ t = (Finset.range (2 * n + 1)).erase i ∧ (Finset.sum s fun x => a x) = (Finset.sum t fun x => a x)) → ∀ i j, a i = a j"},
+   "logprobs": null,
+   "index": 5,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {n : ℕ} {a : Fin (2 * n + 1) → ℤ},\n  (∀ (i : Fin (2 * n + 1)), ∃ (s : Finset (Fin (2 * n + 1))), s.card = n ∧ (s \\ {i}).sum a = (sᶜ \\ {i}).sum a) →\n  ∀ (i j : Fin (2 * n + 1)), a i = a j"},
+   "logprobs": null,
+   "index": 6,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {n : ℕ} {a : Fin (2 * n + 1) → ℤ},\n  (∀ i : Fin (2 * n + 1), ∃ (s : Finset (Fin (2 * n + 1))),\n    s.card = n ∧ (∑ j in s, a j) = ∑ j in sᶜ, a j) →\n    ∀ i j : Fin (2 * n + 1), a i = a j"},
+   "logprobs": null,
+   "index": 7,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {n : ℕ} {a : Fin (2 * n + 1) → ℤ},\n  (∀ i : Fin (2 * n + 1), ∃ s : Finset (Fin (2 * n + 1)), s.card = n ∧ i ∉ s ∧ ∑ x in s, a x = ∑ x in Finset.univ.sdiff s \\ {i}, a x) →\n  ∀ i j : Fin (2 * n + 1), a i = a j"},
+   "logprobs": null,
+   "index": 8,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {n : ℕ} {a : Fin (2 * n + 1) → ℤ},\n  (∀ i, ∃ s : Finset (Fin (2 * n + 1)), s.card = n ∧ (s.sum a = (Finset.univ \\ {i}).sum a)) →\n  ∀ i j, a i = a j"},
+   "logprobs": null,
+   "index": 9,
+   "finish_reason": "stop"}]}

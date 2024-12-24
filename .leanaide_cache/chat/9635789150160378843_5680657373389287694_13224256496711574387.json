@@ -1,0 +1,96 @@
+{"usage":
+ {"total_tokens": 362,
+  "prompt_tokens_details": {"cached_tokens": 0, "audio_tokens": 0},
+  "prompt_tokens": 131,
+  "completion_tokens_details":
+  {"rejected_prediction_tokens": 0,
+   "reasoning_tokens": 0,
+   "audio_tokens": 0,
+   "accepted_prediction_tokens": 0},
+  "completion_tokens": 231},
+ "system_fingerprint": "fp_c7ca0ebaca",
+ "object": "chat.completion",
+ "model": "gpt-4o-2024-08-06",
+ "id": "chatcmpl-Acsrclg9bJWMOMeVZ6Y3WHWZtwwFb",
+ "created": 1733830724,
+ "choices":
+ [{"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "There exists an element of the Cartesian product $α \\times β$ for any types $α$ and $β$."},
+   "logprobs": null,
+   "index": 0,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "For any types $\\alpha$ and $\\beta$, there exists a pair of type $\\alpha \\times \\beta$."},
+   "logprobs": null,
+   "index": 1,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "There exists a product type $α \\times β$ for any types $α$ and $β$."},
+   "logprobs": null,
+   "index": 2,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "For any types $\\alpha$ and $\\beta$, there exists a pair (or tuple) of type $\\alpha \\times \\beta$."},
+   "logprobs": null,
+   "index": 3,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "For any types $\\alpha$ and $\\beta$, there exists a pair $(a, b)$ of type $\\alpha \\times \\beta$."},
+   "logprobs": null,
+   "index": 4,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "There exists a product type $α \\times β$ for any types $α$ and $β$."},
+   "logprobs": null,
+   "index": 5,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "There exists a pair $(\\alpha, \\beta)$ for any types $\\alpha$ and $\\beta$."},
+   "logprobs": null,
+   "index": 6,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "There exists a term of the type $\\alpha \\times \\beta$ for any types $\\alpha$ and $\\beta$."},
+   "logprobs": null,
+   "index": 7,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "There exists a product type $α \\times β$ for any types $α$ and $β$."},
+   "logprobs": null,
+   "index": 8,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "There exists a product type $α \\times β$ for any types $α$ and $β$."},
+   "logprobs": null,
+   "index": 9,
+   "finish_reason": "stop"}]}

@@ -1,0 +1,96 @@
+{"usage":
+ {"total_tokens": 6033,
+  "prompt_tokens_details": {"cached_tokens": 0, "audio_tokens": 0},
+  "prompt_tokens": 4903,
+  "completion_tokens_details":
+  {"rejected_prediction_tokens": 0,
+   "reasoning_tokens": 0,
+   "audio_tokens": 0,
+   "accepted_prediction_tokens": 0},
+  "completion_tokens": 1130},
+ "system_fingerprint": "fp_9d50cd990b",
+ "object": "chat.completion",
+ "model": "gpt-4o-2024-08-06",
+ "id": "chatcmpl-Act1lk60pJMFduopDvrZRHMjV5L9R",
+ "created": 1733831353,
+ "choices":
+ [{"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {E : Type u_1} [inst : NormedAddCommGroup E] [inst_1 : NormedSpace ℂ E] (U : Set ℂ) (hU : IsSimplyConnected U)\n  (f : ℂ → E) (h : ∀ z ∈ U, DifferentiableAt ℂ f z) (γ : ℂ → ℂ) (hγ : Continuous γ) (hγ' : γ 0 = γ 1)\n  (hγ'' : ∀ t, γ t ∈ U), (∮ z in γ, f z) = 0"},
+   "logprobs": null,
+   "index": 0,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {E : Type u_1} [inst : NormedAddCommGroup E] [inst_1 : NormedSpace ℂ E] {U : Set ℂ} (hU : IsSimplyConnected U)\n  {f : ℂ → E} (hf : ∀ z ∈ U, DifferentiableAt ℂ f z) {γ : Path ℂ},\n  γ ∈ LoopsIn U → (∮ z in γ, f z) = 0"},
+   "logprobs": null,
+   "index": 1,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {E : Type u} [inst : NormedAddCommGroup E] [inst_1 : NormedSpace ℂ E] {U : Set ℂ} (hU : IsSimplyConnected U)\n  {f : ℂ → E} (h : ∀ z ∈ U, DifferentiableAt ℂ f z) {γ : ℂ → ℂ} (hγ : Continuous γ) (hγ' : γ 0 = γ 1)\n  (hγ'' : ∀ t, γ t ∈ U), (∮ (z : ℂ) in γ, f z) = 0"},
+   "logprobs": null,
+   "index": 2,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {U : Type u_1} [inst : TopologicalSpace U] [inst_1 : SimplyConnectedSpace U] {f : U → ℂ}\n  (hf : Differentiable ℂ f) {γ : Path ℂ U U},\n  Path.isClosed γ → (∮ (z : ℂ) in γ, f z) = 0"},
+   "logprobs": null,
+   "index": 3,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {E : Type u} [inst : NormedAddCommGroup E] [inst_1 : NormedSpace ℂ E] (D : Set ℂ) (hD : IsSimplyConnected D)\n  (f : ℂ → E) (hf : ∀ z ∈ D, DifferentiableAt ℂ f z) (γ : Path ℂ), γ.IsClosed ∧ γ.mapsTo D → γ.lineIntegral f = 0"},
+   "logprobs": null,
+   "index": 4,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {E : Type u_1} [inst : NormedAddCommGroup E] [inst_1 : NormedSpace ℂ E] {U : Set ℂ} (hU : IsSimplyConnected U)\n  {f : ℂ → E} (hf : HolomorphicOn f U) {γ : ℂ → ℂ} (hγ : Continuous γ) (hγ' : ∀ t, γ t ∈ U) (hγ_closed : γ 0 = γ 1),\n  ∮ (z : ℂ) in path γ 0 1, f z = 0"},
+   "logprobs": null,
+   "index": 5,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {E : Type u_1} [inst : NormedAddCommGroup E] [inst_1 : NormedSpace ℂ E] {U : Set ℂ} {γ : ℂ → ℂ},\n  IsSimplyConnected U →\n    (∀ z ∈ U, DifferentiableAt ℂ γ z) →\n    MeasureTheory.MeasureTheory.ClosedCurve γ →\n    (∮ (z : ℂ) in C(γ, U), γ z) = 0"},
+   "logprobs": null,
+   "index": 6,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {E : Type u_1} [inst : NormedAddCommGroup E] [inst_1 : NormedSpace ℂ E] {U : Set ℂ} (γ : ℂ → ℂ)\n  [inst_2 : IsSimplyConnected U], IsClosed γ → (∀ z ∈ U, DifferentiableAt ℂ γ z) → (∮ (z : ℂ) in γ, γ z) = 0"},
+   "logprobs": null,
+   "index": 7,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {E : Type u_1} [inst : NormedAddCommGroup E] [inst_1 : NormedSpace ℂ E] {U : Set ℂ} (f : ℂ → E) (γ : ℂ → ℂ),\n  IsSimplyConnected U →\n    ContinuousOn f U →\n      HolomorphicOn ℂ f U →\n        ContinuousOn γ (Set.Icc 0 1) →\n          γ '' Set.Icc 0 1 ⊆ U →\n            γ 0 = γ 1 → (∮ (z : ℂ) in γ, f z) = 0"},
+   "logprobs": null,
+   "index": 8,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {E : Type u_1} [inst : NormedAddCommGroup E] [inst_1 : NormedSpace ℂ E] {U : Set ℂ} (f : ℂ → E),\n  IsSimplyConnected U → HolomorphicOn f U →\n    ∀ (γ : ℂ → ℂ) (hγ : Continuous γ) (hγ' : γ 0 = γ 1) (hγ_range : Set.Range γ ⊆ U),\n    (∮ z in γ, f z) = 0"},
+   "logprobs": null,
+   "index": 9,
+   "finish_reason": "stop"}]}

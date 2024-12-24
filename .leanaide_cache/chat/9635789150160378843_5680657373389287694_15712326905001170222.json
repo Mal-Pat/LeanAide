@@ -1,0 +1,96 @@
+{"usage":
+ {"total_tokens": 440,
+  "prompt_tokens_details": {"cached_tokens": 0, "audio_tokens": 0},
+  "prompt_tokens": 155,
+  "completion_tokens_details":
+  {"rejected_prediction_tokens": 0,
+   "reasoning_tokens": 0,
+   "audio_tokens": 0,
+   "accepted_prediction_tokens": 0},
+  "completion_tokens": 285},
+ "system_fingerprint": "fp_c7ca0ebaca",
+ "object": "chat.completion",
+ "model": "gpt-4o-2024-08-06",
+ "id": "chatcmpl-Ab4P9CKBKttBWO5FPSrhPfla9ml6L",
+ "created": 1733398431,
+ "choices":
+ [{"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "The theorem states that there exists an axiom, referred to as `sorryAx`, that applies to a type in some unspecified universe `\\Sort u`."},
+   "logprobs": null,
+   "index": 0,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "The theorem states that there exists a proof of the proposition `sorryAx` applied to a type in the universe `?u.8024`."},
+   "logprobs": null,
+   "index": 1,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "The theorem states that the axiom `sorryAx` holds for all types in the universe `Sort ?u.8024`."},
+   "logprobs": null,
+   "index": 2,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "The given theorem states that there exists a proof of the proposition `sorryAx` for a type in some universe `?u.8024`."},
+   "logprobs": null,
+   "index": 3,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "The theorem states that there exists a proof of an unspecified axiom, denoted as `sorryAx`, for any type in the universe `Sort ?u.8024`."},
+   "logprobs": null,
+   "index": 4,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "The theorem states that there exists a proof of the proposition `sorryAx` for any type in the universe `Sort ?u.8024`."},
+   "logprobs": null,
+   "index": 5,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "The theorem states that the axiom `sorryAx` holds for a type in the universe `Sort ?u.8024`."},
+   "logprobs": null,
+   "index": 6,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "The theorem states that the axiom `sorryAx` holds for some type in the universe `Sort ?u.8024`."},
+   "logprobs": null,
+   "index": 7,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "The theorem asserts that there exists a proof of the proposition `sorryAx` applied to some universe level `?u.8024`."},
+   "logprobs": null,
+   "index": 8,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "The theorem states that there exists a term in the type `Sort ?u.8024` that satisfies the property `sorryAx`."},
+   "logprobs": null,
+   "index": 9,
+   "finish_reason": "stop"}]}

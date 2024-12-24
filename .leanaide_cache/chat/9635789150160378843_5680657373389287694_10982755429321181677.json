@@ -1,0 +1,96 @@
+{"usage":
+ {"total_tokens": 3796,
+  "prompt_tokens_details": {"cached_tokens": 0, "audio_tokens": 0},
+  "prompt_tokens": 3378,
+  "completion_tokens_details":
+  {"rejected_prediction_tokens": 0,
+   "reasoning_tokens": 0,
+   "audio_tokens": 0,
+   "accepted_prediction_tokens": 0},
+  "completion_tokens": 418},
+ "system_fingerprint": "fp_9d50cd990b",
+ "object": "chat.completion",
+ "model": "gpt-4o-2024-08-06",
+ "id": "chatcmpl-AcsrbycRdEia6BOHr7nw9G0gKNvkB",
+ "created": 1733830723,
+ "choices":
+ [{"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {α : Type u_1} {M : Type u_2} [inst : CommMonoid M] {t : Finset α} {f : α → M},\n  t.prod f = t.prod f"},
+   "logprobs": null,
+   "index": 0,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {α : Type u} {β : Type v} [inst : CommMonoid β] (t : Finset α) (f : α → β), t.prod f = t.prod f"},
+   "logprobs": null,
+   "index": 1,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {α : Type u_1} [inst : CommMonoid α] (t : Finset α), t.prod id = t.fold (*) 1 id"},
+   "logprobs": null,
+   "index": 2,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {α : Type u_1} {β : Type u_2} [inst : CommMonoid β] {t : Finset α} {f : α → β},\n  t.Prod f = finprod fun x => f x"},
+   "logprobs": null,
+   "index": 3,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {α : Type u_1} {β : Type u_2} [inst : CommMonoid β] (t : Finset α) (f : α → β),\n  t.prod f = t.fold (*) 1 f"},
+   "logprobs": null,
+   "index": 4,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {α : Type u_1} {M : Type u_5} [inst : CommMonoid M] {t : Finset α} {f : α → M},\n  t.prod f = t.prod f"},
+   "logprobs": null,
+   "index": 5,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {α : Type u_1} {M : Type u_2} [inst : CommMonoid M] (t : Finset α) (f : α → M),\n  t.prod f = Multiset.prod (t.val.map f)"},
+   "logprobs": null,
+   "index": 6,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {α : Type u} [inst : CommMonoid α] {s : Finset α}, s.prod id = t"},
+   "logprobs": null,
+   "index": 7,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {α : Type u_1} [inst : CommMonoid α] (t : Finset α), t.prod id = t.fold (*) 1 id"},
+   "logprobs": null,
+   "index": 8,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "∀ {α : Type u_1} [inst : CommMonoid α] (t : Multiset α), t.prod = t.fold (*) 1"},
+   "logprobs": null,
+   "index": 9,
+   "finish_reason": "stop"}]}

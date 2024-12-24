@@ -1,0 +1,23 @@
+{"usage":
+ {"total_tokens": 899,
+  "prompt_tokens_details": {"cached_tokens": 0, "audio_tokens": 0},
+  "prompt_tokens": 474,
+  "completion_tokens_details":
+  {"rejected_prediction_tokens": 0,
+   "reasoning_tokens": 384,
+   "audio_tokens": 0,
+   "accepted_prediction_tokens": 0},
+  "completion_tokens": 425},
+ "system_fingerprint": "fp_35c19d48ca",
+ "object": "chat.completion",
+ "model": "o1-mini-2024-09-12",
+ "id": "chatcmpl-Ab4SsGfcajPuqPNoBu5GujJimzVvT",
+ "created": 1733398662,
+ "choices":
+ [{"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "false\nTheorem 2 is a general statement about any function, whereas Theorem 1 concerns a specific function \\( G(r) \\)."},
+   "index": 0,
+   "finish_reason": "stop"}]}

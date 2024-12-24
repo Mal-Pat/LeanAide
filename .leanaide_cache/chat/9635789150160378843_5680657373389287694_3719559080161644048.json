@@ -1,0 +1,92 @@
+{"usage":
+ {"total_tokens": 2675,
+  "prompt_tokens_details": {"cached_tokens": 0, "audio_tokens": 0},
+  "prompt_tokens": 2256,
+  "completion_tokens_details":
+  {"rejected_prediction_tokens": 0,
+   "reasoning_tokens": 0,
+   "audio_tokens": 0,
+   "accepted_prediction_tokens": 0},
+  "completion_tokens": 419},
+ "system_fingerprint": "fp_9d50cd990b",
+ "object": "chat.completion",
+ "model": "gpt-4o-2024-08-06",
+ "id": "chatcmpl-Ab3ki7nyxCAU9zHnPIQEJ9VFAqIJT",
+ "created": 1733395924,
+ "choices":
+ [{"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "def δ (x : ℕ) : ℕ := Nat.greatestDivisor x (fun d => d % 2 = 1)"},
+   "logprobs": null,
+   "index": 0,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "def greatest_odd_divisor : ℕ → ℕ\n| 0       := 0\n| (n + 1) := (n + 1).div2^(n + 1).trailing_zeros"},
+   "logprobs": null,
+   "index": 1,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "def greatestOddDivisor : ℕ → ℕ :=\n  λ n, n.divisors.filter (λ d, d % 2 = 1) |>.sup"},
+   "logprobs": null,
+   "index": 2,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "def greatestOddDivisor (x : ℕ) : ℕ :=\n  Nat.gcd x (2 * x - 1)"},
+   "logprobs": null,
+   "index": 3,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "def greatestOddDivisor (x : ℕ) : ℕ :=\n  Nat.find_greatest (λ d, d ∣ x ∧ d % 2 = 1) x"},
+   "logprobs": null,
+   "index": 4,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "def greatestOddDivisor (x : ℕ) : ℕ := x.divisors.filter (λ d : ℕ, d % 2 = 1) |>.max' (by simp [Nat.one_dvd, Nat.dvd_refl])"},
+   "logprobs": null,
+   "index": 5,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "def greatestOddDivisor (x : ℕ) : ℕ := x.divisors.filter (λ d, d % 2 = 1).max'"},
+   "logprobs": null,
+   "index": 6,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "def greatestOddDivisor (n : ℕ) : ℕ :=\n  let divisors := (Finset.range (n + 1)).filter (λ d, d ∣ n ∧ d % 2 = 1)\n  divisors.max' (Finset.nonempty_of_mem (Finset.mem_filter_of_mem (Finset.mem_range_succ_self n) ⟨dvd_refl n, Nat.odd_iff.2 n.odd_or_even.1⟩))"},
+   "logprobs": null,
+   "index": 7,
+   "finish_reason": "stop"},
+  {"message": {"role": "assistant", "refusal": null, "content": "ℕ → ℕ"},
+   "logprobs": null,
+   "index": 8,
+   "finish_reason": "stop"},
+  {"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "def greatestOddDivisor (x : ℕ) : ℕ :=\n  x.factors.filter (fun n => n % 2 = 1) |>.maximum.get_or_else 1"},
+   "logprobs": null,
+   "index": 9,
+   "finish_reason": "stop"}]}

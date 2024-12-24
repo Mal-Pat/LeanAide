@@ -1,0 +1,22 @@
+{"usage":
+ {"total_tokens": 963,
+  "prompt_tokens_details": {"cached_tokens": 0, "audio_tokens": 0},
+  "prompt_tokens": 360,
+  "completion_tokens_details":
+  {"rejected_prediction_tokens": 0,
+   "reasoning_tokens": 576,
+   "audio_tokens": 0,
+   "accepted_prediction_tokens": 0},
+  "completion_tokens": 603},
+ "system_fingerprint": "fp_35c19d48ca",
+ "object": "chat.completion",
+ "model": "o1-mini-2024-09-12",
+ "id": "chatcmpl-AcsrbqsxS6ciF4DS0PAhqJQEJ6No6",
+ "created": 1733830723,
+ "choices":
+ [{"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content": "false\nTheorem 1 and Theorem 2 are different statements."},
+   "index": 0,
+   "finish_reason": "stop"}]}

@@ -1,0 +1,23 @@
+{"usage":
+ {"total_tokens": 790,
+  "prompt_tokens_details": {"cached_tokens": 0, "audio_tokens": 0},
+  "prompt_tokens": 370,
+  "completion_tokens_details":
+  {"rejected_prediction_tokens": 0,
+   "reasoning_tokens": 384,
+   "audio_tokens": 0,
+   "accepted_prediction_tokens": 0},
+  "completion_tokens": 420},
+ "system_fingerprint": "fp_35c19d48ca",
+ "object": "chat.completion",
+ "model": "o1-mini-2024-09-12",
+ "id": "chatcmpl-Acst3Osd6pJIHb7oJ8PYq0NunrOSs",
+ "created": 1733830813,
+ "choices":
+ [{"message":
+   {"role": "assistant",
+    "refusal": null,
+    "content":
+    "false\nTheorem 1 requires the numbers to be even, whereas Theorem 2 applies to all natural numbers."},
+   "index": 0,
+   "finish_reason": "stop"}]}
