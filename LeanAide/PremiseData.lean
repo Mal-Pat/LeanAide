@@ -23,27 +23,16 @@ open LeanAide.Meta
 
 universe u v w u_1 u_2 u_3 u₁ u₂ u₃
 
-def freshDataHandle (fileNamePieces : List String)(clean: Bool := true) : IO IO.FS.Handle := do
-    let path := System.mkFilePath <| [".", "rawdata"] ++ fileNamePieces
-    let dir := System.mkFilePath <| [".", "rawdata"] ++
-        fileNamePieces.take (fileNamePieces.length - 1)
-    if !(← dir.pathExists) then
-        IO.FS.createDirAll dir
-    if clean then
-        IO.FS.writeFile path ""
-    IO.FS.Handle.mk path IO.FS.Mode.append
-
-
 def fileNamePieces : Std.HashMap (String × String) (List String) :=
     Std.HashMap.ofList <|
         ["core", "full", "identifiers", "ident_pairs", "ident_strings",
-        "term_pairs", "lemma_pairs"].bind fun kind =>
+        "term_pairs", "lemma_pairs"].flatMap fun kind =>
             ("all" :: "extra" :: groups).map fun group => ((kind, group), ["premises", kind, group++".jsonl"])
 
 def mainFileNamePieces : Std.HashMap (String × String) (List String) :=
     Std.HashMap.ofList <|
         ["core",  "identifiers", "ident_pairs", "ident_strings",
-        "term_pairs", "lemma_pairs"].bind fun kind =>
+        "term_pairs", "lemma_pairs"].flatMap fun kind =>
             ("all"  :: groups).map fun group => ((kind, group), ["premises", kind, group++".jsonl"])
 
 def fileHandles (clean : Bool := true) : IO (Std.HashMap (String × String) IO.FS.Handle)  := do
