@@ -66,24 +66,10 @@ batch = client.batches.retrieve("batch_676a849da37c8190844949f10687e84f")
 print(batch)
 '''
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
 '''
->>>>>>> 13fb8ee9 (created script for batch embeddings)
-=======
-'''
->>>>>>> ec9248d55cb4bfeec64aa4f0b4977d22922e480b
 # Get results ===================================
 file_response = client.files.content("file-XLQvba1wxye2XML7VramBw")
 with open('rawdata/output_data_prompts_37001_to_end.jsonl', 'w', encoding='utf-8') as outfile:
     outfile.write(file_response.text)
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 '''
->>>>>>> 13fb8ee9 (created script for batch embeddings)
-=======
-'''
->>>>>>> ec9248d55cb4bfeec64aa4f0b4977d22922e480b
+
