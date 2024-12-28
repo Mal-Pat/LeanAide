@@ -1,5 +1,6 @@
 import Mathlib
 import LeanCodePrompts.Translate
+import LeanAide.Syntax
 
 set_option lean_aide.translate.greedy true
 
