@@ -1,3 +1,8 @@
+import requests
+import urllib
+
+'''
+
 from openai import OpenAI
 
 client = OpenAI()
@@ -35,3 +40,12 @@ response = client.chat.completions.create(
 )
 
 print(response.choices[0].message.content)
+
+'''
+
+def leansearch_api(query,num):
+    URL = f"https://leansearch.net/api/search?query={urllib.parse.quote(query)}&num_results={str(num)}"
+    r = requests.get(url=URL)
+    print(r.json())
+
+leansearch_api("0<1",6)
