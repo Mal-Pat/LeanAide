@@ -2,6 +2,7 @@ import Lean
 import Mathlib
 import Plausible
 import LeanSearchClient.Syntax
+import Lake.Toml.ParserUtil
 
 open Lean Meta Elab Term PrettyPrinter Tactic Parser
 
@@ -261,3 +262,63 @@ example : True := by
 -- #moogle "There are infinitely many even numbers."
 
 #check False.elim
+
+open Lake.Toml
+def proofFn : ParserFn := takeWhile1Fn fun c => c != '∎'
+
+def proofBodyInit : Parser :=
+  { fn := rawFn proofFn}
+
+def proofBody : Parser := andthen proofBodyInit "∎"
+
+@[combinator_parenthesizer proofBodyInit] def proofBodyInit.parenthesizer := PrettyPrinter.Parenthesizer.visitToken
+@[combinator_formatter proofBodyInit] def proofBodyInit.formatter := PrettyPrinter.Formatter.visitAtom Name.anonymous
+
+
+open Command
+
+syntax (name := sourceCmd) withPosition("#proof" ppLine (colGt proofBody )) : command
+
+def mkProofStx (s: String) : Syntax :=
+  mkNode ``sourceCmd #[mkAtom "#proof", mkAtom s, mkAtom "∎"]
+
+open Command
+@[command_elab sourceCmd] def elabSource : CommandElab :=
+  fun stx => Command.liftTermElabM do
+  match stx with
+  | `(command| #proof $t:proofBodyInit ∎) =>
+    let s := stx.getArgs[1]!.reprint.get!.trim
+    logInfo m!"Syntax: {stx}"
+    let stx' := mkProofStx "Some proof."
+    logInfo m!"Extract: {s}"
+    logInfo m!"Details: {repr stx}"
+    logInfo m!"{stx'}"
+  | _ => throwUnsupportedSyntax
+
+#check 1
+
+#proof
+  This is not the most elegant way
+
+  but it works.
+  ∎
+
+#check 1
+
+
+open Parser.Command
+syntax (name:= textPf) withPosition("#Proof" ppLine (colGt (str <|> proofBody))) : tactic
+
+open Tactic
+@[tactic textPf] def textProofImpl : Tactic :=
+  fun _ => do
+  evalTactic (← `(tactic|sorry))
+
+example : True := by
+  #Proof
+    This is trivial.
+
+    It really is.
+    I said so.∎
+
+#check "This"

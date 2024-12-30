@@ -205,7 +205,7 @@ partial def getPromptPairsOrderedAux (pb: PromptExampleBuilder)
   | fixed ps => return ps
   | sequence ps => do
     let offspringGps ← ps.mapM fun pb => getPromptPairsOrderedAux pb query
-    return offspringGps.toArray.join
+    return offspringGps.toArray.flatten
   | blend ps =>
     let offspringGps ← ps.mapM fun pb => getPromptPairsOrderedAux pb query
     let offSpringGps := offspringGps.map fun l => l.toList
@@ -334,7 +334,7 @@ def RelevantDefs.base := RelevantDefs.env
 def RelevantDefs.addDefs (nbs: Array (Name × String)) (nbd: RelevantDefs) : RelevantDefs :=
   nbd ++ nbs
 
-open LeanAide.Meta
+open LeanAide
 
 partial def RelevantDefs.names (nbd: RelevantDefs)(s: String) (pairs : Array (String × Json)) : TranslateM (Array Name) := do
   match nbd with
@@ -355,7 +355,7 @@ partial def RelevantDefs.names (nbd: RelevantDefs)(s: String) (pairs : Array (St
   | .data d => return d.map (·.1)
   | RelevantDefs.seq nbs => do
     let names ← nbs.mapM fun nb => nb.names s pairs
-    return names.toArray.join
+    return names.toArray.flatten
 
 partial def RelevantDefs.blob (nbd: RelevantDefs)(s: String) (pairs : Array (String × Json)) : TranslateM (Array String) := do
   match nbd with

@@ -196,6 +196,7 @@ def Array.batches' (l: Array α)(numBatches: Nat) : Array (Array α) :=
 /-
 Obtaining names of constants
 -/
+#check Name.isInternalDetail
 
 def isBlackListed  (declName : Name) : MetaM  Bool := do
   let env ← getEnv
@@ -223,7 +224,15 @@ def isWhiteListed (declName : Name) : MetaM Bool := do
   catch _ => return false
 
 def excludePrefixes := [`Lean,  `IO,
-          `Char, `String, `ST, `StateT, `Repr, `ReaderT, `EIO, `BaseIO, `UInt8, ``UInt16, ``UInt32, ``UInt64, `Mathlib.Tactic, `Mathlib.Meta, `LeanAide, `Aesop, `Qq, `SlimCheck]
+          `Char, `String, `ST, `StateT, `Repr, `ReaderT, `EIO, `BaseIO, `UInt8, ``UInt16, ``UInt32, ``UInt64, `Mathlib.Tactic, `Mathlib.Meta, `LeanAide, `Aesop, `Qq, `Plausible, `LeanSearchClient]
+
+
+def excludeSuffixes := #[`dcasesOn, `recOn, `casesOn, `rawCast, `freeVar, `brec, `brecOn, `rec, `recOn, `cases, `casesOn, `dcases, `below, `ndrec]
+
+def isMatchCase : Name → Bool
+| name =>
+  let last? := name.components.reverse.head?
+  (last?.getD Name.anonymous).toString.startsWith "match_"
 
 /-- This is a slight modification of `Parser.runParserCategory` due to Scott Morrison/Kim Liesinger. -/
 def parseAsTacticSeq (env : Environment) (input : String) (fileName := "<input>") :
@@ -325,7 +334,7 @@ def colEqSegments (s: String) : List String :=
     tail.scanl (fun acc x => acc ++ ":=" ++ x) head |>.map (String.trim)
 
 def splitColEqSegments (ss: Array String) : Array String :=
-  ss.toList.bind colEqSegments |>.toArray
+  ss.toList.flatMap colEqSegments |>.toArray
 
 def trivialEquality : Syntax → CoreM Bool
   | `($a = $b) => return a == b
@@ -378,7 +387,7 @@ def partialParser  (parser : Parser) (input : String) (fileName := "<input>") : 
     return Except.error (s.toErrorMsg ictx)
   else
     let head := input.extract 0 s.pos
-    let stx := stack.back
+    let stx := stack.back!
     return Except.ok (stx, head, input.drop head.length)
 
 partial def polyParser (parser: Parser) (input: String) (fileName := "<input>") : MetaM <| Option  Syntax := do
@@ -426,8 +435,18 @@ abbrev EmbedMap := Std.HashMap String EmbedData
 
 partial def idents : Syntax → List String
 | Syntax.ident _ s .. => [s.toString]
-| Syntax.node _ _ ss => ss.toList.bind idents
+| Syntax.node _ _ ss => ss.toList.flatMap idents
 | _ => []
+
+partial def identNames : Syntax → MetaM (List Name)
+| Syntax.ident _ _ s .. => do
+  if (← isWhiteListed s) &&
+    !(excludeSuffixes.any fun sfx => sfx.isSuffixOf s) && !(excludePrefixes.any fun pfx => pfx.isPrefixOf s)
+    then return [s] else return []
+| Syntax.node _ _ ss => do
+    let groups ← ss.toList.mapM identNames
+    return groups.flatten.eraseDup
+| _ => return []
 
 def ppExprDetailed (e : Expr): MetaM String := do
   let fmtDetailed ← withOptions (fun o₁ =>
@@ -455,3 +474,164 @@ elab "detailed" t:term : term => do
   return e
 
 #check detailed (fun (n : Nat) => n + 1)
+
+def delabMatchless (e: Expr) : MetaM Syntax := withOptions (fun o₁ =>
+                    -- let o₂ := pp.motives.all.set o₁ true
+                    let o₃ := pp.fieldNotation.set o₁ false
+                    let o₄ := pp.proofs.set o₃ true
+                    let o₅ := pp.deepTerms.set o₄ true
+                    let o₆ := pp.funBinderTypes.set o₅ true
+                    let o₇ := pp.piBinderTypes.set o₆ true
+                    let o₈ := pp.letVarTypes.set o₇ true
+                    let o₉ := pp.match.set o₈ false
+                    let o' := pp.fullNames.set o₉ false
+                    pp.unicode.fun.set o' true) do
+              PrettyPrinter.delab e
+
+def freshDataHandle (fileNamePieces : List String)(clean: Bool := true) : IO IO.FS.Handle := do
+    let path := System.mkFilePath <| [".", "rawdata"] ++ fileNamePieces
+    let dir := System.mkFilePath <| [".", "rawdata"] ++
+        fileNamePieces.take (fileNamePieces.length - 1)
+    if !(← dir.pathExists) then
+        IO.FS.createDirAll dir
+    if clean then
+        IO.eprintln s!"cleaning {path}"
+        IO.FS.writeFile path ""
+    else IO.eprintln s!"{path} already exists, adding to it"
+    IO.FS.Handle.mk path IO.FS.Mode.append
+
+def relLCtxAux (goal: Expr) (decls: List LocalDecl) : MetaM Expr := do
+  match decls with
+  | [] => return goal
+  | (.ldecl _ _ name type value _ kind) :: tail =>
+    withLetDecl name type value (kind := kind) fun x => do
+      let inner ← relLCtxAux (goal.instantiate1 x) tail
+      mkLetFVars #[x] inner
+  | (.cdecl _ _ name type bi kind) :: tail =>
+    logInfo m!"decl: {name}"
+    withLocalDecl name bi type (kind := kind) fun x => do
+      let inner ← relLCtxAux (goal.instantiate1 x) tail
+      mkForallFVars #[x] inner
+
+
+def relLCtx (mvarId : MVarId) : MetaM Expr :=
+  mvarId.withContext do
+    let decls := (← getLCtx).decls.toArray |>.filterMap id
+    let decls := decls[1:].toArray
+    relLCtxAux (← mvarId.getType) decls.toList
+
+def groups := ["train", "test", "valid"]
+
+def splitData (data: Array α) : IO <| Std.HashMap String (Array α) := do
+    let mut img := Std.HashMap.ofList <| groups.map fun g => (g, #[])
+    let mut count := 0
+    for d in data do
+        let group :=  match ← IO.rand 0 9 with
+            | 0 => "test"
+            | 1 => "valid"
+            | _ => "train"
+        img := img.insert group <| (img.getD group #[]).push d
+        count := count + 1
+        if count % 1000 = 0 then
+            IO.println s!"split count: {count}"
+    return img
+
+partial def shrink (s: String) : String :=
+    let step := s.replace "  " " " |>.replace "( " "("
+                |>.replace " )" ")"
+                |>.replace "{ " "{"
+                |>.replace " }" "}"
+                |>.replace "[ " "["
+                |>.replace " ]" "]"
+                |>.trim
+    if step == s then s else shrink step
+
+open PrettyPrinter in
+/--
+Definitions and theorems in an expression that are both present in its
+syntax tree and are *used constants*. Allows for dot notation.
+-/
+def defsInExpr (expr: Expr) : MetaM <| Array Name := do
+  let typeStx ← delab expr
+  let defNames := idents typeStx |>.eraseDups |>.map String.toName
+  let defNames := defNames.filter fun name =>
+    (excludePrefixes.all fun pre => !pre.isPrefixOf name) &&
+    (excludeSuffixes.all fun suff => !suff.isSuffixOf name)
+  let tails := defNames.filterMap fun n =>
+    n.componentsRev.head?
+  let constsInType := expr.getUsedConstants
+  let dotNames := constsInType.filter fun n =>
+    match n.componentsRev.head? with
+    | some t => tails.contains t || defNames.contains n
+    | none => false
+  return dotNames
+
+def defsInTypeRec (name : Name) (type: Expr) (depth:Nat) :
+    MetaM <| Array Name := do
+  match depth with
+  | 0 => if ← isProp type then return #[] else return #[name]
+  | k + 1 =>
+    let children ← defsInExpr type
+    let childrenTypes ← children.filterMapM fun n => do
+      let info ← getConstInfo n
+      pure <| some (n, info.type)
+    let childValueTypes ← children.filterMapM fun n => do
+      let info ← getConstInfo n
+      match info with
+      | ConstantInfo.defnInfo val => pure <| some (n, val.value)
+      | _ => return none
+    let res ← (childrenTypes ++ childValueTypes).mapM fun (n, t) => defsInTypeRec n t k
+    return res.foldl (· ++ ·) children |>.toList |>.eraseDups |>.toArray
+
+def isDefn (name: Name) : MetaM Bool := do
+  let info ←  getConstInfo name
+  match info with
+  | .defnInfo _ => return true
+  | _ => return false
+
+open Elab Term
+def defsInTypeString? (name: Name)(typeStr: String) (depth: Nat):
+    TermElabM <| Option (Array Name) := do
+    let typeStx? := Parser.runParserCategory (← getEnv) `term typeStr
+    match typeStx? with
+    | .error _ => return none
+    | .ok stx =>
+      try
+        let type ← elabType stx
+        defsInTypeRec name type depth
+      catch _ =>
+        return none
+
+
+partial def _root_.Lean.Syntax.size (stx: Syntax) : Nat :=
+    match stx with
+    | Syntax.ident _ _ _ _ => 1
+    | Syntax.node _ _ args => args.foldl (fun acc x => acc + x.size) 0
+    | _ => 1
+
+
+def defsInConst (name: Name) (depth: Nat) :
+    MetaM <| Array Name := do
+  let info ← getConstInfo name
+  let base ←  defsInTypeRec name info.type depth
+  base.filterM isDefn
+
+def weightedDefsInConsts (names: List Name) (depth: Nat)
+  (weight: Float := 1.0) (decay: Float := 0.8) : MetaM (Array (Name × Float)) :=
+  match names with
+  | [] => return #[]
+  | h :: ts => do
+    let tailWtdConsts ← weightedDefsInConsts ts depth (weight * decay) decay
+    let headConsts ← defsInConst h depth
+    let tailConsts := tailWtdConsts.map (fun (x, _) => x)
+    let novel := headConsts.filter fun x => !tailConsts.contains x
+    let novelWtdConsts :=
+      novel.map fun x => (x, weight)
+    let unsorted := novelWtdConsts ++ (tailWtdConsts.map fun (x, w) =>
+      (x, if headConsts.contains x then w + weight else w))
+    return unsorted.qsort fun (_, w₁) (_, w₂) => w₁ > w₂
+
+def bestDefsInConsts (n: Nat) (names: List Name) (depth: Nat)
+  (weight: Float := 1.0) (decay: Float := 0.8) : MetaM <| Array Name := do
+    let weighted ← weightedDefsInConsts names depth weight decay
+    return weighted[0:n] |>.toArray.map fun (n, _) => n

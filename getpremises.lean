@@ -6,6 +6,7 @@ open Lean Meta LeanAide.Meta
 set_option maxHeartbeats 10000000
 set_option maxRecDepth 1000
 set_option compiler.extract_closed false
+set_option pp.fullNames false
 
 def init : IO Unit := do
   initSearchPath (← Lean.findSysroot) initFiles
@@ -41,7 +42,7 @@ def main (_: List String) : IO Unit := do
   IO.println s!"Using {concurrency} threads"
   for group in groups do
     IO.println s!"Finding premises for group {group}"
-    let allNames := groupedNames[group].get!
+    let allNames := groupedNames[group]? |>.getD (Array.empty)
     IO.println s!"Definitions in group {group}: {allNames.size}"
     let batches := allNames.batches' concurrency
     let batches := batches.map (fun batch => batch.map (·.toName) |>.toList)

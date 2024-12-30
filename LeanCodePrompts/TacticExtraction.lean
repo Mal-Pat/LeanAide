@@ -24,7 +24,7 @@ section Source
           args := args.push (← `(Parser.Tactic.simpLemma| $(mkIdent (← unresolveNameGlobal declName)):ident))
       | .fvar fvarId => -- local hypotheses in the context
         if let some ldecl := lctx.get? fvarId then
-          localsOrStar := localsOrStar.bind fun locals =>
+          localsOrStar := localsOrStar.flatMap fun locals =>
             if !ldecl.userName.isInaccessibleUserName &&
                 (lctx.findFromUserName? ldecl.userName).get!.fvarId == ldecl.fvarId then
               some (locals.push ldecl.userName)
