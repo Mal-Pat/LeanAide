@@ -127,15 +127,13 @@ with open('rawdata/newdocs_batch_out_small256_40001_to_end_61219.jsonl', 'w', en
 # Check status of batch =================================== ada_embeddings batch 0 to 20000 newdocs
 batch = client.batches.retrieve("batch_677255e97f048190b9a03af5ee38b9d4")
 print(batch)
-'''
 
-'''
+
 # Check status of batch =================================== ada_embeddings batch 20001 to 40000 newdocs
 batch = client.batches.retrieve("batch_67725679c4b88190a88bfdd74d2267d4")
 print(batch)
-'''
 
-'''
+
 # Check status of batch =================================== ada_embeddings batch 40001 to end 61219 newdocs
 batch = client.batches.retrieve("batch_677256d21f80819084fa1c11d23f1b41")
 print(batch)
@@ -144,19 +142,19 @@ print(batch)
 # newdocs small256 batch results
 '''
 # Get results ===================================
-file_response = client.files.content("")
+file_response = client.files.content("file-91ghQMn9psjxDJhHB6e7VR")
 with open('rawdata/newdocs_batch_out_ada_0_to_20000.jsonl', 'w', encoding='utf-8') as outfile:
     outfile.write(file_response.text)
 
 
 # Get results ===================================
-file_response = client.files.content("")
+file_response = client.files.content("file-KSCjfB4AjT6JuwpeGK9W3L")
 with open('rawdata/newdocs_batch_out_ada_20001_to_40000.jsonl', 'w', encoding='utf-8') as outfile:
     outfile.write(file_response.text)
 
 
 # Get results ===================================
-file_response = client.files.content("")
+file_response = client.files.content("file-USeQQioe2LcR7rQmjy4G1q")
 with open('rawdata/newdocs_batch_out_ada_40001_to_end_61219.jsonl', 'w', encoding='utf-8') as outfile:
     outfile.write(file_response.text)
 '''
