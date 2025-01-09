@@ -30,6 +30,16 @@ The cases to cover: "define", "assert", "theorem", "problem", "assume", "let", "
 * **cases**: We first look ahead to the proof cases to write this as `cases ...`, `by_cases` or `match ...` in tactic mode, with the `case` heads also determined. We then use recursively the proofs in the cases. In the multiple options case, we make claims `p₁ ∨ p₂ ∨ p₃` and `pᵢ → q` and then use `aesop` to complete. Here `q` is the goal.
 * **conclude**: We make an assertion and prove it by default `aesop`.
 * **contradiction**: Translate the statement to be contradicted to a statement `P`, then prove `P → False` using the given proof (with aesop having contradiction as a tactic). Finally follow the claim with `contradiction` (or `aesop` with contradiction).
+
+## TODO
+
+* In the case of an **exists** `have`, follow this by introducing the variable and witness.
+* For generating tactics, possibly have an MVarId for the goal as an argument (but this could lead to repeatedly running automation).
+* Alternatively, we add appropriate declarations to the context whenever a new variable is introduced by an assertion or a pattern matching.
+* Start the code with `mvarId.withContext do`.
+* Use helpers `MVarId.cases` etc to generate the inner `mvarId`s.
+* If there are no sorries except in `have` statements that are unused, then we can remove them.
+* Split `by auto?` into two lines to take care of the aesop bug (the naive way did not work).
 -/
 
 def Lean.Json.getObjString? (js: Json) (key: String) : Option String :=
@@ -59,21 +69,6 @@ def toCommandSeq : Array (TSyntax `command) → CoreM (TSyntax `commandSeq)
 
 
 namespace LeanAide
-
-
-elab "#note" "[" term,* "]" : command => do
-  return ()
-
-elab "#note" "[" term,* "]" : tactic => do
-  return ()
-
-def mkNoteCmd (s: String) : MetaM Syntax.Command :=
-  let sLit := Lean.Syntax.mkStrLit  s
-  `(command | #note [$sLit])
-
-def mkNoteTactic (s: String) : MetaM Syntax.Tactic :=
-  let sLit := Lean.Syntax.mkStrLit  s
-  `(tactic | #note [$sLit])
 
 
 def addFullStop (s: String) : String :=
@@ -155,12 +150,23 @@ def findLocalDecl? (name: Name) (type : Expr) : MetaM <| Option FVarId := do
 partial def dropLocalContext (type: Expr) : MetaM Expr := do
   match type with
   | .forallE name binderType body _ => do
-    match ← findLocalDecl? name binderType with
-    | some fVarId =>
-      let body' := body.instantiate1 (mkFVar fVarId)
-      dropLocalContext body'
-    | none => do
-      return type
+    let lctx ← getLCtx
+    match lctx.findFromUserName? name with
+    | some (.cdecl _ fVarId _ dtype ..) =>
+      let check ← isDefEq dtype binderType
+      -- logInfo m!"Checking {dtype} and {type} gives {check}"
+      if check then
+        let body' := body.instantiate1 (mkFVar fVarId)
+        dropLocalContext body'
+      else return type
+    | some (.ldecl _ fVarId _ dtype value ..) =>
+      let check ← isDefEq dtype binderType
+      -- logInfo m!"Checking {dtype} and {type} gives {check}"
+      if check then
+        let body' := body.instantiate1 value
+        dropLocalContext body'
+      else return type
+    | _ => return type
   | _ => return type
 
 
@@ -179,7 +185,9 @@ def purgeLocalContext: Syntax.Command →  TranslateM Syntax.Command
   `(command|theorem $name : $type := $value)
 | stx => return stx
 
-
+example (p: ∃ n m : Nat, n + m = 3): True := by
+  let ⟨n, m, h⟩ := p
+  exact trivial
 
 open Lean.Parser.Term
 /--
@@ -248,7 +256,28 @@ def theoremExprInContext? (ctx: Array Json)(statement: String) (qp: CodeGenerato
   let type? ← Translator.translateToProp?
     fullStatement.trim {translator with params:={translator.params with n := 5}}
   -- IO.eprintln s!"Type: {← type?.mapM fun e => PrettyPrinter.ppExpr e}"
-  type?.mapM <| fun e => dropLocalContext e
+  match type? with
+  | Except.error e => do
+    return Except.error e
+  | Except.ok type => do
+    let type ← instantiateMVars type
+    Term.synthesizeSyntheticMVarsNoPostponing
+    if type.hasSorry || type.hasExprMVar then
+      return Except.error #[ElabError.parsed statement s!"Failed to infer type {type} has sorry or mvar" [] none]
+    let univ ← try
+      withoutErrToSorry do
+      if type.hasSorry then
+        throwError "Type has sorry"
+      inferType type
+    catch e =>
+      return Except.error #[ElabError.parsed statement s!"Failed to infer type {type}, error {← e.toMessageData.format}" [] none]
+    if univ.isSort then
+      let type ←  dropLocalContext type
+      IO.eprintln s!"Type: {← PrettyPrinter.ppExpr type}; {repr type}"
+      return Except.ok type
+    else
+      IO.eprintln s!"Not a type: {type}"
+      return Except.error #[ElabError.parsed statement s!"Not a type {type}" [] none]
 
 def defnInContext? (ctx: Array Json)(statement: String) (qp: CodeGenerator) : TranslateM (Option Syntax.Command) := do
   let mut context := #[]
@@ -281,8 +310,11 @@ def conditionCases (cond₁ cond₂ : String)
   let condTerm₂ ← delab condProp₂
   let condTerm₁' : Syntax.Term := ⟨condTerm₁⟩
   let condTerm₂' : Syntax.Term := ⟨condTerm₂⟩
-  let tac ← `(tactic| auto?)
-  let ass₂ ← `(tactic| have : $condTerm₂' := by $tac:tactic)
+  let tac ← `(tacticSeq| auto?)
+  let hash := hash cond₂
+  let condId₂ := mkIdent <| Name.mkSimple s!"cond_{hash}"
+  let ass₂ ← `(tactic| have $condId₂ : $condTerm₂' := by
+    $tac:tacticSeq)
   let pf₂' := #[ass₂] ++ pf₂
   let posId := mkIdent `pos
   let negId := mkIdent `neg
@@ -307,16 +339,16 @@ def matchCases (discr: String)
   let discrTerm' : Syntax.Term := ⟨discrTerm⟩
   `(tactic| match $discrTerm':term with $alts':matchAlt*)
 
-def groupCasesAux (context: Array Json) (cond_pfs: List <| String × Array Syntax.Tactic)(qp: CodeGenerator)
+def groupCasesAux (context: Array Json) (cond_pfs: List <| Expr × Array Syntax.Tactic)(qp: CodeGenerator)
     : TranslateM <| Array Syntax.Tactic := do
     match cond_pfs with
     | [] => return #[← `(tactic| auto?)]
-    | (cond, pf) :: tail => do
-      let condProp? ← theoremExprInContext? context cond qp
-      match condProp? with
-      | Except.error _ =>
-        return #[← mkNoteTactic s!"Failed to translate condition {cond}"]
-      | Except.ok condProp => do
+    | (condProp, pf) :: tail => do
+      -- let condProp? ← theoremExprInContext? context cond qp
+      -- match condProp? with
+      -- | Except.error _ =>
+      --   return #[← mkNoteTactic s!"Failed to translate condition {cond}"]
+      -- | Except.ok condProp => do
       let condTerm ← delab condProp
       let condTerm' : Syntax.Term := ⟨condTerm⟩
       let tailTacs ← groupCasesAux context tail qp
@@ -362,12 +394,17 @@ def groupCases (context : Array Json) (cond_pfs: List <| String × Array Syntax.
   let condExprs ←  conds.filterMapM fun cond => do
     let e? ← qp.theoremExprInContext? context cond
     pure e?.toOption
+  let condPfExprs ←  cond_pfs.filterMapM fun (cond, pf) => do
+    let e? ← qp.theoremExprInContext? context cond
+    pure <| e?.toOption.map (·, pf)
   let orAllExpr ←  match goal? with
     | some goal => orAllWithGoal condExprs goal
     | none => orAllSimpleExpr condExprs
   let orAll ← delab orAllExpr
-  let casesTacs ← groupCasesAux context cond_pfs qp
-  let head ← `(tactic| have : $orAll := by $union_pfs*)
+  let hash := hash orAll.raw.reprint
+  let orAllId := mkIdent <| Name.mkSimple s!"orAll_{hash}"
+  let casesTacs ← groupCasesAux context condPfExprs qp
+  let head ← `(tactic| have $orAllId : $orAll := by $union_pfs*)
   return #[head] ++ casesTacs
 
 def conclusionTactic (conclusion: String)(context: Array Json) (qp: CodeGenerator)
@@ -376,8 +413,10 @@ def conclusionTactic (conclusion: String)(context: Array Json) (qp: CodeGenerato
   let conclusionTerm :=
     conclusionTerm? |>.toOption.getD (mkConst ``True)
   let conclusionTerm' : Syntax.Term ← delab conclusionTerm
-  let tac ← `(tactic| auto?)
-  `(tactic| first | done |have : $conclusionTerm':term := by $tac:tactic)
+  let hash := hash conclusion
+  let conclusionId := mkIdent <| Name.mkSimple s!"conclusion_{hash}"
+  let tac ← `(tacticSeq| auto?)
+  `(tactic| first | done |have $conclusionId : $conclusionTerm':term := by $tac:tacticSeq)
 
 def contradictionTactics (statement: String)
     (pf: Array Syntax.Tactic)(context: Array Json) (qp: CodeGenerator) : TranslateM <| Array Syntax.Tactic := do
@@ -389,16 +428,67 @@ def contradictionTactics (statement: String)
   let assId := mkIdent `assumption
   let assumeTactic ← `(tactic| intro $assId:ident)
   let fullPf := #[assumeTactic] ++ pf
+  let hash := hash statement
+  let statementId := mkIdent <| Name.mkSimple s!"statement_{hash}"
   return #[←
-    `(tactic| have : $statementTerm':term → $falseId := by $fullPf*), ← `(tactic| auto?)]
+    `(tactic| have $statementId : $statementTerm':term → $falseId := by $fullPf*), ← `(tactic| auto?)]
 
+
+-- Does not work for multiple variables together
+partial def existsVars (type: Syntax.Term) : MetaM <| Option (Array Syntax.Term) := do
+  match type with
+  | `(∃ $n:ident, $t) => do
+    return some <| #[n] ++ ((← existsVars t).getD #[])
+  | `(∃ ($n:ident: $_), $t) => do
+    return some <| #[n] ++ ((← existsVars t).getD #[])
+  | `(∃ $n:ident: $_, $t) => do
+    return some <| #[n] ++ ((← existsVars t).getD #[])
+  | `(∃ $n:ident $ms*, $t) => do
+    let ms' := ms.toList.toArray
+    let t' ← `(∃ $ms':binderIdent*, $t)
+    return some <| #[n] ++ ((← existsVars t').getD #[])
+  | `(∃ ($n:ident $ms* : $type), $t) => do
+    let ms' := ms.toList.toArray
+    let t' ← `(∃ ($ms':binderIdent* : $type), $t)
+    return some <| #[n] ++ ((← existsVars t').getD #[])
+  | `(∃ $n:ident $ms* : $type, $t) => do
+    let ms' := ms.toList.toArray
+    let t' ← `(∃ ($ms':binderIdent* : $type), $t)
+    return some <| #[n] ++ ((← existsVars t').getD #[])
+  | _ =>
+    logInfo s!"No vars in {type}, i.e., {← ppTerm {env := ← getEnv} type}"
+    return none
+
+
+elab "#exists_vars" type:term : command => do
+  Command.liftTermElabM do
+  match ← existsVars type with
+  | some vars =>
+      logInfo s!"Vars: {vars}"
+      return
+  | none =>
+      logInfo s!"No vars"
+      return
+
+-- #exists_vars ∃ n m : Nat, ∃ k: Nat, n + m  = 3
+
+example (h : ∃ l n m : Nat, l + n + m = 3) : True := by
+  let ⟨l, ⟨n, ⟨m, h⟩⟩⟩  := h
+  trivial
 
 def haveForAssertion  (type: Syntax.Term)
   (premises: List Name) :
     MetaM <| Syntax.Tactic := do
   let ids := premises.toArray.map fun n => Lean.mkIdent n
-  let tac ← `(tactic| auto? [$ids,*])
-  `(tactic| have : $type := by $tac:tactic)
+  let hash := hash type.raw.reprint
+  let name := mkIdent <| Name.mkSimple s!"assert_{hash}"
+  let tac ← `(tacticSeq| auto? [$ids,*])
+  match ← existsVars type with
+    | some vars =>
+      let lhs ← `(⟨[$vars:term,*], $name⟩)
+      `(tactic| have $lhs:term : $type  := by $tac:tacticSeq)
+    | none =>
+      `(tactic| have $name : $type := by $tac:tacticSeq)
 
 def calculateStatement (js: Json) : IO <| Array String := do
   match js.getKV? with
@@ -427,7 +517,10 @@ def calculateTactics (js: Json) (context: Array Json) (qp: CodeGenerator) :
         mkNoteTactic s!"Failed to translate calculation {js.compress}"
       | Except.ok type =>
         let typeStx ← delab type
-        `(tactic| have : $typeStx := by auto?)
+        let hash := hash statement
+        let name := mkIdent <| Name.mkSimple s!"calculation_{hash}"
+        `(tactic| have $name : $typeStx := by
+            auto?)
 
 mutual
   partial def structToCommand? (context: Array Json)
@@ -497,7 +590,9 @@ mutual
                       match type? with
                       | Except.ok e =>
                         let stx ← delab e
-                        prevTacs := prevTacs.push <| ← `(tactic| have : $stx := by auto?)
+                        let name := mkIdent <| Name.mkSimple s
+                        prevTacs := prevTacs.push <| ← `(tactic| have $name : $stx := by
+                          auto?)
                       | _ => pure ()
                     | _, _ => pure ()
                 | _ => pure ()
@@ -671,6 +766,7 @@ def eg_drop (n m: Nat)  := dl! (∀ n m: Nat, n = n + 1 → False)
 
 def topCode := "import Mathlib
 import LeanAide.AutoTactic
+import LeanAide.Syntax
 universe u v u_1
 set_option maxHeartbeats 10000000
 set_option linter.unreachableTactic false

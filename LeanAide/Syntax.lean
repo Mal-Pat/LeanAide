@@ -5,7 +5,7 @@ open Lean Meta Elab Term PrettyPrinter Tactic Command Parser
 
 namespace LeanAide.Meta
 
-syntax (name := thmCommand) "#theorem" (ident)? str : command
+syntax (name := thmCommand) "#theorem" (ident)? (":")? str : command
 @[command_elab thmCommand] def thmCommandImpl : CommandElab :=
   fun stx => Command.liftTermElabM do
   match stx with
@@ -16,7 +16,13 @@ syntax (name := thmCommand) "#theorem" (ident)? str : command
     let s := s.getString
     let name := name.getId
     go s stx (some name)
-
+  | `(command| #theorem : $s:str) =>
+    let s := s.getString
+    go s stx none
+  | `(command| #theorem $name:ident : $s:str) =>
+    let s := s.getString
+    let name := name.getId
+    go s stx (some name)
   | _ => throwUnsupportedSyntax
   where go (s: String) (stx: Syntax) (name? : Option Name) : TermElabM Unit := do
     if s.endsWith "." then
@@ -94,33 +100,33 @@ syntax (name:= textProof) withPosition("#proof" ppLine (str <|> proofBody)) : ta
 
 open Tactic
 @[tactic textProof] def textProofImpl : Tactic :=
-  fun _ => do
+  fun _ => withMainContext do
   evalTactic (← `(tactic|sorry))
 
 example : True := by
   #proof "trivial"
 
 open Tactic Translator
-elab "what" : tactic => do
+elab "what" : tactic => withMainContext do
   let goal ← getMainGoal
   let type ← relLCtx goal
   logInfo m!"goal : {type}"
+  -- let defs ← defsInExpr type
+  -- logInfo m!"defs : {defs}"
   let some (transl, _, _) ← getTypeDescriptionM type {} | throwError "No description from LLM"
   logInfo transl
 
 syntax (name:= whyTac) "why" : tactic
-@[tactic whyTac] def whyTacImpl : Tactic := fun stx => do
+@[tactic whyTac] def whyTacImpl : Tactic := fun stx => withMainContext do
   let goal ← getMainGoal
   let type ← relLCtx goal
   logInfo m!"goal : {type}"
-  let some (transl, _, _) ← getTypeDescriptionM type {} | throwError "No description from LLM"
-  let server : ChatServer := ChatServer.default
-  let proof ← server.prove transl (n := 1)
-  logInfo m!"Theorem: {transl}"
-  logInfo m!"Proof: {proof}"
+  let some (transl, _, _) ← getTypeProofM type {} |
+            throwError "No description from LLM"
+  logInfo m!"Theorem and proof: {transl}"
   -- let pfStx := Syntax.mkStrLit proof[0]!
   -- let proofTac ← `(tactic| #proof $pfStx)
-  let proofTac : Syntax.Tactic := ⟨mkProofStx proof[0]!⟩
+  let proofTac : Syntax.Tactic := ⟨mkProofStx transl⟩
   TryThis.addSuggestion stx proofTac
 
 syntax (name:= addDocs) "#doc" "theorem" ident declSig declVal : command
