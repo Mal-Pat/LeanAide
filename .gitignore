@@ -86,4 +86,4 @@ private/
 .env
 leanaide_st_temp/
 .leanaide_cache/*/*.json
-FAISS/UnpickledFiles
+TestEmbeddings/UnpickledFiles
