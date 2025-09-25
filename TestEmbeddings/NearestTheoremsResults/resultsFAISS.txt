@@ -29,3 +29,323 @@ The monotone sequence whose value at `n` is the supremum of the `f m` where `m �
 
 *****************************************
 
+THEOREM : Let $D_n$ be the determinant of the $n$ by $n$ matrix whose value in the $i$th row and $j$th column is $|i-j|$. Show that $D_n = (-1)^{n-1} * (n-1) * (2^{n-2}).$
+
+NEAREST EMBEDDINGS:
+
+-----------------------------------------
+Determinant of 2x2 matrix
+-----------------------------------------
+Laplacian expansion of the determinant of an `n+1 × n+1` matrix along column `j`.
+-----------------------------------------
+Laplacian expansion of the determinant of an `n+1 × n+1` matrix along row `i`.
+-----------------------------------------
+Determinant of 1x1 matrix
+-----------------------------------------
+Laplacian expansion of the determinant of an `n+1 × n+1` matrix along row 0.
+-----------------------------------------
+The determinant of a matrix given by the Leibniz formula.
+-----------------------------------------
+Laplacian expansion of the determinant of an `n+1 × n+1` matrix along column 0.
+-----------------------------------------
+The determinant of a permutation matrix equals its sign.
+-----------------------------------------
+Multiplying each column by a fixed `v j` multiplies the determinant by
+the product of the `v`s.
+-----------------------------------------
+A matrix whose nondiagonal entries are negative with the sum of the entries of each
+row positive has nonzero determinant.
+
+*****************************************
+
+THEOREM : Find every real-valued function $f$ whose domain is an interval $I$ (finite or infinite) having 0 as a left-hand endpoint, such that for every positive member $x$ of $I$ the average of $f$ over the closed interval $[0, x]$ is equal to the geometric mean of the numbers $f(0)$ and $f(x)$.Show that \[ f(x) = rac{a}{(1 - cx)^2} egin{cases} 	ext{for } 0 \le x < rac{1}{c}, & 	ext{if } c > 0\ 	ext{for } 0 \le x < \infty, & 	ext{if } c \le 0, \end{cases} \] where $a > 0$.
+
+NEAREST EMBEDDINGS:
+
+-----------------------------------------
+A function on `[a, b]` with the norm of the right derivative bounded by `C`
+satisfies `‖f x - f a‖ ≤ C * (x - a)`.
+-----------------------------------------
+A continuous function `f : X → ℝ` such that
+
+* `0 ≤ f x ≤ 1` for all `x`;
+* `f` equals zero on `c.C` and equals one outside of `c.U`;
+-----------------------------------------
+If `f` grows in the punctured neighborhood of `c : ℝ` at least as fast as `1 / (x - c)`,
+then it is not interval integrable on any nontrivial interval `a..b`, `c ∈ [a, b]`.
+-----------------------------------------
+If an integrable function `f : α → E` takes values in a convex set `s` and for some set `t` of
+positive measure, the average value of `f` over `t` belongs to the interior of `s`, then the average
+of `f` over the whole space belongs to the interior of `s`.
+-----------------------------------------
+Weighted generalized mean inequality, version for sums over finite sets, with `ℝ≥0∞`-valued
+functions and real exponents.
+-----------------------------------------
+A negative exponential function is integrable on intervals in `R≥0`
+-----------------------------------------
+An infinitely smooth function `f : ℝ → ℝ` such that `f x = 0` for `x ≤ 0`,
+`f x = 1` for `1 ≤ x`, and `0 < f x < 1` for `0 < x < 1`.
+-----------------------------------------
+Average value of an `ℝ≥0∞`-valued function `f` w.r.t. to the standard measure on a set `s`.
+
+It is equal to `(volume s)⁻¹ * ∫⁻ x, f x`, so it takes value zero if `s` has infinite measure. If
+`s` has measure `1`, then the average of any function is equal to its integral.
+-----------------------------------------
+If `f` is continuous on `[a, ∞)`, and is `O (exp (-b * x))` at `∞` for some `b > 0`, then
+`f` is integrable on `(a, ∞)`.
+-----------------------------------------
+Weighted generalized mean inequality, version for sums over finite sets, with `ℝ≥0`-valued
+functions and real exponents.
+
+*****************************************
+
+THEOREM : Let $S$ be the set of all numbers of the form $2^m3^n$, where $m$ and $n$ are integers, and let $P$ be the set of all positive real numbers. Is $S$ dense in $P$?Show that $S$ is dense in $P$.
+
+NEAREST EMBEDDINGS:
+
+-----------------------------------------
+The closure of a set `s` is dense if and only if `s` is dense.
+-----------------------------------------
+If a set `s` is nowhere dense, so is its closure.
+-----------------------------------------
+A set is dense if and only if it has a nonempty intersection with each nonempty open set.
+-----------------------------------------
+There exists a countable dense set.
+-----------------------------------------
+A set in a nontrivial densely linear ordered type is dense in the sense of topology if and only
+if for any `a < b` there exists `c ∈ s`, `a < c < b`. Each implication requires less typeclass
+assumptions.
+-----------------------------------------
+The set of Liouville numbers in dense.
+-----------------------------------------
+A set `s` is closed and nowhere dense iff its complement `sᶜ` is open and dense.
+-----------------------------------------
+The product of two dense sets is a dense set.
+-----------------------------------------
+If a set `s` is separable in a (pseudo extended) metric space, then it admits a countable dense
+subset. This is not obvious, as the countable set whose closure covers `s` given by the definition
+of separability does not need in general to be contained in `s`.
+-----------------------------------------
+A set is dense iff it has non-trivial intersection with all basis sets.
+
+*****************************************
+
+THEOREM : Let $\{a_n\}$ be a sequence of real numbers satisfying the inequalities $0 \leq a_k \leq 100a_n$ for $n \leq k \leq 2n$ and $n=1,2,\dots$, and such that the series $\sum_{n=0}^\infty a_n$ converges. Prove that $\lim_{n 	o \infty}na_n=0$.
+
+NEAREST EMBEDDINGS:
+
+-----------------------------------------
+A series of non-negative real numbers converges to `r` in the sense of `HasSum` if and only if
+the sequence of partial sum converges to `r`.
+-----------------------------------------
+A series whose terms are bounded by the terms of a converging geometric series converges.
+-----------------------------------------
+All convergents of `0` are zero.
+-----------------------------------------
+Comparison test of convergence of series of non-negative real numbers.
+-----------------------------------------
+Comparison test of convergence of `ℝ≥0`-valued series.
+-----------------------------------------
+Cauchy condensation test for series of nonnegative real numbers.
+-----------------------------------------
+The limit `a` of the sequence `stirlingSeq` satisfies `0 < a`
+-----------------------------------------
+The number of inequalities in the series
+-----------------------------------------
+The Cesaro average of a converging sequence converges to the same limit.
+-----------------------------------------
+The terms of the sequence are nonzero.
+
+*****************************************
+
+THEOREM : Let $E$ be a Euclidean space of at most three dimensions. If $A$ is a nonempty subset of $E$, define $S(A)$ to be the set of all points that lie on closed segments joining pairs of points of $A$. For a given nonempty set $A_0$, define $A_n=S(A_{n-1})$ for $n=1,2,\dots$. Prove that $A_2=A_3=\cdots$. (A one-point set should be considered to be a special case of a closed segment.)
+
+NEAREST EMBEDDINGS:
+
+-----------------------------------------
+Star-convexity of sets. `s` is star-convex at `x` if every segment from `x` to a point in `s` is
+contained in `s`.
+-----------------------------------------
+Segments in a vector space.
+-----------------------------------------
+Given a closed set `s`, a point belongs to `s` iff its infimum edistance to this set vanishes
+-----------------------------------------
+Given a closed set `s`, a point belongs to `s` iff its infimum distance to this set vanishes
+-----------------------------------------
+Given a closed set `s`, a point belongs to `s` iff its infimum distance to this set vanishes.
+-----------------------------------------
+A point belongs to the closure of `s` iff its infimum distance to this set vanishes.
+-----------------------------------------
+A set of points, whose `vectorSpan` is finite-dimensional, is
+collinear if and only if their `vectorSpan` has dimension at most
+`1`.
+-----------------------------------------
+The set of points.
+-----------------------------------------
+A point in a collinear set of points lies in the affine span of any two distinct points of
+that set.
+-----------------------------------------
+The span of a set of points contains the set of points.
+
+*****************************************
+
+THEOREM : Let $S$ be a finite set. A set $P$ of subsets of $S$ has the property that any two members of $P$ have at least one element in common and that $P$ cannot be extended (whilst keeping this property). Prove that $P$ contains exactly half of the subsets of $S$.
+
+NEAREST EMBEDDINGS:
+
+-----------------------------------------
+There are finitely many subsets of a given finite set
+-----------------------------------------
+If there is an absolute upper bound on the size of a set satisfying `P`, then the
+maximal subset property always holds.
+-----------------------------------------
+Induction up to a finite set `S`.
+-----------------------------------------
+`𝒫 s` is the set of all subsets of `s`.
+-----------------------------------------
+A set `s` is `Set.Nontrivial` if it has at least two distinct elements.
+-----------------------------------------
+**Kleitman's theorem**. An intersecting family on `n` elements contains at most `2ⁿ⁻¹` sets, and
+each further intersecting family takes at most half of the sets that are in no previous family.
+-----------------------------------------
+The partial ordering by subset inclusion, inherited from `Set P`.
+-----------------------------------------
+Membership in a set
+-----------------------------------------
+A set `s` is a `Subsingleton` if it has at most one element.
+-----------------------------------------
+If `a` is a least upper bound for sets `s` and `p`, then it is a least upper bound for any
+set `t`, `s ⊆ t ⊆ p`.
+
+*****************************************
+
+THEOREM : Let $	riangle ABC$ be a triangle in the Euclidean plane, with points $P$, $Q$, and $R$ lying on segments $\overline{BC}$, $\overline{CA}$, $\overline{AB}$ respectively such that $$rac{AQ}{QC} = rac{BR}{RA} = rac{CP}{PB} = k$$ for some positive constant $k$. If $	riangle UVW$ is the triangle formed by parts of segments $\overline{AP}$, $\overline{BQ}$, and $\overline{CR}$, prove that $$rac{[	riangle UVW]}{[	riangle ABC]} = rac{(k - 1)^2}{k^2 + k + 1},$$ where $[	riangle]$ denotes the area of the triangle $	riangle$.
+
+NEAREST EMBEDDINGS:
+
+-----------------------------------------
+Two triangles with the same points have the same orthocenter.
+-----------------------------------------
+**Isosceles Triangle Theorem**: Pons asinorum, angle-at-point form.
+-----------------------------------------
+**Ptolemy's inequality**: in a quadrangle `ABCD`, `|AC| * |BD| ≤ |AB| * |CD| + |BC| * |AD|`. If
+`ABCD` is a convex cyclic polygon, then this inequality becomes an equality, see
+`EuclideanGeometry.mul_dist_add_mul_dist_eq_mul_dist_of_cospherical`.
+-----------------------------------------
+If M is the midpoint of the segment AB and C is the same distance from A as it is from B
+then ∠CMB = π / 2.
+-----------------------------------------
+If M is the midpoint of the segment AB and C is the same distance from A as it is from B
+then ∠CMA = π / 2.
+-----------------------------------------
+The midpoint of the segment AB is the same distance from A as it is from B.
+-----------------------------------------
+The other triangle equality. The proof follows the following proof in Globular:
+http://globular.science/1905.001
+-----------------------------------------
+If `P` is a point on the line `AB` and `Q` is equidistant from `A` and `B`, then
+`AP * BP = abs (BQ ^ 2 - PQ ^ 2)`.
+-----------------------------------------
+The product of a family of triangles.
+-----------------------------------------
+Suppose lines from two vertices of a triangle to interior points of the opposite side meet at
+`p`. Then `p` lies in the interior of the first (and by symmetry the other) segment from a
+vertex to the point on the opposite side.
+
+*****************************************
+
+THEOREM : Let $D$ be the unit disk in the plane. Show that we cannot find congruent sets $A, B$ with $A \cap B = \emptyset$ and $A \cup B = D$.
+
+NEAREST EMBEDDINGS:
+
+-----------------------------------------
+The empty set has zero diameter
+-----------------------------------------
+Real part of a point of the unit disc.
+-----------------------------------------
+The finset of elements of the form `a ⊔ b` where `a ∈ s`, `b ∈ t` and `a` and `b` are disjoint.
+-----------------------------------------
+For `A B` two nonempty finite sets, there always exist `a0 ∈ A, b0 ∈ B` such that
+`UniqueAdd A B a0 b0`
+-----------------------------------------
+The empty set is collinear.
+-----------------------------------------
+If two sets intersect, the diameter of the union is bounded by the sum of the diameters.
+-----------------------------------------
+Union of a set of sets.
+-----------------------------------------
+Conjugate point of the unit disc.
+-----------------------------------------
+The sets of factors of coprime `a` and `b` are disjoint
+-----------------------------------------
+Intersection of a set of sets.
+
+*****************************************
+
+THEOREM : Assume that $\lvert f(x) \rvert \le 1$ and $\lvert f''(x) \rvert \le 1$ for all $x$ on an interval of length at least 2. Show that $\lvert f'(x) \rvert \le 2$ on the interval.
+
+NEAREST EMBEDDINGS:
+
+-----------------------------------------
+A function on `[0, 1]` with the norm of the derivative within `[0, 1]`
+bounded by `C` satisfies `‖f 1 - f 0‖ ≤ C`, `HasDerivWithinAt`
+version.
+-----------------------------------------
+A function on `[0, 1]` with the norm of the derivative within `[0, 1]`
+bounded by `C` satisfies `‖f 1 - f 0‖ ≤ C`, `derivWithin` version.
+-----------------------------------------
+If a function has a Taylor series at order at least `1`, then the term of order `1` of this
+series is a derivative of `f`.
+-----------------------------------------
+If a function has a Taylor series at order at least `1` on a neighborhood of `x`, then the term
+of order `1` of this series is a derivative of `f` at `x`.
+-----------------------------------------
+Converse to the mean value inequality: if `f` is `C`-lipschitz then
+its derivative at `x₀` has norm bounded by `C`.
+Version using `deriv`.
+-----------------------------------------
+An inequality involving `2`.
+-----------------------------------------
+If a function `f` is twice differentiable on `ℝ`, and `f''` is nonpositive on `ℝ`,
+then `f` is concave on `ℝ`.
+-----------------------------------------
+Converse to the mean value inequality: if `f` is `C`-lipschitz then
+its derivative at `x₀` has norm bounded by `C`.
+Version using `fderiv`.
+-----------------------------------------
+A function on `[a, b]` with the norm of the derivative within `[a, b]`
+bounded by `C` satisfies `‖f x - f a‖ ≤ C * (x - a)`, `HasDerivWithinAt`
+version.
+-----------------------------------------
+**Rolle's Theorem** `HasDerivAt` version
+
+*****************************************
+
+THEOREM : Prove that $$\sum_{r=0}^{\lfloor\frac{n-1}{2}\rfloor} \left(\frac{n - 2r}{n} {n \choose r}\right)^2 = \frac{1}{n} {{2n - 2} \choose {n - 1}}$$ for every positive integer $n$.
+
+NEAREST EMBEDDINGS:
+
+-----------------------------------------
+`choose n r` is maximised when `r` is `n/2`.
+-----------------------------------------
+An inductive property of the central binomial coefficient.
+-----------------------------------------
+The central binomial coefficient, `Nat.choose (2 * n) n`.
+-----------------------------------------
+`choose n 2` is the `n`-th triangle number.
+-----------------------------------------
+The sum of entries in a row of Pascal's triangle
+-----------------------------------------
+Vandermonde's identity
+-----------------------------------------
+proof that the `parts` sum to `n`
+-----------------------------------------
+`FloorSemiring.floor a` computes the greatest natural `n` such that `(n : α) ≤ a`.
+-----------------------------------------
+The **binomial theorem**
+-----------------------------------------
+The `n`th central binomial coefficient is the product of its prime factors, which are
+at most `2n`.
+
+*****************************************
+

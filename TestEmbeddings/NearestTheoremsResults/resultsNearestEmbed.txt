@@ -1,129 +1,69 @@
-*****************************************
 THEOREM : If a sequence of real numbers is monotone and bounded, then the sequence converges.
 
 NEAREST EMBEDDINGS:
 -----------------------------------------
-
 If `A` is subterminal, the unique morphism from it to a terminal object is a monomorphism.
 The converse of `isSubterminal_of_mono_isTerminal_from`.
-
-
-
 -----------------------------------------
-
 `assert_exists n` is a user command that asserts that a declaration named `n` exists
 in the current import scope.
 
 Be careful to use names (e.g. `Rat`) rather than notations (e.g. `ℚ`).
-
-
-
 -----------------------------------------
-
 (Implementation detail).
 The function underlying `(A ⊗[R] Matrix n n R) →ₐ[R] Matrix n n A`,
 as an `R`-linear map.
-
-
-
 -----------------------------------------
-
 Given a submodule, corestrict to the pairing on `M ⧸ W` by
 simultaneously restricting to `W.dualAnnihilator`.
 
 See `Subspace.dualCopairing_nondegenerate`. 
-
-
 -----------------------------------------
-
 See `rank_subsingleton` for the reason that `Nontrivial R` is needed.
 Also see `rank_eq_zero_iff` for the version without `NoZeroSMulDivisor R M`. 
-
-
 -----------------------------------------
-
 `a <|> b` executes `a` and returns the result, unless it fails in which
 case it executes and returns `b`. Because `b` is not always executed, it
 is passed as a thunk so it can be forced only when needed.
 The meaning of this notation is type-dependent. 
-
-
 -----------------------------------------
-
 `G.CliqueFree n` means that `G` has no `n`-cliques. 
-
-
 -----------------------------------------
-
 The rank of a module as a natural number.
 
 Defined by convention to be `0` if the space has infinite rank.
 
 For a vector space `M` over a field `R`, this is the same as the finite dimension
 of `M` over `R`.
-
-
-
 -----------------------------------------
-
 At `-n` for `n ∈ ℕ`, the Gamma function is undefined; by convention we assign it the value `0`.
-
-
-
 -----------------------------------------
-
 (Implementation detail).
 The function underlying `(A ⊗[R] Matrix n n R) →ₐ[R] Matrix n n A`,
 as an `R`-bilinear map.
-
-
-
 -----------------------------------------
-
 If `A` is subterminal, the unique morphism from it to the terminal object is a monomorphism.
 The converse of `isSubterminal_of_mono_terminal_from`.
-
-
-
 -----------------------------------------
-
 `N.annihilator` is the ideal of all elements `r : R` such that `r • N = 0`. 
-
-
 -----------------------------------------
-
 The elements of `A.nonunits` are those of the maximal ideal of `A` after coercion to `K`.
 
 See also `mem_nonunits_iff_exists_mem_maximalIdeal`, which gets rid of the coercion to `K`,
 at the expense of a more complicated right hand side.
- 
-
-
 -----------------------------------------
-
 Auxiliary for `eraseTR`: `eraseTR.go l a xs acc = acc.toList ++ erase xs a`,
 unless `a` is not present in which case it returns `l` 
-
-
 -----------------------------------------
-
 The length of a list: `[].length = 0` and `(a :: l).length = l.length + 1`.
 
 This function is overridden in the compiler to `lengthTR`, which uses constant
 stack space, while leaving this function to use the "naive" recursion which is
 easier for reasoning.
-
-
-
 -----------------------------------------
-
 `O(n)`. `range n` is the numbers from `0` to `n` exclusive, in increasing order.
 * `range 5 = [0, 1, 2, 3, 4]`
-
-
-
 -----------------------------------------
-
 Given an element `x : α` of `l : List α` such that `x ∈ l`, get the previous
 element of `l`. This works from head to tail, (including a check for last element)
 so it will match on first hit, ignoring later duplicates.
@@ -133,33 +73,809 @@ so it will match on first hit, ignoring later duplicates.
  * `prev [1, 2, 3, 2, 4] 2 _ = 1`
  * `prev [1, 2, 3, 4, 2] 2 _ = 1`
  * `prev [1, 1, 2] 1 _ = 2`
-
-
-
 -----------------------------------------
-
  For any group element `a` in `G₀` different from zero and any integer `n`, the `(n + 1)`-th power of `a` equals the `n`-th power of `a` multiplied by `a`. In Lean notation: `(a ^ (n + 1)) = a ^ n * a`.
-
-
 -----------------------------------------
-
 Auxiliary for `range'TR`: `range'TR.go n e = [e-n, ..., e-1] ++ acc`. 
-
-
 -----------------------------------------
-
 The theorem `Matrix.det_succ_row` states that for any commutative ring `R`, and for any natural number `n`, if `A` is an `(n+1) x (n+1)` matrix with entries from `R`, and `i` is a row index in `A`, then the determinant of `A` can be computed by summing over all columns `j` in `A`, the product of `(-1) ^ (i + j)`, the element at row `i` and column `j` in `A`, and the determinant of the submatrix of `A` that results from removing the `i`-th row and `j`-th column. This is known as the Laplacian expansion of a determinant along a row.
-
-
 -----------------------------------------
-
  If matrix `A` over commutative ring `R` with decidable equality and finite index type `n` has a zero row, then its determinant is zero.
-
-
 -----------------------------------------
-
 Auxiliary for `eraseIdxTR`: `eraseIdxTR.go l n xs acc = acc.toList ++ eraseIdx xs a`,
 unless `a` is not present in which case it returns `l` 
 
 
 *****************************************
+THEOREM : Let $D_n$ be the determinant of the $n$ by $n$ matrix whose value in the $i$th row and $j$th column is $|i-j|$. Show that $D_n = (-1)^{n-1} * (n-1) * (2^{n-2}).$
+
+NEAREST EMBEDDINGS:
+
+-----------------------------------------
+The center of a group `G` is the set of elements that commute with everything in `G` 
+-----------------------------------------
+`Polynomial.Gal.restrictProd` is actually a subgroup embedding. 
+-----------------------------------------
+The vector given in euclidean space by being `1 : 𝕜` at coordinate `i : ι` and `0 : 𝕜` at
+all other coordinates. 
+-----------------------------------------
+The underlying set of the center of a group. 
+-----------------------------------------
+The center of a multiplication with unit `M` is the set of elements that commute with everything
+in `M` 
+-----------------------------------------
+The base space of a fiber bundle core, as a convenience function for dot notation 
+-----------------------------------------
+Add extra prefix to context-free producing. 
+-----------------------------------------
+The center of an additive group `G` is the set of elements that commute with
+everything in `G`
+-----------------------------------------
+The unit object is always closed.
+This isn't an instance because most of the time we'll prove closedness for all objects at once,
+rather than just for this one.
+
+-----------------------------------------
+The end point of a `Path`. 
+-----------------------------------------
+Given a prepartition `π` of a box `I` and a collection of prepartitions `πi J` of all boxes
+`J ∈ π`, returns the prepartition of `I` into the union of the boxes of all `πi J`.
+
+Though we only use the values of `πi` on the boxes of `π`, we require `πi` to be a globally defined
+function. 
+-----------------------------------------
+The definition of the centroid. 
+-----------------------------------------
+Given a prepartition `π : BoxIntegral.Prepartition I`, `π.iUnion` is the part of `I` covered by
+the boxes of `π`. 
+-----------------------------------------
+The image of `I` in the localization at `I.primeCompl` is a maximal ideal, and in particular
+it is the unique maximal ideal given by the local ring structure `AtPrime.localRing` 
+-----------------------------------------
+The functor from `Discrete PUnit` sending everything to the given object. 
+-----------------------------------------
+A prime that does not divide the cardinality of a finite commutative ring `R`
+is a unit in `R`. 
+-----------------------------------------
+`gal p` embeds as a subgroup of permutations of the roots of `p` in `E`. 
+-----------------------------------------
+The additive equivalence from the `Module (MonoidAlgebra k G)` to the original vector space
+of the representative.
+
+This is just the identity, but it is helpful for typechecking and keeping track of instances.
+
+-----------------------------------------
+The theorem `BoxIntegral.Prepartition.iUnion_restrict` states that for any prepartition `π` of box `I` in the context of any indexing type `ι`, the union of all boxes within the restricted prepartition of `π` to box `J` is equivalent to the intersection of box `J` and the union of all boxes in prepartition `π`. In other words, when a prepartition `π` of a box `I` is restricted to a box `J`, the portion of `I` covered by this restriction is the same as the intersection of `J` with the portion of `I` covered by the original prepartition `π`.
+-----------------------------------------
+ The greatest common divisor of a natural number with itself is the number itself. (gcd (n : ℕ) (n : ℕ)) = n for all natural numbers n.
+-----------------------------------------
+For a monoid, the units of the center inject into the center of the units. This is not an
+equivalence in general; one case when it is is for groups with zero, which is covered in
+`centerUnitsEquivUnitsCenter`. 
+-----------------------------------------
+The theorem `BoxIntegral.Prepartition.IsPartition.biUnion` states that for any given type `ι`, box `I` of type `BoxIntegral.Box ι`, prepartition `π` of `I`, and function `πi` which, for every box `J`, gives a prepartition of `J`, if `π` is a partition of `I` and for all `J` in `π`, the prepartition `πi J` is a partition of `J`, then the biUnion of `π` and `πi` is a partition of `I`. 
+
+In other words, this theorem assures that a biUnion of partitions, where each element of the primary partition is itself a partition of a subbox, is also a partition of the original box `I`.
+-----------------------------------------
+ The center of the group of units of a `GroupWithZero` type `M` equals the preimage of the center of `M` under the underlying value function.
+-----------------------------------------
+The comonad induced by the Eilenberg-Moore adjunction is the original comonad. 
+
+*****************************************
+
+THEOREM : Find every real-valued function $f$ whose domain is an interval $I$ (finite or infinite) having 0 as a left-hand endpoint, such that for every positive member $x$ of $I$ the average of $f$ over the closed interval $[0, x]$ is equal to the geometric mean of the numbers $f(0)$ and $f(x)$.Show that \[ f(x) = \frac{a}{(1 - cx)^2} \begin{cases} \text{for } 0 \le x < \frac{1}{c}, & \text{if } c > 0\\ \text{for } 0 \le x < \infty, & \text{if } c \le 0, \end{cases} \] where $a > 0$.
+
+NEAREST EMBEDDINGS:
+
+-----------------------------------------
+**Alias** of `dvd_trans`.
+-----------------------------------------
+Display a widget panel allowing to generate a `conv` call zooming to the subexpression selected
+in the goal.
+-----------------------------------------
+`-[n+1]` is suggestive notation for `negSucc n`, which is the second constructor of
+`Int` for making strictly negative numbers by mapping `n : Nat` to `-(n + 1)`.
+
+-----------------------------------------
+Notation for `closure` with respect to a non-standard topology. 
+-----------------------------------------
+Auxiliary function for `getRawProjections`.
+Find custom projections, automatically found by simps.
+These come from `DFunLike` and `SetLike` instances. 
+-----------------------------------------
+A variant of `aesop_cat` which does not fail when it is unable to solve the
+goal. Use this only for exploration! Nonterminal `aesop` is even worse than
+nonterminal `simp`.
+
+-----------------------------------------
+elaborate the syntax and run `simpsTac`. 
+-----------------------------------------
+Attribute for identifying `positivity` extensions. 
+-----------------------------------------
+Default value for `IntCast.intCast` in an `AddGroupWithOne`. 
+-----------------------------------------
+The `bot` subgraph is the subgraph with no vertices or edges. 
+-----------------------------------------
+Display a widget panel allowing to generate a `congrm` call with holes specified by selecting
+subexpressions in the goal.
+-----------------------------------------
+Return the provided target name or autogenerate one if one was not provided. 
+-----------------------------------------
+The length of a list: `[].length = 0` and `(a :: l).length = l.length + 1`.
+
+This function is overridden in the compiler to `lengthTR`, which uses constant
+stack space, while leaving this function to use the "naive" recursion which is
+easier for reasoning.
+
+-----------------------------------------
+The Galois insertion associated to a closure operator can be used to reconstruct the closure
+operator.
+Note that the inverse in the opposite direction does not hold in general. 
+-----------------------------------------
+`castPosNum` casts a `PosNum` into any type which has `1` and `+`. 
+-----------------------------------------
+`normalClosure` as a `ClosureOperator`. 
+-----------------------------------------
+Create a name that we can use for the `syntax` definition, using the
+algorithm from `notation`. 
+-----------------------------------------
+The name of the global branching preprocessor, used in trace output. 
+-----------------------------------------
+The theorem `Primrec.pred` states that the predecessor function on natural numbers (`Nat.pred`) is primitive recursive. Here, the predecessor function is defined such that for any natural number `n`, if `n` is 0, its predecessor is 0; otherwise, its predecessor is `n - 1`. Primitive recursive functions are a class of functions that are defined using certain base functions and operations, and are a subset of total recursive functions. In this case, the theorem asserts that `Nat.pred` belongs to this class, after encoding its input and output as natural numbers.
+-----------------------------------------
+ If for every point in a topological space and every neighborhood filter, there exists a basis of preconnected sets, then the space is locally connected.
+-----------------------------------------
+`castNum` casts a `Num` into any type which has `0`, `1` and `+`. 
+-----------------------------------------
+ The chromatic number of a simple graph is the smallest natural number sufficient for its coloring.
+-----------------------------------------
+Convert a natural number to a positive natural number. The
+positivity assumption is inferred by `dec_trivial`. 
+
+*****************************************
+
+THEOREM : Let $S$ be the set of all numbers of the form $2^m3^n$, where $m$ and $n$ are integers, and let $P$ be the set of all positive real numbers. Is $S$ dense in $P$?Show that $S$ is dense in $P$.
+
+NEAREST EMBEDDINGS:
+
+-----------------------------------------
+If `α` has no zero divisors, then the product of two elements is nonzero iff both of them
+are nonzero. 
+-----------------------------------------
+If a polynomial of degree 2 is always positive, then its discriminant is negative,
+at least when the coefficient of the quadratic term is nonzero.
+
+-----------------------------------------
+`testBit m n` returns whether the `(n+1)ˢᵗ` least significant bit is `1` or `0`
+-----------------------------------------
+The property that `f 0 = 0` in terms of the graph. 
+-----------------------------------------
+A subgroup is either the trivial subgroup or contains a nonzero element.
+-----------------------------------------
+Given a nonempty finset `s` in a linear order `α`, then `s.min' h` is its minimum, as an
+element of `α`, where `h` is a proof of nonemptiness. Without this assumption, use instead `s.min`,
+taking values in `WithTop α`. 
+-----------------------------------------
+`f : α →+* β` has a trivial codomain iff its range is `{0}`. 
+-----------------------------------------
+If `α` has no zero divisors, then the product of two elements equals zero iff one of them
+equals zero. 
+-----------------------------------------
+The second-lowest coefficient, or 0 for constants 
+-----------------------------------------
+`normalizeDenominatorsLHS h lhs` assumes that `h` is a proof of `lhs R 0`.
+It creates a proof of `lhs' R 0`, where all numeric division in `lhs` has been cancelled.
+
+-----------------------------------------
+**Minimum principle** for concave functions. If a function `f` is concave on the convex hull of
+`s`, then the eventual minimum of `f` on `convexHull 𝕜 s` lies in `s`. 
+-----------------------------------------
+`proveEqZeroUsing tac e` tries to use `tac` to construct a proof of `e = 0`.
+
+-----------------------------------------
+If a function has zero Fréchet derivative at every point of a convex set,
+then it is a constant on this set. 
+-----------------------------------------
+`cancelDenominatorsInType h` assumes that `h` is of the form `lhs R rhs`,
+where `R ∈ {<, ≤, =, ≠, ≥, >}`.
+It produces an Expression `h'` of the form `lhs' R rhs'` and a proof that `h = h'`.
+Numeric denominators have been canceled in `lhs'` and `rhs'`.
+
+-----------------------------------------
+The second-highest coefficient, or 0 for constants 
+-----------------------------------------
+If `f` has a local min on `s` at `a`, `f'` is the derivative of `f` at `a` within `s`, and
+`y` belongs to the positive tangent cone of `s` at `a`, then `0 ≤ f' y`. 
+-----------------------------------------
+`f : α →+* β` has a trivial codomain iff `f 1 = 0`. 
+-----------------------------------------
+Returns the leading coefficient, i.e. the first non-zero entry. 
+-----------------------------------------
+The `squeeze_zero` theorem is a special variant of the squeeze theorem. In the context of real-valued functions `f` and `g` and a filter `t₀` on an arbitrary type `α`, the theorem states that if `f` is always non-negative and never exceeds `g`, and if `g` converges to zero along the filter `t₀`, then `f` also converges to zero along `t₀`. In other words, if `0 ≤ f(t) ≤ g(t)` for all `t` in `α`, and `g` tends towards zero as `t` approaches `t₀`, then `f` will also tend towards zero.
+-----------------------------------------
+ In a category with zero morphisms, the existence of `BinaryBiproductData` for objects `P` and `Q` implies the existence of a binary biproduct for `P` and `Q`.
+-----------------------------------------
+**Minimum principle** for concave functions on a segment. If a function `f` is concave on the
+segment `[x, y]`, then the eventual minimum of `f` on `[x, y]` is at `x` or `y`. 
+-----------------------------------------
+ A function from a pseudometric space to itself tends to a point if and only if the distance between the function and the point converges to zero with respect to the given filter.
+-----------------------------------------
+We define a solution to be *fundamental* if it has `x > 1` and `y > 0`
+and its `x` is the smallest possible among solutions with `x > 1`. 
+
+*****************************************
+
+THEOREM : Let $\{a_n\}$ be a sequence of real numbers satisfying the inequalities $0 \leq a_k \leq 100a_n$ for $n \leq k \leq 2n$ and $n=1,2,\dots$, and such that the series $\sum_{n=0}^\infty a_n$ converges. Prove that $\lim_{n \to \infty}na_n=0$.
+
+NEAREST EMBEDDINGS:
+
+-----------------------------------------
+Returns the next numerator `Aₙ = bₙ₋₁ * Aₙ₋₁ + aₙ₋₁ * Aₙ₋₂`, where `predA` is `Aₙ₋₁`,
+`ppredA` is `Aₙ₋₂`, `a` is `aₙ₋₁`, and `b` is `bₙ₋₁`.
+
+-----------------------------------------
+Marks given value and its object graph closure as persistent. This will remove
+reference counter updates but prevent the closure from being deallocated until
+the end of the process! It can still be useful to do eagerly when the value
+will be marked persistent later anyway and there is available time budget to
+mark it now or it would be unnecessarily marked multi-threaded in between. 
+-----------------------------------------
+`G.incMatrix R` is the `α × Sym2 α` matrix whose `(a, e)`-entry is `1` if `e` is incident to
+`a` and `0` otherwise. 
+-----------------------------------------
+An encoding function of the positive binary numbers in bool. 
+-----------------------------------------
+If `A` is subterminal, the unique morphism from it to the terminal object is a monomorphism.
+The converse of `isSubterminal_of_mono_terminal_from`.
+
+-----------------------------------------
+The stabilizer of an element under an action, i.e. what sends the element to itself.
+A subgroup. 
+-----------------------------------------
+If `A` is subterminal, the unique morphism from it to a terminal object is a monomorphism.
+The converse of `isSubterminal_of_mono_isTerminal_from`.
+
+-----------------------------------------
+If the unique morphism from `A` to a terminal object is a monomorphism, `A` is subterminal.
+The converse of `IsSubterminal.mono_isTerminal_from`.
+
+-----------------------------------------
+`A.HasOrthogonalCols` means matrix `A` has orthogonal columns (with respect to
+`Matrix.dotProduct`). 
+-----------------------------------------
+`A.HasOrthogonalRows` means matrix `A` has orthogonal rows (with respect to
+`Matrix.dotProduct`). 
+-----------------------------------------
+An additive subgroup has index two if and only if there exists `a` such that
+for all `b`, exactly one of `b + a` and `b` belong to `H`.
+-----------------------------------------
+`a - b` computes the difference of `a` and `b`. See `HSub`. 
+-----------------------------------------
+`a + b` computes the sum of `a` and `b`. See `HAdd`. 
+-----------------------------------------
+An adjunction between preorder categories induces a galois connection.
+
+-----------------------------------------
+Given an open cover of `X`, and a morphism `𝒰.obj x ⟶ Y` for each open subscheme in the cover,
+such that these morphisms are compatible in the intersection (pullback), we may glue the morphisms
+together into a morphism `X ⟶ Y`.
+
+Note:
+If `X` is exactly (defeq to) the gluing of `U i`, then using `Multicoequalizer.desc` suffices.
+
+-----------------------------------------
+`bodd n` returns `true` if `n` is odd
+-----------------------------------------
+If `v : M → TM` is a vector field on `M`, `IsIntegralCurve γ v` means `γ : ℝ → M` is a global
+integral curve of `v`. That is, `γ t` is tangent to `v (γ t)` for all `t : ℝ`. 
+-----------------------------------------
+The derivative of `det (1 + M X)` at `0` is the trace of `M`. 
+-----------------------------------------
+ A subgroup `H` of a group `G` is normal if and only if the normalizer of `H` equals `G`. That is, `norm_group G H = G` if and only if `H` is a normal subgroup of `G`.
+-----------------------------------------
+The **Matrix determinant lemma**
+
+TODO: show the more general version without `hA : IsUnit A.det` as
+`(A + col u * row v).det = A.det + v ⬝ᵥ (adjugate A).mulVec u`.
+
+-----------------------------------------
+The theorem `RayVector.coe_neg` states that for any type `M` that forms an additive commutative group and any nonzero vector `v` of type `RayVector R M`, the negation of `v` when coerced to the underlying module `M` is equal to the negation of `v` after it has been coerced to `M`. In other words, negating a nonzero vector before or after coercing it to the underlying module yields the same result.
+-----------------------------------------
+ For any additive commutative group type `M` and nonzero vector `v` of type `RayVector R M`, the negation of `v` when coerced to `M` equals the negation of `v` in `RayVector R M`.
+-----------------------------------------
+A quiver is preconnected iff there exists a path between any pair of
+vertices.
+Note that if `V` doesn't `HasReverse`, then the definition is stronger than
+simply having a preconnected underlying `SimpleGraph`, since a path in one
+direction doesn't induce one in the other.
+
+
+*****************************************
+
+THEOREM : Let $E$ be a Euclidean space of at most three dimensions. If $A$ is a nonempty subset of $E$, define $S(A)$ to be the set of all points that lie on closed segments joining pairs of points of $A$. For a given nonempty set $A_0$, define $A_n=S(A_{n-1})$ for $n=1,2,\dots$. Prove that $A_2=A_3=\cdots$. (A one-point set should be considered to be a special case of a closed segment.)
+
+NEAREST EMBEDDINGS:
+
+-----------------------------------------
+Gets the word size of the platform. That is, whether the platform is 64 or 32 bits. 
+-----------------------------------------
+`ratNorm q`, for a `p`-adic number `q` is the `p`-adic norm of `q`, as rational number.
+
+The lemma `padicNormE.eq_ratNorm` asserts `‖q‖ = ratNorm q`. 
+-----------------------------------------
+Because we use binary encoding, we define `trNat` in terms of `trNum`, using `Num`, which are
+binary natural numbers. (We could also use `Nat.binaryRecOn`, but `Num` and `PosNum` make for
+easy inductions.) 
+-----------------------------------------
+If `q ≠ 0`, the `p`-adic norm of a rational `q` is `p ^ (-padicValRat p q)`.
+If `q = 0`, the `p`-adic norm of `q` is `0`. 
+-----------------------------------------
+Distance on `GHSpace`: the distance between two nonempty compact spaces is the infimum
+Hausdorff distance between isometric copies of the two spaces in a metric space. For the definition,
+we only consider embeddings in `ℓ^∞(ℝ)`, but we will prove below that it works for all spaces. 
+-----------------------------------------
+A list of natural numbers is a Zeckendorf representation (of a natural number) if it is an
+increasing sequence of non-consecutive numbers greater than or equal to `2`.
+
+This is relevant for Zeckendorf's theorem, since if we write a natural `n` as a sum of Fibonacci
+numbers `(l.map fib).sum`, `IsZeckendorfRep l` exactly means that we can't simplify any expression
+of the form `fib n + fib (n + 1) = fib (n + 2)`, `fib 1 = fib 2` or `fib 0 = 0` in the sum. 
+-----------------------------------------
+`-[n+1]` is suggestive notation for `negSucc n`, which is the second constructor of
+`Int` for making strictly negative numbers by mapping `n : Nat` to `-(n + 1)`.
+
+-----------------------------------------
+A type endowed with `0` and unary `-` is an `NegZeroClass`, if it admits an
+injective map that preserves `0` and unary `-` to an `NegZeroClass`.
+-----------------------------------------
+A decision procedure for equality of natural numbers.
+
+This definition is overridden in the compiler to efficiently
+evaluate using the "bignum" representation (see `Nat`). The definition provided
+here is the logical model.
+
+-----------------------------------------
+The index of a subgroup as a natural number,
+and returns 0 if the index is infinite.
+-----------------------------------------
+The eigenspace is a subspace of the generalized eigenspace. 
+-----------------------------------------
+In a topological vector space over a nontrivially normed field, any neighborhood of zero has
+the same cardinality as the whole space.
+
+See also `cardinal_eq_of_mem_nhds`. 
+-----------------------------------------
+The fundamental power operation in a group. `zpowRec n a = a*a*...*a` n times, for integer `n`.
+Use instead `a ^ n`, which has better definitional behavior. 
+-----------------------------------------
+The power operation on natural numbers.
+
+This definition is overridden in both the kernel and the compiler to efficiently
+evaluate using the "bignum" representation (see `Nat`). The definition provided
+here is the logical model.
+
+-----------------------------------------
+`adjMatrix G α` is the matrix `A` such that `A i j = (1 : α)` if `i` and `j` are
+adjacent in the simple graph `G`, and otherwise `A i j = 0`. 
+-----------------------------------------
+Find the first argument of `nm` that has a multiplicative type-class on it.
+Returns 1 if there are no types with a multiplicative class as arguments.
+E.g. `Prod.Group` returns 1, and `Pi.One` returns 2.
+Note: we only consider the first argument of each type-class.
+E.g. `[Pow A N]` is a multiplicative type-class on `A`, not on `N`.
+
+-----------------------------------------
+The Gromov-Hausdorff distance between two nonempty compact metric spaces, equal by definition to
+the distance of the equivalence classes of these spaces in the Gromov-Hausdorff space. 
+-----------------------------------------
+An additive subgroup has index two if and only if there exists `a` such that
+for all `b`, exactly one of `b + a` and `b` belong to `H`.
+-----------------------------------------
+This theorem, `Subgroup.pow_mem`, asserts that for any group `G` and any subgroup `K` of `G`, if an element `x` belongs to `K`, then `x` raised to any natural number `n` also belongs to `K`. In other words, any power of an element in a subgroup remains in the subgroup.
+-----------------------------------------
+ If two simple graphs `G` and `H` are such that `H` is embeddable into `G` and `G` is clique-free of order `n`, then `H` is also clique-free of order `n`.
+-----------------------------------------
+`Matrix.hadamard` defines the Hadamard product,
+which is the pointwise product of two matrices of the same size.
+-----------------------------------------
+ For all natural numbers `n` and elements `a` in `Fin (n + 1)`, `0 ≤ a`.
+-----------------------------------------
+A subgroup has index two if and only if there exists `a` such that for all `b`, exactly one
+of `b * a` and `b` belong to `H`. 
+
+*****************************************
+
+THEOREM : Let $S$ be a finite set. A set $P$ of subsets of $S$ has the property that any two members of $P$ have at least one element in common and that $P$ cannot be extended (whilst keeping this property). Prove that $P$ contains exactly half of the subsets of $S$.
+
+NEAREST EMBEDDINGS:
+
+-----------------------------------------
+`SameRay` is symmetric. 
+-----------------------------------------
+Assumes right covariance.
+The lemma assuming left covariance is `Left.add_pos`.
+-----------------------------------------
+Extend a `SimpleFunc` along a measurable embedding: `f₁.extend g hg f₂` is the function
+`F : β →ₛ γ` such that `F ∘ g = f₁` and `F y = f₂ y` whenever `y ∉ range g`. 
+-----------------------------------------
+Conditional measure on the second space of the product given the value on the first, as a
+kernel. Use the more general `condKernel`. 
+-----------------------------------------
+Only assumes right strict covariance. 
+-----------------------------------------
+Two nonzero vectors `x y` in a real normed space are on the same ray if and only if the unit
+vectors `‖x‖⁻¹ • x` and `‖y‖⁻¹ • y` are equal. 
+-----------------------------------------
+**Gram-Schmidt Orthonormalization**:
+`gramSchmidtNormed` applied to a linearly independent set of vectors produces an orthornormal
+system of vectors. 
+-----------------------------------------
+In a strictly convex space, the triangle inequality turns into an equality if and only if the
+middle point belongs to the segment joining two other points. 
+-----------------------------------------
+`(k*x, k*y, k*z)` is a Pythagorean triple if and only if
+`(x, y, z)` is also a triple. 
+-----------------------------------------
+Given two isometric embeddings `Φ : Z → X` and `Ψ : Z → Y`, we define a
+space `GlueSpace hΦ hΨ` by identifying in `X ⊕ Y` the points `Φ x` and `Ψ x`. 
+-----------------------------------------
+Only assumes right strict covariance
+-----------------------------------------
+If `x` and `y` are on the same ray, then the triangle inequality becomes the equality: the norm
+of `x + y` is the sum of the norms of `x` and `y`. The converse is true for a strictly convex
+space. 
+-----------------------------------------
+If `f` is a simple function taking values in `β → γ` and `g` is another simple function
+with the same domain and codomain `β`, then `f.seq g = f a (g a)`. 
+-----------------------------------------
+**Gram-Schmidt Orthogonalisation**:
+`gramSchmidt` produces an orthogonal system of vectors. 
+-----------------------------------------
+In a strictly convex space, if `x` and `y` are not in the same ray, then `‖x + y‖ < ‖x‖ + ‖y‖`.
+
+-----------------------------------------
+A product space `α × β` is equivalent to the space `Π i : Fin 2, γ i`, where
+`γ = Fin.cons α (Fin.cons β finZeroElim)`. See also `piFinTwoEquiv` and
+`finTwoArrowEquiv`. 
+-----------------------------------------
+The cosine of the angle between two vectors, multiplied by the
+product of their norms. 
+-----------------------------------------
+`SameRay` is transitive unless the vector in the middle is zero and both other vectors are
+nonzero. 
+-----------------------------------------
+ In a real inner-product space of finite dimension 2 with orientation and vectors `x`, `y`, if `x` and `y` are orthogonal, then the cosine of the angle between `y` and `y - x` times the norm of `y - x` equals the norm of `y`.
+-----------------------------------------
+In a strictly convex space, two vectors `x`, `y` are not in the same ray if and only if the
+triangle inequality for `x` and `y` is strict. 
+-----------------------------------------
+ In a right-angled triangle in a two-dimensional normed add-commutative group with real inner product space, the cosine of the angle between vectors `x` and `y`, multiplied by the length of `x - y`, equals the length of `x`.
+-----------------------------------------
+In a strictly convex space, two vectors `x`, `y` are in the same ray if and only if the triangle
+inequality for `x` and `y` becomes an equality. 
+
+*****************************************
+
+THEOREM : Let $\triangle ABC$ be a triangle in the Euclidean plane, with points $P$, $Q$, and $R$ lying on segments $\overline{BC}$, $\overline{CA}$, $\overline{AB}$ respectively such that $$\frac{AQ}{QC} = \frac{BR}{RA} = \frac{CP}{PB} = k$$ for some positive constant $k$. If $\triangle UVW$ is the triangle formed by parts of segments $\overline{AP}$, $\overline{BQ}$, and $\overline{CR}$, prove that $$\frac{[\triangle UVW]}{[\triangle ABC]} = \frac{(k - 1)^2}{k^2 + k + 1},$$ where $[\triangle]$ denotes the area of the triangle $\triangle$.
+
+NEAREST EMBEDDINGS:
+
+-----------------------------------------
+The canonical embedding from a tensor power to the tensor algebra 
+-----------------------------------------
+A constructor for objects of the category `CompHaus`,
+taking a type, and bundling the compact Hausdorff topology
+found by typeclass inference. 
+-----------------------------------------
+The Yoneda embedding is faithful.
+
+See <https://stacks.math.columbia.edu/tag/001P>.
+
+-----------------------------------------
+The cofork defined in `BinaryBicone.inrCokernelCofork` is indeed a cokernel. 
+-----------------------------------------
+The label of the root of the tree for a non-trivial
+approximation of the cofix of a pfunctor.
+
+-----------------------------------------
+A constructor for a subbimodule which demands closure under the two sets of scalars
+individually, rather than jointly via their tensor product.
+
+Note that `R` plays no role but it is convenient to make this generalisation to support the cases
+`R = ℕ` and `R = ℤ` which both show up naturally. See also `Subbimodule.baseChange`. 
+-----------------------------------------
+Embeddings of types induce embeddings of complete graphs on those types. 
+-----------------------------------------
+Provide a coercion to `Type u` for a concrete category. This is not marked as an instance
+as it could potentially apply to every type, and so is too expensive in typeclass search.
+
+You can use it on particular examples as:
+```
+instance : HasCoeToSort X := ConcreteCategory.hasCoeToSort X
+```
+
+-----------------------------------------
+The adjunction between the cofree and forgetful constructions for Eilenberg-Moore coalgebras
+for a comonad.
+
+-----------------------------------------
+If the domain of a `DenseEmbedding` is a separable space, then so is its codomain. 
+-----------------------------------------
+Restrict the codomain of a relation embedding. 
+-----------------------------------------
+Pull back a metric space structure by an embedding. This is a version of
+`MetricSpace.induced` useful in case if the domain already has a `TopologicalSpace` structure. 
+-----------------------------------------
+Construct a bundled `DistLat` from a `DistribLattice` underlying type and typeclass. 
+-----------------------------------------
+Restrict the codomain of an embedding. 
+-----------------------------------------
+Given an adjunction, assigning to an algebra over the left adjoint a coalgebra over its right
+adjoint and going back is isomorphic to the identity functor. 
+-----------------------------------------
+Given an adjunction, assigning to a coalgebra over the right adjoint an algebra over the left
+adjoint and going back is isomorphic to the identity functor. 
+-----------------------------------------
+A convenience function for `ReflectsColimit`, which takes the functor as an explicit argument to
+guide typeclass resolution.
+
+-----------------------------------------
+This theorem, `OneMemClass.coe_one`, asserts that for any types `A` and `M₁`, if `A` behaves like a set of `M₁`, and `M₁` has an identity element under a certain operation, and there exists a class `OneMemClass` such that the number 1 is in this class, then the identity element is 1 when coe-function is applied on 1. In essence, it's stating that if we coerce the number 1 (in the context of a certain class and type conditions), it will remain 1.
+-----------------------------------------
+ If `A` is a set-like type, `M₁` has an identity element `e` for some operation, and `1` is in class `OneMemClass`, then `coe (1 : M₁) = e`.
+-----------------------------------------
+If `ε > 0`, then `BoxIntegral.Integrable.convergenceR` is a function `r : ℝ≥0 → ℝⁿ → (0, ∞)`
+such that for every `c : ℝ≥0`, for every tagged partition `π` subordinate to `r` (and satisfying
+additional distortion estimates if `BoxIntegral.IntegrationParams.bDistortion l = true`), the
+corresponding integral sum is `ε`-close to the integral.
+
+If `BoxIntegral.IntegrationParams.bRiemann = true`, then `r c x` does not depend on `x`. If
+`ε ≤ 0`, then we use `r c x = 1`.  
+-----------------------------------------
+This theorem, `ENNReal.coe_sub`, states that for any two nonnegative real numbers `r` and `p`, the result of subtracting `p` from `r` and then taking the "coercion" of that result (essentially, thinking of the result as an extended nonnegative real number) is the same as taking the "coercion" of `r` and `p` separately and then subtracting these. This is a special case of the more general theorem `WithTop.coe_sub` in the context of extended nonnegative real numbers.
+-----------------------------------------
+ For any complex number $x$, $\cosh(x) - \sinh(x) = e^{-x}$.
+-----------------------------------------
+The cofree functor from the Eilenberg-Moore category, constructing a coalgebra for any
+object. 
+
+*****************************************
+
+THEOREM : Let $D$ be the unit disk in the plane. Show that we cannot find congruent sets $A, B$ with $A \cap B = \emptyset$ and $A \cup B = D$.
+
+NEAREST EMBEDDINGS:
+
+-----------------------------------------
+If the input vectors of `gramSchmidt` are linearly independent,
+then the output vectors are non-zero. 
+-----------------------------------------
+Open segment in a vector space. Note that `openSegment 𝕜 x x = {x}` instead of being `∅` when
+the base semiring has some element between `0` and `1`. 
+-----------------------------------------
+A finite Hilbert basis is an orthonormal basis. 
+-----------------------------------------
+The Gram-Schmidt process takes a set of vectors as input
+and outputs a set of orthogonal vectors which have the same span. 
+-----------------------------------------
+The `orthogonalProjection` lies in the orthogonal subspace. 
+-----------------------------------------
+Each vector space has a basis. 
+-----------------------------------------
+Adding a vector to a point in the given subspace, then taking the
+orthogonal projection, produces the original point if the vector was
+in the orthogonal direction. 
+-----------------------------------------
+Given an orthonormal basis and an orientation, return an orthonormal basis giving that
+orientation: either the original basis, or one constructed by negating a single (arbitrary) basis
+vector. 
+-----------------------------------------
+The eigenspaces of a self-adjoint operator are mutually orthogonal. 
+-----------------------------------------
+A Jordan decomposition provides a Hahn decomposition. 
+-----------------------------------------
+`gramSchmidt` produces linearly independent vectors when given linearly independent vectors. 
+-----------------------------------------
+The **Hellinger--Toeplitz theorem**: Construct a self-adjoint operator from an everywhere
+defined symmetric operator. 
+-----------------------------------------
+Reflecting an orthogonal vector plus a point in the subspace
+produces the negation of that vector plus the point. 
+-----------------------------------------
+Scaling by a positive unit is a no-op. 
+-----------------------------------------
+The eigenspace is a subspace of the generalized eigenspace. 
+-----------------------------------------
+The subspace of vectors orthogonal to a given subspace. 
+-----------------------------------------
+An orthonormal basis is a Hilbert basis. 
+-----------------------------------------
+**Gram-Schmidt Orthogonalisation**:
+`gramSchmidt` produces an orthogonal system of vectors. 
+-----------------------------------------
+ If a subspace K of a normed additive commutative group E over a field 𝕜 has an orthogonal projection, then for all vectors v, w in E with w in K, the inner product of v − P(v) and w equals zero, where P(v) is the orthogonal projection of v onto K.
+-----------------------------------------
+**Gram-Schmidt Orthonormalization**:
+`gramSchmidtNormed` applied to a linearly independent set of vectors produces an orthornormal
+system of vectors. 
+-----------------------------------------
+The theorem named "Gram-Schmidt Orthonormalization" states that for any field `𝕜` and vector spaces `E` over `𝕜`, given a function `f` mapping from an index set `ι` to `E` which respects a linear order and local finiteness condition, the function `gramSchmidtNormed` produces an orthonormal set of vectors when applied to `f`. Here, orthonormal means that each vector has unit length and any pair of distinct vectors are orthogonal. The vectors that become zero during the Gram-Schmidt process are removed from this set.
+-----------------------------------------
+ Given a finite-dimensional vector space over an ordered field with strictly fewer dimensions than the number of vectors, there exists a linear relation among these vectors with at least one positive coefficient summing to zero.
+-----------------------------------------
+`Matrix.unitaryGroup.embeddingGL` is the embedding from `Matrix.unitaryGroup n α` to
+`LinearMap.GeneralLinearGroup n α`. 
+
+*****************************************
+
+THEOREM : Assume that $\lvert f(x) \rvert \le 1$ and $\lvert f''(x) \rvert \le 1$ for all $x$ on an interval of length at least 2. Show that $\lvert f'(x) \rvert \le 2$ on the interval.
+
+NEAREST EMBEDDINGS:
+
+-----------------------------------------
+Transport dependent functions through an equivalence of the base space.
+
+This is `Equiv.piCongrLeft'` as a `LinearEquiv`. 
+-----------------------------------------
+We use `Num` to define the translation of binary natural numbers. Positive numbers are
+translated using `trPosNum`, and `trNum 0 = []`. So there are never any trailing `bit0`'s in
+a translated `Num`.
+
+    0 = []
+    1 = [bit1]
+    2 = [bit0, bit1]
+    3 = [bit1, bit1]
+    4 = [bit0, bit0, bit1]
+
+-----------------------------------------
+Left-shift the binary representation of a `Num`. 
+-----------------------------------------
+Retrieves an element uniquely determined by a `PosNum` from the tree,
+taking the following path to get to the element:
+- `bit0` - go to left child
+- `bit1` - go to right child
+- `PosNum.one` - retrieve from here 
+-----------------------------------------
+`WithTerminal.star` is terminal. 
+-----------------------------------------
+The injection into an additive pi group with the same values commutes.
+-----------------------------------------
+Auxiliary function for `getRawProjections`.
+Find custom projections, automatically found by simps.
+These come from `DFunLike` and `SetLike` instances. 
+-----------------------------------------
+In a preconnected space, if a symmetric transitive relation `P x y` is true for `y` close
+enough to `x`, then it holds for all `x, y`. This is a version of the fact that, if an equivalence
+relation has open classes, then it has a single equivalence class. 
+-----------------------------------------
+The type of methods to find arguments for automatic projections for `simps`.
+We partly define this as a separate definition so that the unused arguments linter doesn't complain.
+
+-----------------------------------------
+name for this projection used in the generated `simp` lemmas 
+-----------------------------------------
+Add an active bit at the end of a `NzsNum`. This mimics `PosNum.bit1`. 
+-----------------------------------------
+Prefunctors between two `SingleObj` quivers correspond to functions between the corresponding
+arrows types.
+
+-----------------------------------------
+`castPosNum` casts a `PosNum` into any type which has `1` and `+`. 
+-----------------------------------------
+The bottom marker is fixed throughout the calculation, so we use the `addBottom` function
+to express the program state in terms of a tape with only the stacks themselves. 
+-----------------------------------------
+Right-shift the binary representation of a `PosNum`. 
+-----------------------------------------
+`simpsTac` derives `simp` lemmas for all (nested) non-Prop projections of the declaration.
+If `todo` is non-empty, it will generate exactly the names in `todo`.
+If `shortNm` is true, the generated names will only use the last projection name.
+If `trc` is true, trace as if `trace.simps.verbose` is true. 
+-----------------------------------------
+Right-shift the binary representation of a `Num`. 
+-----------------------------------------
+The theorem `Primrec.list_concat` states that for any type `α` that is 'Primcodable' (can be encoded as a natural number), the function that takes a list `l` and an element `a` of type `α`, and appends `a` to the end of `l` to form a new list, is a binary primitive recursive function. In other words, given a list of elements and a single element, both of `Primcodable` type `α`, the operation of appending the single element to the end of the list is a primitive recursive operation.
+-----------------------------------------
+ For all natural numbers `n` and elements `i` of `Fin (n + 1)` that are not the last element, `castPred (castSucc i) = i` holds in `Fin (n + 1)`.
+-----------------------------------------
+The reflector always preserves terminal objects. Note this in general doesn't apply to any other
+limit.
+
+-----------------------------------------
+The theorem `Primrec.vector_cons` asserts that for any type `α` which is Primcodable (denoted by `[inst : Primcodable α]`), and for any natural number `n`, the function `Vector.cons` is a binary primitive recursive function. In other words, given any element of type `α` and a vector of `n` elements of type `α`, we can construct a new vector of length `n + 1` (by appending the element to the beginning of the existing vector) in a way that is computationally primitive recursive.
+-----------------------------------------
+ For any natural number `n` and type `β`, the application of `Fin.snoc` to an `n`-tuple `ts` with an element `x` is equivalent to the application of `Fin.insertNth` to the same `n`-tuple `ts` and index `Fin.last n` with element `x`.
+-----------------------------------------
+A root datum is a root pairing with coefficients in the integers and for which the root and
+coroot spaces are finitely-generated free Abelian groups.
+
+Note that the latter assumptions `[Free ℤ X₁] [Finite ℤ X₁] [Free ℤ X₂] [Finite ℤ X₂]` should be
+supplied as mixins. 
+
+*****************************************
+
+THEOREM : Prove that $$\sum_{r=0}^{\lfloor\frac{n-1}{2}\rfloor} \left(\frac{n - 2r}{n} {n \choose r}\right)^2 = \frac{1}{n} {{2n - 2} \choose {n - 1}}$$ for every positive integer $n$.
+
+NEAREST EMBEDDINGS:
+
+-----------------------------------------
+`X ∣_ᵤ U` is notation for `X.restrict U.openEmbedding`, the restriction of `X` to an open set
+`U` of `X`. 
+-----------------------------------------
+A convenience function for `ReflectsColimit`, which takes the functor as an explicit argument to
+guide typeclass resolution.
+
+-----------------------------------------
+An enriched functor induces an honest functor of the underlying categories,
+by mapping the `(𝟙_ W)`-shaped morphisms.
+
+-----------------------------------------
+Rpc function for the calc widget. 
+-----------------------------------------
+Interpret a natural isomorphism of the underlying monoidal functors as an
+isomorphism of the braided monoidal functors.
+
+-----------------------------------------
+The equivalence between `X` and the underlying type of its fundamental groupoid.
+This is useful for transferring constructions (instances, etc.)
+from `X` to `πₓ X`. 
+-----------------------------------------
+The functor `restrictedYoneda` is isomorphic to the identity functor when evaluated at the yoneda
+embedding.
+
+-----------------------------------------
+The category of types has `X × Y`, the usual cartesian product,
+as the binary product of `X` and `Y`.
+
+-----------------------------------------
+Sending objects to cochain complexes supported at `0` then taking `0`-th homology
+is the same as doing nothing.
+
+-----------------------------------------
+Construct a bundled `CommGroup` from the underlying type and typeclass. 
+-----------------------------------------
+The cofree functor from the Eilenberg-Moore category, constructing a coalgebra for any
+object. 
+-----------------------------------------
+The greatest common divisor (gcd) of two positive natural numbers,
+viewed as positive natural number. 
+-----------------------------------------
+If the domain has a zero (and is nontrivial), then `χ 0 = 0`. 
+-----------------------------------------
+Construct a `Zero C` for a category with a zero object.
+This can not be a global instance as it will trigger for every `Zero C` typeclass search.
+
+-----------------------------------------
+The value `BoxIntegral.IntegrationParams.GP = ⊥`
+(`bRiemann = false`, `bHenstock = true`, `bDistortion = true`)
+corresponds to a generalization of the Henstock integral such that the Divergence theorem holds true
+without additional integrability assumptions, see the module docstring for details. 
+-----------------------------------------
+If `ε > 0`, then `BoxIntegral.Integrable.convergenceR` is a function `r : ℝ≥0 → ℝⁿ → (0, ∞)`
+such that for every `c : ℝ≥0`, for every tagged partition `π` subordinate to `r` (and satisfying
+additional distortion estimates if `BoxIntegral.IntegrationParams.bDistortion l = true`), the
+corresponding integral sum is `ε`-close to the integral.
+
+If `BoxIntegral.IntegrationParams.bRiemann = true`, then `r c x` does not depend on `x`. If
+`ε ≤ 0`, then we use `r c x = 1`.  
+-----------------------------------------
+Get the default `ParsedProjectionData` for structure `str`.
+It first returns the direct fields of the structure in the right order, and then
+all (non-subobject fields) of all parent structures. The subobject fields are precisely the
+non-default fields.
+-----------------------------------------
+Rpc function for the congrm widget. 
+-----------------------------------------
+The theorem `ProbabilityTheory.mgf_zero'` states that for any type `Ω`, any measurable space `m` on `Ω`, any real-valued random variable `X` on `Ω`, and any measure `μ` on the measurable space, the moment generating function of `X` with respect to the measure `μ` evaluated at zero is equal to the real value of the total measure of the universal set. In mathematical terms, this is saying that if `X` is a real-valued random variable on a measurable space `(Ω, m)` with measure `μ`, then `M_X(0) = μ(Ω)`, where `M_X(t)` is the moment generating function of `X` and `Ω` represents the entire space.
+-----------------------------------------
+ The relation in the `AlgebraicTopology.DoldKan.c` chain complex is not defined for the index 0.
+-----------------------------------------
+Rpc function for the gcongr widget. 
+-----------------------------------------
+The theorem, known as the Chernoff bound, provides an upper bound on the probability that a real random variable `X` defined on a measurable space `Ω` exceeds a certain value `ε`. More specifically, under the conditions that `t` is non-negative and the function `(t * X ω).exp` is integrable with respect to the measure `μ`, the measure of the set of outcomes where `X ω` is greater than or equal to `ε` is less than or equal to the exponential of `-t * ε + ProbabilityTheory.cgf X μ t`, where `ProbabilityTheory.cgf X μ t` is the cumulant generating function of `X`.
+-----------------------------------------
+ The center of the group of units of a `GroupWithZero` type `M` equals the preimage of the center of `M` under the underlying value function.
+-----------------------------------------
+Returns the projection information of a structure. 
+
+*****************************************
+
