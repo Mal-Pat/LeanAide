@@ -93,12 +93,12 @@ if __name__ == "__main__":
 
         # Load or create the FAISS index
         if os.path.exists(INDEX_FILE_PATH):
-            print(f"✅ Loading existing FAISS index from '{INDEX_FILE_PATH}'.")
+            print(f"Loading existing FAISS index from '{INDEX_FILE_PATH}'.")
             index = faiss.read_index(INDEX_FILE_PATH)
         else:
             index = create_and_save_index(theorems_list, model, INDEX_FILE_PATH)
 
         # Input the theorem
-        input_theorem = "If a sequence of real numbers is monotone and bounded, then the sequence converges."
+        input_theorem = "Prove that $$\sum_{r=0}^{\lfloor\frac{n-1}{2}\rfloor} \left(\frac{n - 2r}{n} {n \choose r}\right)^2 = \frac{1}{n} {{2n - 2} \choose {n - 1}}$$ for every positive integer $n$."
         
         find_similar_theorems(input_theorem, model, index, theorems_list, OUTPUT_FILE_PATH, k=10)
