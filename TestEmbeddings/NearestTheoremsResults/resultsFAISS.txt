@@ -1,0 +1,31 @@
+THEOREM : If a sequence of real numbers is monotone and bounded, then the sequence converges.
+
+NEAREST EMBEDDINGS:
+
+-----------------------------------------
+A sequence converges if every subsequence has a convergent subsequence.
+-----------------------------------------
+Monotone convergence theorem expressed with limits
+-----------------------------------------
+A Cauchy sequence on the natural numbers is bounded.
+-----------------------------------------
+The limit of a bounded-below subadditive sequence. The fact that the sequence indeed tends to
+this limit is given in `Subadditive.tendsto_lim`
+-----------------------------------------
+If a Cauchy sequence has a convergent subsequence, then it converges.
+-----------------------------------------
+Shows that the sequence of denominators is monotone, that is `Bₙ ≤ Bₙ₊₁`.
+-----------------------------------------
+Assume that, for any `a < b`, a sequence can not be infinitely many times below `a` and
+above `b`. If it is also ultimately bounded above and below, then it has to converge. This even
+works if `a` and `b` are restricted to a dense subset.
+-----------------------------------------
+**Dirichlet's Test** for monotone sequences.
+-----------------------------------------
+A version of Bolzano-Weistrass: in a proper metric space (eg. $ℝ^n$),
+every bounded sequence has a converging subsequence.
+-----------------------------------------
+The monotone sequence whose value at `n` is the supremum of the `f m` where `m ≤ n`.
+
+*****************************************
+
