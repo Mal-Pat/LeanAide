@@ -85,11 +85,25 @@ def getEnvPrompts (moduleNames : Array Name := .empty) (useMain? : Bool := true)
     let some type ← try? (Format.pretty <$> PrettyPrinter.ppExpr ci.type) | pure none
     return some ⟨docstring, s!"{kind} : {type} :="⟩
 
+/--Writes nearest docs for a theorem into `filename`-/
+def writeDocsInto (filename : String) (thm : String) (content : Array String) : IO Unit := do
+  let handle ← IO.FS.Handle.mk filename IO.FS.Mode.append
+  handle.putStrLn s!"THEOREM : {thm}\n\nNEAREST EMBEDDINGS:\n"
+  content.forM (fun doc : String => do
+      handle.putStrLn "-----------------------------------------"
+      handle.putStrLn doc)
+  handle.putStrLn "\n*****************************************\n"
+  handle.flush
 
 def Translator.getMessages (s: String) (translator : Translator)
     (header: String := "Theorem") :
       TranslateM <| Json × Array (String × Json):= do
   let docPairs ← translator.pb.getPromptPairs s
+  -- Extracts docs
+  let docs := docPairs.map (fun (doc, _) => doc)
+  IO.eprintln "Written nearest theorems into TestEmbeddings/NearestTheoremsResults/resultsNearestEmbed.txt"
+  writeDocsInto "TestEmbeddings/NearestTheoremsResults/resultsNearestEmbed.txt" s docs
+  -- End
   let dfns ← translator.relDefs.blob s docPairs
   let promptPairs := translatePromptPairs docPairs
   trace[Translate.info] m!"prompt pairs: \n{promptPairs}"
