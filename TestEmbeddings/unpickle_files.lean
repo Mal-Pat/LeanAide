@@ -33,8 +33,9 @@ unsafe def readAndWrite (args : List String) : IO Unit := do
 
 
 
---#eval readAndWrite [".lake/build/lib/mathlib4-concise-description-embeddings-v4.22.0.olean", "FAISS/concise_desc_emb.txt"]
+--#eval readAndWrite [".lake/build/lib/mathlib4-concise-description-embeddings-v4.22.0.olean", "UnpickledFiles/concise_desc_emb.txt"]
 
---#eval readAndWrite [".lake/build/lib/mathlib4-description-embeddings-v4.22.0.olean", "FAISS/desc_emb.txt"]
+--#eval readAndWrite [".lake/build/lib/mathlib4-description-embeddings-v4.22.0.olean", "UnpickledFiles/desc_emb.txt"]
 
---#eval readAndWrite [".lake/build/lib/mathlib4-prompts-embeddings-v4.22.0.olean", "FAISS/prompt_emb.txt"]
+--#eval readAndWrite [".lake/build/lib/mathlib4-prompts-embeddings-v4.22.0.olean", "UnpickledFiles/prompt_emb.txt"]
+
