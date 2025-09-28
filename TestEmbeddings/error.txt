@@ -1,0 +1,23 @@
+```
+#eval LeanAide.PromptExampleBuilder.getPromptPairsOrderedAux (LeanAide.PromptExampleBuilder.embedBuilder 10 0 0) ("infinite odd numbers")
+```
+
+```
+process './.lake/build/bin/nearest_embeddings' exited with code 1
+stderr:
+Pickle file already present at /home/malpat/LeanAide/.lake/build/lib/mathlib4-prompts-embeddings-v4.22.0.olean
+query time: 5946
+PANIC at nearestDocsToDocFromEmb LeanCodePrompts.NearestEmbeddings:89:24: error querying openai: offset 0: unexpected end of input
+backtrace:
+./.lake/build/bin/nearest_embeddings(+0xcb036a5) [0x61a99baef6a5]
+./.lake/build/bin/nearest_embeddings(+0xcb03885) [0x61a99baef885]
+./.lake/build/bin/nearest_embeddings(+0x6aeeb89) [0x61a995adab89]
+./.lake/build/bin/nearest_embeddings(+0x13dfc3f) [0x61a9903cbc3f]
+./.lake/build/bin/nearest_embeddings(+0xcb1103c) [0x61a99bafd03c]
+./.lake/build/bin/nearest_embeddings(+0x13d5b0d) [0x61a9903c1b0d]
+./.lake/build/bin/nearest_embeddings(+0x13e1239) [0x61a9903cd239]
+/lib/x86_64-linux-gnu/libc.so.6(+0x2a1ca) [0x7c49a202a1ca]
+/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x8b) [0x7c49a202a28b]
+./.lake/build/bin/nearest_embeddings(+0x13d522a) [0x61a9903c122a]
+uncaught exception: (`Inhabited.default` for `IO.Error`)
+``` 
