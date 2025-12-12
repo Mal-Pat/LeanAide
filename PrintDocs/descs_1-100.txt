@@ -1,0 +1,101 @@
+/--Congruence in the function argument: if `a₁ = a₂` then `f a₁ = f a₂` for any (nondependent) function `f`. This is more powerful than it might look at first, because you can also use a lambda expression for `f` to prove that `<something containing a₁> = <something containing a₂>`. This function is used internally by tactics like `congr` and `simp` to apply equalities inside subterms.  For more information: [Equality](https://lean-lang.org/theorem_proving_in_lean4/quantifiers_and_equality.html#equality) -/theorem congrArg.{u, v} : ∀ {α : Sort u} {β : Sort v} {a₁ a₂ : α} (f : α → β), a₁ = a₂ → f a₁ = f a₂ := ⋯
+/--Compose two proofs by transitivity, generalized over the relations involved. -/def Trans.trans.{u, v, w, u_1, u_2, u_3} : {α : Sort u_1} →   {β : Sort u_2} →     {γ : Sort u_3} →       {r : α → β → Sort u} →         {s : β → γ → Sort v} →           {t : outParam (α → γ → Sort w)} →             [self : Trans r s t] →               {a : α} → {b : β} → {c : γ} → r a b → s b c → t a c := fun α β γ r s {t} [self : Trans r s t] => self.1
+theorem trans.{u_1} : ∀ {α : Sort u_1} {r : α → α → Prop} {a b c : α} [IsTrans α r], r a b → r b c → r a c := ⋯
+theorem of_eq_true : ∀ {p : Prop}, p = True → p := ⋯
+theorem symm.{u_1} : ∀ {α : Sort u_1} {r : α → α → Prop} {a b : α} [IsSymm α r], r a b → r b a := ⋯
+theorem eq_self.{u_1} : ∀ {α : Sort u_1} (a : α), (a = a) = True := ⋯
+/--Congruence in both function and argument. If `f₁ = f₂` and `a₁ = a₂` then `f₁ a₁ = f₂ a₂`. This only works for nondependent functions; the theorem statement is more complex in the dependent case.  For more information: [Equality](https://lean-lang.org/theorem_proving_in_lean4/quantifiers_and_equality.html#equality) -/theorem congr.{u, v} : ∀ {α : Sort u} {β : Sort v} {f₁ f₂ : α → β} {a₁ a₂ : α}, f₁ = f₂ → a₁ = a₂ → f₁ a₁ = f₂ a₂ := ⋯
+/--**Function extensionality.** If two functions return equal results for all possible arguments, then they are equal.  It is called “extensionality” because it provides a way to prove two objects equal based on the properties of the underlying mathematical functions, rather than based on the syntax used to denote them. Function extensionality is a theorem that can be [proved using quotient types](https://lean-lang.org/doc/reference/4.22.0/find/?domain=Verso.Genre.Manual.section&name=quotient-funext). -/theorem funext.{u, v} : ∀ {α : Sort u} {β : α → Sort v} {f g : (x : α) → β x}, (∀ (x : α), f x = g x) → f = g := ⋯
+protected theorem Iff.rfl : ∀ {a : Prop}, a ↔ a := ⋯
+theorem iff_self : ∀ (p : Prop), (p ↔ p) = True := ⋯
+theorem forall_congr.{u} : ∀ {α : Sort u} {p q : α → Prop},   (∀ (a : α), p a = q a) → (∀ (a : α), p a) = ∀ (a : α), q a := ⋯
+theorem implies_congr.{u, v} : ∀ {p₁ p₂ : Sort u} {q₁ q₂ : Sort v}, p₁ = p₂ → q₁ = q₂ → (p₁ → q₁) = (p₂ → q₂) := ⋯
+theorem eq_true : ∀ {p : Prop}, p → p = True := ⋯
+/--**Alias** of `congrArg`.  ---  Congruence in the function argument: if `a₁ = a₂` then `f a₁ = f a₂` for any (nondependent) function `f`. This is more powerful than it might look at first, because you can also use a lambda expression for `f` to prove that `<something containing a₁> = <something containing a₂>`. This function is used internally by tactics like `congr` and `simp` to apply equalities inside subterms.  For more information: [Equality](https://lean-lang.org/theorem_proving_in_lean4/quantifiers_and_equality.html#equality) -/theorem congr_arg.{u, v} : ∀ {α : Sort u} {β : Sort v} {a₁ a₂ : α} (f : α → β), a₁ = a₂ → f a₁ = f a₂ := ⋯
+theorem Iff.trans : ∀ {a b c : Prop}, (a ↔ b) → (b ↔ c) → (a ↔ c) := ⋯
+theorem mul_one.{u} : ∀ {M : Type u} [inst : MulOneClass M] (a : M), a * 1 = a := ⋯
+theorem eq_false : ∀ {p : Prop}, ¬p → p = False := ⋯
+theorem add_zero.{u} : ∀ {M : Type u} [inst : AddZeroClass M] (a : M), a + 0 = a := ⋯
+theorem not_false_eq_true : (¬False) = True := ⋯
+theorem Set.ext.{u} : ∀ {α : Type u} {a b : Set α}, (∀ (x : α), x ∈ a ↔ x ∈ b) → a = b := ⋯
+/--**Alias** of `le_trans`.  ---  The relation `≤` on a preorder is transitive. -/theorem LE.le.trans.{u_1} : ∀ {α : Type u_1} [inst : Preorder α] {a b c : α}, a ≤ b → b ≤ c → a ≤ c := ⋯
+theorem zero_add.{u} : ∀ {M : Type u} [inst : AddZeroClass M] (a : M), 0 + a = a := ⋯
+theorem mul_comm.{u_1} : ∀ {G : Type u_1} [inst : CommMagma G] (a b : G), a * b = b * a := ⋯
+theorem one_mul.{u} : ∀ {M : Type u} [inst : MulOneClass M] (a : M), 1 * a = a := ⋯
+theorem add_comm.{u_1} : ∀ {G : Type u_1} [inst : AddCommMagma G] (a b : G), a + b = b + a := ⋯
+/--A version of `le_refl` where the argument is implicit -/theorem le_rfl.{u_1} : ∀ {α : Type u_1} [inst : Preorder α] {a : α}, a ≤ a := ⋯
+theorem le_antisymm.{u_1} : ∀ {α : Type u_1} [inst : PartialOrder α] {a b : α}, a ≤ b → b ≤ a → a = b := ⋯
+/--**Alias** of `le_of_lt`.-/theorem LT.lt.le.{u_1} : ∀ {α : Type u_1} [inst : Preorder α] {a b : α}, a < b → a ≤ b := ⋯
+theorem Iff.symm : ∀ {a b : Prop}, (a ↔ b) → (b ↔ a) := ⋯
+theorem if_neg.{u} : ∀ {c : Prop} {h : Decidable c}, ¬c → ∀ {α : Sort u} {t e : α}, (if c then t else e) = e := ⋯
+/--If two heterogeneously equal terms have the same type, then they are propositionally equal. -/theorem eq_of_heq.{u} : ∀ {α : Sort u} {a a' : α}, a ≍ a' → a = a' := ⋯
+theorem if_pos.{u} : ∀ {c : Prop} {h : Decidable c}, c → ∀ {α : Sort u} {t e : α}, (if c then t else e) = t := ⋯
+theorem implies_true.{u} : ∀ (α : Sort u), (∀ (a : α), True) = True := ⋯
+/--If a type is a subsingleton, then all of its elements are equal. -/protected theorem Subsingleton.elim.{u} : ∀ {α : Sort u} [h : Subsingleton α] (a b : α), a = b := ⋯
+theorem Finset.sum_congr.{u_1, u_4} : ∀ {ι : Type u_1} {M : Type u_4} {s₁ s₂ : Finset ι} [inst : AddCommMonoid M]   {f g : ι → M}, s₁ = s₂ → (∀ x ∈ s₂, f x = g x) → s₁.sum f = s₂.sum g := ⋯
+theorem mul_assoc.{u_1} : ∀ {G : Type u_1} [inst : Semigroup G] (a b c : G), a * b * c = a * (b * c) := ⋯
+theorem Nat.cast_one.{u_1} : ∀ {R : Type u_1} [inst : AddMonoidWithOne R], ↑1 = 1 := ⋯
+/--Subtracting an element is the same as adding by its negative. This is a duplicate of `SubNegMonoid.sub_eq_add_neg` ensuring that the types unfold better. -/theorem sub_eq_add_neg.{u_1} : ∀ {G : Type u_1} [inst : SubNegMonoid G] (a b : G), a - b = a + -b := ⋯
+protected theorem Subtype.ext.{u} : ∀ {α : Sort u} {p : α → Prop} {a1 a2 : { x // p x }}, ↑a1 = ↑a2 → a1 = a2 := ⋯
+theorem of_decide_eq_true : ∀ {p : Prop} [inst : Decidable p], decide p = true → p := ⋯
+theorem Iff.of_eq : ∀ {a b : Prop}, a = b → (a ↔ b) := ⋯
+/--The relation `≤` on a preorder is transitive. -/theorem le_trans.{u_1} : ∀ {α : Type u_1} [inst : Preorder α] {a b c : α}, a ≤ b → b ≤ c → a ≤ c := ⋯
+/--A variant of `eq_whisker` with a more convenient argument order for use in tactics. -/theorem CategoryTheory.eq_whisker'.{u_1, u_2} : ∀ {C : Type u_1} [inst : CategoryTheory.Category.{u_2, u_1} C] {X Y : C}   {f g : X ⟶ Y},   f = g → ∀ {Z : C} (h : Y ⟶ Z), CategoryTheory.CategoryStruct.comp f h = CategoryTheory.CategoryStruct.comp g h := ⋯
+/--The relation `≤` on a preorder is reflexive. -/theorem le_refl.{u_1} : ∀ {α : Type u_1} [inst : Preorder α] (a : α), a ≤ a := ⋯
+theorem Eq.propIntro : ∀ {a b : Prop}, (a → b) → (b → a) → a = b := ⋯
+theorem Nat.cast_zero.{u_1} : ∀ {R : Type u_1} [inst : AddMonoidWithOne R], ↑0 = 0 := ⋯
+theorem LT.lt.ne'.{u_2} : ∀ {α : Type u_2} [inst : Preorder α] {a b : α}, a < b → b ≠ a := ⋯
+theorem mt : ∀ {a b : Prop}, (a → b) → ¬b → ¬a := ⋯
+theorem map_zero.{u_4, u_5, u_9} : ∀ {M : Type u_4} {N : Type u_5} {F : Type u_9} [inst : Zero M] [inst_1 : Zero N]   [inst_2 : FunLike F M N] [ZeroHomClass F M N] (f : F), f 0 = 0 := ⋯
+theorem true_and : ∀ (p : Prop), (True ∧ p) = p := ⋯
+theorem and_self : ∀ (p : Prop), (p ∧ p) = p := ⋯
+theorem one_smul.{u_1, u_5} : ∀ (M : Type u_1) {α : Type u_5} [inst : Monoid M] [inst_1 : MulAction M α] (b : α),   1 • b = b := ⋯
+theorem neg_neg.{u_1} : ∀ {G : Type u_1} [inst : InvolutiveNeg G] (a : G), - -a = a := ⋯
+theorem Decidable.byContradiction : ∀ {p : Prop} [dec : Decidable p], (¬p → False) → p := ⋯
+theorem add_assoc.{u_1} : ∀ {G : Type u_1} [inst : AddSemigroup G] (a b c : G), a + b + c = a + (b + c) := ⋯
+theorem pow_zero.{u_2} : ∀ {M : Type u_2} [inst : Monoid M] (a : M), a ^ 0 = 1 := ⋯
+theorem dif_neg.{u} : ∀ {c : Prop} {h : Decidable c} (hnc : ¬c) {α : Sort u} {t : c → α} {e : ¬c → α},   dite c t e = e hnc := ⋯
+theorem dif_pos.{u} : ∀ {c : Prop} {h : Decidable c} (hc : c) {α : Sort u} {t : c → α} {e : ¬c → α},   dite c t e = t hc := ⋯
+theorem eq_comm.{u_1} : ∀ {α : Sort u_1} {a b : α}, a = b ↔ b = a := ⋯
+/--A version of `x.property` or `x.2` where `p` is syntactically applied to the coercion of `x` instead of `x.1`. A similar result is `Subtype.mem` in `Mathlib/Data/Set/Basic.lean`. -/theorem Subtype.prop.{u_1} : ∀ {α : Sort u_1} {p : α → Prop} (x : Subtype p), p ↑x := ⋯
+theorem Ne.symm.{u} : ∀ {α : Sort u} {a b : α}, a ≠ b → b ≠ a := ⋯
+theorem ite_congr.{u_1} : ∀ {α : Sort u_1} {b c : Prop} {x y u v : α} {s : Decidable b} [inst : Decidable c],   b = c → (c → x = u) → (¬c → y = v) → (if b then x else y) = if c then u else v := ⋯
+theorem le_of_lt.{u_1} : ∀ {α : Type u_1} [inst : Preorder α] {a b : α}, a < b → a ≤ b := ⋯
+/--Dividing by an element is the same as multiplying by its inverse.  This is a duplicate of `DivInvMonoid.div_eq_mul_inv` ensuring that the types unfold better. -/theorem div_eq_mul_inv.{u_1} : ∀ {G : Type u_1} [inst : DivInvMonoid G] (a b : G), a / b = a * b⁻¹ := ⋯
+/--**Alias** of `ne_of_lt`.-/theorem LT.lt.ne.{u_1} : ∀ {α : Type u_1} [inst : Preorder α] {a b : α}, a < b → a ≠ b := ⋯
+theorem Equiv.apply_symm_apply.{u, v} : ∀ {α : Sort u} {β : Sort v} (e : α ≃ β) (x : β), e (e.symm x) = x := ⋯
+/--**Alias** of `lt_of_le_of_lt`.-/theorem LE.le.trans_lt.{u_1} : ∀ {α : Type u_1} [inst : Preorder α] {a b c : α}, a ≤ b → b < c → a < c := ⋯
+theorem Finset.ext.{u_1} : ∀ {α : Type u_1} {s₁ s₂ : Finset α}, (∀ (a : α), a ∈ s₁ ↔ a ∈ s₂) → s₁ = s₂ := ⋯
+/--Proof by cases on an `Or`. If `a ∨ b`, and both `a` and `b` imply proposition `c`, then `c` is true. -/theorem Or.elim : ∀ {a b c : Prop}, a ∨ b → (a → c) → (b → c) → c := ⋯
+theorem Filter.Eventually.mono.{u} : ∀ {α : Type u} {p q : α → Prop} {f : Filter α},   (∀ᶠ (x : α) in f, p x) → (∀ (x : α), p x → q x) → ∀ᶠ (x : α) in f, q x := ⋯
+/--See `zero_lt_one'` for a version with the type explicit. -/theorem zero_lt_one.{u_1} : ∀ {α : Type u_1} [inst : Zero α] [inst_1 : One α] [inst_2 : PartialOrder α]   [ZeroLEOneClass α] [NeZero 1], 0 < 1 := ⋯
+theorem Classical.choose_spec.{u} : ∀ {α : Sort u} {p : α → Prop} (h : ∃ x, p x), p (Classical.choose h) := ⋯
+/--**Alias** of `le_of_eq`.-/theorem Eq.le.{u_1} : ∀ {α : Type u_1} [inst : Preorder α] {a b : α}, a = b → a ≤ b := ⋯
+theorem and_true : ∀ (p : Prop), (p ∧ True) = p := ⋯
+theorem eq_false' : ∀ {p : Prop}, (p → False) → p = False := ⋯
+/--See note [hom simp lemma priority] -/theorem map_mul.{u_4, u_5, u_9} : ∀ {M : Type u_4} {N : Type u_5} {F : Type u_9} [inst : Mul M] [inst_1 : Mul N]   [inst_2 : FunLike F M N] [MulHomClass F M N] (f : F) (x y : M), f (x * y) = f x * f y := ⋯
+theorem Function.Injective.eq_iff.{u₁, u₂} : ∀ {α : Sort u₁} {β : Sort u₂} {f : α → β},   Function.Injective f → ∀ {a b : α}, f a = f b ↔ a = b := ⋯
+/--See note [hom simp lemma priority] -/theorem map_one.{u_4, u_5, u_9} : ∀ {M : Type u_4} {N : Type u_5} {F : Type u_9} [inst : One M] [inst_1 : One N]   [inst_2 : FunLike F M N] [OneHomClass F M N] (f : F), f 1 = 1 := ⋯
+/--**Alias** of `lt_of_lt_of_le`.-/theorem LT.lt.trans_le.{u_1} : ∀ {α : Type u_1} [inst : Preorder α] {a b c : α}, a < b → b ≤ c → a < c := ⋯
+theorem sub_self.{u_1} : ∀ {G : Type u_1} [inst : AddGroup G] (a : G), a - a = 0 := ⋯
+theorem map_add.{u_4, u_5, u_9} : ∀ {M : Type u_4} {N : Type u_5} {F : Type u_9} [inst : Add M] [inst_1 : Add N]   [inst_2 : FunLike F M N] [AddHomClass F M N] (f : F) (x y : M), f (x + y) = f x + f y := ⋯
+theorem eq_or_ne.{u_1} : ∀ {α : Sort u_1} (x y : α), x = y ∨ x ≠ y := ⋯
+theorem Filter.univ_mem'.{u_1} : ∀ {α : Type u_1} {f : Filter α} {s : Set α}, (∀ (a : α), a ∈ s) → s ∈ f := ⋯
+theorem Continuous.comp.{u_1, u_2, u_3} : ∀ {X : Type u_1} {Y : Type u_2} {Z : Type u_3} [inst : TopologicalSpace X]   [inst_1 : TopologicalSpace Y] [inst_2 : TopologicalSpace Z] {f : X → Y} {g : Y → Z},   Continuous g → Continuous f → Continuous (g ∘ f) := ⋯
+/--**Alias** of `congrFun`.  ---  Congruence in the function part of an application: If `f = g` then `f a = g a`. -/theorem congr_fun.{u, v} : ∀ {α : Sort u} {β : α → Sort v} {f g : (x : α) → β x}, f = g → ∀ (a : α), f a = g a := ⋯
+theorem CategoryTheory.Limits.comp_zero.{v, u} : ∀ {C : Type u} [inst : CategoryTheory.Category.{v, u} C]   [inst_1 : CategoryTheory.Limits.HasZeroMorphisms C] {X Y : C} {f : X ⟶ Y} {Z : C},   CategoryTheory.CategoryStruct.comp f 0 = 0 := ⋯
+theorem le_of_le_of_eq.{u_1} : ∀ {α : Type u_1} {a b c : α} [inst : LE α], a ≤ b → b = c → a ≤ c := ⋯
+theorem smul_zero.{u_1, u_7} : ∀ {M : Type u_1} {A : Type u_7} [inst : Zero A] [inst_1 : SMulZeroClass M A] (a : M),   a • 0 = 0 := ⋯
+theorem sub_zero.{u_3} : ∀ {G : Type u_3} [inst : SubNegZeroMonoid G] (a : G), a - 0 = a := ⋯
+protected theorem Int.sub_nonneg_of_le : ∀ {a b : ℤ}, b ≤ a → 0 ≤ a - b := ⋯
+theorem not_true_eq_false : (¬True) = False := ⋯
+theorem Subtype.coe_injective.{u_1} : ∀ {α : Sort u_1} {p : α → Prop}, Function.Injective fun a => ↑a := ⋯
+theorem Filter.mp_mem.{u_1} : ∀ {α : Type u_1} {f : Filter α} {s t : Set α},   s ∈ f → {x | x ∈ s → x ∈ t} ∈ f → t ∈ f := ⋯
+theorem zero_smul.{u_2, u_7} : ∀ (M₀ : Type u_2) {A : Type u_7} [inst : Zero M₀] [inst_1 : Zero A]   [inst_2 : SMulWithZero M₀ A] (m : A), 0 • m = 0 := ⋯
+theorem CategoryTheory.Limits.zero_comp.{v, u} : ∀ {C : Type u} [inst : CategoryTheory.Category.{v, u} C]   [inst_1 : CategoryTheory.Limits.HasZeroMorphisms C] {X Y Z : C} {f : Y ⟶ Z},   CategoryTheory.CategoryStruct.comp 0 f = 0 := ⋯
+/--Show that an element extracted from `P : ∃ a, p a` using `P.choose` satisfies `p`. -/theorem Exists.choose_spec.{u_1} : ∀ {α : Sort u_1} {p : α → Prop} (P : ∃ a, p a), p P.choose := ⋯
+theorem SetLike.coe_injective.{u_1, u_2} : ∀ {A : Type u_1} {B : Type u_2} [i : SetLike A B],   Function.Injective SetLike.coe := ⋯
+/--**Alias** of `subset_trans`.-/theorem HasSubset.Subset.trans.{u} : ∀ {α : Type u} [inst : HasSubset α] [IsTrans α fun x1 x2 => x1 ⊆ x2] {a b c : α},   a ⊆ b → b ⊆ c → a ⊆ c := ⋯
+theorem pow_one.{u_2} : ∀ {M : Type u_2} [inst : Monoid M] (a : M), a ^ 1 = a := ⋯
+theorem neg_zero.{u_1} : ∀ {G : Type u_1} [inst : NegZeroClass G], -0 = 0 := ⋯
+theorem LinearMap.ext.{u_1, u_5, u_8, u_11} : ∀ {R : Type u_1} {S : Type u_5} {M : Type u_8} {M₃ : Type u_11}   [inst : Semiring R] [inst_1 : Semiring S] [inst_2 : AddCommMonoid M] [inst_3 : AddCommMonoid M₃] [inst_4 : Module R M]   [inst_5 : Module S M₃] {σ : R →+* S} {f g : M →ₛₗ[σ] M₃}, (∀ (x : M), f x = g x) → f = g := ⋯
