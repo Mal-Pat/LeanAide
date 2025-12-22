@@ -180,7 +180,7 @@ def displayDocString (s : String) : CommandElabM <| List String := do
 
 /-- Joins the docstring and body, along with eliminating `\n` -/
 def formatPrint (doc : String) (body : String) : String :=
-  (doc ++ body).replace "\n" " "
+  (doc ++ " " ++ body).replace "\n" " "
 
 /-- Finds the name's info and calls the appropriate print function -/
 def getPrintStrFromName (id : Name) : CommandElabM String := do
