@@ -42,7 +42,7 @@ structure ChatParams where
   temp : JsonNumber := 1.0
   stopTokens : Array String :=  #[]
   maxTokens : Nat := 1600
-  reasoningEffort : Option ReasoningEffort := none
+  reasoningEffort : String := "medium"
   deriving Repr, Hashable, FromJson, ToJson, DecidableEq
 
 instance : Inhabited ChatParams := ⟨{}⟩
@@ -200,13 +200,23 @@ def queryAux (server: ChatServer)(messages : Json)(params : ChatParams) : MetaM 
     traceAide `leanaide.llm.info (Json.mkObj [("query", queryJs), ("success", false), ("error", e), ("response", output)]).compress
     return .null
 
+def toReasoningEffort (s : String) : Option OpenAI.ReasoningEffort :=
+  if      s == "none"    then some .none
+  else if s == "minimal" then some .minimal
+  else if s == "low"     then some .low
+  else if s == "medium"  then some .medium
+  else if s == "high"    then some .high
+  else if s == "xhigh"   then some .xhigh
+  else if s == "default" then none
+  else none
+
 def queryAux' (server: ChatServer)(messages : Json)(params : ChatParams) : MetaM Json := do
   let data : ChatCompletionRequest := {
     model := server.model,
     messages := messages,
     n := params.n,
     temperature := params.temp,
-    reasoning_effort := params.reasoningEffort
+    reasoning_effort := toReasoningEffort params.reasoningEffort
   }
   traceAide `leanaide.llm.info s!"Reasoning Effort: {toJson params.reasoningEffort}"
   -- let data := if params.stopTokens.isEmpty then data
