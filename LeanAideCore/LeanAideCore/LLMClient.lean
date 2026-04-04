@@ -103,6 +103,9 @@ inductive Content where
   | parts (p : Array ContentPart)
   deriving Inhabited, Repr, FromJson
 
+def mkFileContent (fileID : String) : Content :=
+  .parts #[.file { file_id := fileID }]
+
 instance : ToJson Content where
   toJson
     | .str s => toJson s
@@ -190,8 +193,14 @@ instance : ToJson ChatMessage where
     optJson "name" s.name
   ]
 
-def mkMsg (role : Role) (msg : String) : ChatMessage :=
+def mkCMsg (role : Role) (msg : String) : ChatMessage :=
   { role := role, content := .str msg }
+
+def attachFileID (role : Role) (fileID : String) : ChatMessage :=
+  {
+    role := role
+    content := mkFileContent fileID
+  }
 
 structure ChatCompletionRequest where
   model : String := "gpt-5.4"
@@ -266,7 +275,7 @@ instance : ToJson ResponseInputMessage where
   ]
 
 structure ResponseRequest where
-  model : Option String := none
+  model : Option String := "gpt-5.4"
   input : Array ResponseInputMessage
   background : Option Bool := none
   reasoning : Option Reasoning := none
@@ -294,17 +303,20 @@ structure APIResponse where
 
 /- API Call Method -/
 
-def runCurl (client : Client) (method : String) (endpoint : String) (body : Option Json := none) : MetaM <| Except String String := do
+def runCurl (client : Client) (method : String) (endpoint : String) (body : Option Json := none) (extraArgs : Array String := #[]) : MetaM <| Except String String := do
   let mut args := #["-s", "-X", method, client.baseUrl ++ endpoint,
-    "-H", s!"Authorization: Bearer {client.apiKey}",
-    "-H", "Content-Type: application/json"]
+    "-H", s!"Authorization: Bearer {client.apiKey}"]
 
   if let some org := client.organization then
     args := args.push "-H" |>.push s!"OpenAI-Organization: {org}"
   if let some proj := client.project then
     args := args.push "-H" |>.push s!"OpenAI-Project: {proj}"
 
+  if ! extraArgs.isEmpty then
+    args := args ++ extraArgs
+
   if let some payload := body then
+    args := args ++ #["-H", "Content-Type: application/json"]
     args := args.push "-d" |>.push (payload.compress)
 
   traceAide `leanaide.llm.info s!"OpenAI API Call Payload: {body.getD Json.null}"
@@ -370,6 +382,9 @@ end Chat
 
 /- Responses Endpoints -/
 
+-- Responses is still under construction
+-- DO NOT USE Responses
+
 namespace Responses
 
 def create (req : ResponseRequest) (client : Client := default) : MetaM APIResponse := do
@@ -400,5 +415,115 @@ def compact (id : String) (client : Client := default) : MetaM Json := do
   parseJson result
 
 end Responses
+
+inductive FilePurpose where
+  | assistants
+  | batch
+  | fine_tune
+  | vision
+  | user_data
+  | evals
+  deriving Inhabited, Repr, BEq, ToJson
+
+instance : ToJson FilePurpose where
+  toJson order := match order with
+    | .assistants => .str "assistants"
+    | .batch      => .str "batch"
+    | .fine_tune  => .str "fine-tune"
+    | .vision     => .str "vision"
+    | .user_data  => .str "user_data"
+    | .evals      => .str "evals"
+
+inductive Order where
+  | asc
+  | desc
+  deriving Inhabited, Repr, BEq
+
+instance : ToJson Order where
+  toJson order := match order with
+    | .asc  => .str "asc"
+    | .desc => .str "desc"
+
+structure FileObject where
+  id : String
+  bytes : Nat
+  created_at : Nat
+  filename : String
+  object : String := "file"
+  purpose : String
+  expires_at : Option Nat := none
+  deriving Inhabited, Repr, FromJson, ToJson
+
+structure FileDeleted where
+  id : String
+  deleted : Bool
+  object : String := "file"
+  deriving Inhabited, Repr, FromJson, ToJson
+
+structure FileList where
+  data : Array FileObject
+  first_id : String
+  has_more : Bool
+  last_id : String
+  object : String := "list"
+  deriving Inhabited, Repr, FromJson, ToJson
+
+structure ListFilesRequest where
+  after : Option String := none
+  limit : Option Nat := none
+  order : Option Order := none
+  purpose : Option FilePurpose := none
+  deriving Inhabited, Repr
+
+namespace Files
+
+def list (req : ListFilesRequest := {}) (client : Client := default) : MetaM FileList := do
+  let client ← checkClient client
+  let mut args := #[]
+
+  if let some after := req.after then
+    args := args ++ #["-d", s!"after=\"{after}\""]
+  if let some limit := req.limit then
+    args := args ++ #["-d", s!"limit={limit}"]
+  if let some order := req.order then
+    args := args ++ #["-d", s!"order=\"{toJson order}\""]
+  if let some purpose := req.purpose then
+    args := args ++ #["-d", s!"purpose=\"{toJson purpose}\""]
+
+  if ! args.isEmpty then
+    args := #["-G"] ++ args
+
+  let raw ← runCurl client "GET" "/files" none args
+  parseJson raw
+
+def upload (filePath : String) (purpose : FilePurpose := .user_data) (expiry : Nat := 86400) (client : Client := default) : MetaM FileObject := do
+  let client ← checkClient client
+  let purposeStr := match toJson purpose with
+    | .str s => s
+    | _      => "user_data"
+  let args := #[
+    "-F", s!"purpose={purposeStr}",
+    "-F", s!"file=@{filePath}"
+    -- "-F", s!"expires_after[anchor]=\"created_at\"",
+    -- "-F", s!"expires_after[seconds]={expiry}"
+  ]
+  let raw ← runCurl client "POST" "/files" none args
+  parseJson raw
+
+def delete (fileId : String) (client : Client := default) : MetaM FileDeleted := do
+  let client ← checkClient client
+  let raw ← runCurl client "DELETE" s!"/files/{fileId}"
+  parseJson raw
+
+def retrieve (fileId : String) (client : Client := default) : MetaM FileObject := do
+  let client ← checkClient client
+  let raw ← runCurl client "GET" s!"/files/{fileId}"
+  parseJson raw
+
+def retrieveContent (fileId : String) (client : Client := default) : MetaM <| Except String String := do
+  let client ← checkClient client
+  runCurl client "GET" s!"/files/{fileId}/content"
+
+end Files
 
 end OpenAI
