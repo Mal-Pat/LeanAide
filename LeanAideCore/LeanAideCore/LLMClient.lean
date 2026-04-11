@@ -503,9 +503,9 @@ def upload (filePath : String) (purpose : FilePurpose := .user_data) (expiry : N
     | _      => "user_data"
   let args := #[
     "-F", s!"purpose={purposeStr}",
-    "-F", s!"file=@{filePath}"
-    -- "-F", s!"expires_after[anchor]=\"created_at\"",
-    -- "-F", s!"expires_after[seconds]={expiry}"
+    "-F", s!"file=@{filePath}",
+    "-F", s!"expires_after[anchor]=\"created_at\"",
+    "-F", s!"expires_after[seconds]={expiry}"
   ]
   let raw ← runCurl client "POST" "/files" none args
   parseJson raw
