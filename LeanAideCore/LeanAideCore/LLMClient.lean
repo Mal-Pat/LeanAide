@@ -259,9 +259,43 @@ end ChatCompletionResponse
 
 /- Responses API -/
 
+structure ResponseInputFile where
+  type      : String        := "input_file"
+  detail    : Option String := none -- `low` or `high`
+  file_id   : Option String := none
+  file_data : Option String := none -- base64 encoded
+  filename  : Option String := none
+  file_url  : Option String := none
+  deriving FromJson, Repr, Inhabited
+
+instance : ToJson ResponseInputFile where
+  toJson s := dropNulls [
+    reqJson "type" s.type,
+    optJson "detail" s.detail,
+    optJson "file_id" s.file_id,
+    optJson "file_data" s.file_data,
+    optJson "filename" s.filename,
+    optJson "file_url" s.file_url
+  ]
+
+inductive ResponseInputContent where
+  | text (text : String)
+  | file (file : FileInput)
+  deriving Inhabited, Repr, FromJson
+
+instance : ToJson ResponseInputContent where
+  toJson
+    | .text t => Json.mkObj [("type", "input_text"), ("text", t)]
+    | .file f => Json.mkObj [("type", "input_file"), ("file", toJson f)]
+
+inductive ResponseContent where
+  | str (s : String)
+  | parts (p : Array ContentPart)
+  deriving Inhabited, Repr, FromJson
+
 structure ResponseInputMessage where
   role : Role
-  content : Content
+  content : ResponseContent
   phase : Option String := none
   type : String := "message"
   deriving Inhabited, Repr
@@ -416,6 +450,16 @@ def compact (id : String) (client : Client := default) : MetaM Json := do
 
 end Responses
 
+structure FileState where
+  client : Client := default
+  trackedFiles : Array <| String × String := #[]
+  deriving Inhabited, Repr
+
+abbrev FileM := StateT FileState MetaM
+
+def runOpenAIM {α} (x : FileM α) (initialState : FileState) : MetaM (α × FileState) :=
+  StateT.run x initialState
+
 inductive FilePurpose where
   | assistants
   | batch
@@ -477,7 +521,7 @@ structure ListFilesRequest where
 
 namespace Files
 
-def list (req : ListFilesRequest := {}) (client : Client := default) : MetaM FileList := do
+def list (req : ListFilesRequest := {}) (client : Client := default) : FileM FileList := do
   let client ← checkClient client
   let mut args := #[]
 
@@ -496,7 +540,7 @@ def list (req : ListFilesRequest := {}) (client : Client := default) : MetaM Fil
   let raw ← runCurl client "GET" "/files" none args
   parseJson raw
 
-def upload (filePath : String) (purpose : FilePurpose := .user_data) (expiry : Nat := 86400) (client : Client := default) : MetaM FileObject := do
+def upload (filePath : String) (purpose : FilePurpose := .user_data) (expiry : Nat := 86400) (client : Client := default) : FileM FileObject := do
   let client ← checkClient client
   let purposeStr := match toJson purpose with
     | .str s => s
@@ -508,19 +552,28 @@ def upload (filePath : String) (purpose : FilePurpose := .user_data) (expiry : N
     "-F", s!"expires_after[seconds]={expiry}"
   ]
   let raw ← runCurl client "POST" "/files" none args
-  parseJson raw
+  let fileObj ← parseJson raw
 
-def delete (fileId : String) (client : Client := default) : MetaM FileDeleted := do
+  modify fun s => { s with trackedFiles := s.trackedFiles.push (filePath, fileObj.id) }
+
+  return fileObj
+
+def delete (fileId : String) (client : Client := default) : FileM FileDeleted := do
   let client ← checkClient client
   let raw ← runCurl client "DELETE" s!"/files/{fileId}"
-  parseJson raw
+  let fileDel : FileDeleted ← parseJson raw
 
-def retrieve (fileId : String) (client : Client := default) : MetaM FileObject := do
+  if fileDel.deleted then
+    modify fun s => { s with trackedFiles := s.trackedFiles.filter (fun (_, id) => id != fileId) }
+
+  return fileDel
+
+def retrieve (fileId : String) (client : Client := default) : FileM FileObject := do
   let client ← checkClient client
   let raw ← runCurl client "GET" s!"/files/{fileId}"
   parseJson raw
 
-def retrieveContent (fileId : String) (client : Client := default) : MetaM <| Except String String := do
+def retrieveContent (fileId : String) (client : Client := default) : FileM <| Except String String := do
   let client ← checkClient client
   runCurl client "GET" s!"/files/{fileId}/content"
 
