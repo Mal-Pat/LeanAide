@@ -27,10 +27,10 @@ def dropNulls (fields : List (Option (String × Json))) : Json :=
 namespace OpenAI
 
 structure Client where
-  apiKey : String := ""
+  apiKey       : String        := ""
   organization : Option String := none
-  project : Option String := none
-  baseUrl : String := "https://api.openai.com/v1"
+  project      : Option String := none
+  baseUrl      : String        := "https://api.openai.com/v1"
   deriving Repr
 
 instance : Inhabited Client where
@@ -50,8 +50,8 @@ inductive ReasoningEffort where
   deriving Inhabited, Repr, Hashable, ToJson, FromJson, DecidableEq
 
 structure Reasoning where
-  effort : Option ReasoningEffort := none
-  summary : Option String := none -- "auto" or "detailed" or "concise"
+  effort  : Option ReasoningEffort := none
+  summary : Option String          := none -- "auto" or "detailed" or "concise"
   deriving Inhabited, Repr
 
 instance : ToJson Reasoning where
@@ -61,7 +61,7 @@ instance : ToJson Reasoning where
   ]
 
 structure ImageUrl where
-  url : String
+  url    : String
   detail : Option String := none -- "auto" or "low" or "high"
   deriving FromJson, Repr, Inhabited
 
@@ -72,9 +72,9 @@ instance : ToJson ImageUrl where
   ]
 
 structure FileInput where
-  file_id : Option String := none
+  file_id   : Option String := none
   file_data : Option String := none -- base64 encoded
-  filename : Option String := none
+  filename  : Option String := none
   deriving FromJson, Repr, Inhabited
 
 instance : ToJson FileInput where
@@ -85,9 +85,9 @@ instance : ToJson FileInput where
   ]
 
 inductive ContentPart where
-  | text (text : String)
-  | imageUrl (image_url : ImageUrl)
-  | file (file : FileInput)
+  | text       (text : String)
+  | imageUrl   (image_url : ImageUrl)
+  | file       (file : FileInput)
   | inputAudio (data : String) (format : String) -- base64 encoded `dat`, "wav" or "mp3" `format`
   deriving Inhabited, Repr, FromJson
 
@@ -112,10 +112,10 @@ instance : ToJson Content where
     | .parts p => toJson p
 
 structure JSONSchema where
-  name : String
-  schema : Json
+  name        : String
+  schema      : Json
   description : Option String := none
-  strict : Option Bool := none
+  strict      : Option Bool   := none
   deriving FromJson, Inhabited, Repr
 
 instance : ToJson JSONSchema where
@@ -139,11 +139,11 @@ instance : ToJson ResponseFormat where
     | .jsonSchema s => Json.mkObj [("type", "json_schema"), ("json_schema", toJson s)]
 
 structure JSONSchemaConfig where
-  type : String := "json_schema"
-  name : String
-  schema : Json
+  type        : String        := "json_schema"
+  name        : String
+  schema      : Json
   description : Option String := none
-  strict : Option Bool := none
+  strict      : Option Bool   := none
   deriving FromJson, Inhabited, Repr
 
 instance : ToJson JSONSchemaConfig where
@@ -168,8 +168,8 @@ instance : ToJson ResponseFormatTextConfig where
     | .jsonSchema s => toJson s
 
 structure ResponseTextConfig where
-  format : Option ResponseFormatTextConfig := none
-  verbosity : Option String := none -- "low" or "medium" or "high"
+  format    : Option ResponseFormatTextConfig := none
+  verbosity : Option String                   := none -- "low" or "medium" or "high"
   deriving Inhabited, Repr
 
 instance : ToJson ResponseTextConfig where
@@ -181,9 +181,9 @@ instance : ToJson ResponseTextConfig where
 /- Chat Completions API -/
 
 structure ChatMessage where
-  role : Role
+  role    : Role
   content : Content
-  name : Option String := none
+  name    : Option String := none
   deriving FromJson, Inhabited, Repr
 
 instance : ToJson ChatMessage where
@@ -203,13 +203,13 @@ def attachFileID (role : Role) (fileID : String) : ChatMessage :=
   }
 
 structure ChatCompletionRequest where
-  model : String := "gpt-5.4"
-  messages : Json
-  n : Option Nat := none -- number of chat completion choices
-  reasoning_effort : Option ReasoningEffort := none
-  response_format : Option ResponseFormat := none
-  temperature : Option JsonNumber := none
-  max_completion_tokens : Option Nat := none
+  model                 : String                 := "gpt-5.4"
+  messages              : Json
+  n                     : Option Nat             := none -- number of chat completion choices
+  reasoning_effort      : Option ReasoningEffort := none
+  response_format       : Option ResponseFormat  := none
+  temperature           : Option JsonNumber      := none
+  max_completion_tokens : Option Nat             := none
   deriving FromJson, Inhabited, Repr
 
 instance : ToJson ChatCompletionRequest where
@@ -225,21 +225,21 @@ instance : ToJson ChatCompletionRequest where
 
 structure ChatCompletionMessage where
   content : String
-  role : Role
+  role    : Role
   deriving FromJson, ToJson, Inhabited, Repr
 
 structure Choice where
   message : ChatCompletionMessage
-  index : Nat
+  index   : Nat
   deriving FromJson, ToJson, Inhabited, Repr
 
 structure ChatCompletionResponse where
-  id : String
-  object : String
+  id      : String
+  object  : String
   created : Nat
-  model : String
+  model   : String
   choices : Array Choice
-  usage : Option Json
+  usage   : Option Json
   deriving FromJson, ToJson, Inhabited, Repr
 
 namespace ChatCompletionResponse
@@ -260,7 +260,6 @@ end ChatCompletionResponse
 /- Responses API -/
 
 structure ResponseInputFile where
-  type      : String        := "input_file"
   detail    : Option String := none -- `low` or `high`
   file_id   : Option String := none
   file_data : Option String := none -- base64 encoded
@@ -270,7 +269,6 @@ structure ResponseInputFile where
 
 instance : ToJson ResponseInputFile where
   toJson s := dropNulls [
-    reqJson "type" s.type,
     optJson "detail" s.detail,
     optJson "file_id" s.file_id,
     optJson "file_data" s.file_data,
@@ -280,25 +278,30 @@ instance : ToJson ResponseInputFile where
 
 inductive ResponseInputContent where
   | text (text : String)
-  | file (file : FileInput)
+  | file (file : ResponseInputFile)
   deriving Inhabited, Repr, FromJson
 
 instance : ToJson ResponseInputContent where
   toJson
     | .text t => Json.mkObj [("type", "input_text"), ("text", t)]
-    | .file f => Json.mkObj [("type", "input_file"), ("file", toJson f)]
+    | .file f => Json.mergeObj (Json.mkObj [("type", "input_file")]) (toJson f)
 
 inductive ResponseContent where
-  | str (s : String)
-  | parts (p : Array ContentPart)
+  | str   (s : String)
+  | parts (p : Array ResponseInputContent)
   deriving Inhabited, Repr, FromJson
 
+instance : ToJson ResponseContent where
+  toJson
+    | .str s => toJson s
+    | .parts p => toJson p
+
 structure ResponseInputMessage where
-  role : Role
+  role    : Role
   content : ResponseContent
-  phase : Option String := none
-  type : String := "message"
-  deriving Inhabited, Repr
+  phase   : Option String   := none
+  type    : String          := "message"
+  deriving Inhabited, Repr, FromJson
 
 instance : ToJson ResponseInputMessage where
   toJson s := dropNulls [
@@ -309,12 +312,12 @@ instance : ToJson ResponseInputMessage where
   ]
 
 structure ResponseRequest where
-  model : Option String := "gpt-5.4"
-  input : Array ResponseInputMessage
-  background : Option Bool := none
-  reasoning : Option Reasoning := none
-  text : Option ResponseTextConfig := none -- contains response format
-  tools : Option Json := none -- have to expand this
+  model      : Option String              := "gpt-5.4"
+  input      : Array ResponseInputMessage
+  background : Option Bool                := none
+  reasoning  : Option Reasoning           := none
+  text       : Option ResponseTextConfig  := none -- contains response format
+  tools      : Option Json                := none -- have to expand this
   deriving Inhabited, Repr
 
 instance : ToJson ResponseRequest where
@@ -328,11 +331,11 @@ instance : ToJson ResponseRequest where
   ]
 
 structure APIResponse where
-  id : String
-  object : String
+  id         : String
+  object     : String
   created_at : Nat
-  output : Array Json
-  usage : Option Json
+  output     : Array Json
+  usage      : Option Json
   deriving FromJson, ToJson, Inhabited, Repr
 
 /- API Call Method -/
