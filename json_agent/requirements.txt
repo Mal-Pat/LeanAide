@@ -1,3 +1,6 @@
-ipykernel
 openai
 pydantic
+ipykernel
+nbformat
+notebook
+jupyterlab

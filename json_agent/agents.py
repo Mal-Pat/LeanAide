@@ -1,7 +1,8 @@
-import model
-from openai import OpenAI
-import prompts
 from typing import Optional
+
+import model
+import prompts
+from openai import OpenAI
 from pydantic import BaseModel, Field
 
 
@@ -15,7 +16,7 @@ def get_client() -> OpenAI:
     return _client_instance
 
 
-class ProofSourceExtraction(BaseModel):
+class ProofSourceExtractionResult(BaseModel):
     proof_source: Optional[str] = Field(
         None,
         description=(
@@ -24,14 +25,14 @@ class ProofSourceExtraction(BaseModel):
     )
 
 
-class LogicalStepSequenceExtraction(BaseModel):
+class LogicalStepExtractionResult(BaseModel):
     steps: list[model.LogicalStep] = Field(
         ...,
         description='Ordered logical steps extracted from the source text.',
     )
 
 
-class DocumentContainerAgenticSystem:
+class DocumentStructuringPipeline:
     """Document-level orchestration pipeline that returns the canonical DocumentContainer."""
 
     def __init__(self, model_name: str = "gpt-5.4") -> None:
@@ -50,8 +51,8 @@ class DocumentContainerAgenticSystem:
     
     def _orchestrate_document(self, source_text: str) -> model.DocumentOrchestrator:
         return self._parse_structured(
-            system_prompt=prompts.ORCHESTRATOR_PROMPT,
-            user_prompt=f"Please breakdown the following document: {source_text}",
+            system_prompt=prompts.DOCUMENT_ORCHESTRATOR_PROMPT,
+            user_prompt=f"Please break down the following document:\n\n{source_text}",
             response_format=model.DocumentOrchestrator,
         )
 
@@ -59,15 +60,15 @@ class DocumentContainerAgenticSystem:
         extraction = self._parse_structured(
             system_prompt=prompts.PROOF_SOURCE_EXTRACTION_PROMPT,
             user_prompt=f"Extract the proof from this block if present:\n\n{raw_source}",
-            response_format=ProofSourceExtraction,
+            response_format=ProofSourceExtractionResult,
         )
         return extraction.proof_source
 
     def _extract_logical_steps(self, raw_source: str) -> model.LogicalStepSequence:
         extraction = self._parse_structured(
-            system_prompt=prompts.LOGICAL_STEP_PROMPT,
+            system_prompt=prompts.LOGICAL_STEP_EXTRACTION_PROMPT,
             user_prompt=raw_source,
-            response_format=LogicalStepSequenceExtraction,
+            response_format=LogicalStepExtractionResult,
         )
         return model.LogicalStepSequence(root=extraction.steps)
 
@@ -231,4 +232,8 @@ class DocumentContainerAgenticSystem:
 
 def document_container_agent(source_text: str) -> model.DocumentContainer:
     """Agentic entrypoint for converting a math document into DocumentContainer."""
-    return DocumentContainerAgenticSystem().run(source_text)
+    return DocumentStructuringPipeline().run(source_text)
+
+
+# Backward-compatible alias for older imports.
+DocumentContainerAgenticSystem = DocumentStructuringPipeline

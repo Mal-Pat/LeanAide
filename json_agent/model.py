@@ -11,6 +11,9 @@ from typing import List, Literal, Optional, Union
 from pydantic import BaseModel, ConfigDict, Field, RootModel
 
 
+# Shared metadata and references
+
+
 class Metadata(BaseModel):
     authors: Optional[List[str]] = Field(
         None, description='(OPTIONAL) List of authors of the document.'
@@ -20,7 +23,7 @@ class Metadata(BaseModel):
     )
 
 
-class Header(Enum):
+class TheoremHeader(Enum):
     Theorem = 'Theorem'
     Lemma = 'Lemma'
     Proposition = 'Proposition'
@@ -28,11 +31,64 @@ class Header(Enum):
     Claim = 'Claim'
 
 
-class Header1(Enum):
+class DefinitionHeader(Enum):
     Definition = 'Definition'
     Notation = 'Notation'
     Terminology = 'Terminology'
     Convention = 'Convention'
+
+
+class CalculationStep(RootModel):
+    root: str = Field(
+        ...,
+        description='A step, typically an equality or inequality, in a calculation or computation. Write the step fully: e.g. in the sequence `a=b\n=c`, write `a=b` and `b=c` as two separate steps and DO NOT OMIT `b` in the second step.',
+    )
+
+
+class ResultUsed(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+
+    statement: str = Field(..., description='The statement of the result used.')
+    target_identifier: Optional[str] = Field(
+        None,
+        description="(OPTIONAL) The unique 'label' of the document element being referenced (e.g., 'sec:intro', 'thm:main', 'fig:,diagram').",
+    )
+    mathlib_identifier: Optional[str] = Field(
+        None,
+        description='(OPTIONAL) The name of the result being used in Lean Prover or its library Mathlib).',
+    )
+
+
+class BibliographyEntry(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+
+    key: str = Field(
+        ..., description="Unique key used for citations (e.g., 'Knuth1974', '[1]')."
+    )
+    formatted_entry: str = Field(
+        ...,
+        description='The full bibliographic reference, formatted as text (e.g., APA, BibTeX style).',
+    )
+
+
+class Citation(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+
+    cite_keys: List[str] = Field(
+        ..., description='An array of bibliography keys being cited.', min_length=1
+    )
+
+
+class InternalReference(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+
+    target_identifier: str = Field(
+        ...,
+        description="The unique 'label' of the document element being referenced (e.g., 'sec:intro', 'thm:main', 'fig:diagram').",
+    )
+
+
+# Atomic logical steps
 
 
 class LetStatement(BaseModel):
@@ -81,130 +137,6 @@ class SomeStatement(BaseModel):
     statement: Optional[str] = Field(None, description='The full statement made.')
 
 
-class CalculationStep(RootModel):
-    root: str = Field(
-        ...,
-        description='A step, typically an equality or inequality, in a calculation or computation. Write the step fully: e.g. in the sequence `a=b\n=c`, write `a=b` and `b=c` as two separate steps and DO NOT OMIT `b` in the second step.',
-    )
-
-
-class ResultUsed(BaseModel):
-    model_config = ConfigDict(extra='forbid')
-
-    statement: str = Field(..., description='The statement of the result used.')
-    target_identifier: Optional[str] = Field(
-        None,
-        description="(OPTIONAL) The unique 'label' of the document element being referenced (e.g., 'sec:intro', 'thm:main', 'fig:,diagram').",
-    )
-    mathlib_identifier: Optional[str] = Field(
-        None,
-        description='(OPTIONAL) The name of the result being used in Lean Prover or its library Mathlib).',
-    )
-
-
-class Author(BaseModel):
-    model_config = ConfigDict(extra='forbid')
-
-    name: str = Field(..., description='Full name of the author.')
-    affiliation: Optional[str] = Field(
-        None, description="(OPTIONAL) Author's affiliation."
-    )
-
-
-class Figure(BaseModel):
-    model_config = ConfigDict(extra='forbid')
-
-    type: Literal['Figure'] = Field(
-        'Figure', description='The type of this document element.'
-    )
-    label: str = Field(
-        ...,
-        description="Unique identifier/label for referencing (e.g., 'fig:flowchart').",
-    )
-    source: str = Field(..., description='URL or path to the image file.')
-    caption: Optional[str] = Field(
-        None, description='(OPTIONAL) Caption describing the figure.'
-    )
-    alt_text: Optional[str] = Field(
-        None, description='(OPTIONAL) Alternative text for accessibility.'
-    )
-
-
-class Table(BaseModel):
-    model_config = ConfigDict(extra='forbid')
-
-    type: Literal['Table'] = Field(
-        'Table', description='The type of this document element.'
-    )
-    label: str = Field(
-        ...,
-        description="Unique identifier/label for referencing (e.g., 'tab:results').",
-    )
-    caption: Optional[str] = Field(
-        None, description='(OPTIONAL) Caption describing the table.'
-    )
-    content: List[List[str]] = Field(
-        ...,
-        description='Table data, represented as an array of rows, where each row is an array of cell strings.',
-    )
-    header_row: Optional[bool] = Field(
-        False,
-        description="(OPTIONAL) Indicates if the first row in 'content' is a header row. Default: false",
-    )
-
-
-class BibliographyEntry(BaseModel):
-    model_config = ConfigDict(extra='forbid')
-
-    key: str = Field(
-        ..., description="Unique key used for citations (e.g., 'Knuth1974', '[1]')."
-    )
-    formatted_entry: str = Field(
-        ...,
-        description='The full bibliographic reference, formatted as text (e.g., APA, BibTeX style).',
-    )
-
-
-class Citation(BaseModel):
-    model_config = ConfigDict(extra='forbid')
-
-    cite_keys: List[str] = Field(
-        ..., description='An array of bibliography keys being cited.', min_length=1
-    )
-
-
-class InternalReference(BaseModel):
-    model_config = ConfigDict(extra='forbid')
-
-    target_identifier: str = Field(
-        ...,
-        description="The unique 'label' of the document element being referenced (e.g., 'sec:intro', 'thm:main', 'fig:diagram').",
-    )
-
-
-class Definition(BaseModel):
-    model_config = ConfigDict(extra='forbid')
-
-    type: Literal['Definition'] = Field(
-        'Definition', description='The type of this document element.'
-    )
-    definition: str = Field(..., description='Definition content.')
-    name: str = Field(
-        ...,
-        description='The name of the defined object, concept or property. This should be a single word and appear in the definition text.',
-    )
-    label: str = Field(..., description='Definition identifier.')
-    header: Header1 = Field(..., description='The definition type.')
-    citations: Optional[List[Citation]] = Field(
-        None,
-        description='(OPTIONAL) Explicit list of citations relevant to this theorem statement.',
-    )
-    internal_references: Optional[List[InternalReference]] = Field(
-        None,
-        description='(OPTIONAL) Explicit list of internal references mentioned in the theorem statement.',
-    )
-
-
 class AssumeStatement(BaseModel):
     model_config = ConfigDict(extra='forbid')
 
@@ -237,60 +169,6 @@ class Calculation(BaseModel):
     calculation_sequence: Optional[List[CalculationStep]] = Field(
         None, description='A list of elements of type `calculation_step`.'
     )
-
-
-class ConcludeStatement(BaseModel):
-    model_config = ConfigDict(extra='forbid')
-
-    type: Literal['conclude_statement'] = Field(
-        'conclude_statement', description='The type of this logical step.'
-    )
-    claim: Optional[str] = Field(
-        None,
-        description='(OPTIONAL) conclusion of the proof.This is typically the final statement of a proof giving the conclusion of the theorem. If this is not given, it is assumed to be the claim of the theorem being proved.',
-    )
-    results_used: Optional[List[ResultUsed]] = Field(
-        None,
-        description='(OPTIONAL) Explicit list of results used in the proof, for example where the assertion says "using ...". Include both standard results and results from the document itself, with references where available.',
-    )
-
-
-class Paragraph(BaseModel):
-    model_config = ConfigDict(extra='forbid')
-
-    type: Literal['Paragraph'] = Field(
-        'Paragraph', description='The type of this document element.'
-    )
-    text: str = Field(
-        ...,
-        description="The main text content of the paragraph. Inline citations (e.g., [1], [Knuth74]) and internal references (e.g., see Section 2, Theorem 3) might be embedded within this string or explicitly listed in 'citations'/'internal_references'.",
-    )
-    citations: Optional[List[Citation]] = Field(
-        None,
-        description='(OPTIONAL) Explicit list of citations mentioned in this paragraph.',
-    )
-    internal_references: Optional[List[InternalReference]] = Field(
-        None,
-        description='(OPTIONAL) Explicit list of internal references mentioned in this paragraph.',
-    )
-
-
-class Bibliography(BaseModel):
-    model_config = ConfigDict(extra='forbid')
-
-    type: Literal['Bibliography'] = Field(
-        'Bibliography', description='The type of this document element.'
-    )
-    header: str = Field(
-        ..., description="The section header (e.g., 'References', 'Bibliography')."
-    )
-    entries: List[BibliographyEntry] = Field(
-        ..., description='List of bibliography entries.'
-    )
-
-
-class HypothesisStatement(RootModel):
-    root: Union[LetStatement, AssumeStatement, SomeStatement]
 
 
 class AssertStatement(BaseModel):
@@ -328,143 +206,70 @@ class AssertStatement(BaseModel):
     )
 
 
-class Document(BaseModel):
+class ConcludeStatement(BaseModel):
     model_config = ConfigDict(extra='forbid')
 
-    type: Literal['document'] = Field(
-        'document', description='The type of this document element.'
+    type: Literal['conclude_statement'] = Field(
+        'conclude_statement', description='The type of this logical step.'
     )
-    body: LogicalStepSequence
-    title: Optional[str] = Field(
-        None, description='(OPTIONAL) The title of the document.'
-    )
-    abstract: Optional[str] = Field(
-        None, description='(OPTIONAL) The abstract of the document.'
-    )
-    metadata: Optional[Metadata] = Field(
+    claim: Optional[str] = Field(
         None,
-        description='(OPTIONAL) Metadata about the document, such as authors, date, etc.',
+        description='(OPTIONAL) conclusion of the proof.This is typically the final statement of a proof giving the conclusion of the theorem. If this is not given, it is assumed to be the claim of the theorem being proved.',
+    )
+    results_used: Optional[List[ResultUsed]] = Field(
+        None,
+        description='(OPTIONAL) Explicit list of results used in the proof, for example where the assertion says "using ...". Include both standard results and results from the document itself, with references where available.',
     )
 
 
-class MathematicalDocumentWrapper(BaseModel):
+class ContradictionStatement(BaseModel):
     model_config = ConfigDict(extra='forbid')
 
-    document: Document = Field(
-        ...,
-        description='The root of the mathematical document, containing a sequence of environments.',
+    type: Literal['contradiction_statement'] = Field(
+        'contradiction_statement',
+        description='The type of this logical step.',
+    )
+    assumption: str = Field(
+        ..., description='The assumption being made to be contradicted.'
+    )
+    proof: ProofDetails = Field(
+        ..., description='The proof of the contradiction given the assumption.'
     )
 
 
-class DocumentContainer(BaseModel):
+class HypothesisStatement(RootModel):
+    root: Union[LetStatement, AssumeStatement, SomeStatement]
+
+
+# Proof case payloads
+
+
+class PatternCase(BaseModel):
     model_config = ConfigDict(extra='forbid')
 
-    document: Document = Field(
-        ...,
-        description='A simple wrapper containing a single `document` key holding a `Document` object.',
-    )
+    pattern: str = Field(..., description='The pattern determining this case.')
+    proof: ProofDetails = Field(..., description='Proof of this case.')
 
 
-class Section(BaseModel):
+class ConditionCase(BaseModel):
     model_config = ConfigDict(extra='forbid')
 
-    type: Literal['Section'] = Field(
-        'Section', description='The type of this document element.'
-    )
-    content: LogicalStepSequence
-    label: str = Field(..., description='Section identifier.')
-    level: Optional[int] = Field(
-        None,
-        description='The section level such as `1` for a section, `2` for a subsection.',
-    )
-    header: str = Field(..., description='The section header.')
+    condition: str = Field(..., description='The condition determining this case.')
+    proof: ProofDetails = Field(..., description='Proof for this case.')
 
 
-class Theorem(BaseModel):
+class InductionCase(BaseModel):
     model_config = ConfigDict(extra='forbid')
 
-    type: Literal['Theorem'] = Field(
-        'Theorem', description='The type of this document element.'
-    )
-    hypothesis: Optional[List[HypothesisStatement]] = Field(
+    condition: str = Field(..., description='The condition determining this case.')
+    induction_hypotheses: Optional[List[str]] = Field(
         None,
-        description="(OPTIONAL) The hypothesis or assumptions of the theorem, consisting of statements like 'let', 'assume', etc.",
+        description='(OPTIONAL) The induction hypotheses. Give the full assumption for the case. Omit for base cases.',
     )
-    claim: str = Field(..., description='The statement.')
-    label: str = Field(
-        ...,
-        description="Unique identifier/label for referencing (e.g., 'thm:main', 'lem:pumping').",
-    )
-    proof: Optional[ProofDetails] = Field(
-        None,
-        description='Proof of the theorems, if it is present soon after the statement.',
-    )
-    header: Header = Field(
-        ...,
-        description='The type of theorem-like environment. Must be one of the predefined values.',
-    )
-    citations: Optional[List[Citation]] = Field(
-        None,
-        description='(OPTIONAL) Explicit list of citations relevant to this statement.',
-    )
-    internal_references: Optional[List[InternalReference]] = Field(
-        None,
-        description='(OPTIONAL) Explicit list of internal references mentioned in the statement.',
-    )
+    proof: ProofDetails = Field(..., description='Proof for this case.')
 
 
-class LogicalStep(RootModel):
-    root: Union[
-        Theorem,
-        Definition,
-        LetStatement,
-        AssertStatement,
-        AssumeStatement,
-        SomeStatement,
-        PatternCasesProof,
-        BiImplicationCasesProof,
-        ConditionCasesProof,
-        MultiConditionCasesProof,
-        InductionProof,
-        GeneralInductionProof,
-        Calculation,
-        ContradictionStatement,
-        ConcludeStatement,
-        Section,
-        Proof,
-        Paragraph,
-        Figure,
-        Table,
-    ]
-
-
-class LogicalStepSequence(RootModel):
-    root: List[LogicalStep] = Field(
-        ...,
-        description="A sequence of structured logical steps, typically used within a proof or derivation, consisting of statements like 'let', 'assert', 'assume', etc.",
-    )
-
-
-class ProofDetails(RootModel):
-    root: Union[
-        LogicalStepSequence,
-        PatternCasesProof,
-        BiImplicationCasesProof,
-        ConditionCasesProof,
-        MultiConditionCasesProof,
-        InductionProof,
-        GeneralInductionProof,
-    ]
-
-
-class Proof(BaseModel):
-    model_config = ConfigDict(extra='forbid')
-
-    type: Literal['Proof'] = Field(
-        'Proof', description='The type of this document element.'
-    )
-    claim_label: str = Field(..., description='Theorem label being proved.')
-    proof_steps: ProofDetails
+# Composite proof structures
 
 
 class PatternCasesProof(BaseModel):
@@ -542,42 +347,6 @@ class GeneralInductionProof(BaseModel):
     )
 
 
-class PatternCase(BaseModel):
-    model_config = ConfigDict(extra='forbid')
-
-    pattern: str = Field(..., description='The pattern determining this case.')
-    proof: ProofDetails = Field(..., description='Proof of this case.')
-
-
-class ConditionCase(BaseModel):
-    model_config = ConfigDict(extra='forbid')
-
-    condition: str = Field(..., description='The condition determining this case.')
-    proof: ProofDetails = Field(..., description='Proof for this case.')
-
-
-class InductionCase(BaseModel):
-    model_config = ConfigDict(extra='forbid')
-
-    condition: str = Field(..., description='The condition determining this case.')
-    induction_hypotheses: Optional[List[str]] = Field(
-        None,
-        description='(OPTIONAL) The induction hypotheses. Give the full assumption for the case. Omit for base cases.',
-    )
-    proof: ProofDetails = Field(..., description='Proof for this case.')
-
-
-class Case(BaseModel):
-    model_config = ConfigDict(extra='forbid')
-
-    type: Literal['case'] = Field('case', description='The type of this logical step.')
-    condition: str = Field(
-        ...,
-        description="The case condition or pattern; for induction one of 'base' or 'induction-step'; for a side of an 'iff' statement write the claim being proved (i.e., the statement `P => Q` or `Q => P`).",
-    )
-    proof: ProofDetails = Field(..., description='Proof of this case.')
-
-
 class InductionProof(BaseModel):
     model_config = ConfigDict(extra='forbid')
 
@@ -598,41 +367,240 @@ class InductionProof(BaseModel):
     )
 
 
-class ContradictionStatement(BaseModel):
+class LogicalStepSequence(RootModel):
+    root: List[LogicalStep] = Field(
+        ...,
+        description="A sequence of structured logical steps, typically used within a proof or derivation, consisting of statements like 'let', 'assert', 'assume', etc.",
+    )
+
+
+class ProofDetails(RootModel):
+    root: Union[
+        LogicalStepSequence,
+        PatternCasesProof,
+        BiImplicationCasesProof,
+        ConditionCasesProof,
+        MultiConditionCasesProof,
+        InductionProof,
+        GeneralInductionProof,
+    ]
+
+
+class Proof(BaseModel):
     model_config = ConfigDict(extra='forbid')
 
-    type: Literal['contradiction_statement'] = Field(
-        'contradiction_statement',
-        description='The type of this logical step.',
+    type: Literal['Proof'] = Field(
+        'Proof', description='The type of this document element.'
     )
-    assumption: str = Field(
-        ..., description='The assumption being made to be contradicted.'
+    claim_label: str = Field(..., description='Theorem label being proved.')
+    proof_steps: ProofDetails
+
+
+# Document elements
+
+
+class Definition(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+
+    type: Literal['Definition'] = Field(
+        'Definition', description='The type of this document element.'
     )
-    proof: ProofDetails = Field(
-        ..., description='The proof of the contradiction given the assumption.'
+    definition: str = Field(..., description='Definition content.')
+    name: str = Field(
+        ...,
+        description='The name of the defined object, concept or property. This should be a single word and appear in the definition text.',
+    )
+    label: str = Field(..., description='Definition identifier.')
+    header: DefinitionHeader = Field(..., description='The definition type.')
+    citations: Optional[List[Citation]] = Field(
+        None,
+        description='(OPTIONAL) Explicit list of citations relevant to this theorem statement.',
+    )
+    internal_references: Optional[List[InternalReference]] = Field(
+        None,
+        description='(OPTIONAL) Explicit list of internal references mentioned in the theorem statement.',
     )
 
 
-Document.model_rebuild()
-DocumentContainer.model_rebuild()
-Section.model_rebuild()
-Theorem.model_rebuild()
-LogicalStep.model_rebuild()
-ProofDetails.model_rebuild()
-PatternCasesProof.model_rebuild()
-MultiConditionCasesProof.model_rebuild()
-GeneralInductionProof.model_rebuild()
+class Paragraph(BaseModel):
+    model_config = ConfigDict(extra='forbid')
 
-class PlannedStep(BaseModel):
-    step_number: int = Field(description="The sequence number of this step.")
-    tool_name: str = Field(description="The exact name of the function to call.")
-    reasoning: str = Field(description="Why this tool is needed at this step.")
-    # We use a dict for arguments so the planner can specify exactly what to pass
-    arguments: str = Field(description="The parameters to pass to the tool. Leave empty if none.")
+    type: Literal['Paragraph'] = Field(
+        'Paragraph', description='The type of this document element.'
+    )
+    text: str = Field(
+        ...,
+        description="The main text content of the paragraph. Inline citations (e.g., [1], [Knuth74]) and internal references (e.g., see Section 2, Theorem 3) might be embedded within this string or explicitly listed in 'citations'/'internal_references'.",
+    )
+    citations: Optional[List[Citation]] = Field(
+        None,
+        description='(OPTIONAL) Explicit list of citations mentioned in this paragraph.',
+    )
+    internal_references: Optional[List[InternalReference]] = Field(
+        None,
+        description='(OPTIONAL) Explicit list of internal references mentioned in this paragraph.',
+    )
 
-class ExecutionPlan(BaseModel):
-    understanding: str = Field(description="A brief summary of what the user wants to achieve.")
-    steps: list[PlannedStep] = Field(description="The ordered sequence of tools to execute.")
+
+class Figure(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+
+    type: Literal['Figure'] = Field(
+        'Figure', description='The type of this document element.'
+    )
+    label: str = Field(
+        ...,
+        description="Unique identifier/label for referencing (e.g., 'fig:flowchart').",
+    )
+    source: str = Field(..., description='URL or path to the image file.')
+    caption: Optional[str] = Field(
+        None, description='(OPTIONAL) Caption describing the figure.'
+    )
+    alt_text: Optional[str] = Field(
+        None, description='(OPTIONAL) Alternative text for accessibility.'
+    )
+
+
+class Table(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+
+    type: Literal['Table'] = Field(
+        'Table', description='The type of this document element.'
+    )
+    label: str = Field(
+        ...,
+        description="Unique identifier/label for referencing (e.g., 'tab:results').",
+    )
+    caption: Optional[str] = Field(
+        None, description='(OPTIONAL) Caption describing the table.'
+    )
+    content: List[List[str]] = Field(
+        ...,
+        description='Table data, represented as an array of rows, where each row is an array of cell strings.',
+    )
+    header_row: Optional[bool] = Field(
+        False,
+        description="(OPTIONAL) Indicates if the first row in 'content' is a header row. Default: false",
+    )
+
+
+class Bibliography(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+
+    type: Literal['Bibliography'] = Field(
+        'Bibliography', description='The type of this document element.'
+    )
+    header: str = Field(
+        ..., description="The section header (e.g., 'References', 'Bibliography')."
+    )
+    entries: List[BibliographyEntry] = Field(
+        ..., description='List of bibliography entries.'
+    )
+
+
+class Section(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+
+    type: Literal['Section'] = Field(
+        'Section', description='The type of this document element.'
+    )
+    content: LogicalStepSequence
+    label: str = Field(..., description='Section identifier.')
+    level: Optional[int] = Field(
+        None,
+        description='The section level such as `1` for a section, `2` for a subsection.',
+    )
+    header: str = Field(..., description='The section header.')
+
+
+class Theorem(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+
+    type: Literal['Theorem'] = Field(
+        'Theorem', description='The type of this document element.'
+    )
+    hypothesis: Optional[List[HypothesisStatement]] = Field(
+        None,
+        description="(OPTIONAL) The hypothesis or assumptions of the theorem, consisting of statements like 'let', 'assume', etc.",
+    )
+    claim: str = Field(..., description='The statement.')
+    label: str = Field(
+        ...,
+        description="Unique identifier/label for referencing (e.g., 'thm:main', 'lem:pumping').",
+    )
+    proof: Optional[ProofDetails] = Field(
+        None,
+        description='Proof of the theorems, if it is present soon after the statement.',
+    )
+    header: TheoremHeader = Field(
+        ...,
+        description='The type of theorem-like environment. Must be one of the predefined values.',
+    )
+    citations: Optional[List[Citation]] = Field(
+        None,
+        description='(OPTIONAL) Explicit list of citations relevant to this statement.',
+    )
+    internal_references: Optional[List[InternalReference]] = Field(
+        None,
+        description='(OPTIONAL) Explicit list of internal references mentioned in the statement.',
+    )
+
+
+class LogicalStep(RootModel):
+    root: Union[
+        Theorem,
+        Definition,
+        LetStatement,
+        AssertStatement,
+        AssumeStatement,
+        SomeStatement,
+        PatternCasesProof,
+        BiImplicationCasesProof,
+        ConditionCasesProof,
+        MultiConditionCasesProof,
+        InductionProof,
+        GeneralInductionProof,
+        Calculation,
+        ContradictionStatement,
+        ConcludeStatement,
+        Section,
+        Proof,
+        Paragraph,
+        Figure,
+        Table,
+        Bibliography,
+    ]
+
+
+class Document(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+
+    type: Literal['document'] = Field(
+        'document', description='The type of this document element.'
+    )
+    body: LogicalStepSequence
+    title: Optional[str] = Field(
+        None, description='(OPTIONAL) The title of the document.'
+    )
+    abstract: Optional[str] = Field(
+        None, description='(OPTIONAL) The abstract of the document.'
+    )
+    metadata: Optional[Metadata] = Field(
+        None,
+        description='(OPTIONAL) Metadata about the document, such as authors, date, etc.',
+    )
+
+
+class DocumentContainer(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+
+    document: Document = Field(
+        ...,
+        description='A simple wrapper containing a single `document` key holding a `Document` object.',
+    )
+
+
+# Document orchestrator schema
 
 
 class OrchestratorParagraphKind(Enum):
@@ -640,7 +608,6 @@ class OrchestratorParagraphKind(Enum):
     mathematical_prose = 'mathematical_prose'
 
 
-# Pydantic models for the Document Orchestrator schema provided by the user
 class OrchestratorElement(BaseModel):
     model_config = ConfigDict(extra='forbid')
 
@@ -652,11 +619,16 @@ class OrchestratorElement(BaseModel):
         'paragraph',
         'figure',
         'table',
-    ] = Field(..., description="The element type. One of 'section','theorem','definition','remark','paragraph','figure','table'.")
+    ] = Field(
+        ...,
+        description="The element type. One of 'section','theorem','definition','remark','paragraph','figure','table'.",
+    )
     header: Optional[str] = Field(
         None, description="Optional header text (e.g., 'Theorem 1.1', 'Section 2')."
     )
-    label: Optional[str] = Field(None, description="Optional unique identifier for the element.")
+    label: Optional[str] = Field(
+        None, description="Optional unique identifier for the element."
+    )
     content_kind: Optional[OrchestratorParagraphKind] = Field(
         None,
         description=(
@@ -682,14 +654,39 @@ class OrchestratorElement(BaseModel):
 class DocumentOrchestrator(BaseModel):
     model_config = ConfigDict(extra='forbid')
 
-    type: Literal['document'] = Field('document', description="Constant value: 'document'.")
+    type: Literal['document'] = Field(
+        'document', description="Constant value: 'document'."
+    )
     title: Optional[str] = Field(None, description='(OPTIONAL) The title of the document.')
-    abstract: Optional[str] = Field(None, description='(OPTIONAL) The abstract of the document.')
+    abstract: Optional[str] = Field(
+        None, description='(OPTIONAL) The abstract of the document.'
+    )
     elements: List[OrchestratorElement] = Field(
         ..., description='Ordered list of structural elements contained in the document.'
     )
 
 
-# Ensure models are ready (Pydantic v2)
-OrchestratorElement.model_rebuild()
-DocumentOrchestrator.model_rebuild()
+for model_type in (
+    HypothesisStatement,
+    PatternCase,
+    ConditionCase,
+    InductionCase,
+    PatternCasesProof,
+    BiImplicationCasesProof,
+    ConditionCasesProof,
+    MultiConditionCasesProof,
+    GeneralInductionProof,
+    InductionProof,
+    ContradictionStatement,
+    LogicalStepSequence,
+    ProofDetails,
+    Proof,
+    Section,
+    Theorem,
+    LogicalStep,
+    Document,
+    DocumentContainer,
+    OrchestratorElement,
+    DocumentOrchestrator,
+):
+    model_type.model_rebuild()
