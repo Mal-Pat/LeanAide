@@ -5,6 +5,8 @@ import LeanAideCore.Translator
 import LeanAideCore.TaskStatus
 import LeanAideCore.Syntax.Basic
 
+open Std.Internal.IO Async
+
 
 open Lean Meta Elab Term Parser
 
@@ -274,6 +276,7 @@ class LeanAidePipe where
 class LeanAideUrl where
   url : String
 
+
 namespace LeanAidePipe
 
 /-- Create a `LeanAidePipe` from a URL, using `curl` to send requests. -/
@@ -289,7 +292,57 @@ def fromURL (url: String) : LeanAidePipe := {
 }
 
 
-instance [inst : LeanAideUrl] : LeanAidePipe := LeanAidePipe.fromURL inst.url
+partial def pollServerAux (url: String)(token: UInt64) (duration: Nat := 10) : Async Json := do
+  let req := Json.mkObj [("mode", "lookup"), ("token", toJson token)]
+  let output ← IO.Process.run {cmd := "curl", args := #[url, "-X", "POST", "-H", "Content-Type: application/json", "--data", req.compress]}
+  let .ok json :=
+      Json.parse output | IO.throwServerError s!"Failed to parse response: \n{output}"
+  let .ok status :=
+    json.getObjValAs? TaskStatus "status" | IO.throwServerError "response has no 'status' field"
+  match status with
+  | .completed _ result => return result
+  | .running _ =>
+      Async.sleep <| Std.Time.Millisecond.Offset.ofNat <| duration * 1000
+      pollServerAux url token duration
+
+def pollServer (url: String)(data: Json) (user? : Option String) (duration: Nat := 10) : Async Json := do
+  let data := data.mergeObj <| Json.mkObj [("mode", "async")]
+  let args := #[url, "-X", "POST", "-H", "Content-Type: application/json", "--data", data.compress]
+  let args := match user? with
+    | some user =>
+      args ++ #["-u", user]
+    | none => args
+  let output ← IO.Process.run {cmd := "curl", args := args}
+  let .ok response :=
+    Json.parse output | IO.throwServerError s!"Failed to parse response: \n{output}"
+  let .ok token := response.getObjValAs? UInt64 "token" | IO.throwServerError "response has no 'token' field"
+  pollServerAux url token duration
+
+-- Polls if the "mode" is not "async", otherwise sends the request and returns the token.
+def fromUrlAsync (url: String) (duration: Nat := 10) : LeanAidePipe := {
+  queryResponse (data: Json) := do
+    let user? := match ← getUserNamePassword with
+    | some (username, password) =>
+      some s!"{username}:{password}"
+    | none => none
+    let data := match ← envPatch? with
+      | some patch => data.patch <| Json.mkObj [("translator", patch)]
+      | none => data
+    let async := match data.getObjValAs? String "mode" with
+      | .ok "async" => true
+      | .ok "lookup" => true
+      | _ => false
+    if async then
+      let output ← IO.Process.run {cmd := "curl", args := #[url, "-X", "POST", "-H", "Content-Type: application/json", "--data", data.compress]}
+      let .ok response :=
+        Json.parse output | throwError s!"Failed to parse response: \n{output}"
+      return response
+    else
+      AsyncTask.block <| ←
+      Async.toIO do  pollServer url data user? duration
+}
+
+instance [inst : LeanAideUrl] : LeanAidePipe := LeanAidePipe.fromUrlAsync inst.url
 
 /-- Response from a LeanAide pipe -/
 def response [pipe: LeanAidePipe] (req: Json) : MetaM Json :=
@@ -301,8 +354,11 @@ def ping [pipe: LeanAidePipe] : MetaM Bool := do
   match response.getObjValAs? String "result" with
   | .ok "success" => return true
   | _ =>
-    logWarning m!"Ping failed, response: {response.pretty}"
-    return false
+    match response.getObjValAs? String "token" with
+    | .ok _ => return true
+    | _ =>
+      logWarning m!"Ping failed, response: {response.pretty}"
+      return false
 
 /-!
 The various core functions of LeanAide, implemented via querying the LeanAide server. These are implemented using an encoding function that converts the input to JSON, a decoding function that converts the JSON response to the output, and a function that combines these two with a query to the server. This is done to allow for asynchronous queries later.
@@ -555,6 +611,7 @@ def mathQuery [pipe: LeanAidePipe] (query: String) (history : List ChatPair := [
   let response ← response req
   mathQueryDecode response
 
+
 /--
 Update a deferred computation by querying the server with a token.
 -/
@@ -798,7 +855,7 @@ def mkQueryM {α : Type}(x : α) (β : Type) [TaskList α β] [JsonForTask α][F
   let pipe ← getPipeM
   let req := json.mergeObj (Json.mkObj [("mode", "async"), ("tasks", toJson taskList)])
   let json ← pipe.response req
-  let .ok token := json.getObjValAs? UInt64 "token" | throwError "response has no 'token' field"
+  let .ok token := json.getObjValAs? UInt64 "token" | throwError "response {json.pretty} has no 'token' field"
   return token
 
 def getQuery? (β : Type) (token: UInt64) [FromTaskJson β] : TermElabM (Option β) := do
