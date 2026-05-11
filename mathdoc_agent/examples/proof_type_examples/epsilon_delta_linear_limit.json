@@ -1,292 +1,40 @@
 {
-  "type": "document",
-  "id": "epsilon_delta_linear_limit",
-  "title": "A Linear Epsilon-Delta Limit",
-  "root": {
-    "type": "document",
-    "id": "epsilon_delta_linear_limit.root",
-    "status": "resolved",
-    "title": "A Linear Epsilon-Delta Limit",
-    "label": null,
-    "text": "Theorem. The function f(x)=2x has limit 6 as x tends to 3.\n\nProof. Let epsilon>0 and choose delta=epsilon/2. If |x-3|<delta, then |2x-6|=2|x-3|<2delta=epsilon.",
-    "children": [
-      {
-        "type": "Theorem",
-        "id": "epsilon_delta_linear_limit.root.epsilon_delta_linear_limit",
-        "status": "resolved",
-        "title": null,
-        "label": "thm:limit_two_x_at_three",
-        "text": "Theorem. The function f(x)=2x has limit 6 as x tends to 3.\n\nProof. Let epsilon>0 and choose delta=epsilon/2. If |x-3|<delta, then |2x-6|=2|x-3|<2delta=epsilon.",
-        "children": [],
-        "proof": {
-          "type": "ProofDetails",
-          "id": "epsilon_delta_linear_limit.root.epsilon_delta_linear_limit.proof",
-          "theorem_statement": "The function f(x)=2x has limit 6 as x tends to 3.",
-          "root": {
-            "type": "Proof",
-            "id": "epsilon_delta_linear_limit.root.epsilon_delta_linear_limit.proof.root",
-            "status": "resolved",
-            "text": "Let epsilon>0 and choose delta=epsilon/2. If |x-3|<delta, then |2x-6|=2|x-3|<2delta=epsilon.",
-            "goal": "The function f(x)=2x has limit 6 as x tends to 3.",
-            "hypotheses": [],
-            "children": [
-              {
-                "type": "assert_statement",
-                "id": "epsilon_delta_linear_limit.root.epsilon_delta_linear_limit.proof.root.choose_delta",
-                "status": "resolved",
-                "text": "Given epsilon>0, choose delta=epsilon/2.",
-                "goal": "Choose a positive delta.",
-                "hypotheses": [
-                  "epsilon > 0"
-                ],
-                "children": [],
-                "data": {
-                  "method": "direct proof",
-                  "hints": [
-                    "Given epsilon>0, choose delta=epsilon/2."
-                  ],
-                  "referenced_lemmas": [],
-                  "referenced_hypotheses": [
-                    "epsilon > 0"
-                  ]
-                },
-                "references": [],
-                "confidence": 0.5,
-                "notes": [],
-                "unresolved_details": []
-              },
-              {
-                "type": "calculation",
-                "id": "epsilon_delta_linear_limit.root.epsilon_delta_linear_limit.proof.root.verify_bound",
-                "status": "resolved",
-                "text": "If |x-3|<delta, then |2x-6|=2|x-3|<2delta=epsilon.",
-                "goal": "|2x-6| < epsilon.",
-                "hypotheses": [],
-                "children": [],
-                "data": {
-                  "calculation_kind": "epsilon_delta_bound",
-                  "start": "|2x-6|",
-                  "target": "epsilon",
-                  "steps": [
-                    {
-                      "lhs": "|2x-6|",
-                      "relation": "=",
-                      "rhs": "2|x-3|",
-                      "justification": null,
-                      "side_conditions": []
-                    },
-                    {
-                      "lhs": "2|x-3|",
-                      "relation": "<",
-                      "rhs": "2 delta",
-                      "justification": null,
-                      "side_conditions": []
-                    },
-                    {
-                      "lhs": "2 delta",
-                      "relation": "=",
-                      "rhs": "epsilon",
-                      "justification": null,
-                      "side_conditions": []
-                    }
-                  ]
-                },
-                "references": [],
-                "confidence": 0.5,
-                "notes": [],
-                "unresolved_details": []
-              }
-            ],
-            "data": {
-              "strategy": "epsilon-delta proof",
-              "summary": "Given epsilon, choose delta=epsilon/2 and verify the bound.",
-              "component_ids": [
-                "epsilon_delta_linear_limit.root.epsilon_delta_linear_limit.proof.root.choose_delta",
-                "epsilon_delta_linear_limit.root.epsilon_delta_linear_limit.proof.root.verify_bound"
-              ],
-              "assumptions": [
-                "epsilon > 0"
-              ],
-              "conclusions": [
-                "|2x-6| < epsilon"
-              ],
-              "witness": null,
-              "contradiction_assumption": null,
-              "reduced_to": null,
-              "invariant": null,
-              "construction": null,
-              "metadata": {
-                "delta": "epsilon/2"
-              }
-            },
-            "references": [],
-            "confidence": 0.99,
-            "notes": [
-              "Classified as epsilon_delta from proof-type example metadata."
-            ],
-            "unresolved_details": []
-          }
-        },
-        "data": {
-          "statement": "The function f(x)=2x has limit 6 as x tends to 3.",
-          "conclusion": "The function f(x)=2x has limit 6 as x tends to 3."
-        },
-        "references": [],
-        "confidence": 0.5,
-        "notes": [],
-        "unresolved_details": []
-      }
-    ],
-    "proof": null,
-    "data": {},
-    "references": [],
-    "confidence": 0.5,
-    "notes": [],
-    "unresolved_details": []
-  },
-  "run_log": [
-    {
-      "run_id": "b768c147-ff99-403f-a017-ed1e18641906",
-      "timestamp": "2026-05-11T08:44:22.150694",
-      "agent_name": "UnknownDocumentHandler",
-      "target_node_id": "epsilon_delta_linear_limit.root",
-      "target_node_kind": "unknown",
-      "input_summary": "Theorem. The function f(x)=2x has limit 6 as x tends to 3.\n\nProof. Let epsilon>0 and choose delta=epsilon/2. If |x-3|<delta, then |2x-6|=2|x-3|<2delta=epsilon.",
-      "output_summary": "Theorem. The function f(x)=2x has limit 6 as x tends to 3.\n\nProof. Let epsilon>0 and choose delta=epsilon/2. If |x-3|<delta, then |2x-6|=2|x-3|<2delta=epsilon.",
-      "validation_ok": true,
-      "issues": [],
-      "old_status": "raw",
-      "new_status": "decomposed"
-    }
-  ],
   "document": {
     "type": "document",
     "body": [
       {
         "type": "Theorem",
-        "id": "epsilon_delta_linear_limit.root.epsilon_delta_linear_limit",
-        "status": "resolved",
-        "title": null,
         "label": "thm:limit_two_x_at_three",
-        "text": "Theorem. The function f(x)=2x has limit 6 as x tends to 3.\n\nProof. Let epsilon>0 and choose delta=epsilon/2. If |x-3|<delta, then |2x-6|=2|x-3|<2delta=epsilon.",
-        "children": [],
+        "header": "Theorem",
+        "claim": "The function f(x)=2x has limit 6 as x tends to 3.",
         "proof": {
-          "type": "ProofDetails",
-          "id": "epsilon_delta_linear_limit.root.epsilon_delta_linear_limit.proof",
-          "theorem_statement": "The function f(x)=2x has limit 6 as x tends to 3.",
-          "root": {
-            "type": "Proof",
-            "id": "epsilon_delta_linear_limit.root.epsilon_delta_linear_limit.proof.root",
-            "status": "resolved",
-            "text": "Let epsilon>0 and choose delta=epsilon/2. If |x-3|<delta, then |2x-6|=2|x-3|<2delta=epsilon.",
-            "goal": "The function f(x)=2x has limit 6 as x tends to 3.",
-            "hypotheses": [],
-            "children": [
-              {
-                "type": "assert_statement",
-                "id": "epsilon_delta_linear_limit.root.epsilon_delta_linear_limit.proof.root.choose_delta",
-                "status": "resolved",
-                "text": "Given epsilon>0, choose delta=epsilon/2.",
-                "goal": "Choose a positive delta.",
-                "hypotheses": [
-                  "epsilon > 0"
-                ],
-                "children": [],
-                "data": {
-                  "method": "direct proof",
-                  "hints": [
-                    "Given epsilon>0, choose delta=epsilon/2."
-                  ],
-                  "referenced_lemmas": [],
-                  "referenced_hypotheses": [
-                    "epsilon > 0"
-                  ]
-                },
-                "references": [],
-                "confidence": 0.5,
-                "notes": [],
-                "unresolved_details": []
-              },
-              {
-                "type": "calculation",
-                "id": "epsilon_delta_linear_limit.root.epsilon_delta_linear_limit.proof.root.verify_bound",
-                "status": "resolved",
-                "text": "If |x-3|<delta, then |2x-6|=2|x-3|<2delta=epsilon.",
-                "goal": "|2x-6| < epsilon.",
-                "hypotheses": [],
-                "children": [],
-                "data": {
-                  "calculation_kind": "epsilon_delta_bound",
-                  "start": "|2x-6|",
-                  "target": "epsilon",
-                  "steps": [
-                    {
-                      "lhs": "|2x-6|",
-                      "relation": "=",
-                      "rhs": "2|x-3|",
-                      "justification": null,
-                      "side_conditions": []
-                    },
-                    {
-                      "lhs": "2|x-3|",
-                      "relation": "<",
-                      "rhs": "2 delta",
-                      "justification": null,
-                      "side_conditions": []
-                    },
-                    {
-                      "lhs": "2 delta",
-                      "relation": "=",
-                      "rhs": "epsilon",
-                      "justification": null,
-                      "side_conditions": []
-                    }
-                  ]
-                },
-                "references": [],
-                "confidence": 0.5,
-                "notes": [],
-                "unresolved_details": []
-              }
-            ],
-            "data": {
-              "strategy": "epsilon-delta proof",
-              "summary": "Given epsilon, choose delta=epsilon/2 and verify the bound.",
-              "component_ids": [
-                "epsilon_delta_linear_limit.root.epsilon_delta_linear_limit.proof.root.choose_delta",
-                "epsilon_delta_linear_limit.root.epsilon_delta_linear_limit.proof.root.verify_bound"
-              ],
-              "assumptions": [
-                "epsilon > 0"
-              ],
-              "conclusions": [
-                "|2x-6| < epsilon"
-              ],
-              "witness": null,
-              "contradiction_assumption": null,
-              "reduced_to": null,
-              "invariant": null,
-              "construction": null,
-              "metadata": {
-                "delta": "epsilon/2"
-              }
+          "type": "Proof",
+          "claim_label": "The function f(x)=2x has limit 6 as x tends to 3.",
+          "proof_steps": [
+            {
+              "type": "assert_statement",
+              "claim": "Choose a positive delta.",
+              "proof_method": "direct proof",
+              "id": "epsilon_delta_linear_limit.root.epsilon_delta_linear_limit.proof.root.choose_delta",
+              "status": "resolved",
+              "text": "Given epsilon>0, choose delta=epsilon/2."
             },
-            "references": [],
-            "confidence": 0.99,
-            "notes": [
-              "Classified as epsilon_delta from proof-type example metadata."
-            ],
-            "unresolved_details": []
-          }
+            {
+              "type": "calculation",
+              "calculation_sequence": [
+                "|2x-6| = 2|x-3|",
+                "2|x-3| < 2 delta",
+                "2 delta = epsilon"
+              ],
+              "id": "epsilon_delta_linear_limit.root.epsilon_delta_linear_limit.proof.root.verify_bound",
+              "status": "resolved"
+            }
+          ],
+          "id": "epsilon_delta_linear_limit.root.epsilon_delta_linear_limit.proof.root",
+          "status": "resolved"
         },
-        "data": {
-          "statement": "The function f(x)=2x has limit 6 as x tends to 3.",
-          "conclusion": "The function f(x)=2x has limit 6 as x tends to 3."
-        },
-        "references": [],
-        "confidence": 0.5,
-        "notes": [],
-        "unresolved_details": []
+        "id": "epsilon_delta_linear_limit.root.epsilon_delta_linear_limit",
+        "status": "resolved"
       }
     ],
     "title": "A Linear Epsilon-Delta Limit"

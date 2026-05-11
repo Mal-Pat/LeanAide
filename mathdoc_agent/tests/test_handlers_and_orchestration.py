@@ -240,9 +240,12 @@ class HandlerAndOrchestrationTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(theorem.proof.root.model_dump()["type"], "assert_statement")
         self.assertEqual(len(refined.run_log), 1)
         exported = json.loads(to_json(refined))
-        self.assertEqual(exported["type"], "document")
+        self.assertEqual(set(exported.keys()), {"document"})
+        self.assertEqual(exported["document"]["type"], "document")
         self.assertEqual(exported["document"]["body"][0]["type"], "Theorem")
-        self.assertNotIn("kind", exported["root"])
+        self.assertEqual(exported["document"]["body"][0]["claim"], "P")
+        self.assertNotIn("root", exported)
+        self.assertNotIn("run_log", exported)
         self.assertNotIn("kind", exported["document"]["body"][0])
 
     def test_earlier_sibling_local_claim_is_in_context(self) -> None:

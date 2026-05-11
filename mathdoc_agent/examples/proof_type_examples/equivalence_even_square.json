@@ -1,246 +1,39 @@
 {
-  "type": "document",
-  "id": "equivalence_even_square",
-  "title": "Evenness Equivalent to Square Evenness",
-  "root": {
-    "type": "document",
-    "id": "equivalence_even_square.root",
-    "status": "resolved",
-    "title": "Evenness Equivalent to Square Evenness",
-    "label": null,
-    "text": "Theorem. For an integer n, n is even if and only if n^2 is even.\n\nProof. For the forward direction, if n=2k then n^2=2(2k^2), so n^2 is even. For the reverse direction, use the contrapositive: if n is odd, then n^2 is odd.",
-    "children": [
-      {
-        "type": "Theorem",
-        "id": "equivalence_even_square.root.equivalence_even_square",
-        "status": "resolved",
-        "title": null,
-        "label": "thm:even_iff_square_even",
-        "text": "Theorem. For an integer n, n is even if and only if n^2 is even.\n\nProof. For the forward direction, if n=2k then n^2=2(2k^2), so n^2 is even. For the reverse direction, use the contrapositive: if n is odd, then n^2 is odd.",
-        "children": [],
-        "proof": {
-          "type": "ProofDetails",
-          "id": "equivalence_even_square.root.equivalence_even_square.proof",
-          "theorem_statement": "For an integer n, n is even if and only if n^2 is even.",
-          "root": {
-            "type": "bi-implication_cases_proof",
-            "id": "equivalence_even_square.root.equivalence_even_square.proof.root",
-            "status": "resolved",
-            "text": "For the forward direction, if n=2k then n^2=2(2k^2), so n^2 is even. For the reverse direction, use the contrapositive: if n is odd, then n^2 is odd.",
-            "goal": "For an integer n, n is even if and only if n^2 is even.",
-            "hypotheses": [],
-            "children": [
-              {
-                "type": "assert_statement",
-                "id": "equivalence_even_square.root.equivalence_even_square.proof.root.forward",
-                "status": "resolved",
-                "text": "If n=2k then n^2=2(2k^2), so n^2 is even.",
-                "goal": "n even implies n^2 even.",
-                "hypotheses": [],
-                "children": [],
-                "data": {
-                  "method": "direct proof",
-                  "hints": [
-                    "If n=2k then n^2=2(2k^2), so n^2 is even."
-                  ],
-                  "referenced_lemmas": [],
-                  "referenced_hypotheses": []
-                },
-                "references": [],
-                "confidence": 0.5,
-                "notes": [],
-                "unresolved_details": []
-              },
-              {
-                "type": "Proof",
-                "id": "equivalence_even_square.root.equivalence_even_square.proof.root.reverse",
-                "status": "resolved",
-                "text": "For the reverse direction, prove the contrapositive: odd n implies odd n^2.",
-                "goal": "n^2 even implies n even.",
-                "hypotheses": [],
-                "children": [],
-                "data": {
-                  "strategy": "structured contrapositive proof",
-                  "summary": null,
-                  "component_ids": [],
-                  "assumptions": [],
-                  "conclusions": [],
-                  "witness": null,
-                  "contradiction_assumption": null,
-                  "reduced_to": null,
-                  "invariant": null,
-                  "construction": null,
-                  "metadata": {}
-                },
-                "references": [],
-                "confidence": 0.5,
-                "notes": [],
-                "unresolved_details": [
-                  "No example metadata matched this proof text."
-                ]
-              }
-            ],
-            "data": {
-              "strategy": "prove both implications",
-              "summary": "Split the iff into forward and reverse directions.",
-              "component_ids": [
-                "equivalence_even_square.root.equivalence_even_square.proof.root.forward",
-                "equivalence_even_square.root.equivalence_even_square.proof.root.reverse"
-              ],
-              "assumptions": [],
-              "conclusions": [],
-              "witness": null,
-              "contradiction_assumption": null,
-              "reduced_to": null,
-              "invariant": null,
-              "construction": null,
-              "metadata": {}
-            },
-            "references": [],
-            "confidence": 0.99,
-            "notes": [
-              "Classified as equivalence from proof-type example metadata."
-            ],
-            "unresolved_details": []
-          }
-        },
-        "data": {
-          "statement": "For an integer n, n is even if and only if n^2 is even.",
-          "conclusion": "For an integer n, n is even if and only if n^2 is even."
-        },
-        "references": [],
-        "confidence": 0.5,
-        "notes": [],
-        "unresolved_details": []
-      }
-    ],
-    "proof": null,
-    "data": {},
-    "references": [],
-    "confidence": 0.5,
-    "notes": [],
-    "unresolved_details": []
-  },
-  "run_log": [
-    {
-      "run_id": "12e7874a-4977-4ff9-bd2c-bfb64a6a8907",
-      "timestamp": "2026-05-11T08:44:22.140529",
-      "agent_name": "UnknownDocumentHandler",
-      "target_node_id": "equivalence_even_square.root",
-      "target_node_kind": "unknown",
-      "input_summary": "Theorem. For an integer n, n is even if and only if n^2 is even.\n\nProof. For the forward direction, if n=2k then n^2=2(2k^2), so n^2 is even. For the reverse direction, use the contrapositive: if n is",
-      "output_summary": "Theorem. For an integer n, n is even if and only if n^2 is even.\n\nProof. For the forward direction, if n=2k then n^2=2(2k^2), so n^2 is even. For the reverse direction, use the contrapositive: if n is",
-      "validation_ok": true,
-      "issues": [],
-      "old_status": "raw",
-      "new_status": "decomposed"
-    }
-  ],
   "document": {
     "type": "document",
     "body": [
       {
         "type": "Theorem",
-        "id": "equivalence_even_square.root.equivalence_even_square",
-        "status": "resolved",
-        "title": null,
         "label": "thm:even_iff_square_even",
-        "text": "Theorem. For an integer n, n is even if and only if n^2 is even.\n\nProof. For the forward direction, if n=2k then n^2=2(2k^2), so n^2 is even. For the reverse direction, use the contrapositive: if n is odd, then n^2 is odd.",
-        "children": [],
+        "header": "Theorem",
+        "claim": "For an integer n, n is even if and only if n^2 is even.",
         "proof": {
-          "type": "ProofDetails",
-          "id": "equivalence_even_square.root.equivalence_even_square.proof",
-          "theorem_statement": "For an integer n, n is even if and only if n^2 is even.",
-          "root": {
-            "type": "bi-implication_cases_proof",
-            "id": "equivalence_even_square.root.equivalence_even_square.proof.root",
+          "type": "bi-implication_cases_proof",
+          "if_proof": {
+            "type": "assert_statement",
+            "claim": "n even implies n^2 even.",
+            "proof_method": "direct proof",
+            "id": "equivalence_even_square.root.equivalence_even_square.proof.root.forward",
             "status": "resolved",
-            "text": "For the forward direction, if n=2k then n^2=2(2k^2), so n^2 is even. For the reverse direction, use the contrapositive: if n is odd, then n^2 is odd.",
-            "goal": "For an integer n, n is even if and only if n^2 is even.",
-            "hypotheses": [],
-            "children": [
+            "text": "If n=2k then n^2=2(2k^2), so n^2 is even."
+          },
+          "only_if_proof": {
+            "type": "Proof",
+            "claim_label": "n^2 even implies n even.",
+            "proof_steps": [
               {
                 "type": "assert_statement",
-                "id": "equivalence_even_square.root.equivalence_even_square.proof.root.forward",
-                "status": "resolved",
-                "text": "If n=2k then n^2=2(2k^2), so n^2 is even.",
-                "goal": "n even implies n^2 even.",
-                "hypotheses": [],
-                "children": [],
-                "data": {
-                  "method": "direct proof",
-                  "hints": [
-                    "If n=2k then n^2=2(2k^2), so n^2 is even."
-                  ],
-                  "referenced_lemmas": [],
-                  "referenced_hypotheses": []
-                },
-                "references": [],
-                "confidence": 0.5,
-                "notes": [],
-                "unresolved_details": []
-              },
-              {
-                "type": "Proof",
-                "id": "equivalence_even_square.root.equivalence_even_square.proof.root.reverse",
-                "status": "resolved",
-                "text": "For the reverse direction, prove the contrapositive: odd n implies odd n^2.",
-                "goal": "n^2 even implies n even.",
-                "hypotheses": [],
-                "children": [],
-                "data": {
-                  "strategy": "structured contrapositive proof",
-                  "summary": null,
-                  "component_ids": [],
-                  "assumptions": [],
-                  "conclusions": [],
-                  "witness": null,
-                  "contradiction_assumption": null,
-                  "reduced_to": null,
-                  "invariant": null,
-                  "construction": null,
-                  "metadata": {}
-                },
-                "references": [],
-                "confidence": 0.5,
-                "notes": [],
-                "unresolved_details": [
-                  "No example metadata matched this proof text."
-                ]
+                "claim": "n^2 even implies n even."
               }
             ],
-            "data": {
-              "strategy": "prove both implications",
-              "summary": "Split the iff into forward and reverse directions.",
-              "component_ids": [
-                "equivalence_even_square.root.equivalence_even_square.proof.root.forward",
-                "equivalence_even_square.root.equivalence_even_square.proof.root.reverse"
-              ],
-              "assumptions": [],
-              "conclusions": [],
-              "witness": null,
-              "contradiction_assumption": null,
-              "reduced_to": null,
-              "invariant": null,
-              "construction": null,
-              "metadata": {}
-            },
-            "references": [],
-            "confidence": 0.99,
-            "notes": [
-              "Classified as equivalence from proof-type example metadata."
-            ],
-            "unresolved_details": []
-          }
+            "id": "equivalence_even_square.root.equivalence_even_square.proof.root.reverse",
+            "status": "resolved"
+          },
+          "id": "equivalence_even_square.root.equivalence_even_square.proof.root",
+          "status": "resolved"
         },
-        "data": {
-          "statement": "For an integer n, n is even if and only if n^2 is even.",
-          "conclusion": "For an integer n, n is even if and only if n^2 is even."
-        },
-        "references": [],
-        "confidence": 0.5,
-        "notes": [],
-        "unresolved_details": []
+        "id": "equivalence_even_square.root.equivalence_even_square",
+        "status": "resolved"
       }
     ],
     "title": "Evenness Equivalent to Square Evenness"

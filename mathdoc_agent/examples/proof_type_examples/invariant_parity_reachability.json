@@ -1,276 +1,46 @@
 {
-  "type": "document",
-  "id": "invariant_parity_reachability",
-  "title": "Parity Invariant Reachability",
-  "root": {
-    "type": "document",
-    "id": "invariant_parity_reachability.root",
-    "status": "resolved",
-    "title": "Parity Invariant Reachability",
-    "label": null,
-    "text": "Theorem. Starting from 0 and repeatedly adding or subtracting 2, one cannot reach 1.\n\nProof. The invariant is parity. Starting from 0, the current number is even. Adding or subtracting 2 preserves parity, so every reachable number is even. Since 1 is odd, 1 is not reachable.",
-    "children": [
-      {
-        "type": "Theorem",
-        "id": "invariant_parity_reachability.root.invariant_parity_reachability",
-        "status": "resolved",
-        "title": null,
-        "label": "thm:cannot_reach_one_by_twos",
-        "text": "Theorem. Starting from 0 and repeatedly adding or subtracting 2, one cannot reach 1.\n\nProof. The invariant is parity. Starting from 0, the current number is even. Adding or subtracting 2 preserves parity, so every reachable number is even. Since 1 is odd, 1 is not reachable.",
-        "children": [],
-        "proof": {
-          "type": "ProofDetails",
-          "id": "invariant_parity_reachability.root.invariant_parity_reachability.proof",
-          "theorem_statement": "Starting from 0 and repeatedly adding or subtracting 2, one cannot reach 1.",
-          "root": {
-            "type": "Proof",
-            "id": "invariant_parity_reachability.root.invariant_parity_reachability.proof.root",
-            "status": "resolved",
-            "text": "The invariant is parity. Starting from 0, the current number is even. Adding or subtracting 2 preserves parity, so every reachable number is even. Since 1 is odd, 1 is not reachable.",
-            "goal": "Starting from 0 and repeatedly adding or subtracting 2, one cannot reach 1.",
-            "hypotheses": [],
-            "children": [
-              {
-                "type": "assert_statement",
-                "id": "invariant_parity_reachability.root.invariant_parity_reachability.proof.root.initial_invariant",
-                "status": "resolved",
-                "text": "The initial value 0 is even.",
-                "goal": "The invariant holds initially.",
-                "hypotheses": [],
-                "children": [],
-                "data": {
-                  "method": "direct proof",
-                  "hints": [
-                    "The initial value 0 is even."
-                  ],
-                  "referenced_lemmas": [],
-                  "referenced_hypotheses": []
-                },
-                "references": [],
-                "confidence": 0.5,
-                "notes": [],
-                "unresolved_details": []
-              },
-              {
-                "type": "assert_statement",
-                "id": "invariant_parity_reachability.root.invariant_parity_reachability.proof.root.preservation",
-                "status": "resolved",
-                "text": "Adding or subtracting 2 preserves parity.",
-                "goal": "The invariant is preserved by every move.",
-                "hypotheses": [],
-                "children": [],
-                "data": {
-                  "method": "direct proof",
-                  "hints": [
-                    "Adding or subtracting 2 preserves parity."
-                  ],
-                  "referenced_lemmas": [],
-                  "referenced_hypotheses": []
-                },
-                "references": [],
-                "confidence": 0.5,
-                "notes": [],
-                "unresolved_details": []
-              },
-              {
-                "type": "assert_statement",
-                "id": "invariant_parity_reachability.root.invariant_parity_reachability.proof.root.exclude_target",
-                "status": "resolved",
-                "text": "The target 1 is odd, so it cannot satisfy the invariant.",
-                "goal": "1 is not reachable.",
-                "hypotheses": [],
-                "children": [],
-                "data": {
-                  "method": "direct proof",
-                  "hints": [
-                    "The target 1 is odd, so it cannot satisfy the invariant."
-                  ],
-                  "referenced_lemmas": [],
-                  "referenced_hypotheses": []
-                },
-                "references": [],
-                "confidence": 0.5,
-                "notes": [],
-                "unresolved_details": []
-              }
-            ],
-            "data": {
-              "strategy": "invariant argument",
-              "summary": "Use parity as an invariant under moves by 2.",
-              "component_ids": [
-                "invariant_parity_reachability.root.invariant_parity_reachability.proof.root.initial_invariant",
-                "invariant_parity_reachability.root.invariant_parity_reachability.proof.root.preservation",
-                "invariant_parity_reachability.root.invariant_parity_reachability.proof.root.exclude_target"
-              ],
-              "assumptions": [],
-              "conclusions": [],
-              "witness": null,
-              "contradiction_assumption": null,
-              "reduced_to": null,
-              "invariant": "parity is even",
-              "construction": null,
-              "metadata": {}
-            },
-            "references": [],
-            "confidence": 0.99,
-            "notes": [
-              "Classified as invariant from proof-type example metadata."
-            ],
-            "unresolved_details": []
-          }
-        },
-        "data": {
-          "statement": "Starting from 0 and repeatedly adding or subtracting 2, one cannot reach 1.",
-          "conclusion": "Starting from 0 and repeatedly adding or subtracting 2, one cannot reach 1."
-        },
-        "references": [],
-        "confidence": 0.5,
-        "notes": [],
-        "unresolved_details": []
-      }
-    ],
-    "proof": null,
-    "data": {},
-    "references": [],
-    "confidence": 0.5,
-    "notes": [],
-    "unresolved_details": []
-  },
-  "run_log": [
-    {
-      "run_id": "a71b766e-670a-4591-a2a8-b0a3808cf195",
-      "timestamp": "2026-05-11T08:44:22.152042",
-      "agent_name": "UnknownDocumentHandler",
-      "target_node_id": "invariant_parity_reachability.root",
-      "target_node_kind": "unknown",
-      "input_summary": "Theorem. Starting from 0 and repeatedly adding or subtracting 2, one cannot reach 1.\n\nProof. The invariant is parity. Starting from 0, the current number is even. Adding or subtracting 2 preserves par",
-      "output_summary": "Theorem. Starting from 0 and repeatedly adding or subtracting 2, one cannot reach 1.\n\nProof. The invariant is parity. Starting from 0, the current number is even. Adding or subtracting 2 preserves par",
-      "validation_ok": true,
-      "issues": [],
-      "old_status": "raw",
-      "new_status": "decomposed"
-    }
-  ],
   "document": {
     "type": "document",
     "body": [
       {
         "type": "Theorem",
-        "id": "invariant_parity_reachability.root.invariant_parity_reachability",
-        "status": "resolved",
-        "title": null,
         "label": "thm:cannot_reach_one_by_twos",
-        "text": "Theorem. Starting from 0 and repeatedly adding or subtracting 2, one cannot reach 1.\n\nProof. The invariant is parity. Starting from 0, the current number is even. Adding or subtracting 2 preserves parity, so every reachable number is even. Since 1 is odd, 1 is not reachable.",
-        "children": [],
+        "header": "Theorem",
+        "claim": "Starting from 0 and repeatedly adding or subtracting 2, one cannot reach 1.",
         "proof": {
-          "type": "ProofDetails",
-          "id": "invariant_parity_reachability.root.invariant_parity_reachability.proof",
-          "theorem_statement": "Starting from 0 and repeatedly adding or subtracting 2, one cannot reach 1.",
-          "root": {
-            "type": "Proof",
-            "id": "invariant_parity_reachability.root.invariant_parity_reachability.proof.root",
-            "status": "resolved",
-            "text": "The invariant is parity. Starting from 0, the current number is even. Adding or subtracting 2 preserves parity, so every reachable number is even. Since 1 is odd, 1 is not reachable.",
-            "goal": "Starting from 0 and repeatedly adding or subtracting 2, one cannot reach 1.",
-            "hypotheses": [],
-            "children": [
-              {
-                "type": "assert_statement",
-                "id": "invariant_parity_reachability.root.invariant_parity_reachability.proof.root.initial_invariant",
-                "status": "resolved",
-                "text": "The initial value 0 is even.",
-                "goal": "The invariant holds initially.",
-                "hypotheses": [],
-                "children": [],
-                "data": {
-                  "method": "direct proof",
-                  "hints": [
-                    "The initial value 0 is even."
-                  ],
-                  "referenced_lemmas": [],
-                  "referenced_hypotheses": []
-                },
-                "references": [],
-                "confidence": 0.5,
-                "notes": [],
-                "unresolved_details": []
-              },
-              {
-                "type": "assert_statement",
-                "id": "invariant_parity_reachability.root.invariant_parity_reachability.proof.root.preservation",
-                "status": "resolved",
-                "text": "Adding or subtracting 2 preserves parity.",
-                "goal": "The invariant is preserved by every move.",
-                "hypotheses": [],
-                "children": [],
-                "data": {
-                  "method": "direct proof",
-                  "hints": [
-                    "Adding or subtracting 2 preserves parity."
-                  ],
-                  "referenced_lemmas": [],
-                  "referenced_hypotheses": []
-                },
-                "references": [],
-                "confidence": 0.5,
-                "notes": [],
-                "unresolved_details": []
-              },
-              {
-                "type": "assert_statement",
-                "id": "invariant_parity_reachability.root.invariant_parity_reachability.proof.root.exclude_target",
-                "status": "resolved",
-                "text": "The target 1 is odd, so it cannot satisfy the invariant.",
-                "goal": "1 is not reachable.",
-                "hypotheses": [],
-                "children": [],
-                "data": {
-                  "method": "direct proof",
-                  "hints": [
-                    "The target 1 is odd, so it cannot satisfy the invariant."
-                  ],
-                  "referenced_lemmas": [],
-                  "referenced_hypotheses": []
-                },
-                "references": [],
-                "confidence": 0.5,
-                "notes": [],
-                "unresolved_details": []
-              }
-            ],
-            "data": {
-              "strategy": "invariant argument",
-              "summary": "Use parity as an invariant under moves by 2.",
-              "component_ids": [
-                "invariant_parity_reachability.root.invariant_parity_reachability.proof.root.initial_invariant",
-                "invariant_parity_reachability.root.invariant_parity_reachability.proof.root.preservation",
-                "invariant_parity_reachability.root.invariant_parity_reachability.proof.root.exclude_target"
-              ],
-              "assumptions": [],
-              "conclusions": [],
-              "witness": null,
-              "contradiction_assumption": null,
-              "reduced_to": null,
-              "invariant": "parity is even",
-              "construction": null,
-              "metadata": {}
+          "type": "Proof",
+          "claim_label": "Starting from 0 and repeatedly adding or subtracting 2, one cannot reach 1.",
+          "proof_steps": [
+            {
+              "type": "assert_statement",
+              "claim": "The invariant holds initially.",
+              "proof_method": "direct proof",
+              "id": "invariant_parity_reachability.root.invariant_parity_reachability.proof.root.initial_invariant",
+              "status": "resolved",
+              "text": "The initial value 0 is even."
             },
-            "references": [],
-            "confidence": 0.99,
-            "notes": [
-              "Classified as invariant from proof-type example metadata."
-            ],
-            "unresolved_details": []
-          }
+            {
+              "type": "assert_statement",
+              "claim": "The invariant is preserved by every move.",
+              "proof_method": "direct proof",
+              "id": "invariant_parity_reachability.root.invariant_parity_reachability.proof.root.preservation",
+              "status": "resolved",
+              "text": "Adding or subtracting 2 preserves parity."
+            },
+            {
+              "type": "assert_statement",
+              "claim": "1 is not reachable.",
+              "proof_method": "direct proof",
+              "id": "invariant_parity_reachability.root.invariant_parity_reachability.proof.root.exclude_target",
+              "status": "resolved",
+              "text": "The target 1 is odd, so it cannot satisfy the invariant."
+            }
+          ],
+          "id": "invariant_parity_reachability.root.invariant_parity_reachability.proof.root",
+          "status": "resolved"
         },
-        "data": {
-          "statement": "Starting from 0 and repeatedly adding or subtracting 2, one cannot reach 1.",
-          "conclusion": "Starting from 0 and repeatedly adding or subtracting 2, one cannot reach 1."
-        },
-        "references": [],
-        "confidence": 0.5,
-        "notes": [],
-        "unresolved_details": []
+        "id": "invariant_parity_reachability.root.invariant_parity_reachability",
+        "status": "resolved"
       }
     ],
     "title": "Parity Invariant Reachability"

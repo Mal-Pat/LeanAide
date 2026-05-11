@@ -45,13 +45,18 @@ class ProofTypeExampleTests(unittest.IsolatedAsyncioTestCase):
 
                 data = json.loads(json_path.read_text(encoding="utf-8"))
                 self.assertFalse(contains_key(data, "kind"))
-                self.assertEqual(data["type"], "document")
+                self.assertEqual(set(data.keys()), {"document"})
+                self.assertEqual(data["document"]["type"], "document")
                 theorem = data["document"]["body"][0]
                 self.assertEqual(theorem["type"], "Theorem")
-                proof_root = theorem["proof"]["root"]
+                self.assertIn("claim", theorem)
+                self.assertNotIn("root", data)
+                self.assertNotIn("run_log", data)
+                proof_root = theorem["proof"]
                 self.assertEqual(proof_root["type"], EXPECTED_PROOF_TYPES[example.proof_kind])
                 self.assertEqual(proof_root["status"], "resolved")
-                self.assertTrue(proof_root["data"]["strategy"])
+                if proof_root["type"] == "Proof":
+                    self.assertIn("proof_steps", proof_root)
 
     def test_saved_example_outputs_exist(self) -> None:
         output_dir = Path("mathdoc_agent/examples/proof_type_examples")

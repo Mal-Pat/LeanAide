@@ -43,8 +43,10 @@ class ModelAndBuilderTests(unittest.TestCase):
         self.assertEqual(dumped["proof"]["root"]["type"], "Proof")
         exported = json.loads(to_json(round_trip))
         self.assertEqual(exported["type"], "Theorem")
+        self.assertEqual(exported["claim"], "P")
         self.assertNotIn("kind", exported)
-        self.assertNotIn("kind", exported["proof"]["root"])
+        self.assertNotIn("kind", exported["proof"])
+        self.assertNotIn("theorem_statement", exported["proof"])
 
     def test_payload_registry_validates_known_and_ignores_unknown(self) -> None:
         data = proof_payload_registry.validate_data(
