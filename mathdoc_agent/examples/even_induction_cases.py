@@ -22,8 +22,9 @@ SOURCE_TEXT = """Theorem. For every natural number n, either n is even or n+1 is
 
 Proof. We prove this by induction on n. For n=0, n is even. For the induction
 step, assume that either n is even or n+1 is even. We split into cases. If n is
-even, then n+1 or n+2 is even because n+2 is even. If n+1 is even, then the
-next statement holds because n+1 is even."""
+even, then n=2k for some natural number k, hence n+2=2(k+1) is even, so the
+right side of the desired disjunction holds. If n+1 is even, then the left side
+of the desired disjunction holds."""
 
 
 class DocumentParserAgent:
@@ -45,8 +46,9 @@ class DocumentParserAgent:
                     proof_text=(
                         "We prove this by induction on n. For n=0, n is even. "
                         "For the induction step, assume that either n is even or n+1 is even. "
-                        "We split into cases. If n is even, then n+1 or n+2 is even because n+2 is even. "
-                        "If n+1 is even, then the next statement holds because n+1 is even."
+                        "We split into cases. If n is even, then n=2k for some natural number k, "
+                        "hence n+2=2(k+1) is even, so the right side of the desired disjunction holds. "
+                        "If n+1 is even, then the left side of the desired disjunction holds."
                     ),
                 )
             ]
@@ -117,7 +119,7 @@ class CasesAgent:
                     kind=ProofKind.simple,
                     text=(
                         "Case 1: n is even. Then n=2k for some k, so n+2=2(k+1) is even. "
-                        "Thus either n+1 is even or n+2 is even."
+                        "Thus the right disjunct of the goal, n+2 is even, holds."
                     ),
                     goal="Either n+1 is even or n+2 is even.",
                     hypotheses=["n is even"],
@@ -126,8 +128,8 @@ class CasesAgent:
                     id_suffix="case_next_even",
                     kind=ProofKind.simple,
                     text=(
-                        "Case 2: n+1 is even. Then the left side of the desired disjunction "
-                        "for n+1 is true."
+                        "Case 2: n+1 is even. This is exactly the left disjunct of the goal, "
+                        "so either n+1 is even or n+2 is even."
                     ),
                     goal="Either n+1 is even or n+2 is even.",
                     hypotheses=["n+1 is even"],
