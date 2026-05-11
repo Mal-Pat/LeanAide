@@ -1735,7 +1735,7 @@ def inductionCode (translator : CodeGenerator := {}) : Option MVarId →  (kind:
 
   let [baseGoal, stepGoal] ←
     runAndGetMVars goal #[tac] 2 | throwError s!"codegen: induction failed to get two goals, goal: {← ppExpr <| ← goal.getType}"
-  let .ok baseCaseProof := js.getObjValAs? Json "base_case_proof" | throwError
+  let .ok baseCaseProof := js.getObjVal? "base_case_proof" | throwError
     s!"codegen: no true_case_proof found in {js}"
   let .ok inductionStepProof := js.getObjValAs? Json "induction_step_proof" | throwError
     s!"codegen: no false_case_proof found in {js}"
