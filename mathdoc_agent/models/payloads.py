@@ -77,3 +77,17 @@ class LocalClaimData(ProofKindData):
     statement: str
     proof_node_id: Optional[str] = None
     label: Optional[str] = None
+
+
+class StructuredProofData(ProofKindData):
+    strategy: Optional[str] = None
+    summary: Optional[str] = None
+    component_ids: list[str] = Field(default_factory=list)
+    assumptions: list[str] = Field(default_factory=list)
+    conclusions: list[str] = Field(default_factory=list)
+    witness: Optional[str] = None
+    contradiction_assumption: Optional[str] = None
+    reduced_to: Optional[str] = None
+    invariant: Optional[str] = None
+    construction: Optional[str] = None
+    metadata: dict[str, str] = Field(default_factory=dict)

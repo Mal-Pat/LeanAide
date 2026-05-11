@@ -54,6 +54,22 @@ class LocalClaimRefinementSpec(BaseModel):
     notes: list[str] = Field(default_factory=list)
 
 
+class StructuredProofRefinementSpec(BaseModel):
+    strategy: Optional[str] = None
+    summary: Optional[str] = None
+    components: list[ChildProofSpec] = Field(default_factory=list)
+    assumptions: list[str] = Field(default_factory=list)
+    conclusions: list[str] = Field(default_factory=list)
+    witness: Optional[str] = None
+    contradiction_assumption: Optional[str] = None
+    reduced_to: Optional[str] = None
+    invariant: Optional[str] = None
+    construction: Optional[str] = None
+    metadata: dict[str, str] = Field(default_factory=dict)
+    unresolved_details: list[str] = Field(default_factory=list)
+    notes: list[str] = Field(default_factory=list)
+
+
 class DocumentChildSpec(BaseModel):
     id_suffix: str
     kind: Union[DocumentKind, str] = DocumentKind.unknown

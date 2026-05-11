@@ -8,6 +8,7 @@ from mathdoc_agent.models.payloads import (
     LocalClaimData,
     ProofKindData,
     SimpleProofData,
+    StructuredProofData,
 )
 
 
@@ -38,3 +39,35 @@ proof_payload_registry.register(ProofKind.induction, InductionData)
 proof_payload_registry.register(ProofKind.cases, CasesData)
 proof_payload_registry.register(ProofKind.calculation, CalculationData)
 proof_payload_registry.register(ProofKind.local_claim, LocalClaimData)
+
+for structured_kind in (
+    ProofKind.contradiction,
+    ProofKind.contrapositive,
+    ProofKind.extensionality,
+    ProofKind.existence,
+    ProofKind.uniqueness,
+    ProofKind.equivalence,
+    ProofKind.construction,
+    ProofKind.minimal_counterexample,
+    ProofKind.infinite_descent,
+    ProofKind.exhaustion,
+    ProofKind.counting,
+    ProofKind.pigeonhole,
+    ProofKind.invariant,
+    ProofKind.monotonicity_bounding,
+    ProofKind.reduction,
+    ProofKind.diagram_chase,
+    ProofKind.epsilon_delta,
+    ProofKind.generic_element,
+    ProofKind.local_to_global,
+    ProofKind.maximal_minimal,
+    ProofKind.compactness,
+    ProofKind.density,
+    ProofKind.approximation,
+    ProofKind.universal_property,
+    ProofKind.algorithmic,
+    ProofKind.probabilistic,
+    ProofKind.genericity_ae,
+    ProofKind.diagrammatic_geometric,
+):
+    proof_payload_registry.register(structured_kind, StructuredProofData)

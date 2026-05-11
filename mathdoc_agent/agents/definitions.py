@@ -11,6 +11,7 @@ from mathdoc_agent.models.refinement_specs import (
     DocumentRefinementSpec,
     InductionRefinementSpec,
     SimpleProofRefinementSpec,
+    StructuredProofRefinementSpec,
 )
 
 MODEL = os.environ.get("MATHDOC_AGENT_MODEL", "gpt-5.4")
@@ -70,4 +71,9 @@ calculation_agent = _agent(
     "Calculation proof refiner",
     prompts.CALCULATION_INSTRUCTIONS,
     CalculationRefinementSpec,
+)
+structured_proof_agent = _agent(
+    "Structured proof refiner",
+    prompts.STRUCTURED_PROOF_INSTRUCTIONS,
+    StructuredProofRefinementSpec,
 )

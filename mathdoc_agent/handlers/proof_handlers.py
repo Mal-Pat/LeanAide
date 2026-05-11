@@ -14,6 +14,7 @@ from mathdoc_agent.models.payloads import (
     InductionData,
     LocalClaimData,
     SimpleProofData,
+    StructuredProofData,
 )
 from mathdoc_agent.models.proof import ProofNode
 from mathdoc_agent.models.refinement_specs import (
@@ -22,6 +23,7 @@ from mathdoc_agent.models.refinement_specs import (
     InductionRefinementSpec,
     LocalClaimRefinementSpec,
     SimpleProofRefinementSpec,
+    StructuredProofRefinementSpec,
 )
 from mathdoc_agent.models.validation import ValidationIssue, ValidationReport
 from mathdoc_agent.orchestration.context import ProofContext
@@ -328,3 +330,106 @@ class LocalClaimHandler(ProofRefinementHandler[LocalClaimRefinementSpec]):
         if not node.children:
             return True
         return all(child.status in {NodeStatus.resolved, NodeStatus.opaque} for child in node.children)
+
+
+class StructuredProofHandler(ProofRefinementHandler[StructuredProofRefinementSpec]):
+    """Generic handler for proof families whose structure is a list of subproofs.
+
+    This covers the reasonably decomposable proof types in `notes/proof_types.md`
+    without adding duplicate orchestration code for every taxonomy entry.
+    """
+
+    output_model = StructuredProofRefinementSpec
+
+    def __init__(self, kind: ProofKind | str, agent) -> None:
+        self.kind = kind_key(kind)
+        self.agent = agent
+
+    async def refine(self, node: ProofNode, context: ProofContext) -> ProofNode:
+        spec = await run_agent_typed(
+            self.agent,
+            {
+                "node": node.model_dump(),
+                "context": context.model_dump(),
+                "proof_kind": self.kind,
+                "task": "Refine this proof into its main logical components without expanding child proofs deeply.",
+            },
+            StructuredProofRefinementSpec,
+        )
+        children = [
+            ProofNode(
+                id=f"{node.id}.{child.id_suffix}",
+                kind=child.kind,
+                status=NodeStatus.raw,
+                text=child.text,
+                goal=child.goal,
+                hypotheses=child.hypotheses,
+                notes=child.notes,
+            )
+            for child in spec.components
+        ]
+        data = StructuredProofData(
+            strategy=spec.strategy,
+            summary=spec.summary,
+            component_ids=[child.id for child in children],
+            assumptions=spec.assumptions,
+            conclusions=spec.conclusions,
+            witness=spec.witness,
+            contradiction_assumption=spec.contradiction_assumption,
+            reduced_to=spec.reduced_to,
+            invariant=spec.invariant,
+            construction=spec.construction,
+            metadata=spec.metadata,
+        )
+        status = NodeStatus.decomposed if children else NodeStatus.resolved
+        if spec.unresolved_details and not children:
+            status = NodeStatus.resolved
+        return node.model_copy(
+            update={
+                "kind": self.kind,
+                "status": status,
+                "children": children,
+                "data": data.model_dump(),
+                "unresolved_details": node.unresolved_details + spec.unresolved_details,
+                "notes": node.notes + spec.notes,
+            }
+        )
+
+    def validate(self, node: ProofNode, context: ProofContext) -> ValidationReport:
+        issues: list[ValidationIssue] = []
+        data = StructuredProofData.model_validate(node.data)
+        child_ids = {child.id for child in node.children}
+        for component_id in data.component_ids:
+            if component_id not in child_ids:
+                issues.append(
+                    ValidationIssue(
+                        severity="error",
+                        path="data.component_ids",
+                        message=f"Referenced component id {component_id!r} is missing.",
+                    )
+                )
+        if self.kind == ProofKind.existence.value and not (data.witness or node.children):
+            issues.append(
+                ValidationIssue(
+                    severity="warning",
+                    path="data.witness",
+                    message="Existence proof has no explicit witness or witness subproof.",
+                )
+            )
+        if self.kind == ProofKind.contradiction.value and not (data.contradiction_assumption or node.children):
+            issues.append(
+                ValidationIssue(
+                    severity="warning",
+                    path="data.contradiction_assumption",
+                    message="Contradiction proof has no negated assumption or contradiction subproof.",
+                )
+            )
+        return ValidationReport.from_issues(issues)
+
+    def is_resolved(self, node: ProofNode, context: ProofContext) -> bool:
+        if node.children:
+            return all(
+                child.status in {NodeStatus.resolved, NodeStatus.opaque}
+                for child in node.children
+            )
+        return bool(node.data or node.unresolved_details)

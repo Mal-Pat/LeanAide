@@ -15,6 +15,7 @@ from mathdoc_agent.models.refinement_specs import (
     DocumentRefinementSpec,
     InductionRefinementSpec,
     SimpleProofRefinementSpec,
+    StructuredProofRefinementSpec,
 )
 from mathdoc_agent.orchestration.context import build_proof_context
 from mathdoc_agent.orchestration.document_orchestrator import document_from_text, refine_math_document
@@ -91,6 +92,37 @@ class CalculationAgent:
         )
 
 
+class StructuredAgent:
+    def __call__(self, payload):
+        proof_kind = payload["proof_kind"]
+        if proof_kind == ProofKind.equivalence.value:
+            return StructuredProofRefinementSpec(
+                strategy="prove both implications",
+                summary="Split the equivalence into forward and reverse directions.",
+                components=[
+                    ChildProofSpec(
+                        id_suffix="forward",
+                        kind=ProofKind.simple,
+                        text="Assume P and prove Q.",
+                        goal="P implies Q",
+                        hypotheses=["P"],
+                    ),
+                    ChildProofSpec(
+                        id_suffix="reverse",
+                        kind=ProofKind.simple,
+                        text="Assume Q and prove P.",
+                        goal="Q implies P",
+                        hypotheses=["Q"],
+                    ),
+                ],
+            )
+        return StructuredProofRefinementSpec(
+            strategy=f"structured {proof_kind} proof",
+            summary="Single unresolved structured proof.",
+            unresolved_details=["No decomposition supplied by fake agent."],
+        )
+
+
 class DocumentParserAgent:
     def __call__(self, payload):
         return DocumentRefinementSpec(
@@ -114,6 +146,7 @@ def proof_registry():
         cases_agent=CasesAgent(),
         simple_agent=SimpleAgent(),
         calculation_agent=CalculationAgent(),
+        structured_agent=StructuredAgent(),
     )
 
 
@@ -138,6 +171,53 @@ class HandlerAndOrchestrationTests(unittest.IsolatedAsyncioTestCase):
         context = build_proof_context(refined, nested_case.id)
         self.assertTrue(any("Induction on n" in item for item in context.active_inductions))
         self.assertTrue(any("Case split on Q(n)" in item for item in context.active_cases))
+
+    async def test_structured_equivalence_handler_decomposes_directions(self) -> None:
+        tree = ProofTree(
+            id="iff",
+            theorem_statement="P iff Q",
+            root=ProofNode(
+                id="iff.root",
+                kind=ProofKind.equivalence,
+                status=NodeStatus.classified,
+                text="We prove both directions.",
+                goal="P iff Q",
+            ),
+        )
+        refined = await refine_proof_tree(tree, proof_registry(), max_iterations=10)
+        self.assertEqual(refined.root.status, NodeStatus.resolved)
+        self.assertEqual(refined.root.kind, ProofKind.equivalence)
+        self.assertEqual(refined.root.model_dump()["type"], "bi-implication_cases_proof")
+        self.assertEqual([child.id for child in refined.root.children], ["iff.root.forward", "iff.root.reverse"])
+        self.assertTrue(all(child.status == NodeStatus.resolved for child in refined.root.children))
+
+    def test_default_registry_has_reasonable_taxonomy_handlers(self) -> None:
+        registry = proof_registry()
+        for kind in (
+            ProofKind.contradiction,
+            ProofKind.contrapositive,
+            ProofKind.existence,
+            ProofKind.uniqueness,
+            ProofKind.equivalence,
+            ProofKind.construction,
+            ProofKind.minimal_counterexample,
+            ProofKind.infinite_descent,
+            ProofKind.exhaustion,
+            ProofKind.counting,
+            ProofKind.pigeonhole,
+            ProofKind.invariant,
+            ProofKind.reduction,
+            ProofKind.epsilon_delta,
+            ProofKind.generic_element,
+            ProofKind.local_to_global,
+            ProofKind.compactness,
+            ProofKind.density,
+            ProofKind.approximation,
+            ProofKind.universal_property,
+            ProofKind.algorithmic,
+            ProofKind.probabilistic,
+        ):
+            self.assertEqual(registry.get(kind.value).kind, kind.value)
 
     async def test_document_orchestrator_refines_attached_proof(self) -> None:
         document = document_from_text("Theorem. P. Proof. simple proof.", title="Tiny")
