@@ -1,0 +1,234 @@
+{
+  "type": "document",
+  "id": "reduction_bounded_on_interval",
+  "title": "Boundedness by Reduction to Compactness",
+  "root": {
+    "type": "document",
+    "id": "reduction_bounded_on_interval.root",
+    "status": "resolved",
+    "title": "Boundedness by Reduction to Compactness",
+    "label": null,
+    "text": "Theorem. Every continuous real-valued function on [0,1] is bounded.\n\nProof. Reduce to the theorem that a continuous function on a compact space is bounded. The interval [0,1] is compact, so the given continuous function is bounded.",
+    "children": [
+      {
+        "type": "Theorem",
+        "id": "reduction_bounded_on_interval.root.reduction_bounded_on_interval",
+        "status": "resolved",
+        "title": null,
+        "label": "thm:continuous_bounded_interval",
+        "text": "Theorem. Every continuous real-valued function on [0,1] is bounded.\n\nProof. Reduce to the theorem that a continuous function on a compact space is bounded. The interval [0,1] is compact, so the given continuous function is bounded.",
+        "children": [],
+        "proof": {
+          "type": "ProofDetails",
+          "id": "reduction_bounded_on_interval.root.reduction_bounded_on_interval.proof",
+          "theorem_statement": "Every continuous real-valued function on [0,1] is bounded.",
+          "root": {
+            "type": "Proof",
+            "id": "reduction_bounded_on_interval.root.reduction_bounded_on_interval.proof.root",
+            "status": "resolved",
+            "text": "Reduce to the theorem that a continuous function on a compact space is bounded. The interval [0,1] is compact, so the given continuous function is bounded.",
+            "goal": "Every continuous real-valued function on [0,1] is bounded.",
+            "hypotheses": [],
+            "children": [
+              {
+                "type": "assert_statement",
+                "id": "reduction_bounded_on_interval.root.reduction_bounded_on_interval.proof.root.compact_interval",
+                "status": "resolved",
+                "text": "The interval [0,1] is compact.",
+                "goal": "[0,1] is compact.",
+                "hypotheses": [],
+                "children": [],
+                "data": {
+                  "method": "direct proof",
+                  "hints": [
+                    "The interval [0,1] is compact."
+                  ],
+                  "referenced_lemmas": [],
+                  "referenced_hypotheses": []
+                },
+                "references": [],
+                "confidence": 0.5,
+                "notes": [],
+                "unresolved_details": []
+              },
+              {
+                "type": "assert_statement",
+                "id": "reduction_bounded_on_interval.root.reduction_bounded_on_interval.proof.root.apply_compact_theorem",
+                "status": "resolved",
+                "text": "Apply the theorem that continuous functions on compact spaces are bounded.",
+                "goal": "The function is bounded.",
+                "hypotheses": [],
+                "children": [],
+                "data": {
+                  "method": "direct proof",
+                  "hints": [
+                    "Apply the theorem that continuous functions on compact spaces are bounded."
+                  ],
+                  "referenced_lemmas": [],
+                  "referenced_hypotheses": []
+                },
+                "references": [],
+                "confidence": 0.5,
+                "notes": [],
+                "unresolved_details": []
+              }
+            ],
+            "data": {
+              "strategy": "reduction to a known compactness theorem",
+              "summary": "Use compactness of [0,1] and the boundedness theorem for compact domains.",
+              "component_ids": [
+                "reduction_bounded_on_interval.root.reduction_bounded_on_interval.proof.root.compact_interval",
+                "reduction_bounded_on_interval.root.reduction_bounded_on_interval.proof.root.apply_compact_theorem"
+              ],
+              "assumptions": [],
+              "conclusions": [],
+              "witness": null,
+              "contradiction_assumption": null,
+              "reduced_to": "A continuous function on a compact space is bounded.",
+              "invariant": null,
+              "construction": null,
+              "metadata": {}
+            },
+            "references": [],
+            "confidence": 0.99,
+            "notes": [
+              "Classified as reduction from proof-type example metadata."
+            ],
+            "unresolved_details": []
+          }
+        },
+        "data": {
+          "statement": "Every continuous real-valued function on [0,1] is bounded.",
+          "conclusion": "Every continuous real-valued function on [0,1] is bounded."
+        },
+        "references": [],
+        "confidence": 0.5,
+        "notes": [],
+        "unresolved_details": []
+      }
+    ],
+    "proof": null,
+    "data": {},
+    "references": [],
+    "confidence": 0.5,
+    "notes": [],
+    "unresolved_details": []
+  },
+  "run_log": [
+    {
+      "run_id": "c63a48ee-85c6-4a07-9cde-a0db48aaf5f9",
+      "timestamp": "2026-05-11T08:44:22.154722",
+      "agent_name": "UnknownDocumentHandler",
+      "target_node_id": "reduction_bounded_on_interval.root",
+      "target_node_kind": "unknown",
+      "input_summary": "Theorem. Every continuous real-valued function on [0,1] is bounded.\n\nProof. Reduce to the theorem that a continuous function on a compact space is bounded. The interval [0,1] is compact, so the given ",
+      "output_summary": "Theorem. Every continuous real-valued function on [0,1] is bounded.\n\nProof. Reduce to the theorem that a continuous function on a compact space is bounded. The interval [0,1] is compact, so the given ",
+      "validation_ok": true,
+      "issues": [],
+      "old_status": "raw",
+      "new_status": "decomposed"
+    }
+  ],
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "id": "reduction_bounded_on_interval.root.reduction_bounded_on_interval",
+        "status": "resolved",
+        "title": null,
+        "label": "thm:continuous_bounded_interval",
+        "text": "Theorem. Every continuous real-valued function on [0,1] is bounded.\n\nProof. Reduce to the theorem that a continuous function on a compact space is bounded. The interval [0,1] is compact, so the given continuous function is bounded.",
+        "children": [],
+        "proof": {
+          "type": "ProofDetails",
+          "id": "reduction_bounded_on_interval.root.reduction_bounded_on_interval.proof",
+          "theorem_statement": "Every continuous real-valued function on [0,1] is bounded.",
+          "root": {
+            "type": "Proof",
+            "id": "reduction_bounded_on_interval.root.reduction_bounded_on_interval.proof.root",
+            "status": "resolved",
+            "text": "Reduce to the theorem that a continuous function on a compact space is bounded. The interval [0,1] is compact, so the given continuous function is bounded.",
+            "goal": "Every continuous real-valued function on [0,1] is bounded.",
+            "hypotheses": [],
+            "children": [
+              {
+                "type": "assert_statement",
+                "id": "reduction_bounded_on_interval.root.reduction_bounded_on_interval.proof.root.compact_interval",
+                "status": "resolved",
+                "text": "The interval [0,1] is compact.",
+                "goal": "[0,1] is compact.",
+                "hypotheses": [],
+                "children": [],
+                "data": {
+                  "method": "direct proof",
+                  "hints": [
+                    "The interval [0,1] is compact."
+                  ],
+                  "referenced_lemmas": [],
+                  "referenced_hypotheses": []
+                },
+                "references": [],
+                "confidence": 0.5,
+                "notes": [],
+                "unresolved_details": []
+              },
+              {
+                "type": "assert_statement",
+                "id": "reduction_bounded_on_interval.root.reduction_bounded_on_interval.proof.root.apply_compact_theorem",
+                "status": "resolved",
+                "text": "Apply the theorem that continuous functions on compact spaces are bounded.",
+                "goal": "The function is bounded.",
+                "hypotheses": [],
+                "children": [],
+                "data": {
+                  "method": "direct proof",
+                  "hints": [
+                    "Apply the theorem that continuous functions on compact spaces are bounded."
+                  ],
+                  "referenced_lemmas": [],
+                  "referenced_hypotheses": []
+                },
+                "references": [],
+                "confidence": 0.5,
+                "notes": [],
+                "unresolved_details": []
+              }
+            ],
+            "data": {
+              "strategy": "reduction to a known compactness theorem",
+              "summary": "Use compactness of [0,1] and the boundedness theorem for compact domains.",
+              "component_ids": [
+                "reduction_bounded_on_interval.root.reduction_bounded_on_interval.proof.root.compact_interval",
+                "reduction_bounded_on_interval.root.reduction_bounded_on_interval.proof.root.apply_compact_theorem"
+              ],
+              "assumptions": [],
+              "conclusions": [],
+              "witness": null,
+              "contradiction_assumption": null,
+              "reduced_to": "A continuous function on a compact space is bounded.",
+              "invariant": null,
+              "construction": null,
+              "metadata": {}
+            },
+            "references": [],
+            "confidence": 0.99,
+            "notes": [
+              "Classified as reduction from proof-type example metadata."
+            ],
+            "unresolved_details": []
+          }
+        },
+        "data": {
+          "statement": "Every continuous real-valued function on [0,1] is bounded.",
+          "conclusion": "Every continuous real-valued function on [0,1] is bounded."
+        },
+        "references": [],
+        "confidence": 0.5,
+        "notes": [],
+        "unresolved_details": []
+      }
+    ],
+    "title": "Boundedness by Reduction to Compactness"
+  }
+}

@@ -1,0 +1,206 @@
+{
+  "type": "document",
+  "id": "contrapositive_square_even",
+  "title": "Even Square Contrapositive",
+  "root": {
+    "type": "document",
+    "id": "contrapositive_square_even.root",
+    "status": "resolved",
+    "title": "Even Square Contrapositive",
+    "label": null,
+    "text": "Theorem. If n^2 is even, then n is even.\n\nProof. We prove the contrapositive. Assume n is odd, so n=2k+1 for some integer k. Then n^2=(2k+1)^2=2(2k^2+2k)+1, which is odd. Therefore if n^2 is even, n is even.",
+    "children": [
+      {
+        "type": "Theorem",
+        "id": "contrapositive_square_even.root.contrapositive_square_even",
+        "status": "resolved",
+        "title": null,
+        "label": "thm:square_even_contrapositive",
+        "text": "Theorem. If n^2 is even, then n is even.\n\nProof. We prove the contrapositive. Assume n is odd, so n=2k+1 for some integer k. Then n^2=(2k+1)^2=2(2k^2+2k)+1, which is odd. Therefore if n^2 is even, n is even.",
+        "children": [],
+        "proof": {
+          "type": "ProofDetails",
+          "id": "contrapositive_square_even.root.contrapositive_square_even.proof",
+          "theorem_statement": "If n^2 is even, then n is even.",
+          "root": {
+            "type": "Proof",
+            "id": "contrapositive_square_even.root.contrapositive_square_even.proof.root",
+            "status": "resolved",
+            "text": "We prove the contrapositive. Assume n is odd, so n=2k+1 for some integer k. Then n^2=(2k+1)^2=2(2k^2+2k)+1, which is odd. Therefore if n^2 is even, n is even.",
+            "goal": "If n^2 is even, then n is even.",
+            "hypotheses": [],
+            "children": [
+              {
+                "type": "assert_statement",
+                "id": "contrapositive_square_even.root.contrapositive_square_even.proof.root.odd_square",
+                "status": "resolved",
+                "text": "If n=2k+1, then n^2=2(2k^2+2k)+1, so n^2 is odd.",
+                "goal": "n odd implies n^2 odd.",
+                "hypotheses": [
+                  "n is odd"
+                ],
+                "children": [],
+                "data": {
+                  "method": "direct proof",
+                  "hints": [
+                    "If n=2k+1, then n^2=2(2k^2+2k)+1, so n^2 is odd."
+                  ],
+                  "referenced_lemmas": [],
+                  "referenced_hypotheses": [
+                    "n is odd"
+                  ]
+                },
+                "references": [],
+                "confidence": 0.5,
+                "notes": [],
+                "unresolved_details": []
+              }
+            ],
+            "data": {
+              "strategy": "proof by contrapositive",
+              "summary": "Show that odd n implies odd n^2.",
+              "component_ids": [
+                "contrapositive_square_even.root.contrapositive_square_even.proof.root.odd_square"
+              ],
+              "assumptions": [
+                "n is odd"
+              ],
+              "conclusions": [
+                "n^2 is odd"
+              ],
+              "witness": null,
+              "contradiction_assumption": null,
+              "reduced_to": null,
+              "invariant": null,
+              "construction": null,
+              "metadata": {}
+            },
+            "references": [],
+            "confidence": 0.99,
+            "notes": [
+              "Classified as contrapositive from proof-type example metadata."
+            ],
+            "unresolved_details": []
+          }
+        },
+        "data": {
+          "statement": "If n^2 is even, then n is even.",
+          "conclusion": "If n^2 is even, then n is even."
+        },
+        "references": [],
+        "confidence": 0.5,
+        "notes": [],
+        "unresolved_details": []
+      }
+    ],
+    "proof": null,
+    "data": {},
+    "references": [],
+    "confidence": 0.5,
+    "notes": [],
+    "unresolved_details": []
+  },
+  "run_log": [
+    {
+      "run_id": "b2ac680b-8024-4092-a38b-28e17002b6d5",
+      "timestamp": "2026-05-11T08:44:22.137877",
+      "agent_name": "UnknownDocumentHandler",
+      "target_node_id": "contrapositive_square_even.root",
+      "target_node_kind": "unknown",
+      "input_summary": "Theorem. If n^2 is even, then n is even.\n\nProof. We prove the contrapositive. Assume n is odd, so n=2k+1 for some integer k. Then n^2=(2k+1)^2=2(2k^2+2k)+1, which is odd. Therefore if n^2 is even, n i",
+      "output_summary": "Theorem. If n^2 is even, then n is even.\n\nProof. We prove the contrapositive. Assume n is odd, so n=2k+1 for some integer k. Then n^2=(2k+1)^2=2(2k^2+2k)+1, which is odd. Therefore if n^2 is even, n i",
+      "validation_ok": true,
+      "issues": [],
+      "old_status": "raw",
+      "new_status": "decomposed"
+    }
+  ],
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "id": "contrapositive_square_even.root.contrapositive_square_even",
+        "status": "resolved",
+        "title": null,
+        "label": "thm:square_even_contrapositive",
+        "text": "Theorem. If n^2 is even, then n is even.\n\nProof. We prove the contrapositive. Assume n is odd, so n=2k+1 for some integer k. Then n^2=(2k+1)^2=2(2k^2+2k)+1, which is odd. Therefore if n^2 is even, n is even.",
+        "children": [],
+        "proof": {
+          "type": "ProofDetails",
+          "id": "contrapositive_square_even.root.contrapositive_square_even.proof",
+          "theorem_statement": "If n^2 is even, then n is even.",
+          "root": {
+            "type": "Proof",
+            "id": "contrapositive_square_even.root.contrapositive_square_even.proof.root",
+            "status": "resolved",
+            "text": "We prove the contrapositive. Assume n is odd, so n=2k+1 for some integer k. Then n^2=(2k+1)^2=2(2k^2+2k)+1, which is odd. Therefore if n^2 is even, n is even.",
+            "goal": "If n^2 is even, then n is even.",
+            "hypotheses": [],
+            "children": [
+              {
+                "type": "assert_statement",
+                "id": "contrapositive_square_even.root.contrapositive_square_even.proof.root.odd_square",
+                "status": "resolved",
+                "text": "If n=2k+1, then n^2=2(2k^2+2k)+1, so n^2 is odd.",
+                "goal": "n odd implies n^2 odd.",
+                "hypotheses": [
+                  "n is odd"
+                ],
+                "children": [],
+                "data": {
+                  "method": "direct proof",
+                  "hints": [
+                    "If n=2k+1, then n^2=2(2k^2+2k)+1, so n^2 is odd."
+                  ],
+                  "referenced_lemmas": [],
+                  "referenced_hypotheses": [
+                    "n is odd"
+                  ]
+                },
+                "references": [],
+                "confidence": 0.5,
+                "notes": [],
+                "unresolved_details": []
+              }
+            ],
+            "data": {
+              "strategy": "proof by contrapositive",
+              "summary": "Show that odd n implies odd n^2.",
+              "component_ids": [
+                "contrapositive_square_even.root.contrapositive_square_even.proof.root.odd_square"
+              ],
+              "assumptions": [
+                "n is odd"
+              ],
+              "conclusions": [
+                "n^2 is odd"
+              ],
+              "witness": null,
+              "contradiction_assumption": null,
+              "reduced_to": null,
+              "invariant": null,
+              "construction": null,
+              "metadata": {}
+            },
+            "references": [],
+            "confidence": 0.99,
+            "notes": [
+              "Classified as contrapositive from proof-type example metadata."
+            ],
+            "unresolved_details": []
+          }
+        },
+        "data": {
+          "statement": "If n^2 is even, then n is even.",
+          "conclusion": "If n^2 is even, then n is even."
+        },
+        "references": [],
+        "confidence": 0.5,
+        "notes": [],
+        "unresolved_details": []
+      }
+    ],
+    "title": "Even Square Contrapositive"
+  }
+}

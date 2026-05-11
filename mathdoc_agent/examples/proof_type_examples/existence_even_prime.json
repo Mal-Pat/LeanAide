@@ -1,0 +1,190 @@
+{
+  "type": "document",
+  "id": "existence_even_prime",
+  "title": "An Even Prime Exists",
+  "root": {
+    "type": "document",
+    "id": "existence_even_prime.root",
+    "status": "resolved",
+    "title": "An Even Prime Exists",
+    "label": null,
+    "text": "Theorem. There exists a prime number that is even.\n\nProof. Take the witness 2. The number 2 is prime, and 2 is even.",
+    "children": [
+      {
+        "type": "Theorem",
+        "id": "existence_even_prime.root.existence_even_prime",
+        "status": "resolved",
+        "title": null,
+        "label": "thm:even_prime_exists",
+        "text": "Theorem. There exists a prime number that is even.\n\nProof. Take the witness 2. The number 2 is prime, and 2 is even.",
+        "children": [],
+        "proof": {
+          "type": "ProofDetails",
+          "id": "existence_even_prime.root.existence_even_prime.proof",
+          "theorem_statement": "There exists a prime number that is even.",
+          "root": {
+            "type": "Proof",
+            "id": "existence_even_prime.root.existence_even_prime.proof.root",
+            "status": "resolved",
+            "text": "Take the witness 2. The number 2 is prime, and 2 is even.",
+            "goal": "There exists a prime number that is even.",
+            "hypotheses": [],
+            "children": [
+              {
+                "type": "assert_statement",
+                "id": "existence_even_prime.root.existence_even_prime.proof.root.verify_witness",
+                "status": "resolved",
+                "text": "The witness 2 is prime and even.",
+                "goal": "2 is prime and even.",
+                "hypotheses": [],
+                "children": [],
+                "data": {
+                  "method": "direct proof",
+                  "hints": [
+                    "The witness 2 is prime and even."
+                  ],
+                  "referenced_lemmas": [],
+                  "referenced_hypotheses": []
+                },
+                "references": [],
+                "confidence": 0.5,
+                "notes": [],
+                "unresolved_details": []
+              }
+            ],
+            "data": {
+              "strategy": "construct a witness",
+              "summary": "Use 2 as the witness.",
+              "component_ids": [
+                "existence_even_prime.root.existence_even_prime.proof.root.verify_witness"
+              ],
+              "assumptions": [],
+              "conclusions": [],
+              "witness": "2",
+              "contradiction_assumption": null,
+              "reduced_to": null,
+              "invariant": null,
+              "construction": null,
+              "metadata": {}
+            },
+            "references": [],
+            "confidence": 0.99,
+            "notes": [
+              "Classified as existence from proof-type example metadata."
+            ],
+            "unresolved_details": []
+          }
+        },
+        "data": {
+          "statement": "There exists a prime number that is even.",
+          "conclusion": "There exists a prime number that is even."
+        },
+        "references": [],
+        "confidence": 0.5,
+        "notes": [],
+        "unresolved_details": []
+      }
+    ],
+    "proof": null,
+    "data": {},
+    "references": [],
+    "confidence": 0.5,
+    "notes": [],
+    "unresolved_details": []
+  },
+  "run_log": [
+    {
+      "run_id": "aec4188a-c18b-46bb-ab9c-fbb246198cc0",
+      "timestamp": "2026-05-11T08:44:22.138771",
+      "agent_name": "UnknownDocumentHandler",
+      "target_node_id": "existence_even_prime.root",
+      "target_node_kind": "unknown",
+      "input_summary": "Theorem. There exists a prime number that is even.\n\nProof. Take the witness 2. The number 2 is prime, and 2 is even.",
+      "output_summary": "Theorem. There exists a prime number that is even.\n\nProof. Take the witness 2. The number 2 is prime, and 2 is even.",
+      "validation_ok": true,
+      "issues": [],
+      "old_status": "raw",
+      "new_status": "decomposed"
+    }
+  ],
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "id": "existence_even_prime.root.existence_even_prime",
+        "status": "resolved",
+        "title": null,
+        "label": "thm:even_prime_exists",
+        "text": "Theorem. There exists a prime number that is even.\n\nProof. Take the witness 2. The number 2 is prime, and 2 is even.",
+        "children": [],
+        "proof": {
+          "type": "ProofDetails",
+          "id": "existence_even_prime.root.existence_even_prime.proof",
+          "theorem_statement": "There exists a prime number that is even.",
+          "root": {
+            "type": "Proof",
+            "id": "existence_even_prime.root.existence_even_prime.proof.root",
+            "status": "resolved",
+            "text": "Take the witness 2. The number 2 is prime, and 2 is even.",
+            "goal": "There exists a prime number that is even.",
+            "hypotheses": [],
+            "children": [
+              {
+                "type": "assert_statement",
+                "id": "existence_even_prime.root.existence_even_prime.proof.root.verify_witness",
+                "status": "resolved",
+                "text": "The witness 2 is prime and even.",
+                "goal": "2 is prime and even.",
+                "hypotheses": [],
+                "children": [],
+                "data": {
+                  "method": "direct proof",
+                  "hints": [
+                    "The witness 2 is prime and even."
+                  ],
+                  "referenced_lemmas": [],
+                  "referenced_hypotheses": []
+                },
+                "references": [],
+                "confidence": 0.5,
+                "notes": [],
+                "unresolved_details": []
+              }
+            ],
+            "data": {
+              "strategy": "construct a witness",
+              "summary": "Use 2 as the witness.",
+              "component_ids": [
+                "existence_even_prime.root.existence_even_prime.proof.root.verify_witness"
+              ],
+              "assumptions": [],
+              "conclusions": [],
+              "witness": "2",
+              "contradiction_assumption": null,
+              "reduced_to": null,
+              "invariant": null,
+              "construction": null,
+              "metadata": {}
+            },
+            "references": [],
+            "confidence": 0.99,
+            "notes": [
+              "Classified as existence from proof-type example metadata."
+            ],
+            "unresolved_details": []
+          }
+        },
+        "data": {
+          "statement": "There exists a prime number that is even.",
+          "conclusion": "There exists a prime number that is even."
+        },
+        "references": [],
+        "confidence": 0.5,
+        "notes": [],
+        "unresolved_details": []
+      }
+    ],
+    "title": "An Even Prime Exists"
+  }
+}

@@ -1,0 +1,286 @@
+{
+  "type": "document",
+  "id": "contradiction_infinitely_many_primes",
+  "title": "Infinitely Many Primes",
+  "root": {
+    "type": "document",
+    "id": "contradiction_infinitely_many_primes.root",
+    "status": "resolved",
+    "title": "Infinitely Many Primes",
+    "label": null,
+    "text": "Theorem. There are infinitely many prime numbers.\n\nProof. Suppose, for contradiction, that there are only finitely many primes p_1,...,p_r. Let N=p_1...p_r+1. Any prime divisor q of N is not equal to any p_i, since division by p_i leaves remainder 1. This contradicts the assumption that p_1,...,p_r list all primes.",
+    "children": [
+      {
+        "type": "Theorem",
+        "id": "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes",
+        "status": "resolved",
+        "title": null,
+        "label": "thm:infinitely_many_primes",
+        "text": "Theorem. There are infinitely many prime numbers.\n\nProof. Suppose, for contradiction, that there are only finitely many primes p_1,...,p_r. Let N=p_1...p_r+1. Any prime divisor q of N is not equal to any p_i, since division by p_i leaves remainder 1. This contradicts the assumption that p_1,...,p_r list all primes.",
+        "children": [],
+        "proof": {
+          "type": "ProofDetails",
+          "id": "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes.proof",
+          "theorem_statement": "There are infinitely many prime numbers.",
+          "root": {
+            "type": "contradiction_statement",
+            "id": "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes.proof.root",
+            "status": "resolved",
+            "text": "Suppose, for contradiction, that there are only finitely many primes p_1,...,p_r. Let N=p_1...p_r+1. Any prime divisor q of N is not equal to any p_i, since division by p_i leaves remainder 1. This contradicts the assumption that p_1,...,p_r list all primes.",
+            "goal": "There are infinitely many prime numbers.",
+            "hypotheses": [],
+            "children": [
+              {
+                "type": "assert_statement",
+                "id": "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes.proof.root.assume_finite_list",
+                "status": "resolved",
+                "text": "Assume the complete list of primes is p_1,...,p_r.",
+                "goal": null,
+                "hypotheses": [
+                  "There are only finitely many primes."
+                ],
+                "children": [],
+                "data": {
+                  "method": "direct proof",
+                  "hints": [
+                    "Assume the complete list of primes is p_1,...,p_r."
+                  ],
+                  "referenced_lemmas": [],
+                  "referenced_hypotheses": [
+                    "There are only finitely many primes."
+                  ]
+                },
+                "references": [],
+                "confidence": 0.5,
+                "notes": [],
+                "unresolved_details": []
+              },
+              {
+                "type": "assert_statement",
+                "id": "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes.proof.root.construct_new_number",
+                "status": "resolved",
+                "text": "Let N=p_1...p_r+1; any prime divisor q of N is not any p_i.",
+                "goal": "There is a prime not on the list.",
+                "hypotheses": [],
+                "children": [],
+                "data": {
+                  "method": "direct proof",
+                  "hints": [
+                    "Let N=p_1...p_r+1; any prime divisor q of N is not any p_i."
+                  ],
+                  "referenced_lemmas": [],
+                  "referenced_hypotheses": []
+                },
+                "references": [],
+                "confidence": 0.5,
+                "notes": [],
+                "unresolved_details": []
+              },
+              {
+                "type": "assert_statement",
+                "id": "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes.proof.root.contradiction",
+                "status": "resolved",
+                "text": "This contradicts that p_1,...,p_r were all the primes.",
+                "goal": "Contradiction.",
+                "hypotheses": [],
+                "children": [],
+                "data": {
+                  "method": "direct proof",
+                  "hints": [
+                    "This contradicts that p_1,...,p_r were all the primes."
+                  ],
+                  "referenced_lemmas": [],
+                  "referenced_hypotheses": []
+                },
+                "references": [],
+                "confidence": 0.5,
+                "notes": [],
+                "unresolved_details": []
+              }
+            ],
+            "data": {
+              "strategy": "proof by contradiction",
+              "summary": "Assume finitely many primes, construct N, and get a new prime divisor.",
+              "component_ids": [
+                "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes.proof.root.assume_finite_list",
+                "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes.proof.root.construct_new_number",
+                "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes.proof.root.contradiction"
+              ],
+              "assumptions": [],
+              "conclusions": [],
+              "witness": null,
+              "contradiction_assumption": "There are only finitely many prime numbers.",
+              "reduced_to": null,
+              "invariant": null,
+              "construction": null,
+              "metadata": {}
+            },
+            "references": [],
+            "confidence": 0.99,
+            "notes": [
+              "Classified as contradiction from proof-type example metadata."
+            ],
+            "unresolved_details": []
+          }
+        },
+        "data": {
+          "statement": "There are infinitely many prime numbers.",
+          "conclusion": "There are infinitely many prime numbers."
+        },
+        "references": [],
+        "confidence": 0.5,
+        "notes": [],
+        "unresolved_details": []
+      }
+    ],
+    "proof": null,
+    "data": {},
+    "references": [],
+    "confidence": 0.5,
+    "notes": [],
+    "unresolved_details": []
+  },
+  "run_log": [
+    {
+      "run_id": "9f4feb3c-321e-4bb7-96f4-571cbbca317f",
+      "timestamp": "2026-05-11T08:44:22.135907",
+      "agent_name": "UnknownDocumentHandler",
+      "target_node_id": "contradiction_infinitely_many_primes.root",
+      "target_node_kind": "unknown",
+      "input_summary": "Theorem. There are infinitely many prime numbers.\n\nProof. Suppose, for contradiction, that there are only finitely many primes p_1,...,p_r. Let N=p_1...p_r+1. Any prime divisor q of N is not equal to ",
+      "output_summary": "Theorem. There are infinitely many prime numbers.\n\nProof. Suppose, for contradiction, that there are only finitely many primes p_1,...,p_r. Let N=p_1...p_r+1. Any prime divisor q of N is not equal to ",
+      "validation_ok": true,
+      "issues": [],
+      "old_status": "raw",
+      "new_status": "decomposed"
+    }
+  ],
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "id": "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes",
+        "status": "resolved",
+        "title": null,
+        "label": "thm:infinitely_many_primes",
+        "text": "Theorem. There are infinitely many prime numbers.\n\nProof. Suppose, for contradiction, that there are only finitely many primes p_1,...,p_r. Let N=p_1...p_r+1. Any prime divisor q of N is not equal to any p_i, since division by p_i leaves remainder 1. This contradicts the assumption that p_1,...,p_r list all primes.",
+        "children": [],
+        "proof": {
+          "type": "ProofDetails",
+          "id": "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes.proof",
+          "theorem_statement": "There are infinitely many prime numbers.",
+          "root": {
+            "type": "contradiction_statement",
+            "id": "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes.proof.root",
+            "status": "resolved",
+            "text": "Suppose, for contradiction, that there are only finitely many primes p_1,...,p_r. Let N=p_1...p_r+1. Any prime divisor q of N is not equal to any p_i, since division by p_i leaves remainder 1. This contradicts the assumption that p_1,...,p_r list all primes.",
+            "goal": "There are infinitely many prime numbers.",
+            "hypotheses": [],
+            "children": [
+              {
+                "type": "assert_statement",
+                "id": "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes.proof.root.assume_finite_list",
+                "status": "resolved",
+                "text": "Assume the complete list of primes is p_1,...,p_r.",
+                "goal": null,
+                "hypotheses": [
+                  "There are only finitely many primes."
+                ],
+                "children": [],
+                "data": {
+                  "method": "direct proof",
+                  "hints": [
+                    "Assume the complete list of primes is p_1,...,p_r."
+                  ],
+                  "referenced_lemmas": [],
+                  "referenced_hypotheses": [
+                    "There are only finitely many primes."
+                  ]
+                },
+                "references": [],
+                "confidence": 0.5,
+                "notes": [],
+                "unresolved_details": []
+              },
+              {
+                "type": "assert_statement",
+                "id": "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes.proof.root.construct_new_number",
+                "status": "resolved",
+                "text": "Let N=p_1...p_r+1; any prime divisor q of N is not any p_i.",
+                "goal": "There is a prime not on the list.",
+                "hypotheses": [],
+                "children": [],
+                "data": {
+                  "method": "direct proof",
+                  "hints": [
+                    "Let N=p_1...p_r+1; any prime divisor q of N is not any p_i."
+                  ],
+                  "referenced_lemmas": [],
+                  "referenced_hypotheses": []
+                },
+                "references": [],
+                "confidence": 0.5,
+                "notes": [],
+                "unresolved_details": []
+              },
+              {
+                "type": "assert_statement",
+                "id": "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes.proof.root.contradiction",
+                "status": "resolved",
+                "text": "This contradicts that p_1,...,p_r were all the primes.",
+                "goal": "Contradiction.",
+                "hypotheses": [],
+                "children": [],
+                "data": {
+                  "method": "direct proof",
+                  "hints": [
+                    "This contradicts that p_1,...,p_r were all the primes."
+                  ],
+                  "referenced_lemmas": [],
+                  "referenced_hypotheses": []
+                },
+                "references": [],
+                "confidence": 0.5,
+                "notes": [],
+                "unresolved_details": []
+              }
+            ],
+            "data": {
+              "strategy": "proof by contradiction",
+              "summary": "Assume finitely many primes, construct N, and get a new prime divisor.",
+              "component_ids": [
+                "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes.proof.root.assume_finite_list",
+                "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes.proof.root.construct_new_number",
+                "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes.proof.root.contradiction"
+              ],
+              "assumptions": [],
+              "conclusions": [],
+              "witness": null,
+              "contradiction_assumption": "There are only finitely many prime numbers.",
+              "reduced_to": null,
+              "invariant": null,
+              "construction": null,
+              "metadata": {}
+            },
+            "references": [],
+            "confidence": 0.99,
+            "notes": [
+              "Classified as contradiction from proof-type example metadata."
+            ],
+            "unresolved_details": []
+          }
+        },
+        "data": {
+          "statement": "There are infinitely many prime numbers.",
+          "conclusion": "There are infinitely many prime numbers."
+        },
+        "references": [],
+        "confidence": 0.5,
+        "notes": [],
+        "unresolved_details": []
+      }
+    ],
+    "title": "Infinitely Many Primes"
+  }
+}

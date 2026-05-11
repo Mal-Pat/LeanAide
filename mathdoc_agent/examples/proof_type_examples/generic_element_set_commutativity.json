@@ -1,0 +1,234 @@
+{
+  "type": "document",
+  "id": "generic_element_set_commutativity",
+  "title": "Intersection is Commutative",
+  "root": {
+    "type": "document",
+    "id": "generic_element_set_commutativity.root",
+    "status": "resolved",
+    "title": "Intersection is Commutative",
+    "label": null,
+    "text": "Theorem. For sets A and B, A ∩ B = B ∩ A.\n\nProof. Take an arbitrary element x. If x belongs to A∩B, then x belongs to A and to B, so x belongs to B∩A. Conversely, if x belongs to B∩A, then x belongs to B and to A, so x belongs to A∩B.",
+    "children": [
+      {
+        "type": "Theorem",
+        "id": "generic_element_set_commutativity.root.generic_element_set_commutativity",
+        "status": "resolved",
+        "title": null,
+        "label": "thm:intersection_comm",
+        "text": "Theorem. For sets A and B, A ∩ B = B ∩ A.\n\nProof. Take an arbitrary element x. If x belongs to A∩B, then x belongs to A and to B, so x belongs to B∩A. Conversely, if x belongs to B∩A, then x belongs to B and to A, so x belongs to A∩B.",
+        "children": [],
+        "proof": {
+          "type": "ProofDetails",
+          "id": "generic_element_set_commutativity.root.generic_element_set_commutativity.proof",
+          "theorem_statement": "For sets A and B, A ∩ B = B ∩ A.",
+          "root": {
+            "type": "Proof",
+            "id": "generic_element_set_commutativity.root.generic_element_set_commutativity.proof.root",
+            "status": "resolved",
+            "text": "Take an arbitrary element x. If x belongs to A∩B, then x belongs to A and to B, so x belongs to B∩A. Conversely, if x belongs to B∩A, then x belongs to B and to A, so x belongs to A∩B.",
+            "goal": "For sets A and B, A ∩ B = B ∩ A.",
+            "hypotheses": [],
+            "children": [
+              {
+                "type": "assert_statement",
+                "id": "generic_element_set_commutativity.root.generic_element_set_commutativity.proof.root.left_to_right",
+                "status": "resolved",
+                "text": "For arbitrary x, x∈A∩B implies x∈B∩A.",
+                "goal": "A∩B ⊆ B∩A.",
+                "hypotheses": [],
+                "children": [],
+                "data": {
+                  "method": "direct proof",
+                  "hints": [
+                    "For arbitrary x, x∈A∩B implies x∈B∩A."
+                  ],
+                  "referenced_lemmas": [],
+                  "referenced_hypotheses": []
+                },
+                "references": [],
+                "confidence": 0.5,
+                "notes": [],
+                "unresolved_details": []
+              },
+              {
+                "type": "assert_statement",
+                "id": "generic_element_set_commutativity.root.generic_element_set_commutativity.proof.root.right_to_left",
+                "status": "resolved",
+                "text": "For arbitrary x, x∈B∩A implies x∈A∩B.",
+                "goal": "B∩A ⊆ A∩B.",
+                "hypotheses": [],
+                "children": [],
+                "data": {
+                  "method": "direct proof",
+                  "hints": [
+                    "For arbitrary x, x∈B∩A implies x∈A∩B."
+                  ],
+                  "referenced_lemmas": [],
+                  "referenced_hypotheses": []
+                },
+                "references": [],
+                "confidence": 0.5,
+                "notes": [],
+                "unresolved_details": []
+              }
+            ],
+            "data": {
+              "strategy": "generic element and mutual inclusion",
+              "summary": "Take arbitrary x and prove both memberships.",
+              "component_ids": [
+                "generic_element_set_commutativity.root.generic_element_set_commutativity.proof.root.left_to_right",
+                "generic_element_set_commutativity.root.generic_element_set_commutativity.proof.root.right_to_left"
+              ],
+              "assumptions": [],
+              "conclusions": [],
+              "witness": null,
+              "contradiction_assumption": null,
+              "reduced_to": null,
+              "invariant": null,
+              "construction": null,
+              "metadata": {}
+            },
+            "references": [],
+            "confidence": 0.99,
+            "notes": [
+              "Classified as generic_element from proof-type example metadata."
+            ],
+            "unresolved_details": []
+          }
+        },
+        "data": {
+          "statement": "For sets A and B, A ∩ B = B ∩ A.",
+          "conclusion": "For sets A and B, A ∩ B = B ∩ A."
+        },
+        "references": [],
+        "confidence": 0.5,
+        "notes": [],
+        "unresolved_details": []
+      }
+    ],
+    "proof": null,
+    "data": {},
+    "references": [],
+    "confidence": 0.5,
+    "notes": [],
+    "unresolved_details": []
+  },
+  "run_log": [
+    {
+      "run_id": "8f1270e7-252a-48b2-af05-550d5267274b",
+      "timestamp": "2026-05-11T08:44:22.145679",
+      "agent_name": "UnknownDocumentHandler",
+      "target_node_id": "generic_element_set_commutativity.root",
+      "target_node_kind": "unknown",
+      "input_summary": "Theorem. For sets A and B, A ∩ B = B ∩ A.\n\nProof. Take an arbitrary element x. If x belongs to A∩B, then x belongs to A and to B, so x belongs to B∩A. Conversely, if x belongs to B∩A, then x belongs t",
+      "output_summary": "Theorem. For sets A and B, A ∩ B = B ∩ A.\n\nProof. Take an arbitrary element x. If x belongs to A∩B, then x belongs to A and to B, so x belongs to B∩A. Conversely, if x belongs to B∩A, then x belongs t",
+      "validation_ok": true,
+      "issues": [],
+      "old_status": "raw",
+      "new_status": "decomposed"
+    }
+  ],
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "id": "generic_element_set_commutativity.root.generic_element_set_commutativity",
+        "status": "resolved",
+        "title": null,
+        "label": "thm:intersection_comm",
+        "text": "Theorem. For sets A and B, A ∩ B = B ∩ A.\n\nProof. Take an arbitrary element x. If x belongs to A∩B, then x belongs to A and to B, so x belongs to B∩A. Conversely, if x belongs to B∩A, then x belongs to B and to A, so x belongs to A∩B.",
+        "children": [],
+        "proof": {
+          "type": "ProofDetails",
+          "id": "generic_element_set_commutativity.root.generic_element_set_commutativity.proof",
+          "theorem_statement": "For sets A and B, A ∩ B = B ∩ A.",
+          "root": {
+            "type": "Proof",
+            "id": "generic_element_set_commutativity.root.generic_element_set_commutativity.proof.root",
+            "status": "resolved",
+            "text": "Take an arbitrary element x. If x belongs to A∩B, then x belongs to A and to B, so x belongs to B∩A. Conversely, if x belongs to B∩A, then x belongs to B and to A, so x belongs to A∩B.",
+            "goal": "For sets A and B, A ∩ B = B ∩ A.",
+            "hypotheses": [],
+            "children": [
+              {
+                "type": "assert_statement",
+                "id": "generic_element_set_commutativity.root.generic_element_set_commutativity.proof.root.left_to_right",
+                "status": "resolved",
+                "text": "For arbitrary x, x∈A∩B implies x∈B∩A.",
+                "goal": "A∩B ⊆ B∩A.",
+                "hypotheses": [],
+                "children": [],
+                "data": {
+                  "method": "direct proof",
+                  "hints": [
+                    "For arbitrary x, x∈A∩B implies x∈B∩A."
+                  ],
+                  "referenced_lemmas": [],
+                  "referenced_hypotheses": []
+                },
+                "references": [],
+                "confidence": 0.5,
+                "notes": [],
+                "unresolved_details": []
+              },
+              {
+                "type": "assert_statement",
+                "id": "generic_element_set_commutativity.root.generic_element_set_commutativity.proof.root.right_to_left",
+                "status": "resolved",
+                "text": "For arbitrary x, x∈B∩A implies x∈A∩B.",
+                "goal": "B∩A ⊆ A∩B.",
+                "hypotheses": [],
+                "children": [],
+                "data": {
+                  "method": "direct proof",
+                  "hints": [
+                    "For arbitrary x, x∈B∩A implies x∈A∩B."
+                  ],
+                  "referenced_lemmas": [],
+                  "referenced_hypotheses": []
+                },
+                "references": [],
+                "confidence": 0.5,
+                "notes": [],
+                "unresolved_details": []
+              }
+            ],
+            "data": {
+              "strategy": "generic element and mutual inclusion",
+              "summary": "Take arbitrary x and prove both memberships.",
+              "component_ids": [
+                "generic_element_set_commutativity.root.generic_element_set_commutativity.proof.root.left_to_right",
+                "generic_element_set_commutativity.root.generic_element_set_commutativity.proof.root.right_to_left"
+              ],
+              "assumptions": [],
+              "conclusions": [],
+              "witness": null,
+              "contradiction_assumption": null,
+              "reduced_to": null,
+              "invariant": null,
+              "construction": null,
+              "metadata": {}
+            },
+            "references": [],
+            "confidence": 0.99,
+            "notes": [
+              "Classified as generic_element from proof-type example metadata."
+            ],
+            "unresolved_details": []
+          }
+        },
+        "data": {
+          "statement": "For sets A and B, A ∩ B = B ∩ A.",
+          "conclusion": "For sets A and B, A ∩ B = B ∩ A."
+        },
+        "references": [],
+        "confidence": 0.5,
+        "notes": [],
+        "unresolved_details": []
+      }
+    ],
+    "title": "Intersection is Commutative"
+  }
+}

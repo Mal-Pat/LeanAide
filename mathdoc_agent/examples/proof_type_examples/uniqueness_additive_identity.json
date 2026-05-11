@@ -1,0 +1,200 @@
+{
+  "type": "document",
+  "id": "uniqueness_additive_identity",
+  "title": "Uniqueness of Additive Identity",
+  "root": {
+    "type": "document",
+    "id": "uniqueness_additive_identity.root",
+    "status": "resolved",
+    "title": "Uniqueness of Additive Identity",
+    "label": null,
+    "text": "Theorem. In a group, the additive identity is unique.\n\nProof. Suppose e and e' are both additive identities. Since e is an identity, e+e'=e'. Since e' is an identity, e+e'=e. Hence e=e'.",
+    "children": [
+      {
+        "type": "Theorem",
+        "id": "uniqueness_additive_identity.root.uniqueness_additive_identity",
+        "status": "resolved",
+        "title": null,
+        "label": "thm:additive_identity_unique",
+        "text": "Theorem. In a group, the additive identity is unique.\n\nProof. Suppose e and e' are both additive identities. Since e is an identity, e+e'=e'. Since e' is an identity, e+e'=e. Hence e=e'.",
+        "children": [],
+        "proof": {
+          "type": "ProofDetails",
+          "id": "uniqueness_additive_identity.root.uniqueness_additive_identity.proof",
+          "theorem_statement": "In a group, the additive identity is unique.",
+          "root": {
+            "type": "Proof",
+            "id": "uniqueness_additive_identity.root.uniqueness_additive_identity.proof.root",
+            "status": "resolved",
+            "text": "Suppose e and e' are both additive identities. Since e is an identity, e+e'=e'. Since e' is an identity, e+e'=e. Hence e=e'.",
+            "goal": "In a group, the additive identity is unique.",
+            "hypotheses": [],
+            "children": [
+              {
+                "type": "assert_statement",
+                "id": "uniqueness_additive_identity.root.uniqueness_additive_identity.proof.root.compare_candidates",
+                "status": "resolved",
+                "text": "Both identity laws give e+e'=e' and e+e'=e, hence e=e'.",
+                "goal": "Any two additive identities are equal.",
+                "hypotheses": [],
+                "children": [],
+                "data": {
+                  "method": "direct proof",
+                  "hints": [
+                    "Both identity laws give e+e'=e' and e+e'=e, hence e=e'."
+                  ],
+                  "referenced_lemmas": [],
+                  "referenced_hypotheses": []
+                },
+                "references": [],
+                "confidence": 0.5,
+                "notes": [],
+                "unresolved_details": []
+              }
+            ],
+            "data": {
+              "strategy": "prove uniqueness from two arbitrary candidates",
+              "summary": "Compare two identities by evaluating e+e'.",
+              "component_ids": [
+                "uniqueness_additive_identity.root.uniqueness_additive_identity.proof.root.compare_candidates"
+              ],
+              "assumptions": [
+                "e is an additive identity",
+                "e' is an additive identity"
+              ],
+              "conclusions": [
+                "e=e'"
+              ],
+              "witness": null,
+              "contradiction_assumption": null,
+              "reduced_to": null,
+              "invariant": null,
+              "construction": null,
+              "metadata": {}
+            },
+            "references": [],
+            "confidence": 0.99,
+            "notes": [
+              "Classified as uniqueness from proof-type example metadata."
+            ],
+            "unresolved_details": []
+          }
+        },
+        "data": {
+          "statement": "In a group, the additive identity is unique.",
+          "conclusion": "In a group, the additive identity is unique."
+        },
+        "references": [],
+        "confidence": 0.5,
+        "notes": [],
+        "unresolved_details": []
+      }
+    ],
+    "proof": null,
+    "data": {},
+    "references": [],
+    "confidence": 0.5,
+    "notes": [],
+    "unresolved_details": []
+  },
+  "run_log": [
+    {
+      "run_id": "6ef7caae-dd7b-4b4e-9f18-eac091c6a93e",
+      "timestamp": "2026-05-11T08:44:22.139626",
+      "agent_name": "UnknownDocumentHandler",
+      "target_node_id": "uniqueness_additive_identity.root",
+      "target_node_kind": "unknown",
+      "input_summary": "Theorem. In a group, the additive identity is unique.\n\nProof. Suppose e and e' are both additive identities. Since e is an identity, e+e'=e'. Since e' is an identity, e+e'=e. Hence e=e'.",
+      "output_summary": "Theorem. In a group, the additive identity is unique.\n\nProof. Suppose e and e' are both additive identities. Since e is an identity, e+e'=e'. Since e' is an identity, e+e'=e. Hence e=e'.",
+      "validation_ok": true,
+      "issues": [],
+      "old_status": "raw",
+      "new_status": "decomposed"
+    }
+  ],
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "id": "uniqueness_additive_identity.root.uniqueness_additive_identity",
+        "status": "resolved",
+        "title": null,
+        "label": "thm:additive_identity_unique",
+        "text": "Theorem. In a group, the additive identity is unique.\n\nProof. Suppose e and e' are both additive identities. Since e is an identity, e+e'=e'. Since e' is an identity, e+e'=e. Hence e=e'.",
+        "children": [],
+        "proof": {
+          "type": "ProofDetails",
+          "id": "uniqueness_additive_identity.root.uniqueness_additive_identity.proof",
+          "theorem_statement": "In a group, the additive identity is unique.",
+          "root": {
+            "type": "Proof",
+            "id": "uniqueness_additive_identity.root.uniqueness_additive_identity.proof.root",
+            "status": "resolved",
+            "text": "Suppose e and e' are both additive identities. Since e is an identity, e+e'=e'. Since e' is an identity, e+e'=e. Hence e=e'.",
+            "goal": "In a group, the additive identity is unique.",
+            "hypotheses": [],
+            "children": [
+              {
+                "type": "assert_statement",
+                "id": "uniqueness_additive_identity.root.uniqueness_additive_identity.proof.root.compare_candidates",
+                "status": "resolved",
+                "text": "Both identity laws give e+e'=e' and e+e'=e, hence e=e'.",
+                "goal": "Any two additive identities are equal.",
+                "hypotheses": [],
+                "children": [],
+                "data": {
+                  "method": "direct proof",
+                  "hints": [
+                    "Both identity laws give e+e'=e' and e+e'=e, hence e=e'."
+                  ],
+                  "referenced_lemmas": [],
+                  "referenced_hypotheses": []
+                },
+                "references": [],
+                "confidence": 0.5,
+                "notes": [],
+                "unresolved_details": []
+              }
+            ],
+            "data": {
+              "strategy": "prove uniqueness from two arbitrary candidates",
+              "summary": "Compare two identities by evaluating e+e'.",
+              "component_ids": [
+                "uniqueness_additive_identity.root.uniqueness_additive_identity.proof.root.compare_candidates"
+              ],
+              "assumptions": [
+                "e is an additive identity",
+                "e' is an additive identity"
+              ],
+              "conclusions": [
+                "e=e'"
+              ],
+              "witness": null,
+              "contradiction_assumption": null,
+              "reduced_to": null,
+              "invariant": null,
+              "construction": null,
+              "metadata": {}
+            },
+            "references": [],
+            "confidence": 0.99,
+            "notes": [
+              "Classified as uniqueness from proof-type example metadata."
+            ],
+            "unresolved_details": []
+          }
+        },
+        "data": {
+          "statement": "In a group, the additive identity is unique.",
+          "conclusion": "In a group, the additive identity is unique."
+        },
+        "references": [],
+        "confidence": 0.5,
+        "notes": [],
+        "unresolved_details": []
+      }
+    ],
+    "title": "Uniqueness of Additive Identity"
+  }
+}
