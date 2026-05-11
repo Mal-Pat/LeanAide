@@ -31,7 +31,7 @@ For the induction plus cases example:
 
 ```bash
 PYTHONPYCACHEPREFIX=/private/tmp/leanaide_pycache \
-/Users/gadgil/code/LeanAide/venv/bin/python -m mathdoc_agent.examples.even_induction_cases
+./venv/bin/python -m mathdoc_agent.examples.even_induction_cases
 ```
 
 This writes:
@@ -44,7 +44,7 @@ For a small corpus covering several proof types:
 
 ```bash
 PYTHONPYCACHEPREFIX=/private/tmp/leanaide_pycache \
-/Users/gadgil/code/LeanAide/venv/bin/python -m mathdoc_agent.examples.proof_type_examples
+./venv/bin/python -m mathdoc_agent.examples.proof_type_examples
 ```
 
 This writes `.md` and `.json` files to:
@@ -154,7 +154,7 @@ export OPENAI_API_KEY="..."
 export MATHDOC_AGENT_MODEL="gpt-5.4"
 
 PYTHONPYCACHEPREFIX=/private/tmp/leanaide_pycache \
-/Users/gadgil/code/LeanAide/venv/bin/python - <<'PY'
+./venv/bin/python - <<'PY'
 from mathdoc_agent.pipeline import generate_math_document_json_sync
 
 source = """Theorem. For every natural number n, either n is even or n+1 is even.
@@ -172,14 +172,14 @@ Run:
 
 ```bash
 PYTHONPYCACHEPREFIX=/private/tmp/leanaide_pycache \
-/Users/gadgil/code/LeanAide/venv/bin/python -m unittest discover mathdoc_agent/tests
+./venv/bin/python -m unittest discover mathdoc_agent/tests
 ```
 
 Compile check:
 
 ```bash
 PYTHONPYCACHEPREFIX=/private/tmp/leanaide_pycache \
-/Users/gadgil/code/LeanAide/venv/bin/python -m compileall mathdoc_agent
+./venv/bin/python -m compileall mathdoc_agent
 ```
 
 `PYTHONPYCACHEPREFIX` keeps Python bytecode caches inside a writable location on
