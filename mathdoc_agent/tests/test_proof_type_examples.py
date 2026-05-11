@@ -57,6 +57,11 @@ class ProofTypeExampleTests(unittest.IsolatedAsyncioTestCase):
                 self.assertEqual(proof_root["status"], "resolved")
                 if proof_root["type"] == "Proof":
                     self.assertIn("proof_steps", proof_root)
+                if proof_root["type"] == "contradiction_statement":
+                    self.assertEqual(proof_root["proof"]["type"], "Proof")
+                    self.assertIn("proof_steps", proof_root["proof"])
+                if proof_root["type"] == "multi-condition_cases_proof":
+                    self.assertNotIn("exhaustiveness", proof_root)
 
     def test_saved_example_outputs_exist(self) -> None:
         output_dir = Path("mathdoc_agent/examples/proof_type_examples")

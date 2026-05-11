@@ -52,10 +52,6 @@
                 }
               }
             ],
-            "exhaustiveness": {
-              "type": "assert_statement",
-              "claim": "The induction hypothesis is exactly a disjunction with these two cases."
-            },
             "id": "even_induction_cases.root.thm_even_or_next_even.proof.root.step_cases",
             "status": "resolved"
           },

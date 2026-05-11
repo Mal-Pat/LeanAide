@@ -10,32 +10,35 @@
         "proof": {
           "type": "contradiction_statement",
           "assumption": "There are only finitely many prime numbers.",
-          "proof": [
-            {
-              "type": "assert_statement",
-              "claim": "Assume the complete list of primes is p_1,...,p_r.",
-              "proof_method": "direct proof",
-              "id": "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes.proof.root.assume_finite_list",
-              "status": "resolved",
-              "text": "Assume the complete list of primes is p_1,...,p_r."
-            },
-            {
-              "type": "assert_statement",
-              "claim": "There is a prime not on the list.",
-              "proof_method": "direct proof",
-              "id": "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes.proof.root.construct_new_number",
-              "status": "resolved",
-              "text": "Let N=p_1...p_r+1; any prime divisor q of N is not any p_i."
-            },
-            {
-              "type": "assert_statement",
-              "claim": "Contradiction.",
-              "proof_method": "direct proof",
-              "id": "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes.proof.root.contradiction",
-              "status": "resolved",
-              "text": "This contradicts that p_1,...,p_r were all the primes."
-            }
-          ],
+          "proof": {
+            "type": "Proof",
+            "proof_steps": [
+              {
+                "type": "assert_statement",
+                "claim": "Assume the complete list of primes is p_1,...,p_r.",
+                "proof_method": "direct proof",
+                "id": "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes.proof.root.assume_finite_list",
+                "status": "resolved",
+                "text": "Assume the complete list of primes is p_1,...,p_r."
+              },
+              {
+                "type": "assert_statement",
+                "claim": "There is a prime not on the list.",
+                "proof_method": "direct proof",
+                "id": "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes.proof.root.construct_new_number",
+                "status": "resolved",
+                "text": "Let N=p_1...p_r+1; any prime divisor q of N is not any p_i."
+              },
+              {
+                "type": "assert_statement",
+                "claim": "Contradiction.",
+                "proof_method": "direct proof",
+                "id": "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes.proof.root.contradiction",
+                "status": "resolved",
+                "text": "This contradicts that p_1,...,p_r were all the primes."
+              }
+            ]
+          },
           "id": "contradiction_infinitely_many_primes.root.contradiction_infinitely_many_primes.proof.root",
           "status": "resolved"
         },

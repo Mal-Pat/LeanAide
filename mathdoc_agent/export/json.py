@@ -202,12 +202,6 @@ def _proof_node_data(node: ProofNode) -> Any:
             {
                 "type": "multi-condition_cases_proof",
                 "proof_cases": proof_cases,
-                "exhaustiveness": {
-                    "type": "assert_statement",
-                    "claim": data.exhaustive_reason,
-                }
-                if data.exhaustive_reason
-                else None,
                 "id": node.id,
                 "status": node.status.value,
             }
@@ -219,7 +213,10 @@ def _proof_node_data(node: ProofNode) -> Any:
             {
                 "type": "contradiction_statement",
                 "assumption": data.contradiction_assumption or (data.assumptions[0] if data.assumptions else None),
-                "proof": [_proof_node_data(child) for child in node.children],
+                "proof": {
+                    "type": "Proof",
+                    "proof_steps": [_proof_node_data(child) for child in node.children],
+                },
                 "id": node.id,
                 "status": node.status.value,
             }
