@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from mathdoc_agent.agents.runner import run_agent_typed
+from mathdoc_agent.mathagents.runner import run_agent_typed
 from mathdoc_agent.handlers.base import DocumentRefinementHandler
 from mathdoc_agent.models.base import DocumentKind, NodeStatus, ProofKind
 from mathdoc_agent.models.document import DocumentNode

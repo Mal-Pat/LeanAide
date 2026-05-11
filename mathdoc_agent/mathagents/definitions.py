@@ -4,7 +4,7 @@ import os
 from dataclasses import dataclass
 from typing import Any
 
-from mathdoc_agent.agents import prompts
+from mathdoc_agent.mathagents import prompts
 from mathdoc_agent.models.refinement_specs import (
     CalculationRefinementSpec,
     CasesRefinementSpec,

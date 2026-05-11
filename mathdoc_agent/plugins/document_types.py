@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from mathdoc_agent.agents import definitions
+from mathdoc_agent.mathagents import definitions
 from mathdoc_agent.handlers.document_handlers import PassthroughDocumentHandler, UnknownDocumentHandler
 from mathdoc_agent.models.base import DocumentKind
 from mathdoc_agent.registries.document_handlers import DocumentHandlerRegistry

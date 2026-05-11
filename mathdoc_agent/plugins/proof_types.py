@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from mathdoc_agent.agents import definitions
+from mathdoc_agent.mathagents import definitions
 from mathdoc_agent.handlers.proof_handlers import (
     CalculationHandler,
     CasesHandler,

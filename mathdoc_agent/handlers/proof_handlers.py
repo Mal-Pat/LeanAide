@@ -4,7 +4,7 @@ from typing import Union
 
 from pydantic import BaseModel, Field
 
-from mathdoc_agent.agents.runner import run_agent_typed
+from mathdoc_agent.mathagents.runner import run_agent_typed
 from mathdoc_agent.builders.proof_builder import ProofBuilder
 from mathdoc_agent.handlers.base import ProofRefinementHandler
 from mathdoc_agent.models.base import NodeStatus, ProofKind

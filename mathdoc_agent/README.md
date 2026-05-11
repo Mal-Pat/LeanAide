@@ -94,7 +94,7 @@ asyncio.run(main())
 
 ## Python: Live API-Backed Agents
 
-The default registries use the agents defined in `mathdoc_agent.agents.definitions`.
+The default registries use the agents defined in `mathdoc_agent.mathagents.definitions`.
 Those definitions use the OpenAI Agents SDK if it is installed. Set the model with
 `MATHDOC_AGENT_MODEL`; otherwise the package default is used.
 
