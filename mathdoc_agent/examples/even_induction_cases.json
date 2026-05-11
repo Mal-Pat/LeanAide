@@ -7,12 +7,6 @@
         "label": "thm:even_or_next_even",
         "header": "Theorem",
         "claim": "For every natural number n, either n is even or n+1 is even.",
-        "hypothesis": [
-          {
-            "type": "assume_statement",
-            "assumption": "n is a natural number, with 0 included"
-          }
-        ],
         "proof": {
           "type": "induction_proof",
           "on": "n",

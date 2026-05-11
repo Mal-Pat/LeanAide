@@ -22,6 +22,7 @@ from mathdoc_agent.models.refinement_specs import (
     CasesRefinementSpec,
     InductionRefinementSpec,
     LocalClaimRefinementSpec,
+    metadata_entries_to_dict,
     SimpleProofRefinementSpec,
     StructuredProofRefinementSpec,
 )
@@ -379,7 +380,7 @@ class StructuredProofHandler(ProofRefinementHandler[StructuredProofRefinementSpe
             reduced_to=spec.reduced_to,
             invariant=spec.invariant,
             construction=spec.construction,
-            metadata=spec.metadata,
+            metadata=metadata_entries_to_dict(spec.metadata),
         )
         status = NodeStatus.decomposed if children else NodeStatus.resolved
         if spec.unresolved_details and not children:

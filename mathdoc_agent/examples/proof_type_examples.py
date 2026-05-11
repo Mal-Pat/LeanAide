@@ -12,6 +12,7 @@ from mathdoc_agent.models.refinement_specs import (
     ChildProofSpec,
     DocumentChildSpec,
     DocumentRefinementSpec,
+    MetadataEntry,
     SimpleProofRefinementSpec,
     StructuredProofRefinementSpec,
 )
@@ -220,7 +221,7 @@ EXAMPLES: tuple[ProofExample, ...] = (
             summary="Given epsilon, choose delta=epsilon/2 and verify the bound.",
             assumptions=["epsilon > 0"],
             conclusions=["|2x-6| < epsilon"],
-            metadata={"delta": "epsilon/2"},
+            metadata=[MetadataEntry(key="delta", value="epsilon/2")],
             components=[
                 ChildProofSpec(
                     id_suffix="choose_delta",
@@ -322,10 +323,7 @@ class DocumentParserAgent:
                     kind=DocumentKind.theorem,
                     label=example.label,
                     text=example.source_text,
-                    data={
-                        "statement": example.statement,
-                        "conclusion": example.statement,
-                    },
+                    statement=example.statement,
                     proof_text=example.proof_text,
                 )
             ]

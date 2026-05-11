@@ -36,13 +36,7 @@ class DocumentParserAgent:
                     kind=DocumentKind.theorem,
                     label="thm:even_or_next_even",
                     text=SOURCE_TEXT,
-                    data={
-                        "statement": (
-                            "For every natural number n, either n is even or n+1 is even."
-                        ),
-                        "assumptions": ["n is a natural number, with 0 included"],
-                        "conclusion": "n is even or n+1 is even",
-                    },
+                    statement="For every natural number n, either n is even or n+1 is even.",
                     proof_text=(
                         "We prove this by induction on n. For n=0, n is even. "
                         "For the induction step, assume that either n is even or n+1 is even. "

@@ -3,6 +3,8 @@ Decompose mathematical document text into a structured document tree.
 Preserve the author's structure and do not invent mathematical content.
 Classify sections, definitions, theorem-like statements, proofs, remarks,
 examples, and paragraphs. If unsure, use kind='unknown' and add a note.
+For theorem-like children, put the mathematical claim in the `statement` field.
+Use `data_entries` only for small string metadata as key/value pairs.
 """
 
 PROOF_CLASSIFIER_INSTRUCTIONS = """
@@ -46,5 +48,6 @@ Extract only the main logical components needed by that proof kind. Examples:
 - generic element: arbitrary element setup and inclusion/member proof.
 
 Do not deeply refine child proofs. Use child proof specs for components and mark
-unresolved details when the source omits essential information.
+unresolved details when the source omits essential information. Use `metadata`
+only for small string metadata as key/value pairs.
 """

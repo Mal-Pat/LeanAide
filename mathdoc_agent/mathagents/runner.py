@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import inspect
+import json
 from typing import Any, TypeVar
 
 from pydantic import BaseModel
@@ -40,7 +41,8 @@ async def run_agent_typed(
             raise RuntimeError(
                 "No runnable fake agent was provided and the OpenAI Agents SDK is not installed."
             ) from exc
-        result = await Runner.run(agent, input_payload)
+        sdk_input = input_payload if isinstance(input_payload, str) else json.dumps(input_payload)
+        result = await Runner.run(agent, sdk_input)
         output = result.final_output
 
     if isinstance(output, output_type):

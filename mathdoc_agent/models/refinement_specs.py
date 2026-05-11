@@ -8,6 +8,15 @@ from mathdoc_agent.models.base import DocumentKind, ProofKind
 from mathdoc_agent.models.payloads import CalcStep
 
 
+class MetadataEntry(BaseModel):
+    key: str
+    value: str
+
+
+def metadata_entries_to_dict(entries: list[MetadataEntry]) -> dict[str, str]:
+    return {entry.key: entry.value for entry in entries}
+
+
 class ChildProofSpec(BaseModel):
     id_suffix: str
     kind: Union[ProofKind, str] = ProofKind.unknown
@@ -65,7 +74,7 @@ class StructuredProofRefinementSpec(BaseModel):
     reduced_to: Optional[str] = None
     invariant: Optional[str] = None
     construction: Optional[str] = None
-    metadata: dict[str, str] = Field(default_factory=dict)
+    metadata: list[MetadataEntry] = Field(default_factory=list)
     unresolved_details: list[str] = Field(default_factory=list)
     notes: list[str] = Field(default_factory=list)
 
@@ -76,8 +85,9 @@ class DocumentChildSpec(BaseModel):
     title: Optional[str] = None
     label: Optional[str] = None
     text: str
+    statement: Optional[str] = None
     notes: list[str] = Field(default_factory=list)
-    data: dict = Field(default_factory=dict)
+    data_entries: list[MetadataEntry] = Field(default_factory=list)
     proof_text: Optional[str] = None
 
 

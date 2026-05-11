@@ -132,7 +132,7 @@ class DocumentParserAgent:
                     kind=DocumentKind.theorem,
                     label="thm:p",
                     text="Theorem. P. Proof. simple proof.",
-                    data={"statement": "P"},
+                    statement="P",
                     proof_text="simple proof.",
                 )
             ]

@@ -5,7 +5,7 @@ from mathdoc_agent.handlers.base import DocumentRefinementHandler
 from mathdoc_agent.models.base import DocumentKind, NodeStatus, ProofKind
 from mathdoc_agent.models.document import DocumentNode
 from mathdoc_agent.models.proof import ProofNode, ProofTree
-from mathdoc_agent.models.refinement_specs import DocumentRefinementSpec
+from mathdoc_agent.models.refinement_specs import DocumentRefinementSpec, metadata_entries_to_dict
 from mathdoc_agent.models.validation import ValidationIssue, ValidationReport
 from mathdoc_agent.orchestration.context import DocumentContext
 from mathdoc_agent.orchestration.worklist import kind_key
@@ -31,9 +31,12 @@ class UnknownDocumentHandler(DocumentRefinementHandler[DocumentRefinementSpec]):
         children: list[DocumentNode] = []
         for child in spec.children:
             child_id = f"{node.id}.{child.id_suffix}"
+            data = metadata_entries_to_dict(child.data_entries)
+            if child.statement is not None:
+                data["statement"] = child.statement
             proof = None
             if child.proof_text:
-                statement = str(child.data.get("statement") or child.text)
+                statement = str(child.statement or data.get("statement") or child.text)
                 proof = ProofTree(
                     id=f"{child_id}.proof",
                     theorem_statement=statement,
@@ -53,7 +56,7 @@ class UnknownDocumentHandler(DocumentRefinementHandler[DocumentRefinementSpec]):
                     title=child.title,
                     label=child.label,
                     text=child.text,
-                    data=child.data,
+                    data=data,
                     proof=proof,
                     notes=child.notes,
                 )
