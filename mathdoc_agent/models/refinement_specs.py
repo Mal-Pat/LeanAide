@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Optional, Union
-
 from pydantic import BaseModel, Field
 
 from mathdoc_agent.models.base import DocumentKind, ProofKind
@@ -19,16 +17,16 @@ def metadata_entries_to_dict(entries: list[MetadataEntry]) -> dict[str, str]:
 
 class ChildProofSpec(BaseModel):
     id_suffix: str
-    kind: Union[ProofKind, str] = ProofKind.unknown
+    kind: ProofKind | str = ProofKind.unknown
     text: str
-    goal: Optional[str] = None
+    goal: str | None = None
     hypotheses: list[str] = Field(default_factory=list)
     notes: list[str] = Field(default_factory=list)
 
 
 class InductionRefinementSpec(BaseModel):
     variable: str
-    principle: Optional[str] = None
+    principle: str | None = None
     induction_hypotheses: list[str] = Field(default_factory=list)
     base_cases: list[ChildProofSpec]
     step_cases: list[ChildProofSpec]
@@ -36,14 +34,14 @@ class InductionRefinementSpec(BaseModel):
 
 
 class CasesRefinementSpec(BaseModel):
-    split_on: Optional[str] = None
-    exhaustive_reason: Optional[str] = None
+    split_on: str | None = None
+    exhaustive_reason: str | None = None
     cases: list[ChildProofSpec]
     notes: list[str] = Field(default_factory=list)
 
 
 class SimpleProofRefinementSpec(BaseModel):
-    method: Optional[str] = None
+    method: str | None = None
     hints: list[str] = Field(default_factory=list)
     referenced_lemmas: list[str] = Field(default_factory=list)
     referenced_hypotheses: list[str] = Field(default_factory=list)
@@ -51,29 +49,29 @@ class SimpleProofRefinementSpec(BaseModel):
 
 
 class CalculationRefinementSpec(BaseModel):
-    calculation_kind: Optional[str] = None
+    calculation_kind: str | None = None
     steps: list[CalcStep] = Field(default_factory=list)
     unresolved_details: list[str] = Field(default_factory=list)
 
 
 class LocalClaimRefinementSpec(BaseModel):
     statement: str
-    label: Optional[str] = None
-    proof: Optional[ChildProofSpec] = None
+    label: str | None = None
+    proof: ChildProofSpec | None = None
     notes: list[str] = Field(default_factory=list)
 
 
 class StructuredProofRefinementSpec(BaseModel):
-    strategy: Optional[str] = None
-    summary: Optional[str] = None
+    strategy: str | None = None
+    summary: str | None = None
     components: list[ChildProofSpec] = Field(default_factory=list)
     assumptions: list[str] = Field(default_factory=list)
     conclusions: list[str] = Field(default_factory=list)
-    witness: Optional[str] = None
-    contradiction_assumption: Optional[str] = None
-    reduced_to: Optional[str] = None
-    invariant: Optional[str] = None
-    construction: Optional[str] = None
+    witness: str | None = None
+    contradiction_assumption: str | None = None
+    reduced_to: str | None = None
+    invariant: str | None = None
+    construction: str | None = None
     metadata: list[MetadataEntry] = Field(default_factory=list)
     unresolved_details: list[str] = Field(default_factory=list)
     notes: list[str] = Field(default_factory=list)
@@ -81,14 +79,14 @@ class StructuredProofRefinementSpec(BaseModel):
 
 class DocumentChildSpec(BaseModel):
     id_suffix: str
-    kind: Union[DocumentKind, str] = DocumentKind.unknown
-    title: Optional[str] = None
-    label: Optional[str] = None
+    kind: DocumentKind | str = DocumentKind.unknown
+    title: str | None = None
+    label: str | None = None
     text: str
-    statement: Optional[str] = None
+    statement: str | None = None
     notes: list[str] = Field(default_factory=list)
     data_entries: list[MetadataEntry] = Field(default_factory=list)
-    proof_text: Optional[str] = None
+    proof_text: str | None = None
 
 
 class DocumentRefinementSpec(BaseModel):
