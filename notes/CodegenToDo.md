@@ -114,6 +114,8 @@ intent and produce better Lean tactics.
 
 ### `contrapositive_proof`
 
+JSON type to match: `contrapositive_proof`.
+
 Fields:
 
 - `assumption`: negated conclusion or contrapositive assumption.
@@ -125,6 +127,8 @@ negated hypothesis, and close using the contrapositive form of the theorem.
 
 ### `existence_proof`
 
+JSON type to match: `existence_proof`.
+
 Fields:
 
 - `witness`: constructed witness.
@@ -135,6 +139,8 @@ Expected Lean behavior: use the witness, then generate tactics for the
 verification proof.
 
 ### `uniqueness_proof`
+
+JSON type to match: `uniqueness_proof`.
 
 Fields:
 
@@ -148,6 +154,8 @@ equality of arbitrary candidates.
 
 ### `construction_proof`
 
+JSON type to match: `construction_proof`.
+
 Fields:
 
 - `construction`: constructed object or definition.
@@ -158,6 +166,8 @@ Expected Lean behavior: define or refine the constructed object, then discharge
 the verification goals.
 
 ### `generic_element_proof`
+
+JSON type to match: `generic_element_proof`.
 
 Fields:
 
@@ -170,6 +180,8 @@ Expected Lean behavior: use extensionality or inclusion introduction, introduce
 the generic element, and generate the elementwise proof.
 
 ### `epsilon_delta_proof`
+
+JSON type to match: `epsilon_delta_proof`.
 
 Fields:
 
@@ -184,6 +196,8 @@ the proposed delta, prove positivity, then prove the implication/bound.
 
 ### `invariant_proof`
 
+JSON type to match: `invariant_proof`.
+
 Fields:
 
 - `invariant`: invariant predicate.
@@ -195,6 +209,8 @@ Expected Lean behavior: prove initialization and preservation, then apply the
 invariant to the target state.
 
 ### `reduction_proof`
+
+JSON type to match: `reduction_proof`.
 
 Fields:
 
@@ -208,6 +224,8 @@ apply the known result.
 
 ### `counting_proof`
 
+JSON type to match: `counting_proof`.
+
 Fields:
 
 - `counted_object`: finite type, set, or combinatorial object being counted.
@@ -219,6 +237,8 @@ Expected Lean behavior: produce a finite-cardinality equality from two
 cardinality computations.
 
 ### `pigeonhole_proof`
+
+JSON type to match: `pigeonhole_proof`.
 
 Fields:
 
@@ -232,6 +252,8 @@ Expected Lean behavior: apply an appropriate finite pigeonhole theorem.
 
 ### `minimal_counterexample_proof`
 
+JSON type to match: `minimal_counterexample_proof`.
+
 Fields:
 
 - `counterexample_property`: property defining counterexamples.
@@ -243,6 +265,8 @@ Expected Lean behavior: obtain a minimal counterexample by well-foundedness,
 then derive a contradiction.
 
 ### `infinite_descent_proof`
+
+JSON type to match: `infinite_descent_proof`.
 
 Fields:
 
@@ -256,6 +280,8 @@ out the initial counterexample.
 
 ### `compactness_proof`
 
+JSON type to match: `compactness_proof`.
+
 Fields:
 
 - `cover_or_family`: open cover or closed family.
@@ -266,6 +292,8 @@ Fields:
 Expected Lean behavior: apply the compactness theorem and pass to finite data.
 
 ### `density_proof`
+
+JSON type to match: `density_proof`.
 
 Fields:
 
@@ -279,6 +307,8 @@ continuity/order/topological transfer.
 
 ### `approximation_proof`
 
+JSON type to match: `approximation_proof`.
+
 Fields:
 
 - `approximants`: approximating sequence, net, or family.
@@ -290,6 +320,8 @@ Expected Lean behavior: introduce approximants, prove estimates, and use a
 limit theorem.
 
 ### `universal_property_proof`
+
+JSON type to match: `universal_property_proof`.
 
 Fields:
 
@@ -303,6 +335,8 @@ then prove existence and uniqueness subgoals.
 
 ### `algorithmic_proof`
 
+JSON type to match: `algorithmic_proof`.
+
 Fields:
 
 - `algorithm`: algorithm or recursive procedure.
@@ -314,6 +348,8 @@ Expected Lean behavior: define/refine the algorithm, prove termination, then
 prove correctness.
 
 ### `probabilistic_proof`
+
+JSON type to match: `probabilistic_proof`.
 
 Fields:
 
@@ -328,6 +364,8 @@ positive probability.
 
 ### `local_to_global_proof`
 
+JSON type to match: `local_to_global_proof`.
+
 Fields:
 
 - `cover`: local cover or localization data.
@@ -339,6 +377,8 @@ Expected Lean behavior: use a gluing or sheaf-style theorem after local and
 compatibility goals are solved.
 
 ### `diagram_chase_proof`
+
+JSON type to match: `diagram_chase_proof`.
 
 Fields:
 
@@ -353,6 +393,8 @@ exactness lemmas.
 
 ### `maximal_minimal_proof`
 
+JSON type to match: `maximal_minimal_proof`.
+
 Fields:
 
 - `object`: extremal object.
@@ -366,6 +408,8 @@ and contradict maximality/minimality.
 
 ### `genericity_ae_proof`
 
+JSON type to match: `genericity_ae_proof`.
+
 Fields:
 
 - `bad_set`: exceptional set.
@@ -377,6 +421,8 @@ Expected Lean behavior: prove smallness of the exceptional set, then apply the
 corresponding almost-everywhere or genericity theorem.
 
 ### `diagrammatic_geometric_proof`
+
+JSON type to match: `diagrammatic_geometric_proof`.
 
 Fields:
 
