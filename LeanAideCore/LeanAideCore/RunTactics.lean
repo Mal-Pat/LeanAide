@@ -263,6 +263,8 @@ def getTacticsFromMessageData? (s: String) :
     tacticSeq?.mapM fun (tacticSeq, hasSorry) => do
       let tacs := getTactics tacticSeq
       traceAide `leanaide.interpreter.info s!"Extracted tactics from message: {s}"
+      for tac in tacs do
+        traceAide `leanaide.interpreter.info s!"{← ppTactic tac}"
       return (tacs, hasSorry)
   else
     -- traceAide `leanaide.interpreter.info s!"Message: {s} does not start with Try this:"

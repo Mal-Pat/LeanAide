@@ -1591,11 +1591,13 @@ def multiConditionCasesAux (translator : CodeGenerator := {}) (goal: MVarId) (ca
       pure goal
     let some trueCaseProofStx ← withoutModifyingState do getCode translator (some thenGoal) ``tacticSeq trueCaseProof | throwError
       s!"codegen: no translation found for true_case_proof {trueCaseProof}"
+    traceAide `leanaide.papercodes.info s!"true case proof tactics: {← PrettyPrinter.ppTerm <| ←  `(by $trueCaseProofStx)}"
     let trueCaseProofStx ← if resolution.isEmpty then
       pure trueCaseProofStx
     else
       appendTacticSeqSeq
         (← `(tacticSeq| $resolution*)) trueCaseProofStx
+    traceAide `leanaide.papercodes.info s!"true case proof tactics: {← PrettyPrinter.ppTerm <| ←  `(by $trueCaseProofStx)}"
     let falseCaseProofStx ←
       multiConditionCasesAux translator elseGoal tail exhaustiveness
     let fmt ← ppTerm {env := ← getEnv} conditionStx
@@ -1742,6 +1744,7 @@ def inductionCode (translator : CodeGenerator := {}) : Option MVarId →  (kind:
     baseGoal.withContext do
     getCode translator (some baseGoal) ``tacticSeq baseCaseProof | throwError
     s!"codegen: no translation found for base_case_proof {baseCaseProof}"
+  traceAide `leanaide.papercodes.info s!"codegen: base case proof tactics: {← PrettyPrinter.ppTerm <| ←  `(by $baseCaseProofStx)}"
   let some inductionStepProofStx ←
     withoutModifyingState do
     stepGoal.withContext do
