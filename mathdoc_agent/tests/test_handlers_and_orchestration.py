@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import unittest
+import json
 
+from mathdoc_agent.export.json import to_json
 from mathdoc_agent.models.base import DocumentKind, NodeStatus, ProofKind
 from mathdoc_agent.models.payloads import CalcRelation, CalcStep, LocalClaimData
 from mathdoc_agent.models.proof import ProofNode, ProofTree
@@ -146,9 +148,22 @@ class HandlerAndOrchestrationTests(unittest.IsolatedAsyncioTestCase):
         )
         theorem = refined.root.children[0]
         self.assertEqual(refined.root.status, NodeStatus.resolved)
+        dumped = refined.model_dump()
+        self.assertEqual(dumped["type"], "document")
+        self.assertEqual(dumped["document"]["type"], "document")
+        self.assertEqual(dumped["document"]["body"][0]["type"], "Theorem")
+        self.assertEqual(refined.root.model_dump()["type"], "document")
+        self.assertEqual(theorem.model_dump()["type"], "Theorem")
         self.assertIsNotNone(theorem.proof)
+        self.assertEqual(theorem.proof.model_dump()["type"], "ProofDetails")
         self.assertEqual(theorem.proof.root.status, NodeStatus.resolved)
+        self.assertEqual(theorem.proof.root.model_dump()["type"], "assert_statement")
         self.assertEqual(len(refined.run_log), 1)
+        exported = json.loads(to_json(refined))
+        self.assertEqual(exported["type"], "document")
+        self.assertEqual(exported["document"]["body"][0]["type"], "Theorem")
+        self.assertNotIn("kind", exported["root"])
+        self.assertNotIn("kind", exported["document"]["body"][0])
 
     def test_earlier_sibling_local_claim_is_in_context(self) -> None:
         claim = ProofNode(

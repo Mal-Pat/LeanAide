@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import unittest
+import json
 
 from mathdoc_agent.builders.document_builder import DocumentBuilder
 from mathdoc_agent.builders.proof_builder import ProofBuilder
+from mathdoc_agent.export.json import to_json
 from mathdoc_agent.models.base import DocumentKind, NodeStatus, ProofKind
 from mathdoc_agent.models.document import DocumentNode
 from mathdoc_agent.models.payloads import CalcRelation, CalcStep, InductionData
@@ -35,6 +37,14 @@ class ModelAndBuilderTests(unittest.TestCase):
         round_trip = DocumentNode.model_validate_json(node.model_dump_json())
         self.assertIsNotNone(round_trip.proof)
         self.assertEqual(round_trip.proof.root.kind, ProofKind.unknown)
+        dumped = round_trip.model_dump()
+        self.assertEqual(dumped["type"], "Theorem")
+        self.assertEqual(dumped["proof"]["type"], "ProofDetails")
+        self.assertEqual(dumped["proof"]["root"]["type"], "Proof")
+        exported = json.loads(to_json(round_trip))
+        self.assertEqual(exported["type"], "Theorem")
+        self.assertNotIn("kind", exported)
+        self.assertNotIn("kind", exported["proof"]["root"])
 
     def test_payload_registry_validates_known_and_ignores_unknown(self) -> None:
         data = proof_payload_registry.validate_data(
@@ -68,6 +78,7 @@ class ModelAndBuilderTests(unittest.TestCase):
         )
         self.assertEqual(calc.data["start"], "a")
         self.assertEqual(calc.data["target"], "c")
+        self.assertEqual(calc.model_dump()["type"], "calculation")
 
 
 if __name__ == "__main__":

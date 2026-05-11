@@ -1,36 +1,38 @@
 {
+  "type": "document",
   "id": "even_induction_cases",
   "title": "Evenness Alternates for Natural Numbers",
   "root": {
+    "type": "document",
     "id": "even_induction_cases.root",
-    "kind": "unknown",
     "status": "resolved",
     "title": "Evenness Alternates for Natural Numbers",
     "label": null,
     "text": "Theorem. For every natural number n, either n is even or n+1 is even.\n\nProof. We prove this by induction on n. For n=0, n is even. For the induction\nstep, assume that either n is even or n+1 is even. We split into cases. If n is\neven, then n=2k for some natural number k, hence n+2=2(k+1) is even, so the\nright side of the desired disjunction holds. If n+1 is even, then the left side\nof the desired disjunction holds.",
     "children": [
       {
+        "type": "Theorem",
         "id": "even_induction_cases.root.thm_even_or_next_even",
-        "kind": "theorem",
         "status": "resolved",
         "title": null,
         "label": "thm:even_or_next_even",
         "text": "Theorem. For every natural number n, either n is even or n+1 is even.\n\nProof. We prove this by induction on n. For n=0, n is even. For the induction\nstep, assume that either n is even or n+1 is even. We split into cases. If n is\neven, then n=2k for some natural number k, hence n+2=2(k+1) is even, so the\nright side of the desired disjunction holds. If n+1 is even, then the left side\nof the desired disjunction holds.",
         "children": [],
         "proof": {
+          "type": "ProofDetails",
           "id": "even_induction_cases.root.thm_even_or_next_even.proof",
           "theorem_statement": "For every natural number n, either n is even or n+1 is even.",
           "root": {
+            "type": "induction_proof",
             "id": "even_induction_cases.root.thm_even_or_next_even.proof.root",
-            "kind": "induction",
             "status": "resolved",
             "text": "We prove this by induction on n. For n=0, n is even. For the induction step, assume that either n is even or n+1 is even. We split into cases. If n is even, then n=2k for some natural number k, hence n+2=2(k+1) is even, so the right side of the desired disjunction holds. If n+1 is even, then the left side of the desired disjunction holds.",
             "goal": "For every natural number n, either n is even or n+1 is even.",
             "hypotheses": [],
             "children": [
               {
+                "type": "assert_statement",
                 "id": "even_induction_cases.root.thm_even_or_next_even.proof.root.base_n_eq_0",
-                "kind": "simple",
                 "status": "resolved",
                 "text": "Base case n=0: 0 is even, so either 0 is even or 1 is even.",
                 "goal": "Either 0 is even or 0+1 is even.",
@@ -54,8 +56,8 @@
                 "unresolved_details": []
               },
               {
+                "type": "multi-condition_cases_proof",
                 "id": "even_induction_cases.root.thm_even_or_next_even.proof.root.step_cases",
-                "kind": "cases",
                 "status": "resolved",
                 "text": "Induction step: assume either n is even or n+1 is even. Split into the case that n is even and the case that n+1 is even.",
                 "goal": "Either n+1 is even or n+2 is even.",
@@ -64,8 +66,8 @@
                 ],
                 "children": [
                   {
+                    "type": "assert_statement",
                     "id": "even_induction_cases.root.thm_even_or_next_even.proof.root.step_cases.case_n_even",
-                    "kind": "simple",
                     "status": "resolved",
                     "text": "Case 1: n is even. Then n=2k for some k, so n+2=2(k+1) is even. Thus the right disjunct of the goal, n+2 is even, holds.",
                     "goal": "Either n+1 is even or n+2 is even.",
@@ -89,8 +91,8 @@
                     "unresolved_details": []
                   },
                   {
+                    "type": "assert_statement",
                     "id": "even_induction_cases.root.thm_even_or_next_even.proof.root.step_cases.case_next_even",
-                    "kind": "simple",
                     "status": "resolved",
                     "text": "Case 2: n+1 is even. This is exactly the left disjunct of the goal, so either n+1 is even or n+2 is even.",
                     "goal": "Either n+1 is even or n+2 is even.",
@@ -174,8 +176,8 @@
   },
   "run_log": [
     {
-      "run_id": "3b6afc63-ffe4-4e3d-a50e-c48d144a02a5",
-      "timestamp": "2026-05-11T08:15:48.059672",
+      "run_id": "bee596a5-2752-4e33-859a-67ea7818a65f",
+      "timestamp": "2026-05-11T08:30:16.482137",
       "agent_name": "UnknownDocumentHandler",
       "target_node_id": "even_induction_cases.root",
       "target_node_kind": "unknown",
@@ -186,5 +188,167 @@
       "old_status": "raw",
       "new_status": "decomposed"
     }
-  ]
+  ],
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "id": "even_induction_cases.root.thm_even_or_next_even",
+        "status": "resolved",
+        "title": null,
+        "label": "thm:even_or_next_even",
+        "text": "Theorem. For every natural number n, either n is even or n+1 is even.\n\nProof. We prove this by induction on n. For n=0, n is even. For the induction\nstep, assume that either n is even or n+1 is even. We split into cases. If n is\neven, then n=2k for some natural number k, hence n+2=2(k+1) is even, so the\nright side of the desired disjunction holds. If n+1 is even, then the left side\nof the desired disjunction holds.",
+        "children": [],
+        "proof": {
+          "type": "ProofDetails",
+          "id": "even_induction_cases.root.thm_even_or_next_even.proof",
+          "theorem_statement": "For every natural number n, either n is even or n+1 is even.",
+          "root": {
+            "type": "induction_proof",
+            "id": "even_induction_cases.root.thm_even_or_next_even.proof.root",
+            "status": "resolved",
+            "text": "We prove this by induction on n. For n=0, n is even. For the induction step, assume that either n is even or n+1 is even. We split into cases. If n is even, then n=2k for some natural number k, hence n+2=2(k+1) is even, so the right side of the desired disjunction holds. If n+1 is even, then the left side of the desired disjunction holds.",
+            "goal": "For every natural number n, either n is even or n+1 is even.",
+            "hypotheses": [],
+            "children": [
+              {
+                "type": "assert_statement",
+                "id": "even_induction_cases.root.thm_even_or_next_even.proof.root.base_n_eq_0",
+                "status": "resolved",
+                "text": "Base case n=0: 0 is even, so either 0 is even or 1 is even.",
+                "goal": "Either 0 is even or 0+1 is even.",
+                "hypotheses": [
+                  "n = 0"
+                ],
+                "children": [],
+                "data": {
+                  "method": "direct proof",
+                  "hints": [
+                    "Base case n=0: 0 is even, so either 0 is even or 1 is even."
+                  ],
+                  "referenced_lemmas": [],
+                  "referenced_hypotheses": [
+                    "n = 0"
+                  ]
+                },
+                "references": [],
+                "confidence": 0.5,
+                "notes": [],
+                "unresolved_details": []
+              },
+              {
+                "type": "multi-condition_cases_proof",
+                "id": "even_induction_cases.root.thm_even_or_next_even.proof.root.step_cases",
+                "status": "resolved",
+                "text": "Induction step: assume either n is even or n+1 is even. Split into the case that n is even and the case that n+1 is even.",
+                "goal": "Either n+1 is even or n+2 is even.",
+                "hypotheses": [
+                  "Either n is even or n+1 is even."
+                ],
+                "children": [
+                  {
+                    "type": "assert_statement",
+                    "id": "even_induction_cases.root.thm_even_or_next_even.proof.root.step_cases.case_n_even",
+                    "status": "resolved",
+                    "text": "Case 1: n is even. Then n=2k for some k, so n+2=2(k+1) is even. Thus the right disjunct of the goal, n+2 is even, holds.",
+                    "goal": "Either n+1 is even or n+2 is even.",
+                    "hypotheses": [
+                      "n is even"
+                    ],
+                    "children": [],
+                    "data": {
+                      "method": "direct proof",
+                      "hints": [
+                        "Case 1: n is even. Then n=2k for some k, so n+2=2(k+1) is even. Thus the right disjunct of the goal, n+2 is even, holds."
+                      ],
+                      "referenced_lemmas": [],
+                      "referenced_hypotheses": [
+                        "n is even"
+                      ]
+                    },
+                    "references": [],
+                    "confidence": 0.5,
+                    "notes": [],
+                    "unresolved_details": []
+                  },
+                  {
+                    "type": "assert_statement",
+                    "id": "even_induction_cases.root.thm_even_or_next_even.proof.root.step_cases.case_next_even",
+                    "status": "resolved",
+                    "text": "Case 2: n+1 is even. This is exactly the left disjunct of the goal, so either n+1 is even or n+2 is even.",
+                    "goal": "Either n+1 is even or n+2 is even.",
+                    "hypotheses": [
+                      "n+1 is even"
+                    ],
+                    "children": [],
+                    "data": {
+                      "method": "direct proof",
+                      "hints": [
+                        "Case 2: n+1 is even. This is exactly the left disjunct of the goal, so either n+1 is even or n+2 is even."
+                      ],
+                      "referenced_lemmas": [],
+                      "referenced_hypotheses": [
+                        "n+1 is even"
+                      ]
+                    },
+                    "references": [],
+                    "confidence": 0.5,
+                    "notes": [],
+                    "unresolved_details": []
+                  }
+                ],
+                "data": {
+                  "split_on": "the induction hypothesis: either n is even or n+1 is even",
+                  "exhaustive_reason": "The induction hypothesis is exactly a disjunction with these two cases.",
+                  "case_ids": [
+                    "even_induction_cases.root.thm_even_or_next_even.proof.root.step_cases.case_n_even",
+                    "even_induction_cases.root.thm_even_or_next_even.proof.root.step_cases.case_next_even"
+                  ]
+                },
+                "references": [],
+                "confidence": 0.5,
+                "notes": [
+                  "The cases handler splits the induction step into the two IH alternatives."
+                ],
+                "unresolved_details": []
+              }
+            ],
+            "data": {
+              "variable": "n",
+              "principle": "ordinary induction on natural numbers starting at 0",
+              "base_case_ids": [
+                "even_induction_cases.root.thm_even_or_next_even.proof.root.base_n_eq_0"
+              ],
+              "step_case_ids": [
+                "even_induction_cases.root.thm_even_or_next_even.proof.root.step_cases"
+              ],
+              "induction_hypotheses": [
+                "Either n is even or n+1 is even."
+              ]
+            },
+            "references": [],
+            "confidence": 0.5,
+            "notes": [
+              "Classified by explicit phrase: prove this by induction on n.",
+              "The induction handler creates one base child and one step child."
+            ],
+            "unresolved_details": []
+          }
+        },
+        "data": {
+          "statement": "For every natural number n, either n is even or n+1 is even.",
+          "assumptions": [
+            "n is a natural number, with 0 included"
+          ],
+          "conclusion": "n is even or n+1 is even"
+        },
+        "references": [],
+        "confidence": 0.5,
+        "notes": [],
+        "unresolved_details": []
+      }
+    ],
+    "title": "Evenness Alternates for Natural Numbers"
+  }
 }

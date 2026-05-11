@@ -60,6 +60,7 @@ class UnknownDocumentHandler(DocumentRefinementHandler[DocumentRefinementSpec]):
             )
         return node.model_copy(
             update={
+                "kind": DocumentKind.document,
                 "status": NodeStatus.decomposed,
                 "children": children,
                 "notes": node.notes + spec.notes,
