@@ -2,11 +2,14 @@ import Lean.Meta
 -- import LeanCodePrompts
 import LeanAide.Config
 import LeanAideCore.ConstDeps
+import LeanAideCore
 open Lean LeanAide.Meta
 
 set_option maxHeartbeats 10000000
 set_option maxRecDepth 1000
 set_option compiler.extract_closed false
+
+open LeanAide
 
 def coreContext : Core.Context := {fileName := "", fileMap := {source:= "", positions := #[]}, maxHeartbeats := 100000000000, maxRecDepth := 1000000
     }
@@ -14,13 +17,12 @@ def coreContext : Core.Context := {fileName := "", fileMap := {source:= "", posi
 unsafe def main : IO Unit := do
   initSearchPath (← Lean.findSysroot)
   enableInitializersExecution
-  let env ←
-    importModules (loadExts := true) #[
+  let env ← importModules (loadExts := Bool.true) #[
     {module := `Mathlib},
     {module := `LeanAideCore.ConstDeps}] {}
   let core := writeDocsCore
   let js ← core.run' coreContext {env := env} |>.runToIO'
-  logToStdErr `leanaide.translate.info "Writing to resources/mathlib4-prompts.json and resources/mathlib4-prompts.jsonl"
+  logToStdErr `leanaide.translate.info "Writing to  resources/mathlib4-prompts.jsonl"
   -- IO.FS.writeFile ((← resourcesDir) / "mathlib4-prompts.json") js.pretty
   let h ← IO.FS.Handle.mk ((← resourcesDir) / "mathlib4-prompts.jsonl") IO.FS.Mode.write
   let .ok lines := js.getArr? | throw <| IO.userError "Expected array"
