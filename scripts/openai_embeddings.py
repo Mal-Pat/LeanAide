@@ -1,78 +1,95 @@
 import json
+import os
 from openai import OpenAI
 
 
+def openai_client():
+    return OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+
+
+def iter_jsonl(path):
+    with open(path, 'r', encoding='utf-8') as inp:
+        for line in inp:
+            line = line.strip()
+            if line:
+                yield json.loads(line)
+
+
+def write_jsonl_line(out, obj):
+    out.write(json.dumps(obj, ensure_ascii=False) + "\n")
+    out.flush()
+
+
 def ada_embeddings():
-    client = OpenAI()
+    client = openai_client()
+    count = 0
 
-    with open("resources/mathlib4-prompts.json", 'r', encoding='utf-8') as inp, open("rawdata/mathlib4-prompts-embeddings.json", 'w', encoding='utf-8') as out:
-        js = json.load(inp)
-        count = 0
-        print(len(js))
-
+    with open("rawdata/mathlib4-prompts-embeddings.jsonl", 'w', encoding='utf-8') as out:
         # for each line, compute the embeddings
-        for l in js:
+        for l in iter_jsonl("resources/mathlib4-prompts.jsonl"):
             response = client.embeddings.create(
-                input=l["docString"],
+                input=l["doc"],
                 model="text-embedding-ada-002",
             )
             embedding = response.data[0].embedding
             l["embedding"] = embedding
-            print(l["docString"])
+            print(l["doc"])
             count = count + 1
-            print(f"Completed {count} out of {len(js)}")
-
-        # write the embeddings to `out`
-        json.dump(js, out, indent=4, ensure_ascii=False)
+            print(f"Completed {count}")
+            write_jsonl_line(out, l)
 
 
-def small_embeddings_prompt():
-    client = OpenAI()
-    out_lines = []
+def small_embeddings():
+    client = openai_client()
     count = 0
 
-    with open("resources/mathlib4-prompts.json", 'r', encoding='utf-8') as inp, open("rawdata/mathlib4-docStrings-small-embeddings.json", 'w', encoding='utf-8') as out:
-        js = json.load(inp)
-        for l in js:
+    with open("rawdata/mathlib4-prompts-small-embeddings.jsonl", 'w', encoding='utf-8') as out:
+        for l in iter_jsonl("resources/mathlib4-prompts.jsonl"):
             response = client.embeddings.create(
-                input=l["docString"],
+                input=l["doc"],
                 model="text-embedding-3-small",
                 # dimensions = 256
             )
             embedding = response.data[0].embedding
             l["embedding"] = embedding
-            out_lines.append(l)
             count = count + 1
-            print(l["docString"])
-            print(f"Completed {count} out of {len(js)}")
-        
-        json.dump(out_lines, out, indent=4, ensure_ascii=False)
+            print(l["doc"])
+            print(f"Completed {count}")
+            write_jsonl_line(out, l)
+
+
+def small_embeddings_prompt():
+    small_embeddings()
 
 
 def small_embeddings_descs():
-    client = OpenAI()
-    out_lines = []
+    client = openai_client()
     count = 0
 
-    with open("rawdata/mathlib4-descs-embeddings-small.json", 'w', encoding='utf-8') as out:
-        with open("resources/mathlib4-descs.jsonl", 'r', encoding='utf-8') as reader:
-            for line in reader:
-                l = json.loads(line)
-                for field in ["description", "concise-description"]:
-                    if field in l and l[field]:
-                        response = client.embeddings.create(
-                            input=l[field],
-                            model="text-embedding-3-small"
-                            # dimensions = 256
-                        )
-                        embedding = response.data[0].embedding
-                        l[field + "-embedding"] = embedding
-                        print("Field: ", field)
-                        print(l[field])
-                    else:
-                        print(f"Field {field} not found")
-                out_lines.append(l)
-                count = count + 1
-                print(f"Completed {count}")
-            
-            json.dump(out_lines, out, indent=4, ensure_ascii=False)
+    with open("rawdata/mathlib4-descs-embeddings-small.jsonl", 'w', encoding='utf-8') as out:
+        for l in iter_jsonl("resources/mathlib4-descs.jsonl"):
+            for field in ["description", "concise-description"]:
+                if field in l and l[field]:
+                    response = client.embeddings.create(
+                        input=l[field],
+                        model="text-embedding-3-small"
+                        # dimensions = 256
+                    )
+                    embedding = response.data[0].embedding
+                    l[field + "-embedding"] = embedding
+                    print("Field: ", field)
+                    print(l[field])
+                else:
+                    print(f"Field {field} not found")
+            count = count + 1
+            print(f"Completed {count}")
+            write_jsonl_line(out, l)
+
+
+def main():
+    small_embeddings()
+    small_embeddings_descs()
+
+
+if __name__ == "__main__":
+    main()
