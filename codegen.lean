@@ -78,9 +78,23 @@ def runCodegen (inputPath : System.FilePath) : IO UInt32 := do
       IO.FS.writeFile outFile (generatedFileContents inputPath topCode documentCode)
       IO.println s!"Generated {outFile}"
       match result.getObjVal? "declarations" with
-      | Except.ok decls => IO.println s!"Declarations: {decls.compress}"
+      | Except.ok decls => IO.eprintln s!"Declarations: {decls.compress}"
       | Except.error _ => pure ()
-      return 0
+      let core := elaborateTask result translator |>.runToCore
+      let result' ← core.run' ctx {env := env} |>.runToIO'
+      match result'.getObjValAs? String "result" with
+      | Except.ok "success" =>
+        IO.eprintln "Elaboration succeeded"
+        IO.eprintln s!"Elaboration result: {result'.pretty}"
+        return 0
+      | Except.ok other => do
+          IO.eprintln s!"Elaboration returned non-success result: {other}"
+          IO.eprintln result'.pretty
+          return 1
+      | Except.error err => do
+          IO.eprintln s!"Elaboration returned malformed response: {err}"
+          IO.eprintln result'.pretty
+          return 1
   | Except.ok other => do
       IO.eprintln s!"Code generation returned non-success result: {other}"
       IO.eprintln result.pretty
@@ -90,7 +104,7 @@ def runCodegen (inputPath : System.FilePath) : IO UInt32 := do
       IO.eprintln result.pretty
       return 1
 
-unsafe def main (args : List String) : IO UInt32 := do
+def main (args : List String) : IO UInt32 := do
   match args with
   | [input] => runCodegen input
   | _ => do
