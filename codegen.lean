@@ -154,10 +154,20 @@ def runCodegen (inputPath : System.FilePath) : IO UInt32 := do
       | Except.ok "success" =>
         IO.eprintln "Elaboration succeeded"
         IO.eprintln (formatElaborationResult result')
+        let handle ← IO.FS.Handle.mk outFile IO.FS.Mode.append
+        handle.putStrLn "\n\n/-!\n## Elaboration results \n\n"
+        handle.putStrLn (formatElaborationResult result')
+        handle.putStrLn "\n\n-/\n"
+        handle.flush
         return 0
       | Except.ok other => do
           IO.eprintln s!"Elaboration returned non-success result: {other}"
           IO.eprintln (formatElaborationResult result')
+          let handle ← IO.FS.Handle.mk outFile IO.FS.Mode.append
+          handle.putStrLn "\n\n/-!\n## Elaboration results \n\n"
+          handle.putStrLn (formatElaborationResult result')
+          handle.putStrLn "\n\n-/\n"
+          handle.flush
           return 1
       | Except.error err => do
           IO.eprintln s!"Elaboration returned malformed response: {err}"
