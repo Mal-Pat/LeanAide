@@ -10,19 +10,10 @@ theorem Nat.even_or_even_succ : ∀ (n : ℕ), Even n ∨ Even (n + (1 : ℕ)) :
     by
     intro n
     induction n with
-    | zero =>
-      have assert_14506765972283818572 : ∀ (n : ℕ), Even (0 : ℕ) ∨ Even ((0 : ℕ) + (1 : ℕ)) := by
-        simp only [Even.zero, zero_add, Nat.not_even_one, or_false, implies_true]
-      grind
+    | zero => simp only [Even.zero, zero_add, Nat.not_even_one, or_false]
     | succ n
       ih =>
-      if condition_16468389163427038829 : Even n then
-        have assert_3690336956872712118 : Even (n + (1 : ℕ)) ∨ Even (n + (2 : ℕ)) := by grind only [= Nat.even_iff]
-        grind -- manual fix
-      else
-        if condition_3270161773976375427 : Even (n + (1 : ℕ)) then
-          have assert_3690336956872712118 : Even (n + (1 : ℕ)) ∨ Even (n + (2 : ℕ)) := by grind only
-          grind -- manual fix
-        else grind only
+      if condition_16468389163427038829 : Even n then grind only [= Nat.even_iff]
+      else if condition_3270161773976375427 : Even (n + (1 : ℕ)) then grind only else grind only
       done
     done
