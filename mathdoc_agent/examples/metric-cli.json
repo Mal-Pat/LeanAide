@@ -6,102 +6,68 @@
         "type": "Theorem",
         "label": "metric.root.theorem",
         "header": "Theorem",
-        "claim": "Let $(X,d)$ be a metric space, and let $x,y \\in X$ be distinct points with $d(x,y)=\\epsilon>0$. Then the open balls $B(x,\\epsilon/3)$ and $B(y,\\epsilon/3)$ are disjoint.",
+        "claim": "Let $(X,d)$ be a metric space, and let $x,y\\in X$ be distinct points with $d(x,y)=\\epsilon>0$. Then the open balls $B(x,\\epsilon/3)$ and $B(y,\\epsilon/3)$ are disjoint.",
         "proof": {
           "type": "contradiction_statement",
-          "assumption": "B(x,ε/3)∩B(y,ε/3)≠∅",
+          "assumption": "B(x,\\varepsilon/3)\\cap B(y,\\varepsilon/3)\\ne\\varnothing",
           "proof": {
             "type": "Proof",
             "proof_steps": [
               {
-                "type": "Proof",
-                "claim_label": "B(x,ε/3)∩B(y,ε/3)≠∅",
-                "proof_steps": [
-                  {
-                    "type": "Proof",
-                    "claim_label": "∃z∈X, z∈B(x,ε/3) ∧ z∈B(y,ε/3)",
-                    "proof_steps": [
-                      {
+                "type": "Theorem",
+                "label": "metric.root.theorem.proof.root.intersection_assumption.witness_z",
+                "header": "Claim",
+                "claim": "\\(\\exists z\\in X\\, (z\\in B(x,\\varepsilon/3)\\land z\\in B(y,\\varepsilon/3))\\)",
+                "proof": {
+                  "type": "Proof",
+                  "proof_steps": [
+                    {
+                      "type": "Theorem",
+                      "label": "metric.root.theorem.proof.root.intersection_assumption.witness_z.witness",
+                      "header": "Claim",
+                      "claim": "\\(z\\in B(x,\\varepsilon/3)\\cap B(y,\\varepsilon/3)\\)",
+                      "proof": {
                         "type": "Proof",
-                        "claim_label": "∃z∈X, z∈B(x,ε/3) ∧ z∈B(y,ε/3)",
                         "proof_steps": [
                           {
-                            "type": "Proof",
-                            "claim_label": "z∈B(x,ε/3)∩B(y,ε/3)",
-                            "proof_steps": [
-                              {
-                                "type": "Proof",
-                                "claim_label": "z∈B(x,ε/3)∩B(y,ε/3)",
-                                "proof_steps": [
-                                  {
-                                    "type": "let_statement",
-                                    "variable_name": "z",
-                                    "variable_type": "element of B(x,ε/3)∩B(y,ε/3)",
-                                    "statement": "Choose z∈B(x,ε/3)∩B(y,ε/3)."
-                                  },
-                                  {
-                                    "type": "assert_statement",
-                                    "claim": "z∈B(x,ε/3)∩B(y,ε/3)",
-                                    "proof_method": "by the choice of z from the nonempty intersection"
-                                  }
-                                ],
-                                "id": "metric.root.theorem.proof.root.assumption.witness.choose_z.witness_choice.choice",
-                                "status": "resolved",
-                                "text": "Since B(x,ε/3)∩B(y,ε/3)≠∅, choose z∈B(x,ε/3)∩B(y,ε/3)."
-                              }
-                            ],
-                            "id": "metric.root.theorem.proof.root.assumption.witness.choose_z.witness_choice",
-                            "status": "resolved"
-                          },
-                          {
                             "type": "assert_statement",
-                            "claim": "z∈B(x,ε/3) ∧ z∈B(y,ε/3)",
-                            "id": "metric.root.theorem.proof.root.assumption.witness.choose_z.membership_verification",
-                            "status": "classified",
-                            "text": "Because z lies in the intersection, z∈B(x,ε/3) and z∈B(y,ε/3)."
+                            "claim": "\\(z\\in B(x,\\varepsilon/3)\\cap B(y,\\varepsilon/3)\\)"
                           }
-                        ],
-                        "id": "metric.root.theorem.proof.root.assumption.witness.choose_z",
-                        "status": "decomposed"
+                        ]
                       },
-                      {
-                        "type": "assert_statement",
-                        "claim": "z∈B(x,ε/3) ∧ z∈B(y,ε/3)",
-                        "id": "metric.root.theorem.proof.root.assumption.witness.membership",
-                        "status": "classified",
-                        "text": "Membership z∈B(x,ε/3)∩B(y,ε/3) gives z∈B(x,ε/3) and z∈B(y,ε/3)."
-                      }
-                    ],
-                    "id": "metric.root.theorem.proof.root.assumption.witness",
-                    "status": "decomposed"
-                  }
-                ],
-                "id": "metric.root.theorem.proof.root.assumption",
+                      "id": "metric.root.theorem.proof.root.intersection_assumption.witness_z.witness",
+                      "status": "classified"
+                    },
+                    {
+                      "type": "assert_statement",
+                      "claim": "\\(z\\in B(x,\\varepsilon/3)\\land z\\in B(y,\\varepsilon/3)\\)",
+                      "id": "metric.root.theorem.proof.root.intersection_assumption.witness_z.membership",
+                      "status": "classified",
+                      "text": "From \\(z\\in B(x,\\varepsilon/3)\\cap B(y,\\varepsilon/3)\\), it follows that \\(z\\in B(x,\\varepsilon/3)\\) and \\(z\\in B(y,\\varepsilon/3)\\)."
+                    }
+                  ]
+                },
+                "id": "metric.root.theorem.proof.root.intersection_assumption.witness_z",
                 "status": "decomposed"
               },
               {
-                "type": "calculation_to_contradiction",
-                "start": "z∈B(x,ε/3)",
-                "target": "contradiction",
+                "type": "assert_statement",
+                "claim": "d(z,x)<\\varepsilon/3 \\text{ and } d(z,y)<\\varepsilon/3",
+                "id": "metric.root.theorem.proof.root.distance_bounds",
+                "status": "classified",
+                "text": "By the definition of open ball, \\(z\\in B(x,\\varepsilon/3)\\) gives \\(d(z,x)<\\varepsilon/3\\), and \\(z\\in B(y,\\varepsilon/3)\\) gives \\(d(z,y)<\\varepsilon/3\\)."
+              },
+              {
+                "type": "triangle_inequality_estimate",
+                "start": "d(x,y)",
+                "target": "2\\varepsilon/3",
                 "goal_relation": "mixed",
                 "steps": [
-                  {
-                    "from": "z∈B(x,ε/3)",
-                    "relation": "->",
-                    "to": "d(z,x)<ε/3",
-                    "justification": "Definition of open ball"
-                  },
-                  {
-                    "from": "z∈B(y,ε/3)",
-                    "relation": "->",
-                    "to": "d(z,y)<ε/3",
-                    "justification": "Definition of open ball"
-                  },
                   {
                     "from": "d(x,y)",
                     "relation": "<=",
                     "to": "d(x,z)+d(z,y)",
-                    "justification": "Triangle inequality, using symmetry d(x,z)=d(z,x)",
+                    "justification": "triangle inequality for the metric d",
                     "side_conditions": [
                       "d is a metric"
                     ]
@@ -109,60 +75,73 @@
                   {
                     "from": "d(x,z)+d(z,y)",
                     "relation": "<",
-                    "to": "ε/3+ε/3",
-                    "justification": "From d(z,x)<ε/3 and d(z,y)<ε/3, using symmetry d(x,z)=d(z,x)"
-                  },
-                  {
-                    "from": "ε/3+ε/3",
-                    "relation": "=",
-                    "to": "2ε/3",
-                    "justification": "Arithmetic simplification"
-                  },
-                  {
-                    "from": "d(x,y)",
-                    "relation": "<",
-                    "to": "2ε/3",
-                    "justification": "Combining the preceding inequalities"
-                  },
-                  {
-                    "from": "ε",
-                    "relation": "<",
-                    "to": "2ε/3",
-                    "justification": "Substitute d(x,y)=ε"
-                  },
-                  {
-                    "from": "ε<2ε/3 and ε>0",
-                    "relation": "->",
-                    "to": "1<2/3",
-                    "justification": "Divide the inequality ε<2ε/3 by the positive quantity ε",
+                    "to": "\\varepsilon/3+\\varepsilon/3",
+                    "justification": "using d(x,z)=d(z,x) by symmetry, together with the hypotheses d(z,x)<\\varepsilon/3 and d(z,y)<\\varepsilon/3",
                     "side_conditions": [
-                      "ε>0"
+                      "d is a metric",
+                      "d(z,x)<\\varepsilon/3",
+                      "d(z,y)<\\varepsilon/3"
                     ]
                   },
                   {
-                    "from": "1<2/3",
-                    "relation": "->",
-                    "to": "contradiction",
-                    "justification": "Arithmetic impossibility"
+                    "from": "\\varepsilon/3+\\varepsilon/3",
+                    "relation": "=",
+                    "to": "2\\varepsilon/3",
+                    "justification": "arithmetic simplification"
                   }
                 ],
-                "id": "metric.root.theorem.proof.root.contradiction",
+                "id": "metric.root.theorem.proof.root.triangle_inequality_bound",
                 "status": "resolved",
-                "text": "From z∈B(x,ε/3) and z∈B(y,ε/3), we have d(z,x)<ε/3 and d(z,y)<ε/3. By the triangle inequality, d(x,y)≤d(x,z)+d(z,y)<ε/3+ε/3=2ε/3. Since d(x,y)=ε, this gives ε<2ε/3, and because ε>0, 1<2/3, a contradiction."
+                "text": "Using the triangle inequality, \\(d(x,y)\\le d(x,z)+d(z,y)<\\varepsilon/3+\\\\varepsilon/3=2\\varepsilon/3\\)."
               },
               {
-                "type": "Proof",
-                "claim_label": "B(x,ε/3)∩B(y,ε/3)=∅",
-                "proof_steps": [
-                  {
-                    "type": "assert_statement",
-                    "claim": "B(x,ε/3)∩B(y,ε/3)=∅",
-                    "proof_method": "Since assuming that a point lies in B(x,ε/3)∩B(y,ε/3) leads to a contradiction, no such point exists."
-                  }
-                ],
-                "id": "metric.root.theorem.proof.root.conclusion",
-                "status": "resolved",
-                "text": "This contradiction arises from the assumption that a point lies in the intersection. Therefore no such point exists, so B(x,ε/3)∩B(y,ε/3)=∅."
+                "type": "contradiction_statement",
+                "assumption": "\\(d(x,y)<2\\varepsilon/3\\)",
+                "proof": {
+                  "type": "Proof",
+                  "proof_steps": [
+                    {
+                      "type": "calculation_to_contradiction",
+                      "start": "\\varepsilon",
+                      "target": "2/3",
+                      "goal_relation": "mixed",
+                      "steps": [
+                        {
+                          "from": "\\varepsilon",
+                          "relation": "=",
+                          "to": "d(x,y)",
+                          "justification": "From the hypothesis \\(d(x,y)=\\varepsilon\\)."
+                        },
+                        {
+                          "from": "d(x,y)",
+                          "relation": "<",
+                          "to": "2\\varepsilon/3",
+                          "justification": "Hypothesis."
+                        },
+                        {
+                          "from": "\\varepsilon",
+                          "relation": "<",
+                          "to": "2\\varepsilon/3",
+                          "justification": "Substitution using \\(d(x,y)=\\varepsilon\\) in \\(d(x,y)<2\\varepsilon/3\\)."
+                        },
+                        {
+                          "from": "1",
+                          "relation": "<",
+                          "to": "2/3",
+                          "justification": "Divide both sides of \\(\\varepsilon<2\\varepsilon/3\\) by \\(\\varepsilon\\).",
+                          "side_conditions": [
+                            "\\varepsilon>0"
+                          ]
+                        }
+                      ],
+                      "id": "metric.root.theorem.proof.root.contradiction.derive_false_inequality",
+                      "status": "resolved",
+                      "text": "Since \\(d(x,y)=\\varepsilon\\), the inequality \\(d(x,y)<2\\varepsilon/3\\) gives \\(\\varepsilon<2\\varepsilon/3\\). Dividing by \\(\\varepsilon>0\\) gives \\(1<2/3\\), impossible."
+                    }
+                  ]
+                },
+                "id": "metric.root.theorem.proof.root.contradiction",
+                "status": "resolved"
               }
             ]
           },
