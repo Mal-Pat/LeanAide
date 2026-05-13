@@ -93,3 +93,4 @@ tmp/
 .envrc
 resources/mathlib4-prompts.jsonl
 resources/mathlib4-descs.jsonl
+.DS_Store

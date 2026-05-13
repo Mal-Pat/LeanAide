@@ -1,78 +1,132 @@
 import json
+import os
+import argparse
 from openai import OpenAI
 
 
-def ada_embeddings():
-    client = OpenAI()
+def openai_client():
+    return OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 
-    with open("resources/mathlib4-prompts.json", 'r', encoding='utf-8') as inp, open("rawdata/mathlib4-prompts-embeddings.json", 'w', encoding='utf-8') as out:
-        js = json.load(inp)
-        count = 0
-        print(len(js))
 
+def jsonl_line_count(path):
+    with open(path, 'r', encoding='utf-8') as inp:
+        return sum(1 for line in inp if line.strip())
+
+
+def iter_jsonl(path, start_line=1):
+    with open(path, 'r', encoding='utf-8') as inp:
+        for line_no, line in enumerate(inp, start=1):
+            if line_no < start_line:
+                continue
+            line = line.strip()
+            if line:
+                yield line_no, json.loads(line)
+
+
+def write_jsonl_line(out, obj):
+    out.write(json.dumps(obj, ensure_ascii=False) + "\n")
+    out.flush()
+
+
+def ada_embeddings(start_line=1):
+    client = openai_client()
+    input_path = "resources/mathlib4-prompts.jsonl"
+    output_path = "rawdata/mathlib4-prompts-embeddings.jsonl"
+    total = jsonl_line_count(input_path)
+    mode = 'a' if start_line > 1 else 'w'
+
+    with open(output_path, mode, encoding='utf-8') as out:
         # for each line, compute the embeddings
-        for l in js:
+        for line_no, l in iter_jsonl(input_path, start_line):
             response = client.embeddings.create(
-                input=l["docString"],
+                input=l["doc"],
                 model="text-embedding-ada-002",
             )
             embedding = response.data[0].embedding
             l["embedding"] = embedding
-            print(l["docString"])
-            count = count + 1
-            print(f"Completed {count} out of {len(js)}")
-
-        # write the embeddings to `out`
-        json.dump(js, out, indent=4, ensure_ascii=False)
+            print(l["doc"])
+            print(f"Completed {line_no} out of {total}")
+            write_jsonl_line(out, l)
 
 
-def small_embeddings_prompt():
-    client = OpenAI()
-    out_lines = []
-    count = 0
+def small_embeddings(start_line=1):
+    client = openai_client()
+    input_path = "resources/mathlib4-prompts.jsonl"
+    output_path = "rawdata/mathlib4-prompts-small-embeddings.jsonl"
+    total = jsonl_line_count(input_path)
+    mode = 'a' if start_line > 1 else 'w'
 
-    with open("resources/mathlib4-prompts.json", 'r', encoding='utf-8') as inp, open("rawdata/mathlib4-docStrings-small-embeddings.json", 'w', encoding='utf-8') as out:
-        js = json.load(inp)
-        for l in js:
+    with open(output_path, mode, encoding='utf-8') as out:
+        for line_no, l in iter_jsonl(input_path, start_line):
             response = client.embeddings.create(
-                input=l["docString"],
+                input=l["doc"],
                 model="text-embedding-3-small",
                 # dimensions = 256
             )
             embedding = response.data[0].embedding
             l["embedding"] = embedding
-            out_lines.append(l)
-            count = count + 1
-            print(l["docString"])
-            print(f"Completed {count} out of {len(js)}")
-        
-        json.dump(out_lines, out, indent=4, ensure_ascii=False)
+            print(l["doc"])
+            print(f"Completed {line_no} out of {total}")
+            write_jsonl_line(out, l)
 
 
-def small_embeddings_descs():
-    client = OpenAI()
-    out_lines = []
-    count = 0
+def small_embeddings_prompt(start_line=1):
+    small_embeddings(start_line)
 
-    with open("rawdata/mathlib4-descs-embeddings-small.json", 'w', encoding='utf-8') as out:
-        with open("resources/mathlib4-descs.jsonl", 'r', encoding='utf-8') as reader:
-            for line in reader:
-                l = json.loads(line)
-                for field in ["description", "concise-description"]:
-                    if field in l and l[field]:
-                        response = client.embeddings.create(
-                            input=l[field],
-                            model="text-embedding-3-small"
-                            # dimensions = 256
-                        )
-                        embedding = response.data[0].embedding
-                        l[field + "-embedding"] = embedding
-                        print("Field: ", field)
-                        print(l[field])
-                    else:
-                        print(f"Field {field} not found")
-                out_lines.append(l)
-                count = count + 1
-                print(f"Completed {count}")
-            
-            json.dump(out_lines, out, indent=4, ensure_ascii=False)
+
+def small_embeddings_descs(start_line=1):
+    client = openai_client()
+    input_path = "resources/mathlib4-descs.jsonl"
+    output_path = "rawdata/mathlib4-descs-embeddings-small.jsonl"
+    total = jsonl_line_count(input_path)
+    mode = 'a' if start_line > 1 else 'w'
+
+    with open(output_path, mode, encoding='utf-8') as out:
+        for line_no, l in iter_jsonl(input_path, start_line):
+            for field in ["description", "concise-description"]:
+                if field in l and l[field]:
+                    response = client.embeddings.create(
+                        input=l[field],
+                        model="text-embedding-3-small"
+                        # dimensions = 256
+                    )
+                    embedding = response.data[0].embedding
+                    l[field + "-embedding"] = embedding
+                    print("Field: ", field)
+                    print(l[field])
+                else:
+                    print(f"Field {field} not found")
+            print(f"Completed {line_no} out of {total}")
+            write_jsonl_line(out, l)
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "start_line",
+        nargs="?",
+        type=int,
+        help="1-based input line to start from. Use the next line after the last completed line.",
+    )
+    parser.add_argument(
+        "target",
+        nargs="?",
+        choices=["desc"],
+        help='Use "desc" to run small_embeddings_descs instead of small_embeddings.',
+    )
+    args = parser.parse_args()
+    start_line = args.start_line
+    if start_line is None:
+        start = input("Start from line (1 for beginning): ").strip()
+        start_line = int(start) if start else 1
+    if start_line < 1:
+        raise ValueError("start_line must be at least 1")
+
+    if args.target == "desc":
+        small_embeddings_descs(start_line)
+    else:
+        small_embeddings(start_line)
+
+
+if __name__ == "__main__":
+    main()

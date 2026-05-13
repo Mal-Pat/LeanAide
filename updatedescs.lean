@@ -28,7 +28,7 @@ unsafe def main : IO Unit := do
   for js in jsLines do
     count := count + 1
     if count % 1000 == 0 then logToStdErr `leanaide.translate.info s!"Processing {count} lines"
-    let .ok name := js.getObjValAs? Name "name" | throw <| IO.userError s!"Failed to parse JSON: {js}"
+    let .ok _name := js.getObjValAs? Name "name" | throw <| IO.userError s!"Failed to parse JSON: {js}"
     let core := updateDescCore? js
     let js? ← core.run' coreContext {env := env} |>.runToIO'
     match js? with

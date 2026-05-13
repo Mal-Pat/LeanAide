@@ -1,0 +1,5 @@
+pydantic>=2.13
+openai>=2.36
+
+# Live API-backed agents. Fake-agent examples and tests do not require these at runtime.
+openai-agents>=0.17.1

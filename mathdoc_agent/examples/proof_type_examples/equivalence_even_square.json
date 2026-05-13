@@ -1,0 +1,41 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "thm:even_iff_square_even",
+        "header": "Theorem",
+        "claim": "For an integer n, n is even if and only if n^2 is even.",
+        "proof": {
+          "type": "bi-implication_cases_proof",
+          "if_proof": {
+            "type": "assert_statement",
+            "claim": "n even implies n^2 even.",
+            "proof_method": "direct proof",
+            "id": "equivalence_even_square.root.equivalence_even_square.proof.root.forward",
+            "status": "resolved",
+            "text": "If n=2k then n^2=2(2k^2), so n^2 is even."
+          },
+          "only_if_proof": {
+            "type": "Proof",
+            "claim_label": "n^2 even implies n even.",
+            "proof_steps": [
+              {
+                "type": "assert_statement",
+                "claim": "n^2 even implies n even."
+              }
+            ],
+            "id": "equivalence_even_square.root.equivalence_even_square.proof.root.reverse",
+            "status": "resolved"
+          },
+          "id": "equivalence_even_square.root.equivalence_even_square.proof.root",
+          "status": "resolved"
+        },
+        "id": "equivalence_even_square.root.equivalence_even_square",
+        "status": "resolved"
+      }
+    ],
+    "title": "Evenness Equivalent to Square Evenness"
+  }
+}

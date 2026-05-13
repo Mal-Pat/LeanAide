@@ -1,0 +1,32 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "thm:square_even_contrapositive",
+        "header": "Theorem",
+        "claim": "If n^2 is even, then n is even.",
+        "proof": {
+          "type": "Proof",
+          "claim_label": "If n^2 is even, then n is even.",
+          "proof_steps": [
+            {
+              "type": "assert_statement",
+              "claim": "n odd implies n^2 odd.",
+              "proof_method": "direct proof",
+              "id": "contrapositive_square_even.root.contrapositive_square_even.proof.root.odd_square",
+              "status": "resolved",
+              "text": "If n=2k+1, then n^2=2(2k^2+2k)+1, so n^2 is odd."
+            }
+          ],
+          "id": "contrapositive_square_even.root.contrapositive_square_even.proof.root",
+          "status": "resolved"
+        },
+        "id": "contrapositive_square_even.root.contrapositive_square_even",
+        "status": "resolved"
+      }
+    ],
+    "title": "Even Square Contrapositive"
+  }
+}

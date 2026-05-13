@@ -1,0 +1,40 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "thm:intersection_comm",
+        "header": "Theorem",
+        "claim": "For sets A and B, A ∩ B = B ∩ A.",
+        "proof": {
+          "type": "Proof",
+          "claim_label": "For sets A and B, A ∩ B = B ∩ A.",
+          "proof_steps": [
+            {
+              "type": "assert_statement",
+              "claim": "A∩B ⊆ B∩A.",
+              "proof_method": "direct proof",
+              "id": "generic_element_set_commutativity.root.generic_element_set_commutativity.proof.root.left_to_right",
+              "status": "resolved",
+              "text": "For arbitrary x, x∈A∩B implies x∈B∩A."
+            },
+            {
+              "type": "assert_statement",
+              "claim": "B∩A ⊆ A∩B.",
+              "proof_method": "direct proof",
+              "id": "generic_element_set_commutativity.root.generic_element_set_commutativity.proof.root.right_to_left",
+              "status": "resolved",
+              "text": "For arbitrary x, x∈B∩A implies x∈A∩B."
+            }
+          ],
+          "id": "generic_element_set_commutativity.root.generic_element_set_commutativity.proof.root",
+          "status": "resolved"
+        },
+        "id": "generic_element_set_commutativity.root.generic_element_set_commutativity",
+        "status": "resolved"
+      }
+    ],
+    "title": "Intersection is Commutative"
+  }
+}

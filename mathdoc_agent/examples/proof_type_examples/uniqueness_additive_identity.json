@@ -1,0 +1,32 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "thm:additive_identity_unique",
+        "header": "Theorem",
+        "claim": "In a group, the additive identity is unique.",
+        "proof": {
+          "type": "Proof",
+          "claim_label": "In a group, the additive identity is unique.",
+          "proof_steps": [
+            {
+              "type": "assert_statement",
+              "claim": "Any two additive identities are equal.",
+              "proof_method": "direct proof",
+              "id": "uniqueness_additive_identity.root.uniqueness_additive_identity.proof.root.compare_candidates",
+              "status": "resolved",
+              "text": "Both identity laws give e+e'=e' and e+e'=e, hence e=e'."
+            }
+          ],
+          "id": "uniqueness_additive_identity.root.uniqueness_additive_identity.proof.root",
+          "status": "resolved"
+        },
+        "id": "uniqueness_additive_identity.root.uniqueness_additive_identity",
+        "status": "resolved"
+      }
+    ],
+    "title": "Uniqueness of Additive Identity"
+  }
+}

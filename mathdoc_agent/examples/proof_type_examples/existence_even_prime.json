@@ -1,0 +1,32 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "thm:even_prime_exists",
+        "header": "Theorem",
+        "claim": "There exists a prime number that is even.",
+        "proof": {
+          "type": "Proof",
+          "claim_label": "There exists a prime number that is even.",
+          "proof_steps": [
+            {
+              "type": "assert_statement",
+              "claim": "2 is prime and even.",
+              "proof_method": "direct proof",
+              "id": "existence_even_prime.root.existence_even_prime.proof.root.verify_witness",
+              "status": "resolved",
+              "text": "The witness 2 is prime and even."
+            }
+          ],
+          "id": "existence_even_prime.root.existence_even_prime.proof.root",
+          "status": "resolved"
+        },
+        "id": "existence_even_prime.root.existence_even_prime",
+        "status": "resolved"
+      }
+    ],
+    "title": "An Even Prime Exists"
+  }
+}
