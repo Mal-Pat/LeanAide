@@ -26,6 +26,13 @@ Internal Python models still use `kind` for handler dispatch, but
 `mathdoc_agent.export.json.to_json` removes internal `kind` fields from exported
 JSON.
 
+`Paragraph` is reserved for genuinely non-mathematical prose: motivation,
+history, transitions, or commentary that makes no mathematical assertion and
+introduces no mathematical object. Mathematical content should be represented as
+definitions, theorem-like statements, structure/instance/inductive definitions,
+proofs, calculations, examples, remarks, local claims, or `unknown` when the
+parser cannot classify it safely.
+
 ## Command Line: Fake-Agent Examples
 
 Run commands from the repository root.

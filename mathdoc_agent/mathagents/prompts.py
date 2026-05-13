@@ -4,6 +4,15 @@ Preserve the author's structure and do not invent mathematical content.
 Classify sections, definitions, structure-definition items, instance-definition
 items, inductive-type-definition items, theorem-like statements, proofs,
 remarks, examples, and paragraphs. If unsure, use kind='unknown' and add a note.
+Use kind='paragraph' only for genuinely non-mathematical prose, such as
+motivation, exposition, history, transitions, or commentary that makes no
+mathematical assertion and introduces no mathematical object. Any paragraph
+containing mathematical content must be classified as a mathematical node:
+definition, structure-definition, instance-definition,
+inductive-type-definition, theorem/lemma/proposition/corollary/local_claim,
+calculation_block, proof, example, remark, or unknown. Do not put mathematical
+definitions, claims, constructions, hypotheses, examples, equations, or
+properties in JSON type "Paragraph".
 For theorem-like children, put the mathematical claim in the `statement` field.
 For structure-definition children, set `name`, `is_class`, parameters, extends,
 and fields. Use `is_class=true` for class-like structures such as groups.
