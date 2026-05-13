@@ -1,7 +1,10 @@
+"""Execution helpers for live and test math-document refinement agents."""
+
 from __future__ import annotations
 
 import inspect
 import json
+import sys
 from typing import Any, TypeVar
 
 from pydantic import BaseModel
@@ -9,7 +12,54 @@ from pydantic import BaseModel
 T = TypeVar("T", bound=BaseModel)
 
 
+def _agent_name(agent: Any) -> str:
+    """Return a stable human-readable name for SDK agents and test doubles."""
+    name = getattr(agent, "name", None)
+    if isinstance(name, str) and name:
+        return name
+    callable_name = getattr(agent, "__name__", None)
+    if isinstance(callable_name, str) and callable_name:
+        return callable_name
+    return agent.__class__.__name__
+
+
+def _payload_summary(payload: Any) -> str:
+    """Return a compact description of the agent payload for progress logging."""
+    if isinstance(payload, BaseModel):
+        payload = payload.model_dump()
+    if not isinstance(payload, dict):
+        return f"payload={type(payload).__name__}"
+
+    parts: list[str] = []
+    node = payload.get("node")
+    if isinstance(node, dict):
+        node_id = node.get("id")
+        kind = node.get("kind")
+        if node_id:
+            parts.append(f"node={node_id}")
+        if kind:
+            parts.append(f"kind={kind}")
+    proof_kind = payload.get("proof_kind")
+    if proof_kind:
+        parts.append(f"proof_kind={proof_kind}")
+    document = payload.get("document")
+    if isinstance(document, dict) and document.get("id"):
+        parts.append(f"document={document['id']}")
+    return ", ".join(parts) if parts else f"keys={','.join(sorted(payload.keys()))}"
+
+
+def _log_agent_event(event: str, agent: Any, output_type: type[BaseModel], payload: Any) -> None:
+    """Print one progress line to stderr without contaminating JSON stdout."""
+    print(
+        f"[mathdoc_agent] {event} {_agent_name(agent)} -> {output_type.__name__}"
+        f" ({_payload_summary(payload)})",
+        file=sys.stderr,
+        flush=True,
+    )
+
+
 async def _maybe_await(value: Any) -> Any:
+    """Await awaitable values and pass through synchronous values unchanged."""
     if inspect.isawaitable(value):
         return await value
     return value
@@ -24,35 +74,48 @@ async def run_agent_typed(
 
     The wrapper accepts fake test agents, simple callables, objects exposing
     `.run(payload)`, and OpenAI Agents SDK Agent objects when the SDK is installed.
+    It logs start, finish, and failure events to stderr so command-line JSON
+    written to stdout remains parseable.
     """
     if isinstance(payload, BaseModel):
         input_payload: Any = payload.model_dump()
     else:
         input_payload = payload
 
-    if callable(agent) and not hasattr(agent, "instructions"):
-        output = await _maybe_await(agent(input_payload))
-    elif hasattr(agent, "run"):
-        output = await _maybe_await(agent.run(input_payload))
-    else:
-        try:
-            from agents import Runner
-        except ImportError as exc:
-            raise RuntimeError(
-                "No runnable fake agent was provided and the OpenAI Agents SDK is not installed."
-            ) from exc
-        sdk_input = input_payload if isinstance(input_payload, str) else json.dumps(input_payload)
-        result = await Runner.run(agent, sdk_input)
-        output = result.final_output
-
-    if isinstance(output, output_type):
-        return output
-    if isinstance(output, BaseModel):
-        return output_type.model_validate(output.model_dump())
-    if isinstance(output, dict):
-        return output_type.model_validate(output)
-    if isinstance(output, str):
-        return output_type.model_validate_json(output)
-    if hasattr(output, "final_output"):
-        return await run_agent_typed(lambda _: output.final_output, {}, output_type)
-    return output_type.model_validate(output)
+    _log_agent_event("calling", agent, output_type, input_payload)
+    try:
+        if callable(agent) and not hasattr(agent, "instructions"):
+            output = await _maybe_await(agent(input_payload))
+        elif hasattr(agent, "run"):
+            output = await _maybe_await(agent.run(input_payload))
+        else:
+            try:
+                from agents import Runner
+            except ImportError as exc:
+                raise RuntimeError(
+                    "No runnable fake agent was provided and the OpenAI Agents SDK is not installed."
+                ) from exc
+            sdk_input = input_payload if isinstance(input_payload, str) else json.dumps(input_payload)
+            result = await Runner.run(agent, sdk_input)
+            output = result.final_output
+    except Exception:
+        _log_agent_event("failed", agent, output_type, input_payload)
+        raise
+    try:
+        if isinstance(output, output_type):
+            coerced = output
+        elif isinstance(output, BaseModel):
+            coerced = output_type.model_validate(output.model_dump())
+        elif isinstance(output, dict):
+            coerced = output_type.model_validate(output)
+        elif isinstance(output, str):
+            coerced = output_type.model_validate_json(output)
+        elif hasattr(output, "final_output"):
+            coerced = await run_agent_typed(lambda _: output.final_output, {}, output_type)
+        else:
+            coerced = output_type.model_validate(output)
+    except Exception:
+        _log_agent_event("failed", agent, output_type, input_payload)
+        raise
+    _log_agent_event("completed", agent, output_type, input_payload)
+    return coerced

@@ -1,3 +1,5 @@
+"""Prompt templates for math-document parsing and proof refinement agents."""
+
 DOCUMENT_PARSER_INSTRUCTIONS = """
 Decompose mathematical document text into a structured document tree.
 Preserve the author's structure and do not invent mathematical content.

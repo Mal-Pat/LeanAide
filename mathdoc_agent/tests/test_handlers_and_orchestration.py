@@ -1,9 +1,12 @@
 from __future__ import annotations
 
-import unittest
+import io
 import json
+import unittest
+from contextlib import redirect_stderr
 
 from mathdoc_agent.export.json import to_json
+from mathdoc_agent.mathagents.runner import run_agent_typed
 from mathdoc_agent.models.base import DocumentKind, NodeStatus, ProofKind
 from mathdoc_agent.models.payloads import (
     CalcRelation,
@@ -86,6 +89,13 @@ class CasesAgent:
 class SimpleAgent:
     def __call__(self, payload):
         return SimpleProofRefinementSpec(hints=[f"refine {payload['node']['id']}"])
+
+
+class NamedLoggingAgent:
+    name = "Named logging agent"
+
+    def __call__(self, payload):
+        return SimpleProofRefinementSpec(hints=["logged"])
 
 
 class CalculationAgent:
@@ -285,6 +295,18 @@ class HandlerAndOrchestrationTests(unittest.IsolatedAsyncioTestCase):
         self.assertTrue(any(step["type"] == "let_statement" for step in exported["proof_steps"]))
         self.assertTrue(any(step["type"] == "assume_statement" for step in exported["proof_steps"]))
         self.assertTrue(any(step.get("claim") == "ba = ab" for step in exported["proof_steps"]))
+
+    async def test_agent_runner_logs_to_stderr(self) -> None:
+        stderr = io.StringIO()
+        payload = {"node": {"id": "p.root", "kind": "simple"}}
+        with redirect_stderr(stderr):
+            result = await run_agent_typed(NamedLoggingAgent(), payload, SimpleProofRefinementSpec)
+
+        self.assertEqual(result.hints, ["logged"])
+        logs = stderr.getvalue()
+        self.assertIn("calling Named logging agent -> SimpleProofRefinementSpec", logs)
+        self.assertIn("completed Named logging agent -> SimpleProofRefinementSpec", logs)
+        self.assertIn("node=p.root", logs)
 
     def test_default_registry_has_reasonable_taxonomy_handlers(self) -> None:
         registry = proof_registry()

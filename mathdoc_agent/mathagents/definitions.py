@@ -1,3 +1,10 @@
+"""Default live-agent definitions used by the document/proof registries.
+
+The objects in this module are intentionally small wrappers around prompt
+strings and output schemas. They can be replaced by fake callables in tests or
+by custom agents in applications that build their own registries.
+"""
+
 from __future__ import annotations
 
 import os
@@ -19,6 +26,8 @@ MODEL = os.environ.get("MATHDOC_AGENT_MODEL", "gpt-5.5")
 
 @dataclass
 class MissingAgentsSDKAgent:
+    """Placeholder that records agent configuration when the SDK is unavailable."""
+
     name: str
     model: str
     instructions: str
@@ -26,6 +35,7 @@ class MissingAgentsSDKAgent:
 
 
 def _agent(name: str, instructions: str, output_type: type[Any] | None = None) -> Any:
+    """Build an OpenAI Agents SDK agent, or a placeholder if the SDK is absent."""
     try:
         from agents import Agent
     except ImportError:
