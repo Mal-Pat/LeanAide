@@ -1,0 +1,33 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "calc:definition_unfolding",
+        "header": "Theorem",
+        "claim": "double x = x+x.",
+        "proof": {
+          "type": "definition_unfolding",
+          "start": "double x",
+          "target": "x + x",
+          "goal_relation": "=",
+          "steps": [
+            {
+              "from": "double x",
+              "relation": "=",
+              "to": "x + x",
+              "justification": "unfold double"
+            }
+          ],
+          "id": "definition_unfolding.root.calculation",
+          "status": "resolved",
+          "text": "Unfold the definition of double."
+        },
+        "id": "definition_unfolding.root.theorem",
+        "status": "resolved"
+      }
+    ],
+    "title": "Definition Unfolding"
+  }
+}

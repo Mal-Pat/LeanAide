@@ -1,0 +1,33 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "calc:rewrite_by_lemma",
+        "header": "Theorem",
+        "claim": "x+0 = x.",
+        "proof": {
+          "type": "rewrite_by_lemma",
+          "start": "x + 0",
+          "target": "x",
+          "goal_relation": "=",
+          "steps": [
+            {
+              "from": "x + 0",
+              "relation": "=",
+              "to": "x",
+              "justification": "add_zero"
+            }
+          ],
+          "id": "rewrite_by_lemma.root.calculation",
+          "status": "resolved",
+          "text": "Rewrite using the add_zero lemma."
+        },
+        "id": "rewrite_by_lemma.root.theorem",
+        "status": "resolved"
+      }
+    ],
+    "title": "Rewrite by Lemma"
+  }
+}

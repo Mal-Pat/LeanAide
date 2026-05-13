@@ -16,6 +16,7 @@ from mathdoc_agent.models.payloads import (
     StructureFieldData,
 )
 from mathdoc_agent.models.proof import ProofNode, ProofTree
+from mathdoc_agent.plugins.calculation_types import CORE_CALCULATION_SCHEMAS
 from mathdoc_agent.registries.proof_registry import proof_payload_registry
 
 
@@ -87,6 +88,35 @@ class ModelAndBuilderTests(unittest.TestCase):
         self.assertEqual(calc.data["start"], "a")
         self.assertEqual(calc.data["target"], "c")
         self.assertEqual(calc.model_dump()["type"], "calculation")
+
+        calc_json = json.loads(to_json(ProofTree(id="calc", theorem_statement="a = c", root=calc)))
+        self.assertEqual(calc_json["type"], "calculation")
+
+        core_calc = ProofBuilder.calculation(
+            id="core",
+            text="a = b = c",
+            calculation_kind="equality_chain",
+            steps=[
+                CalcStep(lhs="a", relation=CalcRelation.eq, rhs="b", justification="h1"),
+                CalcStep(lhs="b", relation=CalcRelation.eq, rhs="c", justification="h2"),
+            ],
+        )
+        core_json = json.loads(to_json(ProofTree(id="core", theorem_statement="a = c", root=core_calc)))
+        self.assertEqual(core_json["type"], "equality_chain")
+        self.assertEqual(core_json["goal_relation"], "=")
+        self.assertEqual(core_json["steps"][0]["from"], "a")
+        self.assertEqual(core_json["steps"][0]["to"], "b")
+
+        for calculation_kind in CORE_CALCULATION_SCHEMAS:
+            root = ProofBuilder.calculation(
+                id=calculation_kind,
+                text="a = b",
+                calculation_kind=calculation_kind,
+                steps=[CalcStep(lhs="a", relation=CalcRelation.eq, rhs="b")],
+            )
+            exported = json.loads(to_json(ProofTree(id=calculation_kind, theorem_statement="a = b", root=root)))
+            self.assertEqual(exported["type"], calculation_kind)
+            self.assertEqual(exported["steps"][0]["from"], "a")
 
     def test_definition_builders_create_lean_definition_payloads(self) -> None:
         structure = DocumentBuilder.structure_definition(

@@ -59,6 +59,13 @@ algebraic rewrites that are present in the source text.
 CALCULATION_INSTRUCTIONS = """
 Refine a calculational proof fragment into calculation steps with lhs, relation,
 rhs, justification, and side conditions. Do not invent omitted steps.
+Use the most specific `calculation_kind` when the source supports it. Core
+calculation kinds are:
+equality_chain, inequality_chain, mixed_relation_chain, rewrite_by_hypothesis,
+rewrite_by_lemma, definition_unfolding, normalization, positivity_side_goal,
+monotonicity_step, triangle_inequality_estimate, add_subtract_intermediate,
+casewise_calculation, inductive_step_calculation,
+extensionality_then_pointwise_calculation, calculation_to_contradiction.
 """
 
 STRUCTURED_PROOF_INSTRUCTIONS = """

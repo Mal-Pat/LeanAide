@@ -1,0 +1,39 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "calc:inductive_step_calculation",
+        "header": "Theorem",
+        "claim": "The successor step for the sum of the first n natural numbers follows by arithmetic.",
+        "proof": {
+          "type": "inductive_step_calculation",
+          "start": "sum (n+1)",
+          "target": "n*(n+1)/2 + (n+1)",
+          "goal_relation": "=",
+          "steps": [
+            {
+              "from": "sum (n+1)",
+              "relation": "=",
+              "to": "sum n + (n+1)",
+              "justification": "definition of sum"
+            },
+            {
+              "from": "sum n + (n+1)",
+              "relation": "=",
+              "to": "n*(n+1)/2 + (n+1)",
+              "justification": "induction hypothesis"
+            }
+          ],
+          "id": "inductive_step_calculation.root.calculation",
+          "status": "resolved",
+          "text": "Use the induction hypothesis and normalize the successor expression."
+        },
+        "id": "inductive_step_calculation.root.theorem",
+        "status": "resolved"
+      }
+    ],
+    "title": "Inductive Step Calculation"
+  }
+}

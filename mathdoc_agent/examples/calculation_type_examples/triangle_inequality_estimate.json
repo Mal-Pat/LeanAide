@@ -1,0 +1,33 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "calc:triangle_inequality_estimate",
+        "header": "Theorem",
+        "claim": "|x+z|≤|x|+|z|.",
+        "proof": {
+          "type": "triangle_inequality_estimate",
+          "start": "|x+z|",
+          "target": "|x| + |z|",
+          "goal_relation": "<=",
+          "steps": [
+            {
+              "from": "|x+z|",
+              "relation": "<=",
+              "to": "|x| + |z|",
+              "justification": "abs_add"
+            }
+          ],
+          "id": "triangle_inequality_estimate.root.calculation",
+          "status": "resolved",
+          "text": "Apply the triangle inequality."
+        },
+        "id": "triangle_inequality_estimate.root.theorem",
+        "status": "resolved"
+      }
+    ],
+    "title": "Triangle Inequality Estimate"
+  }
+}

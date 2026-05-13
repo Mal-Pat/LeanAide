@@ -1,0 +1,39 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "calc:calculation_to_contradiction",
+        "header": "Theorem",
+        "claim": "The assumptions a<b and b<a lead to a contradiction.",
+        "proof": {
+          "type": "calculation_to_contradiction",
+          "start": "a",
+          "target": "a",
+          "goal_relation": "<",
+          "steps": [
+            {
+              "from": "a",
+              "relation": "<",
+              "to": "b",
+              "justification": "hypothesis hab"
+            },
+            {
+              "from": "b",
+              "relation": "<",
+              "to": "a",
+              "justification": "hypothesis hba"
+            }
+          ],
+          "id": "calculation_to_contradiction.root.calculation",
+          "status": "resolved",
+          "text": "Chain the strict inequalities to obtain a<a."
+        },
+        "id": "calculation_to_contradiction.root.theorem",
+        "status": "resolved"
+      }
+    ],
+    "title": "Calculation to Contradiction"
+  }
+}

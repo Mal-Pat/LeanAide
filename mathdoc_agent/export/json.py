@@ -8,6 +8,7 @@ from pydantic import BaseModel
 from mathdoc_agent.models.base import DocumentKind, ProofKind
 from mathdoc_agent.models.document import DocumentNode, MathDocument
 from mathdoc_agent.models.payloads import (
+    CalcStep,
     CalculationData,
     CasesData,
     InductionData,
@@ -20,6 +21,7 @@ from mathdoc_agent.models.payloads import (
 )
 from mathdoc_agent.models.proof import ProofNode, ProofTree
 from mathdoc_agent.orchestration.worklist import kind_key
+from mathdoc_agent.plugins.calculation_types import CORE_CALCULATION_SCHEMAS
 
 
 def _without_none(value: dict[str, Any]) -> dict[str, Any]:
@@ -60,6 +62,27 @@ def _proof_details_data(proof: ProofTree | None) -> Any:
 
 def _logical_step_data(step) -> dict[str, Any]:
     return _without_none(step.model_dump(exclude_none=True))
+
+
+def _calculation_step_data(step: CalcStep) -> dict[str, Any]:
+    return _without_none(
+        {
+            "from": step.lhs,
+            "relation": step.relation.value,
+            "to": step.rhs,
+            "justification": step.justification,
+            "side_conditions": step.side_conditions or None,
+        }
+    )
+
+
+def _goal_relation(data: CalculationData) -> str | None:
+    if not data.steps:
+        return None
+    relations = {step.relation.value for step in data.steps}
+    if len(relations) == 1:
+        return data.steps[0].relation.value
+    return "mixed"
 
 
 def _document_node_data(node: DocumentNode) -> dict[str, Any]:
@@ -225,6 +248,20 @@ def _proof_node_data(node: ProofNode) -> Any:
             data = CalculationData.model_validate(node.data)
         except Exception:
             data = CalculationData()
+        if data.calculation_kind in CORE_CALCULATION_SCHEMAS:
+            return _without_none(
+                {
+                    "type": data.calculation_kind,
+                    "start": data.start,
+                    "target": data.target,
+                    "goal_relation": _goal_relation(data),
+                    "steps": [_calculation_step_data(step) for step in data.steps],
+                    "inline_calculation": node.text if not data.steps else None,
+                    "id": node.id,
+                    "status": node.status.value,
+                    "text": node.text,
+                }
+            )
         sequence = [
             f"{step.lhs} {step.relation.value} {step.rhs}"
             + (f" ({step.justification})" if step.justification else "")

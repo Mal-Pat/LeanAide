@@ -1,0 +1,33 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "calc:casewise_calculation",
+        "header": "Theorem",
+        "claim": "|x| equals x when x is nonnegative and -x otherwise.",
+        "proof": {
+          "type": "casewise_calculation",
+          "start": "|x|",
+          "target": "if 0 ≤ x then x else -x",
+          "goal_relation": "=",
+          "steps": [
+            {
+              "from": "|x|",
+              "relation": "=",
+              "to": "if 0 ≤ x then x else -x",
+              "justification": "by_cases hx : 0 ≤ x"
+            }
+          ],
+          "id": "casewise_calculation.root.calculation",
+          "status": "resolved",
+          "text": "Split on whether x is nonnegative and simplify in each case."
+        },
+        "id": "casewise_calculation.root.theorem",
+        "status": "resolved"
+      }
+    ],
+    "title": "Casewise Calculation"
+  }
+}

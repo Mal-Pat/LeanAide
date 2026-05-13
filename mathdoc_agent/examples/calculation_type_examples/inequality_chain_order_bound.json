@@ -1,0 +1,39 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "calc:inequality_chain",
+        "header": "Theorem",
+        "claim": "If a ≤ b and b ≤ c, then a ≤ c.",
+        "proof": {
+          "type": "inequality_chain",
+          "start": "a",
+          "target": "c",
+          "goal_relation": "<=",
+          "steps": [
+            {
+              "from": "a",
+              "relation": "<=",
+              "to": "b",
+              "justification": "hypothesis hab"
+            },
+            {
+              "from": "b",
+              "relation": "<=",
+              "to": "c",
+              "justification": "hypothesis hbc"
+            }
+          ],
+          "id": "inequality_chain_order_bound.root.calculation",
+          "status": "resolved",
+          "text": "Chain the two inequalities."
+        },
+        "id": "inequality_chain_order_bound.root.theorem",
+        "status": "resolved"
+      }
+    ],
+    "title": "Inequality Chain"
+  }
+}

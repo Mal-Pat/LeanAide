@@ -1,0 +1,33 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "calc:add_subtract_intermediate",
+        "header": "Theorem",
+        "claim": "f x - f y can be split through an intermediate z.",
+        "proof": {
+          "type": "add_subtract_intermediate",
+          "start": "f x - f y",
+          "target": "(f x - f z) + (f z - f y)",
+          "goal_relation": "=",
+          "steps": [
+            {
+              "from": "f x - f y",
+              "relation": "=",
+              "to": "(f x - f z) + (f z - f y)",
+              "justification": "ring"
+            }
+          ],
+          "id": "add_subtract_intermediate.root.calculation",
+          "status": "resolved",
+          "text": "Insert and subtract f z."
+        },
+        "id": "add_subtract_intermediate.root.theorem",
+        "status": "resolved"
+      }
+    ],
+    "title": "Add-Subtract Intermediate"
+  }
+}

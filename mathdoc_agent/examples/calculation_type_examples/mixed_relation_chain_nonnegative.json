@@ -1,0 +1,39 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "calc:mixed_relation_chain",
+        "header": "Theorem",
+        "claim": "If x= y and y < z, then x < z.",
+        "proof": {
+          "type": "mixed_relation_chain",
+          "start": "x",
+          "target": "z",
+          "goal_relation": "mixed",
+          "steps": [
+            {
+              "from": "x",
+              "relation": "=",
+              "to": "y",
+              "justification": "hypothesis hxy"
+            },
+            {
+              "from": "y",
+              "relation": "<",
+              "to": "z",
+              "justification": "hypothesis hyz"
+            }
+          ],
+          "id": "mixed_relation_chain_nonnegative.root.calculation",
+          "status": "resolved",
+          "text": "Rewrite by x=y and then use y<z."
+        },
+        "id": "mixed_relation_chain_nonnegative.root.theorem",
+        "status": "resolved"
+      }
+    ],
+    "title": "Mixed Relation Chain"
+  }
+}

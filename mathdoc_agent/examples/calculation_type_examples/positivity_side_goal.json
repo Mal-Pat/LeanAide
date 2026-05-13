@@ -1,0 +1,37 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "calc:positivity_side_goal",
+        "header": "Theorem",
+        "claim": "If 0<x and 0<y, then 0<x*y.",
+        "proof": {
+          "type": "positivity_side_goal",
+          "start": "0",
+          "target": "x*y",
+          "goal_relation": "<",
+          "steps": [
+            {
+              "from": "0",
+              "relation": "<",
+              "to": "x*y",
+              "justification": "positivity",
+              "side_conditions": [
+                "0 < x",
+                "0 < y"
+              ]
+            }
+          ],
+          "id": "positivity_side_goal.root.calculation",
+          "status": "resolved",
+          "text": "Use positivity of the factors as side conditions."
+        },
+        "id": "positivity_side_goal.root.theorem",
+        "status": "resolved"
+      }
+    ],
+    "title": "Positivity Side Goal"
+  }
+}

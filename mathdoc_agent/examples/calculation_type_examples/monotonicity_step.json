@@ -1,0 +1,33 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "calc:monotonicity_step",
+        "header": "Theorem",
+        "claim": "If a≤b, then a+c≤b+c.",
+        "proof": {
+          "type": "monotonicity_step",
+          "start": "a + c",
+          "target": "b + c",
+          "goal_relation": "<=",
+          "steps": [
+            {
+              "from": "a + c",
+              "relation": "<=",
+              "to": "b + c",
+              "justification": "add_le_add_right hab c"
+            }
+          ],
+          "id": "monotonicity_step.root.calculation",
+          "status": "resolved",
+          "text": "Apply monotonicity of adding c."
+        },
+        "id": "monotonicity_step.root.theorem",
+        "status": "resolved"
+      }
+    ],
+    "title": "Monotonicity Step"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "calc:rewrite_by_hypothesis",
+        "header": "Theorem",
+        "claim": "If x=y, then f x = f y.",
+        "proof": {
+          "type": "rewrite_by_hypothesis",
+          "start": "f x",
+          "target": "f y",
+          "goal_relation": "=",
+          "steps": [
+            {
+              "from": "f x",
+              "relation": "=",
+              "to": "f y",
+              "justification": "rewrite by hxy"
+            }
+          ],
+          "id": "rewrite_by_hypothesis.root.calculation",
+          "status": "resolved",
+          "text": "Rewrite x to y using the hypothesis."
+        },
+        "id": "rewrite_by_hypothesis.root.theorem",
+        "status": "resolved"
+      }
+    ],
+    "title": "Rewrite by Hypothesis"
+  }
+}

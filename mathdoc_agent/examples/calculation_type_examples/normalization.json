@@ -1,0 +1,33 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "calc:normalization",
+        "header": "Theorem",
+        "claim": "(x+y)^2 normalizes to x^2+2*x*y+y^2.",
+        "proof": {
+          "type": "normalization",
+          "start": "(x+y)^2",
+          "target": "x^2 + 2*x*y + y^2",
+          "goal_relation": "=",
+          "steps": [
+            {
+              "from": "(x+y)^2",
+              "relation": "=",
+              "to": "x^2 + 2*x*y + y^2",
+              "justification": "ring_nf"
+            }
+          ],
+          "id": "normalization.root.calculation",
+          "status": "resolved",
+          "text": "Normalize the polynomial expression."
+        },
+        "id": "normalization.root.theorem",
+        "status": "resolved"
+      }
+    ],
+    "title": "Normalization"
+  }
+}

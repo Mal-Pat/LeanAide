@@ -1,0 +1,33 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "calc:extensionality_then_pointwise_calculation",
+        "header": "Theorem",
+        "claim": "Two functions are equal when their values agree pointwise.",
+        "proof": {
+          "type": "extensionality_then_pointwise_calculation",
+          "start": "f x",
+          "target": "g x",
+          "goal_relation": "=",
+          "steps": [
+            {
+              "from": "f x",
+              "relation": "=",
+              "to": "g x",
+              "justification": "pointwise calculation after funext x"
+            }
+          ],
+          "id": "extensionality_then_pointwise_calculation.root.calculation",
+          "status": "resolved",
+          "text": "Apply function extensionality and calculate at an arbitrary point."
+        },
+        "id": "extensionality_then_pointwise_calculation.root.theorem",
+        "status": "resolved"
+      }
+    ],
+    "title": "Extensionality Then Pointwise Calculation"
+  }
+}
