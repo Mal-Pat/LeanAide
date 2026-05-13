@@ -59,7 +59,8 @@ Extract only the main logical components needed by that proof kind. Examples:
 - existence/construction: witness or construction and verification;
 - uniqueness: existence part and uniqueness part;
 - equivalence: one child per implication direction;
-- reduction: target statement reduced to a known result or easier subgoal;
+- reduction: current claim, reduced goal, proof of the reduction, and proof of
+  the reduced goal;
 - invariant: invariant definition, preservation proof, contradiction/conclusion;
 - epsilon-delta: epsilon choice, delta choice, verification;
 - generic element: arbitrary element setup and inclusion/member proof.

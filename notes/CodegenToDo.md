@@ -214,13 +214,16 @@ JSON type to match: `reduction_proof`.
 
 Fields:
 
+- `claim`: current claim being reduced.
 - `reduced_to`: target result or previously proved theorem.
-- `reduction_steps`: steps reducing the current claim to the known result.
-- `result_used`: optional named theorem/result.
-- `proof`: optional proof object for the reduced goal.
+- `proof_of_reduction`: proof object showing that `claim` follows from, or is
+  reduced to, `reduced_to`.
+- `proof`: proof object for the reduced goal `reduced_to`.
 
-Expected Lean behavior: transform the goal through the reduction steps and
-apply the known result.
+Expected Lean behavior: first prove the reduction from `claim` to `reduced_to`,
+then prove the reduced goal. This avoids separating "reduction steps" from
+"result used"; the result/theorem being used should appear inside either
+`proof_of_reduction` or `proof` as an ordinary proof reference.
 
 ### `counting_proof`
 

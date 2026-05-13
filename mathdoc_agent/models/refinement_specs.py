@@ -69,7 +69,10 @@ class StructuredProofRefinementSpec(BaseModel):
     conclusions: list[str] = Field(default_factory=list)
     witness: str | None = None
     contradiction_assumption: str | None = None
+    claim: str | None = None
     reduced_to: str | None = None
+    proof_of_reduction: ChildProofSpec | None = None
+    proof: ChildProofSpec | None = None
     invariant: str | None = None
     construction: str | None = None
     metadata: list[MetadataEntry] = Field(default_factory=list)

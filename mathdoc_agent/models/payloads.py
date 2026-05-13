@@ -122,7 +122,10 @@ class StructuredProofData(ProofKindData):
     conclusions: list[str] = Field(default_factory=list)
     witness: Optional[str] = None
     contradiction_assumption: Optional[str] = None
+    claim: Optional[str] = None
     reduced_to: Optional[str] = None
+    proof_of_reduction_id: Optional[str] = None
+    proof_id: Optional[str] = None
     invariant: Optional[str] = None
     construction: Optional[str] = None
     metadata: dict[str, str] = Field(default_factory=dict)

@@ -357,8 +357,8 @@ class StructuredProofHandler(ProofRefinementHandler[StructuredProofRefinementSpe
             },
             StructuredProofRefinementSpec,
         )
-        children = [
-            ProofNode(
+        def child_node(child) -> ProofNode:
+            return ProofNode(
                 id=f"{node.id}.{child.id_suffix}",
                 kind=child.kind,
                 status=NodeStatus.raw,
@@ -367,8 +367,13 @@ class StructuredProofHandler(ProofRefinementHandler[StructuredProofRefinementSpe
                 hypotheses=child.hypotheses,
                 notes=child.notes,
             )
-            for child in spec.components
-        ]
+
+        children = [child_node(child) for child in spec.components]
+        proof_of_reduction = child_node(spec.proof_of_reduction) if spec.proof_of_reduction else None
+        reduced_goal_proof = child_node(spec.proof) if spec.proof else None
+        for child in (proof_of_reduction, reduced_goal_proof):
+            if child is not None and child.id not in {existing.id for existing in children}:
+                children.append(child)
         data = StructuredProofData(
             strategy=spec.strategy,
             summary=spec.summary,
@@ -377,7 +382,10 @@ class StructuredProofHandler(ProofRefinementHandler[StructuredProofRefinementSpe
             conclusions=spec.conclusions,
             witness=spec.witness,
             contradiction_assumption=spec.contradiction_assumption,
+            claim=spec.claim,
             reduced_to=spec.reduced_to,
+            proof_of_reduction_id=proof_of_reduction.id if proof_of_reduction else None,
+            proof_id=reduced_goal_proof.id if reduced_goal_proof else None,
             invariant=spec.invariant,
             construction=spec.construction,
             metadata=metadata_entries_to_dict(spec.metadata),

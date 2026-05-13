@@ -290,6 +290,39 @@ def _proof_node_data(node: ProofNode) -> Any:
             }
         )
 
+    if kind == ProofKind.reduction.value:
+        data = _structured_data(node)
+        children = {child.id: child for child in node.children}
+        proof_of_reduction = (
+            children.get(data.proof_of_reduction_id)
+            if data.proof_of_reduction_id
+            else (node.children[0] if node.children else None)
+        )
+        reduced_goal_proof = (
+            children.get(data.proof_id)
+            if data.proof_id
+            else (node.children[1] if len(node.children) > 1 else None)
+        )
+        return _without_none(
+            {
+                "type": "reduction_proof",
+                "claim": data.claim or node.goal,
+                "reduced_to": data.reduced_to,
+                "proof_of_reduction": (
+                    _proof_node_data(proof_of_reduction)
+                    if proof_of_reduction is not None
+                    else None
+                ),
+                "proof": (
+                    _proof_node_data(reduced_goal_proof)
+                    if reduced_goal_proof is not None
+                    else None
+                ),
+                "id": node.id,
+                "status": node.status.value,
+            }
+        )
+
     structured = _structured_data(node)
     proof_steps = [_proof_node_data(child) for child in node.children]
     if not proof_steps and structured.summary:

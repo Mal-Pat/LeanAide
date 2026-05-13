@@ -289,21 +289,23 @@ EXAMPLES: tuple[ProofExample, ...] = (
         structured_spec=StructuredProofRefinementSpec(
             strategy="reduction to a known compactness theorem",
             summary="Use compactness of [0,1] and the boundedness theorem for compact domains.",
+            claim="Every continuous real-valued function on [0,1] is bounded.",
             reduced_to="A continuous function on a compact space is bounded.",
-            components=[
-                ChildProofSpec(
-                    id_suffix="compact_interval",
-                    kind=ProofKind.simple,
-                    text="The interval [0,1] is compact.",
-                    goal="[0,1] is compact.",
+            proof_of_reduction=ChildProofSpec(
+                id_suffix="proof_of_reduction",
+                kind=ProofKind.simple,
+                text="The interval [0,1] is compact, so the compact-domain theorem applies.",
+                goal=(
+                    "The claim reduces to the theorem that a continuous function on "
+                    "a compact space is bounded."
                 ),
-                ChildProofSpec(
-                    id_suffix="apply_compact_theorem",
-                    kind=ProofKind.simple,
-                    text="Apply the theorem that continuous functions on compact spaces are bounded.",
-                    goal="The function is bounded.",
-                ),
-            ],
+            ),
+            proof=ChildProofSpec(
+                id_suffix="reduced_goal",
+                kind=ProofKind.simple,
+                text="Apply the theorem that continuous functions on compact spaces are bounded.",
+                goal="A continuous function on a compact space is bounded.",
+            ),
         ),
     ),
 )
