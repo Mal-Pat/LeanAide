@@ -18,7 +18,7 @@ EXPECTED_PROOF_TYPES = {
     ProofKind.generic_element: "Proof",
     ProofKind.epsilon_delta: "Proof",
     ProofKind.invariant: "Proof",
-    ProofKind.reduction: "Proof",
+    ProofKind.reduction: "reduction_proof",
 }
 
 
@@ -62,6 +62,10 @@ class ProofTypeExampleTests(unittest.IsolatedAsyncioTestCase):
                     self.assertIn("proof_steps", proof_root["proof"])
                 if proof_root["type"] == "multi-condition_cases_proof":
                     self.assertNotIn("exhaustiveness", proof_root)
+                if proof_root["type"] == "reduction_proof":
+                    self.assertIn("claim", proof_root)
+                    self.assertIn("proof_of_reduction", proof_root)
+                    self.assertIn("proof", proof_root)
 
     def test_saved_example_outputs_exist(self) -> None:
         output_dir = Path("mathdoc_agent/examples/proof_type_examples")

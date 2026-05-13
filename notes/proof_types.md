@@ -347,6 +347,17 @@ Example:
 
 Reduction is one of the most common high-level structures in advanced mathematics.
 
+Preferred JSON fields:
+
+- `claim`: the current claim (P).
+- `reduced_to`: the reduced goal (Q).
+- `proof_of_reduction`: proof that solving Q is enough to prove P.
+- `proof`: proof of the reduced goal Q.
+
+Do not split this into generic `reduction_steps` and `result_used` fields; named
+theorems/results used in the reduction should appear inside `proof_of_reduction`
+or `proof`.
+
 ---
 
 ## 18. Diagram chase

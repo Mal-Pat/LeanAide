@@ -8,26 +8,25 @@
         "header": "Theorem",
         "claim": "Every continuous real-valued function on [0,1] is bounded.",
         "proof": {
-          "type": "Proof",
-          "claim_label": "Every continuous real-valued function on [0,1] is bounded.",
-          "proof_steps": [
-            {
-              "type": "assert_statement",
-              "claim": "[0,1] is compact.",
-              "proof_method": "direct proof",
-              "id": "reduction_bounded_on_interval.root.reduction_bounded_on_interval.proof.root.compact_interval",
-              "status": "resolved",
-              "text": "The interval [0,1] is compact."
-            },
-            {
-              "type": "assert_statement",
-              "claim": "The function is bounded.",
-              "proof_method": "direct proof",
-              "id": "reduction_bounded_on_interval.root.reduction_bounded_on_interval.proof.root.apply_compact_theorem",
-              "status": "resolved",
-              "text": "Apply the theorem that continuous functions on compact spaces are bounded."
-            }
-          ],
+          "type": "reduction_proof",
+          "claim": "Every continuous real-valued function on [0,1] is bounded.",
+          "reduced_to": "A continuous function on a compact space is bounded.",
+          "proof_of_reduction": {
+            "type": "assert_statement",
+            "claim": "The claim reduces to the theorem that a continuous function on a compact space is bounded.",
+            "proof_method": "direct proof",
+            "id": "reduction_bounded_on_interval.root.reduction_bounded_on_interval.proof.root.proof_of_reduction",
+            "status": "resolved",
+            "text": "The interval [0,1] is compact, so the compact-domain theorem applies."
+          },
+          "proof": {
+            "type": "assert_statement",
+            "claim": "A continuous function on a compact space is bounded.",
+            "proof_method": "direct proof",
+            "id": "reduction_bounded_on_interval.root.reduction_bounded_on_interval.proof.root.reduced_goal",
+            "status": "resolved",
+            "text": "Apply the theorem that continuous functions on compact spaces are bounded."
+          },
           "id": "reduction_bounded_on_interval.root.reduction_bounded_on_interval.proof.root",
           "status": "resolved"
         },
