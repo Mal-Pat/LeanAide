@@ -8,13 +8,13 @@
         "name": "SortedList",
         "is_class": false,
         "parameters": [
-          "alpha : Type",
-          "le : alpha -> alpha -> Prop"
+          "α : Type",
+          "le : α → α → Prop"
         ],
         "fields": [
           {
             "name": "xs",
-            "type": "List alpha"
+            "type": "List α"
           },
           {
             "name": "sorted",
@@ -37,7 +37,7 @@
           },
           {
             "name": "mul",
-            "type": "carrier -> carrier -> carrier"
+            "type": "carrier → carrier → carrier"
           }
         ],
         "text": "A magma consists of a type carrier and a binary operation mul on carrier. The operation is part of the data of the class.",
@@ -74,7 +74,8 @@
           {
             "name": "step_even",
             "arguments": [
-              "Even n"
+              "n : Nat",
+              "h : Even n"
             ]
           }
         ],
@@ -88,7 +89,7 @@
         "name": "BinaryTree",
         "is_prop": false,
         "parameters": [
-          "alpha : Type"
+          "α : Type"
         ],
         "constructors": [
           {
@@ -98,9 +99,9 @@
           {
             "name": "node",
             "arguments": [
-              "BinaryTree alpha",
-              "alpha",
-              "BinaryTree alpha"
+              "left : BinaryTree α",
+              "label : α",
+              "right : BinaryTree α"
             ]
           }
         ],
@@ -123,7 +124,7 @@
           },
           {
             "name": "bound",
-            "type": "n <= b"
+            "type": "n ≤ b"
           }
         ],
         "text": "A bounded natural number consists of a value n : Nat together with a proof that n is at most a fixed bound b.",

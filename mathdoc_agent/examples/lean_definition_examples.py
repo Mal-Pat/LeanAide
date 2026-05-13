@@ -46,9 +46,9 @@ class DocumentParserAgent:
                     ),
                     name="SortedList",
                     is_class=False,
-                    parameters=["alpha : Type", "le : alpha -> alpha -> Prop"],
+                    parameters=["α : Type", "le : α → α → Prop"],
                     fields=[
-                        StructureFieldData(name="xs", type="List alpha"),
+                        StructureFieldData(name="xs", type="List α"),
                         StructureFieldData(name="sorted", type="List.Pairwise le xs"),
                     ],
                 ),
@@ -64,7 +64,7 @@ class DocumentParserAgent:
                     is_class=True,
                     fields=[
                         StructureFieldData(name="carrier", type="Type"),
-                        StructureFieldData(name="mul", type="carrier -> carrier -> carrier"),
+                        StructureFieldData(name="mul", type="carrier → carrier → carrier"),
                     ],
                 ),
                 DocumentChildSpec(
@@ -94,7 +94,10 @@ class DocumentParserAgent:
                     parameters=["n : Nat"],
                     constructors=[
                         InductiveConstructorData(name="zero_even", arguments=[]),
-                        InductiveConstructorData(name="step_even", arguments=["Even n"]),
+                        InductiveConstructorData(
+                            name="step_even",
+                            arguments=["n : Nat", "h : Even n"],
+                        ),
                     ],
                 ),
                 DocumentChildSpec(
@@ -107,12 +110,16 @@ class DocumentParserAgent:
                     ),
                     name="BinaryTree",
                     is_prop=False,
-                    parameters=["alpha : Type"],
+                    parameters=["α : Type"],
                     constructors=[
                         InductiveConstructorData(name="leaf", arguments=[]),
                         InductiveConstructorData(
                             name="node",
-                            arguments=["BinaryTree alpha", "alpha", "BinaryTree alpha"],
+                            arguments=[
+                                "left : BinaryTree α",
+                                "label : α",
+                                "right : BinaryTree α",
+                            ],
                         ),
                     ],
                 ),
@@ -129,7 +136,7 @@ class DocumentParserAgent:
                     parameters=["b : Nat"],
                     fields=[
                         StructureFieldData(name="n", type="Nat"),
-                        StructureFieldData(name="bound", type="n <= b"),
+                        StructureFieldData(name="bound", type="n ≤ b"),
                     ],
                 ),
             ]
