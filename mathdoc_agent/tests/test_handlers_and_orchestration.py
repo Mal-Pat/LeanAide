@@ -454,6 +454,93 @@ class HandlerAndOrchestrationTests(unittest.IsolatedAsyncioTestCase):
         self.assertNotIn("Obtain a witness", json.dumps(exported))
         self.assertNotIn("Verify that", json.dumps(exported))
 
+    def test_export_removes_metric_style_instructional_claims(self) -> None:
+        root = ProofNode(
+            id="metric.root",
+            kind=ProofKind.contradiction,
+            status=NodeStatus.resolved,
+            text="Proof by contradiction.",
+            data=StructuredProofData(
+                contradiction_assumption="\\(B(x,\\varepsilon/3)\\cap B(y,\\varepsilon/3)\\ne\\varnothing\\)",
+            ).model_dump(),
+            children=[
+                ProofNode(
+                    id="metric.root.assumption",
+                    kind=ProofKind.contradiction,
+                    status=NodeStatus.resolved,
+                    text="Assume the balls intersect and derive consequences.",
+                    data=StructuredProofData(
+                        contradiction_assumption="\\(B(x,\\varepsilon/3)\\cap B(y,\\varepsilon/3)\\ne\\varnothing\\)",
+                    ).model_dump(),
+                    children=[
+                        ProofNode(
+                            id="metric.root.assumption.negated_assumption",
+                            kind=ProofKind.simple,
+                            status=NodeStatus.resolved,
+                            goal="Negate the desired disjointness conclusion.",
+                            text="Assume for contradiction that \\(B(x,\\varepsilon/3)\\cap B(y,\\varepsilon/3)\\ne\\varnothing\\).",
+                        ),
+                        ProofNode(
+                            id="metric.root.assumption.witness",
+                            kind=ProofKind.construction,
+                            status=NodeStatus.resolved,
+                            goal="Produce a witness in the intersection.",
+                            text="Produce a witness in the intersection.",
+                            children=[
+                                ProofNode(
+                                    id="metric.root.assumption.witness.task",
+                                    kind=ProofKind.simple,
+                                    status=NodeStatus.resolved,
+                                    goal="Produce a witness in the intersection.",
+                                    text="Produce a witness in the intersection.",
+                                ),
+                                ProofNode(
+                                    id="metric.root.assumption.witness.membership",
+                                    kind=ProofKind.simple,
+                                    status=NodeStatus.resolved,
+                                    goal="\\(z\\in B(x,\\varepsilon/3)\\cap B(y,\\varepsilon/3)\\)",
+                                    text="\\(z\\in B(x,\\varepsilon/3)\\cap B(y,\\varepsilon/3)\\)",
+                                ),
+                            ],
+                        ),
+                    ],
+                ),
+                ProofNode(
+                    id="metric.root.conclusion",
+                    kind=ProofKind.construction,
+                    status=NodeStatus.resolved,
+                    goal="Conclude the desired disjointness statement.",
+                    text="Therefore the balls are disjoint.",
+                    children=[
+                        ProofNode(
+                            id="metric.root.conclusion.final",
+                            kind=ProofKind.simple,
+                            status=NodeStatus.resolved,
+                            goal="\\(B(x,\\varepsilon/3)\\cap B(y,\\varepsilon/3)=\\varnothing\\)",
+                            text="\\(B(x,\\varepsilon/3)\\cap B(y,\\varepsilon/3)=\\varnothing\\)",
+                        )
+                    ],
+                ),
+            ],
+        )
+        exported = json.loads(to_json(ProofTree(id="metric", theorem_statement="P", root=root)))
+        dumped = json.dumps(exported)
+        self.assertNotIn("Negate the desired", dumped)
+        self.assertNotIn("Produce a witness", dumped)
+        self.assertNotIn("Conclude the desired", dumped)
+
+        nested_steps = exported["proof"]["proof_steps"][0]["proof"]["proof_steps"]
+        self.assertEqual(nested_steps[0]["type"], "assume_statement")
+        self.assertEqual(
+            nested_steps[0]["assumption"],
+            "\\(B(x,\\varepsilon/3)\\cap B(y,\\varepsilon/3)\\ne\\varnothing\\)",
+        )
+        self.assertEqual(nested_steps[1]["claim"], "\\(z\\in B(x,\\varepsilon/3)\\cap B(y,\\varepsilon/3)\\)")
+        self.assertEqual(
+            exported["proof"]["proof_steps"][1]["claim"],
+            "\\(B(x,\\varepsilon/3)\\cap B(y,\\varepsilon/3)=\\varnothing\\)",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

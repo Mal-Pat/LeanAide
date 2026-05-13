@@ -88,14 +88,22 @@ def _goal_relation(data: CalculationData) -> str | None:
 INSTRUCTIONAL_CLAIM_PREFIXES = (
     "apply ",
     "choose ",
+    "conclude ",
+    "construct ",
     "derive ",
     "establish ",
     "extract ",
     "finish",
+    "instantiate ",
+    "introduce ",
+    "negate ",
     "obtain ",
+    "produce ",
     "prove ",
+    "select ",
     "set up ",
     "show ",
+    "take ",
     "use ",
     "verify ",
 )
@@ -120,6 +128,56 @@ def _proof_label(node: ProofNode) -> str | None:
     return None
 
 
+def _is_assumption_text(text: str | None) -> bool:
+    if text is None:
+        return False
+    return text.strip().lower().startswith(("assume ", "assume for contradiction ", "suppose "))
+
+
+def _normalize_assumption_text(text: str) -> str:
+    stripped = text.strip()
+    lower = stripped.lower()
+    for prefix in (
+        "assume for contradiction that ",
+        "assume that ",
+        "assume ",
+        "suppose that ",
+        "suppose ",
+    ):
+        if lower.startswith(prefix):
+            stripped = stripped[len(prefix):].strip()
+            break
+    return stripped[:-1] if stripped.endswith(".") else stripped
+
+
+def _assumption_step_from_text(step: dict[str, Any], text: str) -> dict[str, Any]:
+    return _without_none(
+        {
+            "type": "assume_statement",
+            "assumption": _normalize_assumption_text(text),
+            "id": step.get("id"),
+            "status": step.get("status"),
+            "text": text,
+        }
+    )
+
+
+def _clean_instructional_assertion(step: dict[str, Any]) -> dict[str, Any] | None:
+    if step.get("type") != "assert_statement":
+        return step
+    claim = step.get("claim")
+    if isinstance(claim, str) and _is_assumption_text(claim):
+        return _assumption_step_from_text(step, claim)
+    if not _is_instructional_claim(claim):
+        return step
+    text = step.get("text")
+    if not isinstance(text, str) or _is_instructional_claim(text):
+        return None
+    if _is_assumption_text(text):
+        return _assumption_step_from_text(step, text)
+    return {**step, "claim": text}
+
+
 def _flatten_proof_steps(steps: list[Any]) -> list[Any]:
     flattened: list[Any] = []
     for step in steps:
@@ -131,6 +189,17 @@ def _flatten_proof_steps(steps: list[Any]) -> list[Any]:
                 continue
             if isinstance(nested, list):
                 step = {**step, "proof_steps": _flatten_proof_steps(nested)}
+        elif isinstance(step, dict) and step.get("type") == "contradiction_statement":
+            proof = step.get("proof")
+            if isinstance(proof, dict) and isinstance(proof.get("proof_steps"), list):
+                step = {
+                    **step,
+                    "proof": {**proof, "proof_steps": _flatten_proof_steps(proof["proof_steps"])},
+                }
+        if isinstance(step, dict):
+            step = _clean_instructional_assertion(step)
+        if step is None:
+            continue
         flattened.append(step)
     return flattened
 
@@ -269,7 +338,7 @@ def _simple_proof_data(node: ProofNode) -> dict[str, Any]:
             {
                 "type": "Proof",
                 "claim_label": _proof_label(node),
-                "proof_steps": [_logical_step_data(step) for step in data.proof_steps],
+                "proof_steps": _flatten_proof_steps([_logical_step_data(step) for step in data.proof_steps]),
                 "id": node.id,
                 "status": node.status.value,
                 "text": node.text,
@@ -435,7 +504,7 @@ def _proof_node_data(node: ProofNode) -> Any:
 
     structured = _structured_data(node)
     proof_steps = _flatten_proof_steps([_proof_node_data(child) for child in node.children])
-    if not proof_steps and structured.summary:
+    if not proof_steps and structured.summary and not _is_instructional_claim(structured.summary):
         proof_steps = [{"type": "assert_statement", "claim": structured.summary}]
     if not proof_steps:
         proof_steps = [{"type": "assert_statement", "claim": _claim_or_text(node)}]

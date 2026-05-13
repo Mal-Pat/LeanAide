@@ -14,6 +14,10 @@ calculation_block, proof, example, remark, or unknown. Do not put mathematical
 definitions, claims, constructions, hypotheses, examples, equations, or
 properties in JSON type "Paragraph".
 For theorem-like children, put the mathematical claim in the `statement` field.
+The `statement` field must be a mathematical assertion, not an instruction to
+the reader or prover. Do not write imperative/task text such as "show that",
+"prove", "conclude", "negate the desired conclusion", or "produce a witness"
+as a statement.
 If a proof immediately follows a theorem-like statement, attach the proof text
 to that theorem-like child in `proof_text`. Do not emit the proof as a separate
 paragraph. A text beginning with "Proof." or "Proof:" is never a paragraph.
@@ -52,6 +56,11 @@ mathematical step as a `proof_steps` entry:
 - use `assume_statement` for fixed arbitrary variables or assumptions;
 - use `assert_statement` for equations, inequalities, derived claims, and final
   conclusions, with `proof_method` explaining the local justification.
+Every `assert_statement.claim` must be the mathematical assertion being proved,
+not an instruction. For example use `B(x, ε/3) ∩ B(y, ε/3) ≠ ∅`,
+`z ∈ B(x, ε/3) ∩ B(y, ε/3)`, or
+`B(x, ε/3) ∩ B(y, ε/3) = ∅`, not "negate the desired conclusion",
+"produce a witness", "verify the witness", or "conclude the claim".
 Do not expand omitted arguments, but do keep all intermediate equations and
 algebraic rewrites that are present in the source text.
 """
@@ -86,4 +95,12 @@ Extract only the main logical components needed by that proof kind. Examples:
 Do not deeply refine child proofs. Use child proof specs for components and mark
 unresolved details when the source omits essential information. Use `metadata`
 only for small string metadata as key/value pairs.
+
+For every child proof spec, `goal` must be a clean mathematical proposition,
+never a task description. Avoid imperative phrases such as "negate the desired
+conclusion", "produce a witness", "verify the construction", or "conclude the
+result". If the source only gives a task description, put that wording in
+`notes` and either omit `goal` or replace it with the actual mathematical
+claim, such as a nonempty-intersection assumption, an existential statement, a
+membership assertion, an equality, an inequality, or the final theorem claim.
 """
