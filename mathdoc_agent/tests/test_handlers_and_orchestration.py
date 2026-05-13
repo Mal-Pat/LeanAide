@@ -541,6 +541,63 @@ class HandlerAndOrchestrationTests(unittest.IsolatedAsyncioTestCase):
             "\\(B(x,\\varepsilon/3)\\cap B(y,\\varepsilon/3)=\\varnothing\\)",
         )
 
+    def test_export_turns_mathematical_proof_wrappers_into_claims(self) -> None:
+        root = ProofNode(
+            id="metric.root",
+            kind=ProofKind.contradiction,
+            status=NodeStatus.resolved,
+            text="Proof by contradiction.",
+            data=StructuredProofData(
+                contradiction_assumption="B(x,ε/3)∩B(y,ε/3)≠∅",
+            ).model_dump(),
+            children=[
+                ProofNode(
+                    id="metric.root.assumption",
+                    kind=ProofKind.construction,
+                    status=NodeStatus.resolved,
+                    goal="B(x,ε/3)∩B(y,ε/3)≠∅",
+                    text="Assume the intersection is nonempty.",
+                    children=[
+                        ProofNode(
+                            id="metric.root.witness",
+                            kind=ProofKind.construction,
+                            status=NodeStatus.resolved,
+                            goal="∃z∈X, z∈B(x,ε/3) ∧ z∈B(y,ε/3)",
+                            text="Choose a witness in the intersection.",
+                            children=[
+                                ProofNode(
+                                    id="metric.root.witness.duplicate",
+                                    kind=ProofKind.construction,
+                                    status=NodeStatus.resolved,
+                                    goal="∃z∈X, z∈B(x,ε/3) ∧ z∈B(y,ε/3)",
+                                    text="Choose a witness in the intersection.",
+                                    children=[
+                                        ProofNode(
+                                            id="metric.root.witness.membership",
+                                            kind=ProofKind.simple,
+                                            status=NodeStatus.resolved,
+                                            goal="z∈B(x,ε/3)∩B(y,ε/3)",
+                                            text="z∈B(x,ε/3)∩B(y,ε/3)",
+                                        )
+                                    ],
+                                )
+                            ],
+                        )
+                    ],
+                )
+            ],
+        )
+        exported = json.loads(to_json(ProofTree(id="metric", theorem_statement="P", root=root)))
+        dumped = json.dumps(exported)
+        self.assertNotIn("claim_label", dumped)
+
+        proof_step = exported["proof"]["proof_steps"][0]
+        self.assertEqual(proof_step["type"], "Theorem")
+        self.assertEqual(proof_step["header"], "Claim")
+        self.assertEqual(proof_step["claim"], "∃z∈X, z∈B(x,ε/3) ∧ z∈B(y,ε/3)")
+        self.assertEqual(len(proof_step["proof"]["proof_steps"]), 1)
+        self.assertEqual(proof_step["proof"]["proof_steps"][0]["claim"], "z∈B(x,ε/3)∩B(y,ε/3)")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -103,4 +103,8 @@ result". If the source only gives a task description, put that wording in
 `notes` and either omit `goal` or replace it with the actual mathematical
 claim, such as a nonempty-intersection assumption, an existential statement, a
 membership assertion, an equality, an inequality, or the final theorem claim.
+When a child proof has its own nontrivial subproof, its `goal` should be the
+local claim proved by that subproof. Do not create chains of child proof specs
+with the same `goal`; merge duplicate wrappers so each local claim appears once
+with its proof steps.
 """

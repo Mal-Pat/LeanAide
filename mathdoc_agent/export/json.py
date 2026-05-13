@@ -60,6 +60,13 @@ def _proof_details_data(proof: ProofTree | None) -> Any:
     return _proof_node_data(proof.root)
 
 
+def _attached_proof_details_data(proof: ProofTree | None) -> Any:
+    details = _proof_details_data(proof)
+    if isinstance(details, dict) and details.get("type") == "Proof":
+        return {key: value for key, value in details.items() if key != "claim_label"}
+    return details
+
+
 def _logical_step_data(step) -> dict[str, Any]:
     return _without_none(step.model_dump(exclude_none=True))
 
@@ -178,23 +185,77 @@ def _clean_instructional_assertion(step: dict[str, Any]) -> dict[str, Any] | Non
     return {**step, "claim": text}
 
 
-def _flatten_proof_steps(steps: list[Any]) -> list[Any]:
+def _claim_step_from_proof(step: dict[str, Any], claim: str, proof_steps: list[Any]) -> dict[str, Any]:
+    return _without_none(
+        {
+            "type": "Theorem",
+            "label": step.get("id"),
+            "header": "Claim",
+            "claim": claim,
+            "proof": _proof_object(proof_steps),
+            "id": step.get("id"),
+            "status": step.get("status"),
+            "text": step.get("text"),
+        }
+    )
+
+
+def _deduplicate_single_child_claim(claim: str, proof_steps: list[Any]) -> list[Any]:
+    if len(proof_steps) != 1:
+        return proof_steps
+    child = proof_steps[0]
+    if not isinstance(child, dict):
+        return proof_steps
+    if child.get("type") != "Theorem" or child.get("header") != "Claim" or child.get("claim") != claim:
+        return proof_steps
+    proof = child.get("proof")
+    if isinstance(proof, dict) and isinstance(proof.get("proof_steps"), list):
+        return proof["proof_steps"]
+    return proof_steps
+
+
+def _same_claim(left: str | None, right: str | None) -> bool:
+    if left is None or right is None:
+        return False
+    return left.strip() == right.strip()
+
+
+def _flatten_proof_steps(steps: list[Any], *, assumed_claims: list[str] | None = None) -> list[Any]:
+    assumed_claims = assumed_claims or []
     flattened: list[Any] = []
     for step in steps:
         if isinstance(step, dict) and step.get("type") == "Proof":
             nested = step.get("proof_steps")
             label = step.get("claim_label")
             if isinstance(nested, list) and (_is_instructional_claim(label) or label is None):
-                flattened.extend(_flatten_proof_steps(nested))
+                flattened.extend(_flatten_proof_steps(nested, assumed_claims=assumed_claims))
+                continue
+            if isinstance(nested, list) and any(_same_claim(label, assumed) for assumed in assumed_claims):
+                flattened.extend(_flatten_proof_steps(nested, assumed_claims=assumed_claims))
                 continue
             if isinstance(nested, list):
-                step = {**step, "proof_steps": _flatten_proof_steps(nested)}
+                nested_steps = _flatten_proof_steps(nested, assumed_claims=assumed_claims)
+                if isinstance(label, str):
+                    nested_steps = _deduplicate_single_child_claim(label, nested_steps)
+                    step = _claim_step_from_proof(step, label, nested_steps)
+                else:
+                    step = {**step, "proof_steps": nested_steps}
         elif isinstance(step, dict) and step.get("type") == "contradiction_statement":
             proof = step.get("proof")
             if isinstance(proof, dict) and isinstance(proof.get("proof_steps"), list):
+                nested_assumptions = [*assumed_claims]
+                assumption = step.get("assumption")
+                if isinstance(assumption, str):
+                    nested_assumptions.append(assumption)
                 step = {
                     **step,
-                    "proof": {**proof, "proof_steps": _flatten_proof_steps(proof["proof_steps"])},
+                    "proof": {
+                        **proof,
+                        "proof_steps": _flatten_proof_steps(
+                            proof["proof_steps"],
+                            assumed_claims=nested_assumptions,
+                        ),
+                    },
                 }
         if isinstance(step, dict):
             step = _clean_instructional_assertion(step)
@@ -204,12 +265,17 @@ def _flatten_proof_steps(steps: list[Any]) -> list[Any]:
     return flattened
 
 
-def _proof_object(steps: list[Any], *, claim_label: str | None = None) -> dict[str, Any]:
+def _proof_object(
+    steps: list[Any],
+    *,
+    claim_label: str | None = None,
+    assumed_claims: list[str] | None = None,
+) -> dict[str, Any]:
     return _without_none(
         {
             "type": "Proof",
             "claim_label": claim_label,
-            "proof_steps": _flatten_proof_steps(steps),
+            "proof_steps": _flatten_proof_steps(steps, assumed_claims=assumed_claims),
         }
     )
 
@@ -224,7 +290,7 @@ def _document_node_data(node: DocumentNode) -> dict[str, Any]:
         DocumentKind.local_claim.value,
     }:
         statement = _statement_data(node)
-        proof = _proof_details_data(node.proof)
+        proof = _attached_proof_details_data(node.proof)
         return _without_none(
             {
                 "type": "Theorem",
@@ -447,11 +513,15 @@ def _proof_node_data(node: ProofNode) -> Any:
 
     if kind == ProofKind.contradiction.value:
         data = _structured_data(node)
-        proof = _proof_object([_proof_node_data(child) for child in node.children])
+        assumption = data.contradiction_assumption or (data.assumptions[0] if data.assumptions else None)
+        proof = _proof_object(
+            [_proof_node_data(child) for child in node.children],
+            assumed_claims=[assumption] if assumption else None,
+        )
         return _without_none(
             {
                 "type": "contradiction_statement",
-                "assumption": data.contradiction_assumption or (data.assumptions[0] if data.assumptions else None),
+                "assumption": assumption,
                 "proof": proof,
                 "id": node.id,
                 "status": node.status.value,
