@@ -14,7 +14,7 @@ from mathdoc_agent.models.refinement_specs import (
     StructuredProofRefinementSpec,
 )
 
-MODEL = os.environ.get("MATHDOC_AGENT_MODEL", "gpt-5.4")
+MODEL = os.environ.get("MATHDOC_AGENT_MODEL", "gpt-5.5")
 
 
 @dataclass

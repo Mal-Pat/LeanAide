@@ -35,7 +35,7 @@ class LogicalStepExtractionResult(BaseModel):
 class DocumentStructuringPipeline:
     """Document-level orchestration pipeline that returns the canonical DocumentContainer."""
 
-    def __init__(self, model_name: str = "gpt-5.4") -> None:
+    def __init__(self, model_name: str = "gpt-5.5") -> None:
         self.model_name = model_name
 
     def _parse_structured(self, system_prompt: str, user_prompt: str, response_format):

@@ -110,7 +110,7 @@ Those definitions use the OpenAI Agents SDK if it is installed. Set the model wi
 
 ```bash
 export OPENAI_API_KEY="..."
-export MATHDOC_AGENT_MODEL="gpt-5.4"
+export MATHDOC_AGENT_MODEL="gpt-5.5"
 ```
 
 Then:
@@ -162,7 +162,7 @@ API-backed agents:
 
 ```bash
 export OPENAI_API_KEY="..."
-export MATHDOC_AGENT_MODEL="gpt-5.4"
+export MATHDOC_AGENT_MODEL="gpt-5.5"
 
 PYTHONPYCACHEPREFIX=/private/tmp/leanaide_pycache \
 ./venv/bin/python -m mathdoc_agent.pipeline \
