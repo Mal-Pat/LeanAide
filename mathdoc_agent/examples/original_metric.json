@@ -1,0 +1,61 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "thm:disjoint-balls",
+        "header": "Theorem",
+        "hypothesis": [
+          {
+            "type": "assume_statement",
+            "assumption": "(X,d) is a metric space and x, y are two distinct points in X with d(x,y) = \\varepsilon > 0."
+          }
+        ],
+        "claim": "The open balls B(x, \\varepsilon/3) and B(y, \\varepsilon/3) do not intersect; that is, B(x, \\varepsilon/3) \\cap B(y, \\varepsilon/3) = \\varnothing.",
+        "proof": [
+          {
+            "type": "contradiction_statement",
+            "assumption": "There exists a point z in the intersection B(x, \\varepsilon/3) \\cap B(y, \\varepsilon/3).",
+            "proof": [
+              {
+                "type": "let_statement",
+                "variable_name": "z",
+                "statement": "Let z \\in X be such that z \\in B(x,\\varepsilon/3) and z \\in B(y,\\varepsilon/3)."
+              },
+              {
+                "type": "assert_statement",
+                "claim": "d(z,x) < \\varepsilon/3 and d(z,y) < \\varepsilon/3.",
+                "proof_method": "By the definition of the open balls B(x,\\varepsilon/3) and B(y,\\varepsilon/3)."
+              },
+              {
+                "type": "assert_statement",
+                "claim": "d(x,y) \\le d(x,z) + d(z,y).",
+                "proof_method": "Triangle inequality for the metric d."
+              },
+              {
+                "type": "assert_statement",
+                "claim": "d(x,y) < 2\\varepsilon/3.",
+                "proof_method": "From d(x,y) \\le d(x,z) + d(z,y) and the bounds d(x,z) < \\varepsilon/3, d(z,y) < \\varepsilon/3."
+              },
+              {
+                "type": "assert_statement",
+                "claim": "1 < 2/3.",
+                "proof_method": "Using d(x,y) = \\varepsilon and \\varepsilon > 0, divide the inequality d(x,y) < 2\\varepsilon/3 by \\varepsilon."
+              },
+              {
+                "type": "assert_statement",
+                "claim": "1 < 2/3 is impossible.",
+                "proof_method": "Basic arithmetic ordering on real numbers."
+              }
+            ]
+          },
+          {
+            "type": "conclude_statement",
+            "claim": "The intersection B(x, \\varepsilon/3) \\cap B(y, \\varepsilon/3) is empty; hence B(x, \\varepsilon/3) and B(y, \\varepsilon/3) do not intersect."
+          }
+        ]
+      }
+    ]
+  }
+}
