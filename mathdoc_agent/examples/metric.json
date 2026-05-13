@@ -1,0 +1,82 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "source_id.root.theorem",
+        "header": "Theorem",
+        "claim": "Let $(X, d)$ be a metric space. Let $x$ and $y$ be two distinct points with distance $d(x, y) = \\epsilon > 0$. Then the open balls $B(x, \\epsilon/3)$ and $B(y, \\epsilon/3)$ do not intersect.",
+        "proof": {
+          "type": "contradiction_statement",
+          "assumption": "\\(B(x,\\varepsilon/3)\\cap B(y,\\varepsilon/3)\\neq\\varnothing\\), equivalently there exists \\(z\\in X\\) lying in both balls.",
+          "proof": {
+            "type": "Proof",
+            "proof_steps": [
+              {
+                "type": "Proof",
+                "claim_label": "Set up the negation of the desired disjointness claim.",
+                "proof_steps": [
+                  {
+                    "type": "Proof",
+                    "claim_label": "Obtain a point in the intersection.",
+                    "proof_steps": [
+                      {
+                        "type": "Proof",
+                        "claim_label": "Obtain a witness point in the intersection.",
+                        "proof_steps": [
+                          {
+                            "type": "assert_statement",
+                            "claim": "Verify that the witness lies in the required intersection.",
+                            "id": "source_id.root.theorem.proof.root.assumption.witness_extraction.witness_choice.witness_verification",
+                            "status": "classified",
+                            "text": "The chosen point satisfies \\(z\\in B(x,\\varepsilon/3)\\cap B(y,\\varepsilon/3)\\)."
+                          }
+                        ],
+                        "id": "source_id.root.theorem.proof.root.assumption.witness_extraction.witness_choice",
+                        "status": "decomposed"
+                      },
+                      {
+                        "type": "assert_statement",
+                        "claim": "Verify the witness lies in both balls.",
+                        "id": "source_id.root.theorem.proof.root.assumption.witness_extraction.intersection_unfolding",
+                        "status": "classified",
+                        "text": "From \\(z\\in B(x,\\varepsilon/3)\\cap B(y,\\varepsilon/3)\\), conclude \\(z\\in B(x,\\varepsilon/3)\\) and \\(z\\in B(y,\\varepsilon/3)\\)."
+                      }
+                    ],
+                    "id": "source_id.root.theorem.proof.root.assumption.witness_extraction",
+                    "status": "decomposed"
+                  }
+                ],
+                "id": "source_id.root.theorem.proof.root.assumption",
+                "status": "decomposed"
+              },
+              {
+                "type": "assert_statement",
+                "claim": "Extract the metric distance bounds from the ball memberships.",
+                "id": "source_id.root.theorem.proof.root.open_ball_bounds",
+                "status": "classified",
+                "text": "From \\(z\\in B(x,\\varepsilon/3)\\) and \\(z\\in B(y,\\varepsilon/3)\\), obtain \\(d(z,x)<\\varepsilon/3\\) and \\(d(z,y)<\\varepsilon/3\\). Since \\(d\\) is symmetric, this also gives \\(d(x,z)<\\varepsilon/3\\)."
+              },
+              {
+                "type": "calculation",
+                "calculation_sequence": [
+                  "d(x,y) < 2\\varepsilon/3 (By the triangle inequality, d(x,y) \\le d(x,z)+d(z,y), and using d(x,z)<\\varepsilon/3 and d(z,y)<\\varepsilon/3 gives d(x,z)+d(z,y)<\\varepsilon/3+\\varepsilon/3=2\\varepsilon/3.)",
+                  "\\varepsilon < 2\\varepsilon/3 (Substitute d(x,y)=\\varepsilon into d(x,y)<2\\varepsilon/3.)",
+                  "1 < 2/3 (Divide \\varepsilon<2\\varepsilon/3 by the positive number \\varepsilon.)"
+                ],
+                "id": "source_id.root.theorem.proof.root.triangle_inequality_contradiction",
+                "status": "resolved"
+              }
+            ]
+          },
+          "id": "source_id.root.theorem.proof.root",
+          "status": "decomposed"
+        },
+        "id": "source_id.root.theorem",
+        "status": "decomposed"
+      }
+    ],
+    "title": "Metric Space Proof"
+  }
+}
