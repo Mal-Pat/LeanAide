@@ -148,25 +148,28 @@ json_text = generate_math_document_json_sync(
 print(json_text)
 ```
 
-## Command Line: Live API Calls
+## Command Line: Source Files
 
-There is no dedicated CLI wrapper yet. Use a short Python command:
+To generate JSON from a source text or Markdown file with the default live
+API-backed agents:
 
 ```bash
 export OPENAI_API_KEY="..."
 export MATHDOC_AGENT_MODEL="gpt-5.4"
 
 PYTHONPYCACHEPREFIX=/private/tmp/leanaide_pycache \
-./venv/bin/python - <<'PY'
-from mathdoc_agent.pipeline import generate_math_document_json_sync
+./venv/bin/python -m mathdoc_agent.pipeline \
+  path/to/source.md \
+  --title "Source Title" \
+  --id source_id \
+  -o path/to/source.json
+```
 
-source = """Theorem. For every natural number n, either n is even or n+1 is even.
+If `-o/--output` is omitted, the JSON is printed to stdout:
 
-Proof. We prove this by induction on n. The base case n=0 is immediate. For the
-step, use the induction hypothesis and split into the two cases."""
-
-print(generate_math_document_json_sync(source, id="cli_live_example", title="CLI Live Example"))
-PY
+```bash
+PYTHONPYCACHEPREFIX=/private/tmp/leanaide_pycache \
+./venv/bin/python -m mathdoc_agent.pipeline path/to/source.md
 ```
 
 ## Tests
