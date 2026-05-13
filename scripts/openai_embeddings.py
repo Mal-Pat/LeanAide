@@ -108,6 +108,12 @@ def main():
         type=int,
         help="1-based input line to start from. Use the next line after the last completed line.",
     )
+    parser.add_argument(
+        "target",
+        nargs="?",
+        choices=["desc"],
+        help='Use "desc" to run small_embeddings_descs instead of small_embeddings.',
+    )
     args = parser.parse_args()
     start_line = args.start_line
     if start_line is None:
@@ -116,8 +122,10 @@ def main():
     if start_line < 1:
         raise ValueError("start_line must be at least 1")
 
-    small_embeddings(start_line)
-    small_embeddings_descs(start_line)
+    if args.target == "desc":
+        small_embeddings_descs(start_line)
+    else:
+        small_embeddings(start_line)
 
 
 if __name__ == "__main__":
