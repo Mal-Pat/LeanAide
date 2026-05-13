@@ -3,7 +3,7 @@ from __future__ import annotations
 from pydantic import BaseModel, Field
 
 from mathdoc_agent.models.base import DocumentKind, ProofKind
-from mathdoc_agent.models.payloads import CalcStep
+from mathdoc_agent.models.payloads import CalcStep, InductiveConstructorData, StructureFieldData
 
 
 class MetadataEntry(BaseModel):
@@ -87,6 +87,16 @@ class DocumentChildSpec(BaseModel):
     notes: list[str] = Field(default_factory=list)
     data_entries: list[MetadataEntry] = Field(default_factory=list)
     proof_text: str | None = None
+    name: str | None = None
+    is_class: bool | None = None
+    is_prop: bool | None = None
+    parameters: list[str] = Field(default_factory=list)
+    extends: list[str] = Field(default_factory=list)
+    fields: list[StructureFieldData] = Field(default_factory=list)
+    class_name: str | None = None
+    target: str | None = None
+    value: str | None = None
+    constructors: list[InductiveConstructorData] = Field(default_factory=list)
 
 
 class DocumentRefinementSpec(BaseModel):

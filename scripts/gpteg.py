@@ -8,7 +8,7 @@ client = OpenAI(
 )
 
 completion = client.chat.completions.create(
-  model="gpt-5.4",
+  model="gpt-5.5",
   n= 1,
   temperature=1,
   messages=[

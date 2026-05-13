@@ -2,7 +2,15 @@ from __future__ import annotations
 
 from mathdoc_agent.models.base import DocumentKind, NodeStatus, ProofKind
 from mathdoc_agent.models.document import DocumentNode
-from mathdoc_agent.models.payloads import DefinitionData, StatementData
+from mathdoc_agent.models.payloads import (
+    DefinitionData,
+    InductiveConstructorData,
+    InductiveTypeDefinitionData,
+    InstanceDefinitionData,
+    StatementData,
+    StructureDefinitionData,
+    StructureFieldData,
+)
 from mathdoc_agent.models.proof import ProofNode, ProofTree
 
 
@@ -63,4 +71,85 @@ class DocumentBuilder:
             label=label,
             text=text,
             data=DefinitionData(term=term, definiens=definiens, notation=notation).model_dump(),
+        )
+
+    @staticmethod
+    def structure_definition(
+        *,
+        id: str,
+        text: str,
+        name: str,
+        is_class: bool = False,
+        fields: list[StructureFieldData] | None = None,
+        parameters: list[str] | None = None,
+        extends: list[str] | None = None,
+        label: str | None = None,
+    ) -> DocumentNode:
+        return DocumentNode(
+            id=id,
+            kind=DocumentKind.structure_definition,
+            status=NodeStatus.classified,
+            label=label,
+            text=text,
+            data=StructureDefinitionData(
+                name=name,
+                is_class=is_class,
+                parameters=parameters or [],
+                extends=extends or [],
+                fields=fields or [],
+            ).model_dump(),
+        )
+
+    @staticmethod
+    def instance_definition(
+        *,
+        id: str,
+        text: str,
+        class_name: str | None = None,
+        target: str | None = None,
+        name: str | None = None,
+        parameters: list[str] | None = None,
+        fields: dict[str, str] | None = None,
+        value: str | None = None,
+        label: str | None = None,
+    ) -> DocumentNode:
+        return DocumentNode(
+            id=id,
+            kind=DocumentKind.instance_definition,
+            status=NodeStatus.classified,
+            label=label,
+            text=text,
+            data=InstanceDefinitionData(
+                name=name,
+                class_name=class_name,
+                target=target,
+                parameters=parameters or [],
+                fields=fields or {},
+                value=value,
+            ).model_dump(),
+        )
+
+    @staticmethod
+    def inductive_type_definition(
+        *,
+        id: str,
+        text: str,
+        name: str,
+        is_prop: bool = False,
+        constructors: list[InductiveConstructorData] | None = None,
+        parameters: list[str] | None = None,
+        label: str | None = None,
+    ) -> DocumentNode:
+        return DocumentNode(
+            id=id,
+            kind=DocumentKind.inductive_type_definition,
+            status=NodeStatus.classified,
+            label=label,
+            text=text,
+            data=InductiveTypeDefinitionData(
+                name=name,
+                is_prop=is_prop,
+                parameters=parameters or [],
+                constructors=constructors or [],
+            ).model_dump(),
         )
