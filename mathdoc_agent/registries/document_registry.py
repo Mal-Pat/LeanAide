@@ -1,7 +1,14 @@
 from __future__ import annotations
 
 from mathdoc_agent.models.base import DocumentKind
-from mathdoc_agent.models.payloads import DefinitionData, DocumentKindData, StatementData
+from mathdoc_agent.models.payloads import (
+    DefinitionData,
+    DocumentKindData,
+    InductiveTypeDefinitionData,
+    InstanceDefinitionData,
+    StatementData,
+    StructureDefinitionData,
+)
 
 
 def _kind_key(kind: str | DocumentKind) -> str:
@@ -34,3 +41,6 @@ for theorem_kind in (
 ):
     document_payload_registry.register(theorem_kind, StatementData)
 document_payload_registry.register(DocumentKind.definition, DefinitionData)
+document_payload_registry.register(DocumentKind.structure_definition, StructureDefinitionData)
+document_payload_registry.register(DocumentKind.instance_definition, InstanceDefinitionData)
+document_payload_registry.register(DocumentKind.inductive_type_definition, InductiveTypeDefinitionData)

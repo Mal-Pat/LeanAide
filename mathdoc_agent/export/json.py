@@ -11,8 +11,11 @@ from mathdoc_agent.models.payloads import (
     CalculationData,
     CasesData,
     InductionData,
+    InductiveTypeDefinitionData,
+    InstanceDefinitionData,
     SimpleProofData,
     StatementData,
+    StructureDefinitionData,
     StructuredProofData,
 )
 from mathdoc_agent.models.proof import ProofNode, ProofTree
@@ -87,6 +90,60 @@ def _document_node_data(node: DocumentNode) -> dict[str, Any]:
                 "header": "Definition",
                 "definition": node.data.get("definiens") or node.text,
                 "name": node.data.get("term") or node.title or node.label or node.id,
+                "id": node.id,
+                "status": node.status.value,
+            }
+        )
+
+    if kind == DocumentKind.structure_definition.value:
+        data = StructureDefinitionData.model_validate(node.data)
+        return _without_none(
+            {
+                "type": "structure-definition",
+                "label": node.label or node.id,
+                "name": data.name,
+                "is_class": data.is_class,
+                "parameters": data.parameters or None,
+                "extends": data.extends or None,
+                "fields": [field.model_dump(exclude_none=True) for field in data.fields] or None,
+                "text": node.text or None,
+                "id": node.id,
+                "status": node.status.value,
+            }
+        )
+
+    if kind == DocumentKind.instance_definition.value:
+        data = InstanceDefinitionData.model_validate(node.data)
+        return _without_none(
+            {
+                "type": "instance-definition",
+                "label": node.label or node.id,
+                "name": data.name,
+                "class_name": data.class_name,
+                "target": data.target,
+                "parameters": data.parameters or None,
+                "fields": data.fields or None,
+                "value": data.value,
+                "text": node.text or None,
+                "id": node.id,
+                "status": node.status.value,
+            }
+        )
+
+    if kind == DocumentKind.inductive_type_definition.value:
+        data = InductiveTypeDefinitionData.model_validate(node.data)
+        return _without_none(
+            {
+                "type": "inductive-type-definition",
+                "label": node.label or node.id,
+                "name": data.name,
+                "is_prop": data.is_prop,
+                "parameters": data.parameters or None,
+                "constructors": [
+                    constructor.model_dump(exclude_none=True)
+                    for constructor in data.constructors
+                ],
+                "text": node.text or None,
                 "id": node.id,
                 "status": node.status.value,
             }

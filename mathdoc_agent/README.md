@@ -14,6 +14,9 @@ It uses `type` discriminators such as:
 
 - `document`
 - `Theorem`
+- `structure-definition`
+- `instance-definition`
+- `inductive-type-definition`
 - `ProofDetails`
 - `induction_proof`
 - `multi-condition_cases_proof`

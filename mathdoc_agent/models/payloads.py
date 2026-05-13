@@ -26,6 +26,41 @@ class DefinitionData(DocumentKindData):
     notation: Optional[str] = None
 
 
+class StructureFieldData(BaseModel):
+    name: Optional[str] = None
+    type: str
+    default: Optional[str] = None
+
+
+class StructureDefinitionData(DocumentKindData):
+    name: str
+    is_class: bool = False
+    parameters: list[str] = Field(default_factory=list)
+    extends: list[str] = Field(default_factory=list)
+    fields: list[StructureFieldData] = Field(default_factory=list)
+
+
+class InstanceDefinitionData(DocumentKindData):
+    name: Optional[str] = None
+    class_name: Optional[str] = None
+    target: Optional[str] = None
+    parameters: list[str] = Field(default_factory=list)
+    fields: dict[str, str] = Field(default_factory=dict)
+    value: Optional[str] = None
+
+
+class InductiveConstructorData(BaseModel):
+    name: Optional[str] = None
+    arguments: list[str] = Field(default_factory=list)
+
+
+class InductiveTypeDefinitionData(DocumentKindData):
+    name: str
+    is_prop: bool = False
+    parameters: list[str] = Field(default_factory=list)
+    constructors: list[InductiveConstructorData] = Field(default_factory=list)
+
+
 class SimpleProofData(ProofKindData):
     method: Optional[str] = None
     hints: list[str] = Field(default_factory=list)
