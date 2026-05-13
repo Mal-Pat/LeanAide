@@ -14,6 +14,9 @@ calculation_block, proof, example, remark, or unknown. Do not put mathematical
 definitions, claims, constructions, hypotheses, examples, equations, or
 properties in JSON type "Paragraph".
 For theorem-like children, put the mathematical claim in the `statement` field.
+If a proof immediately follows a theorem-like statement, attach the proof text
+to that theorem-like child in `proof_text`. Do not emit the proof as a separate
+paragraph. A text beginning with "Proof." or "Proof:" is never a paragraph.
 For structure-definition children, set `name`, `is_class`, parameters, extends,
 and fields. Use `is_class=true` for class-like structures such as groups.
 For instance-definition children, set `class_name`, `target`, optional `name`,

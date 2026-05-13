@@ -145,6 +145,26 @@ class DocumentParserAgent:
         )
 
 
+class ProofParagraphDocumentParserAgent:
+    def __call__(self, payload):
+        return DocumentRefinementSpec(
+            children=[
+                DocumentChildSpec(
+                    id_suffix="theorem",
+                    kind=DocumentKind.theorem,
+                    label="thm:p",
+                    text="Theorem. P.",
+                    statement="P",
+                ),
+                DocumentChildSpec(
+                    id_suffix="proof",
+                    kind=DocumentKind.paragraph,
+                    text="Proof. This follows directly.",
+                ),
+            ]
+        )
+
+
 class DefinitionDocumentParserAgent:
     def __call__(self, payload):
         return DocumentRefinementSpec(
@@ -315,6 +335,22 @@ class HandlerAndOrchestrationTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(body[2]["name"], "Even")
         self.assertTrue(body[2]["is_prop"])
         self.assertEqual(body[2]["constructors"][1]["arguments"], ["Even n"])
+
+    async def test_proof_paragraph_attaches_to_preceding_theorem(self) -> None:
+        document = document_from_text("Theorem. P.\n\nProof. This follows directly.", title="Proof Paragraph")
+        refined = await refine_math_document(
+            document,
+            default_document_handler_registry(parser_agent=ProofParagraphDocumentParserAgent()),
+            proof_registry(),
+        )
+        self.assertEqual(len(refined.root.children), 1)
+        theorem = refined.root.children[0]
+        self.assertIsNotNone(theorem.proof)
+        self.assertEqual(theorem.proof.root.status, NodeStatus.resolved)
+        body = json.loads(to_json(refined))["document"]["body"]
+        self.assertEqual(len(body), 1)
+        self.assertEqual(body[0]["type"], "Theorem")
+        self.assertIn("proof", body[0])
 
     def test_earlier_sibling_local_claim_is_in_context(self) -> None:
         claim = ProofNode(

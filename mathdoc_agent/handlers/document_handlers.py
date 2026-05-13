@@ -16,6 +16,46 @@ from mathdoc_agent.orchestration.context import DocumentContext
 from mathdoc_agent.orchestration.worklist import kind_key
 
 
+THEOREM_LIKE_KINDS = {
+    DocumentKind.theorem.value,
+    DocumentKind.lemma.value,
+    DocumentKind.proposition.value,
+    DocumentKind.corollary.value,
+    DocumentKind.local_claim.value,
+}
+
+
+def _looks_like_proof_text(text: str) -> bool:
+    stripped = text.lstrip().lower()
+    return stripped.startswith("proof.") or stripped.startswith("proof:")
+
+
+def _attach_adjacent_proof_children(spec: DocumentRefinementSpec) -> list:
+    children = []
+    for child in spec.children:
+        child_kind = kind_key(child.kind)
+        if (
+            child_kind in {DocumentKind.paragraph.value, DocumentKind.proof.value}
+            and _looks_like_proof_text(child.text)
+            and children
+            and kind_key(children[-1].kind) in THEOREM_LIKE_KINDS
+            and not children[-1].proof_text
+        ):
+            previous = children[-1]
+            children[-1] = previous.model_copy(
+                update={
+                    "text": f"{previous.text}\n\n{child.text}",
+                    "proof_text": child.text,
+                    "notes": previous.notes
+                    + child.notes
+                    + ["Attached adjacent proof paragraph to preceding theorem-like node."],
+                }
+            )
+            continue
+        children.append(child)
+    return children
+
+
 class UnknownDocumentHandler(DocumentRefinementHandler[DocumentRefinementSpec]):
     kind = DocumentKind.unknown.value
     output_model = DocumentRefinementSpec
@@ -34,7 +74,7 @@ class UnknownDocumentHandler(DocumentRefinementHandler[DocumentRefinementSpec]):
             DocumentRefinementSpec,
         )
         children: list[DocumentNode] = []
-        for child in spec.children:
+        for child in _attach_adjacent_proof_children(spec):
             child_id = f"{node.id}.{child.id_suffix}"
             child_kind = kind_key(child.kind)
             data = metadata_entries_to_dict(child.data_entries)
