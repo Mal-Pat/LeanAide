@@ -3,7 +3,12 @@ from __future__ import annotations
 from pydantic import BaseModel, Field
 
 from mathdoc_agent.models.base import DocumentKind, ProofKind
-from mathdoc_agent.models.payloads import CalcStep, InductiveConstructorData, StructureFieldData
+from mathdoc_agent.models.payloads import (
+    CalcStep,
+    InductiveConstructorData,
+    LogicalProofStepData,
+    StructureFieldData,
+)
 
 
 class MetadataEntry(BaseModel):
@@ -45,6 +50,7 @@ class SimpleProofRefinementSpec(BaseModel):
     hints: list[str] = Field(default_factory=list)
     referenced_lemmas: list[str] = Field(default_factory=list)
     referenced_hypotheses: list[str] = Field(default_factory=list)
+    proof_steps: list[LogicalProofStepData] = Field(default_factory=list)
     unresolved_details: list[str] = Field(default_factory=list)
 
 

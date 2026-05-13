@@ -61,11 +61,22 @@ class InductiveTypeDefinitionData(DocumentKindData):
     constructors: list[InductiveConstructorData] = Field(default_factory=list)
 
 
+class LogicalProofStepData(BaseModel):
+    type: str = "assert_statement"
+    claim: Optional[str] = None
+    proof_method: Optional[str] = None
+    assumption: Optional[str] = None
+    variable_name: Optional[str] = None
+    variable_type: Optional[str] = None
+    statement: Optional[str] = None
+
+
 class SimpleProofData(ProofKindData):
     method: Optional[str] = None
     hints: list[str] = Field(default_factory=list)
     referenced_lemmas: list[str] = Field(default_factory=list)
     referenced_hypotheses: list[str] = Field(default_factory=list)
+    proof_steps: list[LogicalProofStepData] = Field(default_factory=list)
 
 
 class InductionData(ProofKindData):

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from typing import Union
 
 from pydantic import BaseModel, Field
@@ -13,6 +14,7 @@ from mathdoc_agent.models.payloads import (
     CasesData,
     InductionData,
     LocalClaimData,
+    LogicalProofStepData,
     SimpleProofData,
     StructuredProofData,
 )
@@ -217,20 +219,81 @@ class SimpleProofHandler(ProofRefinementHandler[SimpleProofRefinementSpec]):
     def __init__(self, agent) -> None:
         self.agent = agent
 
+    def _fallback_proof_steps(self, text: str) -> list[LogicalProofStepData]:
+        steps: list[LogicalProofStepData] = []
+        pending_method: str | None = None
+        parts = re.split(r"(\\\[.*?\\\])", text, flags=re.DOTALL)
+        for part in parts:
+            if not part.strip():
+                continue
+            match = re.fullmatch(r"\\\[(.*?)\\\]", part.strip(), flags=re.DOTALL)
+            if match:
+                equation = " ".join(match.group(1).split())
+                steps.append(
+                    LogicalProofStepData(
+                        type="assert_statement",
+                        claim=equation,
+                        proof_method=pending_method or "displayed equation from the proof text",
+                    )
+                )
+                pending_method = None
+                continue
+            sentences = [
+                sentence.strip()
+                for sentence in re.split(r"(?<=[.!?])\s+", " ".join(part.split()))
+                if sentence.strip()
+            ]
+            for sentence in sentences:
+                lowered = sentence.lower()
+                if lowered.startswith("let "):
+                    steps.append(
+                        LogicalProofStepData(
+                            type="let_statement",
+                            variable_name="<anonymous>",
+                            statement=sentence,
+                        )
+                    )
+                    pending_method = sentence
+                elif lowered.startswith("fix ") or lowered.startswith("assume "):
+                    steps.append(
+                        LogicalProofStepData(
+                            type="assume_statement",
+                            assumption=sentence,
+                        )
+                    )
+                    pending_method = sentence
+                elif any(marker in lowered for marker in ("we want to prove", "this shows", "therefore")):
+                    steps.append(
+                        LogicalProofStepData(
+                            type="assert_statement",
+                            claim=sentence,
+                            proof_method="stated in the proof text",
+                        )
+                    )
+                elif lowered.startswith(
+                    ("by ", "since ", "using ", "rewriting ", "first,", "next,", "because ", "so")
+                ):
+                    pending_method = sentence
+        if len(steps) < 2:
+            return []
+        return steps
+
     async def refine(self, node: ProofNode, context: ProofContext) -> ProofNode:
         spec = await run_agent_typed(
             self.agent,
             {"node": node.model_dump(), "context": context.model_dump()},
             SimpleProofRefinementSpec,
         )
+        proof_steps = spec.proof_steps or self._fallback_proof_steps(node.text)
         data = SimpleProofData(
             method=spec.method,
             hints=spec.hints,
             referenced_lemmas=spec.referenced_lemmas,
             referenced_hypotheses=spec.referenced_hypotheses,
+            proof_steps=proof_steps,
         )
         unresolved = node.unresolved_details + spec.unresolved_details
-        status = NodeStatus.resolved if (data.hints or data.referenced_lemmas or data.referenced_hypotheses or unresolved) else NodeStatus.locally_refined
+        status = NodeStatus.resolved if (data.hints or data.referenced_lemmas or data.referenced_hypotheses or data.proof_steps or unresolved) else NodeStatus.locally_refined
         return node.model_copy(
             update={
                 "kind": ProofKind.simple,
@@ -246,6 +309,7 @@ class SimpleProofHandler(ProofRefinementHandler[SimpleProofRefinementSpec]):
             data.hints
             or data.referenced_lemmas
             or data.referenced_hypotheses
+            or data.proof_steps
             or node.unresolved_details
         )
 

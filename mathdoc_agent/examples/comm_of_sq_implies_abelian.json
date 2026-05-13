@@ -4,25 +4,96 @@
     "body": [
       {
         "type": "Theorem",
-        "label": "source_id.root.theorem",
+        "label": "thm:group-square-is-abelian",
         "header": "Theorem",
-        "claim": "A group G satisfying \\((a*b)^2 = a^2*b^2\\) for all \\(a,b \\in G\\) is Abelian.",
+        "claim": "A group G satisfying (a*b)^2 = a^2*b^2 for all a, b in G is Abelian.",
         "proof": {
           "type": "Proof",
-          "claim_label": "A group G satisfying \\((a*b)^2 = a^2*b^2\\) for all \\(a,b \\in G\\) is Abelian.",
+          "claim_label": "A group G satisfying (a*b)^2 = a^2*b^2 for all a, b in G is Abelian.",
           "proof_steps": [
             {
+              "type": "let_statement",
+              "variable_name": "<anonymous>",
+              "statement": "Let $G$ be a group such that for all $a,b \\in G$ we have"
+            },
+            {
               "type": "assert_statement",
-              "claim": "A group G satisfying \\((a*b)^2 = a^2*b^2\\) for all \\(a,b \\in G\\) is Abelian."
+              "claim": "(ab)^2 = a^2 b^2.",
+              "proof_method": "Let $G$ be a group such that for all $a,b \\in G$ we have"
+            },
+            {
+              "type": "assert_statement",
+              "claim": "abab = aabb",
+              "proof_method": "By the definition of the group operation, this identity means"
+            },
+            {
+              "type": "assume_statement",
+              "assumption": "Fix arbitrary elements $a,b \\in G$."
+            },
+            {
+              "type": "assert_statement",
+              "claim": "We want to prove that $ab = ba$.",
+              "proof_method": "stated in the proof text"
+            },
+            {
+              "type": "assert_statement",
+              "claim": "a^{-1}(abab) = a^{-1}(aabb).",
+              "proof_method": "Using associativity of the group operation, this gives"
+            },
+            {
+              "type": "assert_statement",
+              "claim": "(a^{-1}a)bab = (a^{-1}a)abb.",
+              "proof_method": "Rewriting each side using associativity:"
+            },
+            {
+              "type": "assert_statement",
+              "claim": "ebab = eabb,",
+              "proof_method": "Since $a^{-1}a = e$, where $e$ is the identity element of $G$, this simplifies to"
+            },
+            {
+              "type": "assert_statement",
+              "claim": "bab = abb.",
+              "proof_method": "so"
+            },
+            {
+              "type": "assert_statement",
+              "claim": "(bab)b^{-1} = (abb)b^{-1}.",
+              "proof_method": "Using associativity again, we obtain"
+            },
+            {
+              "type": "assert_statement",
+              "claim": "ba(bb^{-1}) = ab(b b^{-1}).",
+              "proof_method": "Rewriting each side:"
+            },
+            {
+              "type": "assert_statement",
+              "claim": "ba e = ab e.",
+              "proof_method": "Since $bb^{-1} = e$, this becomes"
+            },
+            {
+              "type": "assert_statement",
+              "claim": "ba = ab.",
+              "proof_method": "Because $xe = x$ for all $x \\in G$, we have"
+            },
+            {
+              "type": "assert_statement",
+              "claim": "Since $a$ and $b$ were arbitrary elements of $G$, this shows that $ab = ba$ for all $a,b \\in G$.",
+              "proof_method": "stated in the proof text"
+            },
+            {
+              "type": "assert_statement",
+              "claim": "Therefore $G$ is Abelian.",
+              "proof_method": "stated in the proof text"
             }
           ],
-          "id": "source_id.root.theorem.proof.root",
-          "status": "classified"
+          "id": "comm_of_sq_implies_abelian.root.theorem.proof.root",
+          "status": "resolved",
+          "text": "Let $G$ be a group such that for all $a,b \\in G$ we have\n\\[\n(ab)^2 = a^2 b^2.\n\\]\nBy the definition of the group operation, this identity means\n\\[\nabab = aabb\n\\]\nfor all $a,b \\in G$.\n\nFix arbitrary elements $a,b \\in G$. We want to prove that $ab = ba$. Since $abab = aabb$, we can manipulate this equality using the group axioms.\n\nFirst, multiply both sides on the left by $a^{-1}$. Using associativity of the group operation, this gives\n\\[\na^{-1}(abab) = a^{-1}(aabb).\n\\]\nRewriting each side using associativity:\n\\[\n(a^{-1}a)bab = (a^{-1}a)abb.\n\\]\nSince $a^{-1}a = e$, where $e$ is the identity element of $G$, this simplifies to\n\\[\nebab = eabb,\n\\]\nso\n\\[\nbab = abb.\n\\]\n\nNext, multiply both sides of this new equality on the right by $b^{-1}$. Using associativity again, we obtain\n\\[\n(bab)b^{-1} = (abb)b^{-1}.\n\\]\nRewriting each side:\n\\[\nba(bb^{-1}) = ab(b b^{-1}).\n\\]\nSince $bb^{-1} = e$, this becomes\n\\[\nba e = ab e.\n\\]\nBecause $xe = x$ for all $x \\in G$, we have\n\\[\nba = ab.\n\\]\n\nSince $a$ and $b$ were arbitrary elements of $G$, this shows that $ab = ba$ for all $a,b \\in G$. Therefore $G$ is Abelian."
         },
-        "id": "source_id.root.theorem",
-        "status": "decomposed"
+        "id": "comm_of_sq_implies_abelian.root.theorem",
+        "status": "resolved"
       }
     ],
-    "title": "Source Title"
+    "title": "Commutativity from Squaring Identity"
   }
 }

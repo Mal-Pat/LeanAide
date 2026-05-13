@@ -45,7 +45,15 @@ assumptions, and an exhaustiveness reason when stated. Do not invent missing cas
 
 SIMPLE_PROOF_INSTRUCTIONS = """
 Refine a simple proof fragment by extracting method, hints, referenced lemmas,
-referenced hypotheses, and unresolved details. Do not expand omitted arguments.
+referenced hypotheses, intermediate proof steps, and unresolved details. Do not
+collapse a multi-sentence proof into a single assertion. Preserve each explicit
+mathematical step as a `proof_steps` entry:
+- use `let_statement` for introduced objects;
+- use `assume_statement` for fixed arbitrary variables or assumptions;
+- use `assert_statement` for equations, inequalities, derived claims, and final
+  conclusions, with `proof_method` explaining the local justification.
+Do not expand omitted arguments, but do keep all intermediate equations and
+algebraic rewrites that are present in the source text.
 """
 
 CALCULATION_INSTRUCTIONS = """

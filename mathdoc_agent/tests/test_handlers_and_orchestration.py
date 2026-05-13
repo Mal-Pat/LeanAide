@@ -258,6 +258,33 @@ class HandlerAndOrchestrationTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual([child.id for child in refined.root.children], ["iff.root.forward", "iff.root.reverse"])
         self.assertTrue(all(child.status == NodeStatus.resolved for child in refined.root.children))
 
+    async def test_simple_proof_preserves_intermediate_steps(self) -> None:
+        tree = ProofTree(
+            id="group",
+            theorem_statement="G is Abelian",
+            root=ProofNode(
+                id="group.root",
+                kind=ProofKind.simple,
+                status=NodeStatus.classified,
+                goal="G is Abelian",
+                text=(
+                    "Let G be a group satisfying the square identity. "
+                    "Fix arbitrary elements a,b in G. We want to prove that ab = ba. "
+                    "\\[abab = aabb\\] "
+                    "\\[bab = abb\\] "
+                    "\\[ba = ab\\] "
+                    "Therefore G is Abelian."
+                ),
+            ),
+        )
+        refined = await refine_proof_tree(tree, proof_registry(), max_iterations=5)
+        exported = json.loads(to_json(refined))
+        self.assertEqual(exported["type"], "Proof")
+        self.assertGreaterEqual(len(exported["proof_steps"]), 5)
+        self.assertTrue(any(step["type"] == "let_statement" for step in exported["proof_steps"]))
+        self.assertTrue(any(step["type"] == "assume_statement" for step in exported["proof_steps"]))
+        self.assertTrue(any(step.get("claim") == "ba = ab" for step in exported["proof_steps"]))
+
     def test_default_registry_has_reasonable_taxonomy_handlers(self) -> None:
         registry = proof_registry()
         for kind in (

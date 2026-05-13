@@ -58,6 +58,10 @@ def _proof_details_data(proof: ProofTree | None) -> Any:
     return _proof_node_data(proof.root)
 
 
+def _logical_step_data(step) -> dict[str, Any]:
+    return _without_none(step.model_dump(exclude_none=True))
+
+
 def _document_node_data(node: DocumentNode) -> dict[str, Any]:
     kind = kind_key(node.kind)
     if kind in {
@@ -177,6 +181,17 @@ def _simple_proof_data(node: ProofNode) -> dict[str, Any]:
         data = SimpleProofData.model_validate(node.data)
     except Exception:
         data = SimpleProofData()
+    if data.proof_steps:
+        return _without_none(
+            {
+                "type": "Proof",
+                "claim_label": node.goal or node.id,
+                "proof_steps": [_logical_step_data(step) for step in data.proof_steps],
+                "id": node.id,
+                "status": node.status.value,
+                "text": node.text,
+            }
+        )
     return _without_none(
         {
             "type": "assert_statement",
