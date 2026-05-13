@@ -10,6 +10,7 @@ from mathdoc_agent.models.payloads import (
     CalcStep,
     InductiveConstructorData,
     LocalClaimData,
+    StructuredProofData,
     StructureFieldData,
 )
 from mathdoc_agent.models.proof import ProofNode, ProofTree
@@ -406,6 +407,52 @@ class HandlerAndOrchestrationTests(unittest.IsolatedAsyncioTestCase):
         )
         context = build_proof_context(tree, "p.later")
         self.assertIn("Q", context.local_claims)
+
+    def test_export_flattens_instructional_proof_wrappers(self) -> None:
+        root = ProofNode(
+            id="metric.root",
+            kind=ProofKind.contradiction,
+            status=NodeStatus.resolved,
+            text="Proof by contradiction.",
+            data=StructuredProofData(
+                contradiction_assumption="There exists z in the intersection.",
+            ).model_dump(),
+            children=[
+                ProofNode(
+                    id="metric.root.setup",
+                    kind=ProofKind.existence,
+                    status=NodeStatus.resolved,
+                    goal="Set up the negation of the desired disjointness claim.",
+                    text="Assume a point lies in both balls.",
+                    children=[
+                        ProofNode(
+                            id="metric.root.setup.obtain",
+                            kind=ProofKind.construction,
+                            status=NodeStatus.resolved,
+                            goal="Obtain a witness point in the intersection.",
+                            text="Choose z in the intersection.",
+                            children=[
+                                ProofNode(
+                                    id="metric.root.setup.obtain.verify",
+                                    kind=ProofKind.simple,
+                                    status=NodeStatus.resolved,
+                                    goal="Verify that the witness lies in the required intersection.",
+                                    text="The chosen point z lies in both balls.",
+                                )
+                            ],
+                        )
+                    ],
+                )
+            ],
+        )
+        exported = json.loads(to_json(ProofTree(id="metric", theorem_statement="P", root=root)))
+        proof_steps = exported["proof"]["proof_steps"]
+        self.assertEqual(len(proof_steps), 1)
+        self.assertEqual(proof_steps[0]["type"], "assert_statement")
+        self.assertEqual(proof_steps[0]["claim"], "The chosen point z lies in both balls.")
+        self.assertNotIn("Set up", json.dumps(exported))
+        self.assertNotIn("Obtain a witness", json.dumps(exported))
+        self.assertNotIn("Verify that", json.dumps(exported))
 
 
 if __name__ == "__main__":

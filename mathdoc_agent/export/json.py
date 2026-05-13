@@ -85,6 +85,66 @@ def _goal_relation(data: CalculationData) -> str | None:
     return "mixed"
 
 
+INSTRUCTIONAL_CLAIM_PREFIXES = (
+    "apply ",
+    "choose ",
+    "derive ",
+    "establish ",
+    "extract ",
+    "finish",
+    "obtain ",
+    "prove ",
+    "set up ",
+    "show ",
+    "use ",
+    "verify ",
+)
+
+
+def _is_instructional_claim(text: str | None) -> bool:
+    if text is None:
+        return False
+    stripped = text.strip().lower()
+    return stripped.startswith(INSTRUCTIONAL_CLAIM_PREFIXES)
+
+
+def _claim_or_text(node: ProofNode) -> str:
+    if node.goal and not _is_instructional_claim(node.goal):
+        return node.goal
+    return node.text
+
+
+def _proof_label(node: ProofNode) -> str | None:
+    if node.goal and not _is_instructional_claim(node.goal):
+        return node.goal
+    return None
+
+
+def _flatten_proof_steps(steps: list[Any]) -> list[Any]:
+    flattened: list[Any] = []
+    for step in steps:
+        if isinstance(step, dict) and step.get("type") == "Proof":
+            nested = step.get("proof_steps")
+            label = step.get("claim_label")
+            if isinstance(nested, list) and (_is_instructional_claim(label) or label is None):
+                flattened.extend(_flatten_proof_steps(nested))
+                continue
+            if isinstance(nested, list):
+                step = {**step, "proof_steps": _flatten_proof_steps(nested)}
+        flattened.append(step)
+    return flattened
+
+
+def _proof_object(steps: list[Any], *, claim_label: str | None = None) -> dict[str, Any]:
+    return _without_none(
+        {
+            "type": "Proof",
+            "claim_label": claim_label,
+            "proof_steps": _flatten_proof_steps(steps),
+        }
+    )
+
+
 def _document_node_data(node: DocumentNode) -> dict[str, Any]:
     kind = kind_key(node.kind)
     if kind in {
@@ -208,7 +268,7 @@ def _simple_proof_data(node: ProofNode) -> dict[str, Any]:
         return _without_none(
             {
                 "type": "Proof",
-                "claim_label": node.goal or node.id,
+                "claim_label": _proof_label(node),
                 "proof_steps": [_logical_step_data(step) for step in data.proof_steps],
                 "id": node.id,
                 "status": node.status.value,
@@ -218,7 +278,7 @@ def _simple_proof_data(node: ProofNode) -> dict[str, Any]:
     return _without_none(
         {
             "type": "assert_statement",
-            "claim": node.goal or node.text,
+            "claim": _claim_or_text(node),
             "proof_method": data.method,
             "id": node.id,
             "status": node.status.value,
@@ -318,14 +378,12 @@ def _proof_node_data(node: ProofNode) -> Any:
 
     if kind == ProofKind.contradiction.value:
         data = _structured_data(node)
+        proof = _proof_object([_proof_node_data(child) for child in node.children])
         return _without_none(
             {
                 "type": "contradiction_statement",
                 "assumption": data.contradiction_assumption or (data.assumptions[0] if data.assumptions else None),
-                "proof": {
-                    "type": "Proof",
-                    "proof_steps": [_proof_node_data(child) for child in node.children],
-                },
+                "proof": proof,
                 "id": node.id,
                 "status": node.status.value,
             }
@@ -376,15 +434,15 @@ def _proof_node_data(node: ProofNode) -> Any:
         )
 
     structured = _structured_data(node)
-    proof_steps = [_proof_node_data(child) for child in node.children]
+    proof_steps = _flatten_proof_steps([_proof_node_data(child) for child in node.children])
     if not proof_steps and structured.summary:
         proof_steps = [{"type": "assert_statement", "claim": structured.summary}]
     if not proof_steps:
-        proof_steps = [{"type": "assert_statement", "claim": node.goal or node.text}]
+        proof_steps = [{"type": "assert_statement", "claim": _claim_or_text(node)}]
     return _without_none(
         {
             "type": "Proof",
-            "claim_label": node.goal or node.id,
+            "claim_label": _proof_label(node),
             "proof_steps": proof_steps,
             "id": node.id,
             "status": node.status.value,
