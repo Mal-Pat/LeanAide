@@ -1,0 +1,87 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "thm:A2-equals-minus-I-implies-n-even",
+        "header": "Theorem",
+        "hypothesis": [
+          {
+            "type": "let_statement",
+            "variable_name": "A",
+            "variable_type": "n × n real matrix",
+            "properties": "satisfying A^2 = -I_n",
+            "statement": "Let A be an n × n matrix with entries in the field of real numbers ℝ such that A^2 = -I_n, where I_n is the n × n identity matrix."
+          }
+        ],
+        "claim": "If A^2 = -I_n for an n × n real matrix A, then n is an even integer.",
+        "proof": [
+          {
+            "type": "assume_statement",
+            "assumption": "A is an n × n real matrix satisfying A^2 = -I_n."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "Viewing A as a linear operator on the real vector space ℝ^n, the equation A^2 = -I_n implies that A satisfies the polynomial equation A^2 + I_n = 0, so the minimal polynomial m_A(x) of A divides p(x) := x^2 + 1.",
+            "proof_method": "Substitute A into the polynomial x^2 + 1 and use the definition of minimal polynomial."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "The polynomial x^2 + 1 has distinct complex roots i and −i, so it has no repeated roots, and consequently any divisor of x^2 + 1, in particular the minimal polynomial m_A(x), also has no repeated roots.",
+            "proof_method": "Compute the roots of x^2 + 1 in ℂ and use that divisors of a separable polynomial are separable."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "Since A is a real matrix whose minimal polynomial has no repeated roots, A is diagonalizable over ℂ; thus there exists a basis of ℂ^n such that the matrix of A is diagonal, and all eigenvalues of A (over ℂ) are roots of x^2 + 1, hence each eigenvalue is either i or −i.",
+            "proof_method": "Use the standard result that a linear operator whose minimal polynomial has no repeated roots is diagonalizable over an algebraically closed field.",
+            "results_used": [
+              {
+                "statement": "A linear operator over a field whose minimal polynomial has no repeated roots is diagonalizable over any field over which the minimal polynomial splits.",
+                "mathlib_identifier": "linear_operator.is_semisimple_of_minpoly_is_separable"
+              }
+            ]
+          },
+          {
+            "type": "let_statement",
+            "variable_name": "λ_1, …, λ_n",
+            "variable_type": "complex numbers",
+            "properties": "eigenvalues of A over ℂ listed with algebraic multiplicity, each in {i, −i}",
+            "statement": "Let λ_1, …, λ_n denote the eigenvalues of A over ℂ, listed with algebraic multiplicity; then each λ_j is either i or −i."
+          },
+          {
+            "type": "let_statement",
+            "variable_name": "k",
+            "variable_type": "integer",
+            "properties": "0 ≤ k ≤ n",
+            "statement": "Let k be the number of indices j such that λ_j = i; then the number of indices j such that λ_j = −i is n − k."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "The determinant of A, viewed as a complex matrix, satisfies det(A) = ∏_{j=1}^n λ_j = i^k · (−i)^{n−k}.",
+            "proof_method": "For a diagonalizable matrix, the determinant equals the product of its eigenvalues counted with algebraic multiplicity."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "From the matrix identity A^2 = −I_n, taking determinants on both sides and using multiplicativity of the determinant gives det(A^2) = det(−I_n), so (det A)^2 = (−1)^n.",
+            "proof_method": "Apply det to both sides of A^2 = −I_n, use det(A^2) = (det A)^2 and det(−I_n) = (−1)^n det(I_n) = (−1)^n."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "Since A has real entries, det A is a real number, so (det A)^2 is a nonnegative real number; therefore (−1)^n must be a nonnegative real number, forcing (−1)^n = 1.",
+            "proof_method": "Use that the square of a real number is ≥ 0 and that (−1)^n ∈ {1, −1}."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "The equality (−1)^n = 1 holds if and only if n is an even integer.",
+            "proof_method": "Use the basic parity property that (−1)^n = 1 exactly when n is even."
+          },
+          {
+            "type": "conclude_statement",
+            "claim": "Therefore n is an even integer."
+          }
+        ]
+      }
+    ]
+  }
+}

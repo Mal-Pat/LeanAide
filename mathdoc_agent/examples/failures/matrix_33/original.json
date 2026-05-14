@@ -1,0 +1,153 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "header": "Theorem",
+        "label": "thm:orthogonal_matrix_determinant",
+        "hypothesis": [
+          {
+            "type": "let_statement",
+            "variable_name": "n",
+            "variable_type": "natural number",
+            "statement": "Let n be a natural number."
+          },
+          {
+            "type": "let_statement",
+            "variable_name": "Q",
+            "variable_type": "real n×n matrix",
+            "statement": "Let Q be a real n×n matrix."
+          },
+          {
+            "type": "assume_statement",
+            "assumption": "Q Q^T = I_n",
+            "label": "h_Q"
+          }
+        ],
+        "claim": "det(Q) = 1 or det(Q) = -1",
+        "proof": [
+          {
+            "type": "Theorem",
+            "header": "Lemma",
+            "label": "lem:multiplicativity_of_determinant",
+            "claim": "For all real n×n matrices A and B, det(A B) = det(A) det(B).",
+            "proof": [
+              {
+                "type": "Paragraph",
+                "text": "Follows from the usual expansion of det as a sum over permutations."
+              },
+              {
+                "type": "conclude_statement"
+              }
+            ]
+          },
+          {
+            "type": "Theorem",
+            "header": "Lemma",
+            "label": "lem:det_identity",
+            "claim": "For the real identity matrix I_n, det(I_n) = 1.",
+            "proof": [
+              {
+                "type": "Paragraph",
+                "text": "In the sum defining det(I_n), only the identity permutation contributes 1."
+              },
+              {
+                "type": "conclude_statement"
+              }
+            ]
+          },
+          {
+            "type": "Theorem",
+            "header": "Lemma",
+            "label": "lem:det_transpose",
+            "claim": "For every real n×n matrix A, det(A^T) = det(A).",
+            "proof": [
+              {
+                "type": "Paragraph",
+                "text": "Transposing exchanges entries according to the sign of each permutation, leaving the total sum unchanged."
+              },
+              {
+                "type": "conclude_statement"
+              }
+            ]
+          },
+          {
+            "type": "Theorem",
+            "header": "Lemma",
+            "label": "lem:solutions_x2_eq1_real",
+            "claim": "For every real number x, if x^2 = 1 then x = 1 or x = -1.",
+            "proof": [
+              {
+                "type": "Paragraph",
+                "text": "Factor x^2 - 1 = (x - 1)(x + 1) and apply the zero–product property in R."
+              },
+              {
+                "type": "conclude_statement"
+              }
+            ]
+          },
+          {
+            "type": "assert_statement",
+            "claim": "Q Q^T = I_n",
+            "internal_references": [
+              {
+                "target_identifier": "h_Q"
+              }
+            ]
+          },
+          {
+            "type": "assert_statement",
+            "claim": "det(Q Q^T) = det(Q) det(Q^T)",
+            "internal_references": [
+              {
+                "target_identifier": "lem:multiplicativity_of_determinant"
+              }
+            ]
+          },
+          {
+            "type": "assert_statement",
+            "claim": "det(Q Q^T) = det(I_n) = 1",
+            "internal_references": [
+              {
+                "target_identifier": "h_Q"
+              },
+              {
+                "target_identifier": "lem:det_identity"
+              }
+            ]
+          },
+          {
+            "type": "assert_statement",
+            "claim": "det(Q) det(Q^T) = 1"
+          },
+          {
+            "type": "assert_statement",
+            "claim": "det(Q^T) = det(Q)",
+            "internal_references": [
+              {
+                "target_identifier": "lem:det_transpose"
+              }
+            ]
+          },
+          {
+            "type": "assert_statement",
+            "claim": "det(Q)^2 = 1"
+          },
+          {
+            "type": "assert_statement",
+            "claim": "det(Q) = 1 or det(Q) = -1",
+            "internal_references": [
+              {
+                "target_identifier": "lem:solutions_x2_eq1_real"
+              }
+            ]
+          },
+          {
+            "type": "conclude_statement"
+          }
+        ]
+      }
+    ]
+  }
+}
