@@ -52,7 +52,7 @@ def ada_embeddings(start_line=1):
 def small_embeddings(start_line=1):
     client = openai_client()
     input_path = "resources/mathlib4-prompts.jsonl"
-    output_path = "rawdata/mathlib4-prompts-small-embeddings.jsonl"
+    output_path = "rawdata/mathlib4-prompts-embeddings-small.jsonl"
     total = jsonl_line_count(input_path)
     mode = 'a' if start_line > 1 else 'w'
 
