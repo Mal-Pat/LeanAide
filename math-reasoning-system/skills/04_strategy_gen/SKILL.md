@@ -1,13 +1,17 @@
-# Skill: Strategy Generation
+# Skill: Strategy Generation (Dispatcher)
 
-**Goal:** Formulate concrete, step-by-step plans to solve the problem formalized in `artifacts/01_problem_formalization.md`. Save the output to `artifacts/03_strategy_plans.md`.
+**Goal:** Formulate concrete, step-by-step plans by selecting and applying appropriate mathematical techniques.
 
 **Instructions:**
-1. **Forward Reasoning:** List 3-5 immediate, non-trivial deductions from the hypotheses.
-2. **Backward Reasoning:** List 2-3 conditions that would directly imply the final goal.
-3. **Simplification:** Propose 2 special, simplified cases (e.g., $n=1$, finite dimension, Abelian group) and state what insight they might yield.
-4. **Proof Sketches:** Generate at least two distinct proof sketches (Plan A and Plan B). 
-   - Break each plan down into logical steps/lemmas.
-   - **CRITICAL:** Label every step's difficulty as `easy`, `standard`, or `hard`. A step must be labeled `hard` if it requires its own multi-step proof (this will trigger a recursive loop).
-
-**Output format:** Generate the content in Markdown format suitable for the artifacts directory.
+1. **Analyze Formalization:** Review `artifacts/01_problem_formalization.md`.
+2. **Technique Selection:**
+   - Scan `skills/strategy_gen/registry.md` and `skills/techniques/` for any skill whose manifest matches the problem context.
+   - If a match is found (e.g., Riemannian manifolds -> `bochner_technique`), invoke that specific skill to generate strategy fragments.
+3. **Reasoning Synthesis:**
+   - **Forward Reasoning:** List 3-5 deductions from hypotheses.
+   - **Backward Reasoning:** List 2-3 conditions implying the goal.
+   - **Simplification:** Propose 2 special cases.
+4. **Draft Plans:**
+   - Generate Plan A and Plan B, incorporating selected technique fragments.
+   - **CRITICAL:** Label every step's difficulty as `easy`, `standard`, or `hard`.
+5. **Output:** Save to `artifacts/03_strategy_plans.md`.
