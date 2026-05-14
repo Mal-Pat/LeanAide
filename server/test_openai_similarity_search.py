@@ -5,7 +5,11 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from server.openai_similarity_search import run_similarity_search_payload
+from server.openai_similarity_search import (
+    _CACHE,
+    pickle_file,
+    run_similarity_search_payload,
+)
 
 
 def write_jsonl(path: Path, records: list[dict]) -> None:
@@ -15,11 +19,15 @@ def write_jsonl(path: Path, records: list[dict]) -> None:
 
 
 class OpenAISimilaritySearchTests(unittest.TestCase):
+    def setUp(self) -> None:
+        _CACHE.clear()
+
     def test_docstring_search_uses_doc_field_and_removes_embedding(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             rawdata = Path(tmp)
+            embeddings_path = rawdata / "mathlib4-prompts-embeddings-small.jsonl"
             write_jsonl(
-                rawdata / "mathlib4-prompts-embeddings-small.jsonl",
+                embeddings_path,
                 [
                     {"name": "near", "doc": "near doc", "embedding": [1.0, 0.0]},
                     {"name": "far", "doc": "far doc", "embedding": [0.0, 1.0]},
@@ -31,6 +39,7 @@ class OpenAISimilaritySearchTests(unittest.TestCase):
                 query_embedder=lambda _: [0.9, 0.1],
                 rawdata_dir=rawdata,
             )
+            self.assertTrue(pickle_file(embeddings_path, "docString").exists())
 
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0]["name"], "near")
@@ -67,6 +76,26 @@ class OpenAISimilaritySearchTests(unittest.TestCase):
         self.assertNotIn("description", result[0])
         self.assertNotIn("description-embedding", result[0])
         self.assertNotIn("concise-description-embedding", result[0])
+
+    def test_numpy_search_returns_ranked_results(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            rawdata = Path(tmp)
+            write_jsonl(
+                rawdata / "mathlib4-prompts-embeddings-small.jsonl",
+                [
+                    {"name": "first", "doc": "first doc", "embedding": [0.8, 0.2]},
+                    {"name": "second", "doc": "second doc", "embedding": [1.0, 0.0]},
+                    {"name": "third", "doc": "third doc", "embedding": [0.0, 1.0]},
+                ],
+            )
+
+            result = run_similarity_search_payload(
+                {"num": 2, "query": "q", "descField": "docString"},
+                query_embedder=lambda _: [1.0, 0.0],
+                rawdata_dir=rawdata,
+            )
+
+        self.assertEqual([record["name"] for record in result], ["second", "first"])
 
 
 if __name__ == "__main__":

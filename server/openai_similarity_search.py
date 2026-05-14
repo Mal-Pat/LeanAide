@@ -13,14 +13,15 @@ response records.
 from __future__ import annotations
 
 import argparse
-import heapq
 import json
-import math
 import os
+import pickle
 import sys
+import threading
 from pathlib import Path
 from typing import Any, Callable, Iterable
 
+import numpy as np
 from openai import OpenAI
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -38,6 +39,9 @@ EMBEDDING_FIELD = {
     "concise-description": "concise-description-embedding",
     "description": "description-embedding",
 }
+
+_CACHE_LOCK = threading.Lock()
+_CACHE: dict[tuple[str, str], tuple[np.ndarray, list[dict[str, Any]]]] = {}
 
 
 def openai_client() -> OpenAI:
@@ -83,18 +87,6 @@ def iter_jsonl(path: Path) -> Iterable[dict[str, Any]]:
                 raise ValueError(f"Invalid JSON on line {line_no} of {path}") from exc
 
 
-def cosine_similarity(left: list[float], right: list[float]) -> float:
-    """Return cosine similarity for two embedding vectors."""
-    if len(left) != len(right):
-        raise ValueError(f"Embedding dimensions differ: {len(left)} != {len(right)}")
-    dot = sum(x * y for x, y in zip(left, right))
-    left_norm = math.sqrt(sum(x * x for x in left))
-    right_norm = math.sqrt(sum(y * y for y in right))
-    if left_norm == 0 or right_norm == 0:
-        return float("-inf")
-    return dot / (left_norm * right_norm)
-
-
 def record_text(record: dict[str, Any], desc_field: str) -> str | None:
     """Return the source text corresponding to a Lean descField."""
     field = FIELD_NAME[desc_field]
@@ -105,7 +97,7 @@ def record_text(record: dict[str, Any], desc_field: str) -> str | None:
     return None
 
 
-def sanitize_record(record: dict[str, Any], desc_field: str, distance: float) -> dict[str, Any]:
+def sanitize_record(record: dict[str, Any], desc_field: str) -> dict[str, Any]:
     """Remove embedding vectors and normalize the matched text to `docString`."""
     text = record_text(record, desc_field)
     cleaned = {
@@ -119,8 +111,95 @@ def sanitize_record(record: dict[str, Any], desc_field: str, distance: float) ->
     if selected_field in cleaned:
         del cleaned[selected_field]
     cleaned["docString"] = text
-    cleaned["distance"] = float(distance)
     return cleaned
+
+
+def pickle_file(path: Path, desc_field: str) -> Path:
+    """Return the pickle cache path for a rawdata embedding file and field."""
+    return path.with_name(f"{path.name}.{desc_field}.pickle")
+
+
+def normalize_matrix(matrix: np.ndarray) -> np.ndarray:
+    """Return row-normalized float32 embeddings for fast cosine search."""
+    matrix = np.asarray(matrix, dtype=np.float32)
+    norms = np.linalg.norm(matrix, axis=1, keepdims=True)
+    norms[norms == 0] = 1.0
+    return matrix / norms
+
+
+def load_pickle_cache(path: Path, desc_field: str) -> tuple[np.ndarray, list[dict[str, Any]]] | None:
+    """Load a valid pickle cache if it matches the source JSONL metadata."""
+    cache_path = pickle_file(path, desc_field)
+    if not cache_path.exists():
+        return None
+    with cache_path.open("rb") as cache_file:
+        cache = pickle.load(cache_file)
+    stat = path.stat()
+    if (
+        cache.get("source_path") != str(path)
+        or cache.get("source_mtime_ns") != stat.st_mtime_ns
+        or cache.get("source_size") != stat.st_size
+        or cache.get("desc_field") != desc_field
+    ):
+        return None
+    return cache["embeddings"], cache["records"]
+
+
+def write_pickle_cache(path: Path, desc_field: str, embeddings: np.ndarray, records: list[dict[str, Any]]) -> None:
+    """Persist parsed embeddings and metadata to avoid reloading JSONL next time."""
+    cache_path = pickle_file(path, desc_field)
+    stat = path.stat()
+    payload = {
+        "source_path": str(path),
+        "source_mtime_ns": stat.st_mtime_ns,
+        "source_size": stat.st_size,
+        "desc_field": desc_field,
+        "embeddings": embeddings,
+        "records": records,
+    }
+    tmp_path = cache_path.with_suffix(cache_path.suffix + ".tmp")
+    with tmp_path.open("wb") as cache_file:
+        pickle.dump(payload, cache_file, protocol=pickle.HIGHEST_PROTOCOL)
+    tmp_path.replace(cache_path)
+
+
+def build_embedding_cache(path: Path, desc_field: str) -> tuple[np.ndarray, list[dict[str, Any]]]:
+    """Parse JSONL embeddings into a normalized NumPy matrix and metadata list."""
+    embedding_field = EMBEDDING_FIELD[desc_field]
+    vectors: list[list[float]] = []
+    records: list[dict[str, Any]] = []
+
+    for record in iter_jsonl(path):
+        embedding = record.get(embedding_field)
+        if not isinstance(embedding, list):
+            continue
+        vectors.append(embedding)
+        records.append(sanitize_record(record, desc_field))
+
+    if not vectors:
+        raise ValueError(f"No embeddings found in {path} for field {embedding_field}")
+    embeddings = normalize_matrix(np.asarray(vectors, dtype=np.float32))
+    write_pickle_cache(path, desc_field, embeddings, records)
+    return embeddings, records
+
+
+def load_embeddings(desc_field: str, rawdata_dir: Path = RAWDATA_DIR) -> tuple[np.ndarray, list[dict[str, Any]]]:
+    """Load normalized embeddings from memory, pickle, or source JSONL."""
+    path = embedding_file(desc_field, rawdata_dir)
+    stat = path.stat()
+    cache_key = (desc_field, f"{path}:{stat.st_mtime_ns}:{stat.st_size}")
+
+    with _CACHE_LOCK:
+        cached = _CACHE.get(cache_key)
+        if cached is not None:
+            return cached
+
+        loaded = load_pickle_cache(path, desc_field)
+        if loaded is None:
+            loaded = build_embedding_cache(path, desc_field)
+        _CACHE.clear()
+        _CACHE[cache_key] = loaded
+        return loaded
 
 
 def nearest_records(
@@ -130,28 +209,25 @@ def nearest_records(
     *,
     rawdata_dir: Path = RAWDATA_DIR,
 ) -> list[dict[str, Any]]:
-    """Stream the relevant rawdata file and return the nearest sanitized records."""
+    """Return nearest sanitized records using NumPy cosine search."""
     if num < 1:
         return []
 
-    path = embedding_file(desc_field, rawdata_dir)
-    embedding_field = EMBEDDING_FIELD[desc_field]
-    heap: list[tuple[float, int, dict[str, Any]]] = []
+    embeddings, records = load_embeddings(desc_field, rawdata_dir)
+    query = normalize_matrix(np.asarray([query_embedding], dtype=np.float32))[0]
+    similarities = embeddings @ query
+    count = min(num, similarities.shape[0])
+    if count == 0:
+        return []
+    candidate_indices = np.argpartition(similarities, -count)[-count:]
+    ranked_indices = candidate_indices[np.argsort(similarities[candidate_indices])[::-1]]
 
-    for line_no, record in enumerate(iter_jsonl(path), start=1):
-        embedding = record.get(embedding_field)
-        if not isinstance(embedding, list):
-            continue
-        similarity = cosine_similarity(query_embedding, embedding)
-        distance = 1.0 - similarity
-        result = sanitize_record(record, desc_field, distance)
-        item = (similarity, line_no, result)
-        if len(heap) < num:
-            heapq.heappush(heap, item)
-        elif similarity > heap[0][0]:
-            heapq.heapreplace(heap, item)
-
-    return [record for _, _, record in sorted(heap, key=lambda item: item[0], reverse=True)]
+    output = []
+    for idx in ranked_indices:
+        record = dict(records[int(idx)])
+        record["distance"] = float(1.0 - similarities[int(idx)])
+        output.append(record)
+    return output
 
 
 def run_similarity_search(

@@ -37,7 +37,7 @@ def callSimilaritySearch (query : String) (descField : String := "docString") (n
   where
     useScript (js: Json) : MetaM <| Except String Json := do
       let cmd ← LeanAide.pythonPath
-      let ss := ("." : FilePath) / "SimilaritySearch" / "similarity_search.py"
+      let ss := ("." : FilePath) / "server" / "openai_similarity_search.py"
       let inp ← IO.Process.output {cmd := cmd, args := #[ss.toString, js.compress]}
       let ⟨err_code,stdout,stderr⟩ := inp
       match err_code with
