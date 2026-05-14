@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ProblemFormalization",
+  "type": "object",
+  "properties": {
+    "givens": { "type": "array", "items": { "type": "string" } },
+    "hypotheses": { "type": "array", "items": { "type": "string" } },
+    "goal": { "type": "string" },
+    "problem_type": { "type": "string" },
+    "definition_dictionary": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "term": { "type": "string" },
+          "definition": { "type": "string" }
+        }
+      }
+    },
+    "intuitive_summary": { "type": "string" }
+  },
+  "required": ["givens", "hypotheses", "goal", "definition_dictionary"]
+}
