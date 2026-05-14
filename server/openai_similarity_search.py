@@ -16,6 +16,7 @@ import argparse
 import json
 import os
 import pickle
+import subprocess
 import sys
 import threading
 from pathlib import Path
@@ -42,6 +43,7 @@ EMBEDDING_FIELD = {
 
 _CACHE_LOCK = threading.Lock()
 _CACHE: dict[tuple[str, str], tuple[np.ndarray, list[dict[str, Any]]]] = {}
+_FETCH_LOCK = threading.Lock()
 
 
 def openai_client() -> OpenAI:
@@ -56,6 +58,14 @@ def embed_query(query: str, client: OpenAI | None = None) -> list[float]:
     return response.data[0].embedding
 
 
+def run_fetch_script() -> None:
+    """Fetch raw embedding files by running the project-level fetch script."""
+    fetch_script = ROOT / "fetch.sh"
+    if not fetch_script.exists():
+        raise FileNotFoundError(f"Fetch script not found: {fetch_script}")
+    subprocess.run(["bash", str(fetch_script)], cwd=ROOT, check=True)
+
+
 def embedding_file(desc_field: str, rawdata_dir: Path = RAWDATA_DIR) -> Path:
     """Return the rawdata embedding file for a Lean similarity-search field."""
     if desc_field == "docString":
@@ -65,6 +75,12 @@ def embedding_file(desc_field: str, rawdata_dir: Path = RAWDATA_DIR) -> Path:
     else:
         raise ValueError(f"Incorrect descField: {desc_field}")
 
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    with _FETCH_LOCK:
+        if not any(candidate.exists() for candidate in candidates):
+            run_fetch_script()
     for candidate in candidates:
         if candidate.exists():
             return candidate

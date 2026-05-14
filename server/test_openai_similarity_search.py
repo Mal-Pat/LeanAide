@@ -7,6 +7,7 @@ from pathlib import Path
 
 from server.openai_similarity_search import (
     _CACHE,
+    embedding_file,
     pickle_file,
     run_similarity_search_payload,
 )
@@ -96,6 +97,29 @@ class OpenAISimilaritySearchTests(unittest.TestCase):
             )
 
         self.assertEqual([record["name"] for record in result], ["second", "first"])
+
+    def test_missing_embedding_file_runs_fetch_script(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            rawdata = Path(tmp) / "rawdata"
+            rawdata.mkdir()
+            expected = rawdata / "mathlib4-prompts-embeddings-small.jsonl"
+            calls = []
+
+            from server import openai_similarity_search
+
+            original = openai_similarity_search.run_fetch_script
+            try:
+                def fake_fetch() -> None:
+                    calls.append("fetch")
+                    write_jsonl(expected, [{"name": "created", "doc": "doc", "embedding": [1.0]}])
+
+                openai_similarity_search.run_fetch_script = fake_fetch
+                found = embedding_file("docString", rawdata)
+            finally:
+                openai_similarity_search.run_fetch_script = original
+
+        self.assertEqual(found, expected)
+        self.assertEqual(calls, ["fetch"])
 
 
 if __name__ == "__main__":
