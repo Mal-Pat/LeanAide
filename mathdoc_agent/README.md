@@ -50,6 +50,18 @@ This writes:
 mathdoc_agent/examples/even_induction_cases.json
 ```
 
+Generate Lean code from the JSON:
+
+```bash
+lake exe codegen mathdoc_agent/examples/even_induction_cases.json
+```
+
+This writes:
+
+```text
+CodeGen/even_induction_cases.lean
+```
+
 For a small corpus covering several proof types:
 
 ```bash
@@ -65,6 +77,34 @@ mathdoc_agent/examples/proof_type_examples/
 
 These examples use fake agents, so they do not require network access or API
 keys.
+
+## Command Line: Source Pipeline
+
+Generate JSON from a source Markdown/text file:
+
+```bash
+PYTHONPYCACHEPREFIX=/private/tmp/leanaide_pycache \
+./venv/bin/python -m mathdoc_agent.pipeline path/to/source.md \
+  -o path/to/output.json
+```
+
+To also generate Lean code from the saved JSON, add `--lean`:
+
+```bash
+PYTHONPYCACHEPREFIX=/private/tmp/leanaide_pycache \
+./venv/bin/python -m mathdoc_agent.pipeline path/to/source.md \
+  -o path/to/output.json \
+  --lean
+```
+
+The `--lean` option runs:
+
+```bash
+lake exe codegen path/to/output.json
+```
+
+It requires `-o/--output`; when JSON is written to stdout there is no JSON file
+for Lean codegen to consume.
 
 ## Python: Fake Agents
 

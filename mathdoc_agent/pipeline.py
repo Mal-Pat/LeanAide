@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+import subprocess
 from pathlib import Path
 from typing import Any
 
@@ -133,8 +134,15 @@ def main() -> None:
         action="store_true",
         help="Skip the final LLM audit that repairs claim fields for Lean codegen.",
     )
+    parser.add_argument(
+        "--lean",
+        action="store_true",
+        help="After writing JSON with -o/--output, run `lake exe codegen <jsonfile>`.",
+    )
     parser.add_argument("--indent", type=int, default=2, help="JSON indentation.")
     args = parser.parse_args()
+    if args.lean and args.output is None:
+        parser.error("--lean requires -o/--output so there is a JSON file for codegen.")
 
     source_text = args.source.read_text(encoding="utf-8")
     json_text = generate_math_document_json_sync(
@@ -150,6 +158,8 @@ def main() -> None:
         print(json_text)
     else:
         args.output.write_text(json_text + "\n", encoding="utf-8")
+        if args.lean:
+            subprocess.run(["lake", "exe", "codegen", str(args.output)], check=True)
 
 
 if __name__ == "__main__":
