@@ -416,6 +416,17 @@ def _simple_proof_data(node: ProofNode) -> dict[str, Any]:
         data = SimpleProofData.model_validate(node.data)
     except Exception:
         data = SimpleProofData()
+    if node.children:
+        return _without_none(
+            {
+                "type": "Proof",
+                "claim_label": _proof_label(node),
+                "proof_steps": _flatten_proof_steps([_proof_node_data(child) for child in node.children]),
+                "id": node.id,
+                "status": node.status.value,
+                "text": node.text,
+            }
+        )
     if data.proof_steps:
         return _without_none(
             {

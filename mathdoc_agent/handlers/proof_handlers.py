@@ -219,6 +219,91 @@ class SimpleProofHandler(ProofRefinementHandler[SimpleProofRefinementSpec]):
     def __init__(self, agent) -> None:
         self.agent = agent
 
+    def _looks_like_calculation(self, text: str) -> bool:
+        return bool(re.search(r"(=|≤|>=|≥|<|>|\\le|\\ge)", text))
+
+    def _is_complex_assertion(self, step: LogicalProofStepData) -> bool:
+        if step.type != "assert_statement":
+            return False
+        claim_words = len((step.claim or "").split())
+        method_words = len((step.proof_method or "").split())
+        return (
+            claim_words > 28
+            or method_words > 28
+            or bool(step.proof_method and len(step.proof_method) > 180)
+        )
+
+    def _source_has_multiple_steps(self, text: str) -> bool:
+        display_count = len(re.findall(r"\\\[.*?\\\]", text, flags=re.DOTALL))
+        sentence_count = len(re.findall(r"(?<=[.!?])\s+", " ".join(text.split())))
+        paragraph_count = len([part for part in re.split(r"\n\s*\n", text) if part.strip()])
+        marker_count = len(
+            re.findall(
+                r"\b(first|next|then|therefore|hence|since|because|using|rewriting|combining|let|fix|assume)\b",
+                text,
+                flags=re.IGNORECASE,
+            )
+        )
+        return display_count + sentence_count + paragraph_count + marker_count >= 4
+
+    def _needs_further_refinement(
+        self,
+        node: ProofNode,
+        proof_steps: list[LogicalProofStepData],
+    ) -> bool:
+        if not self._source_has_multiple_steps(node.text):
+            return False
+        if not proof_steps:
+            return True
+        if len(proof_steps) == 1 and proof_steps[0].type == "assert_statement":
+            return True
+        return any(self._is_complex_assertion(step) for step in proof_steps)
+
+    def _proof_chunks(self, text: str) -> list[tuple[str, ProofKind]]:
+        chunks: list[tuple[str, ProofKind]] = []
+        parts = re.split(r"(\\\[.*?\\\])", text, flags=re.DOTALL)
+        for part in parts:
+            stripped = part.strip()
+            if not stripped:
+                continue
+            display = re.fullmatch(r"\\\[(.*?)\\\]", stripped, flags=re.DOTALL)
+            if display:
+                equation = " ".join(display.group(1).split())
+                kind = ProofKind.calculation if self._looks_like_calculation(equation) else ProofKind.simple
+                chunks.append((equation, kind))
+                continue
+
+            paragraphs = [p.strip() for p in re.split(r"\n\s*\n", stripped) if p.strip()]
+            for paragraph in paragraphs:
+                normalized = " ".join(paragraph.split())
+                sentences = [
+                    sentence.strip()
+                    for sentence in re.split(r"(?<=[.!?])\s+", normalized)
+                    if sentence.strip()
+                ]
+                if len(sentences) > 1:
+                    chunks.extend((sentence, ProofKind.simple) for sentence in sentences)
+                else:
+                    chunks.append((normalized, ProofKind.simple))
+        return chunks
+
+    def _decompose_for_refinement(self, node: ProofNode) -> list[ProofNode]:
+        children: list[ProofNode] = []
+        for index, (text, kind) in enumerate(self._proof_chunks(node.text), start=1):
+            if text == node.text.strip():
+                continue
+            children.append(
+                ProofNode(
+                    id=f"{node.id}.step{index}",
+                    kind=kind,
+                    status=NodeStatus.raw,
+                    text=text,
+                    goal=None if kind == ProofKind.calculation else text,
+                    hypotheses=node.hypotheses,
+                )
+            )
+        return children
+
     def _fallback_proof_steps(self, text: str) -> list[LogicalProofStepData]:
         steps: list[LogicalProofStepData] = []
         pending_method: str | None = None
@@ -285,6 +370,27 @@ class SimpleProofHandler(ProofRefinementHandler[SimpleProofRefinementSpec]):
             SimpleProofRefinementSpec,
         )
         proof_steps = spec.proof_steps or self._fallback_proof_steps(node.text)
+        if self._needs_further_refinement(node, proof_steps):
+            children = self._decompose_for_refinement(node)
+            if len(children) >= 2:
+                data = SimpleProofData(
+                    method=spec.method,
+                    hints=spec.hints,
+                    referenced_lemmas=spec.referenced_lemmas,
+                    referenced_hypotheses=spec.referenced_hypotheses,
+                    deduced_from_claim=spec.deduced_from_claim,
+                    deduced_from_theorem=spec.deduced_from_theorem,
+                )
+                return node.model_copy(
+                    update={
+                        "kind": ProofKind.simple,
+                        "status": NodeStatus.decomposed,
+                        "children": children,
+                        "data": data.model_dump(),
+                        "unresolved_details": node.unresolved_details + spec.unresolved_details,
+                        "notes": node.notes + ["Decomposed coarse assert_statement for further refinement."],
+                    }
+                )
         data = SimpleProofData(
             method=spec.method,
             hints=spec.hints,
@@ -307,6 +413,11 @@ class SimpleProofHandler(ProofRefinementHandler[SimpleProofRefinementSpec]):
 
     def is_resolved(self, node: ProofNode, context: ProofContext) -> bool:
         data = SimpleProofData.model_validate(node.data)
+        if node.children:
+            return all(
+                child.status in {NodeStatus.resolved, NodeStatus.opaque}
+                for child in node.children
+            )
         return bool(
             data.hints
             or data.referenced_lemmas

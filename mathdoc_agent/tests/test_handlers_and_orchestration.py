@@ -13,6 +13,7 @@ from mathdoc_agent.models.payloads import (
     CalcStep,
     InductiveConstructorData,
     LocalClaimData,
+    LogicalProofStepData,
     StructuredProofData,
     StructureFieldData,
 )
@@ -89,6 +90,22 @@ class CasesAgent:
 class SimpleAgent:
     def __call__(self, payload):
         return SimpleProofRefinementSpec(hints=[f"refine {payload['node']['id']}"])
+
+
+class CoarseSimpleAgent:
+    def __call__(self, payload):
+        return SimpleProofRefinementSpec(
+            proof_steps=[
+                LogicalProofStepData(
+                    type="assert_statement",
+                    claim="The whole proof follows from all the preceding reasoning.",
+                    proof_method=(
+                        "This single proof method summarizes several introductions, "
+                        "displayed equations, rewrites, and final conclusions."
+                    ),
+                )
+            ]
+        )
 
 
 class NamedLoggingAgent:
@@ -295,6 +312,41 @@ class HandlerAndOrchestrationTests(unittest.IsolatedAsyncioTestCase):
         self.assertTrue(any(step["type"] == "let_statement" for step in exported["proof_steps"]))
         self.assertTrue(any(step["type"] == "assume_statement" for step in exported["proof_steps"]))
         self.assertTrue(any(step.get("claim") == "ba = ab" for step in exported["proof_steps"]))
+
+    async def test_coarse_assert_statement_is_decomposed_by_orchestration(self) -> None:
+        registry = default_proof_handler_registry(
+            classifier_agent=ClassifierAgent(),
+            induction_agent=InductionAgent(),
+            cases_agent=CasesAgent(),
+            simple_agent=CoarseSimpleAgent(),
+            calculation_agent=CalculationAgent(),
+            structured_agent=StructuredAgent(),
+        )
+        tree = ProofTree(
+            id="p",
+            theorem_statement="a = c",
+            root=ProofNode(
+                id="p.root",
+                kind=ProofKind.simple,
+                status=NodeStatus.classified,
+                goal="a = c",
+                text=(
+                    "Let a be fixed. "
+                    "First, use the hypothesis to get a = b. "
+                    "\\[a = b\\] "
+                    "Next, use the second hypothesis to get b = c. "
+                    "\\[b = c\\] "
+                    "Therefore a = c."
+                ),
+            ),
+        )
+        refined = await refine_proof_tree(tree, registry, max_iterations=20)
+        self.assertEqual(refined.root.status, NodeStatus.resolved)
+        self.assertGreaterEqual(len(refined.root.children), 4)
+        exported = json.loads(to_json(refined))
+        self.assertEqual(exported["type"], "Proof")
+        self.assertGreaterEqual(len(exported["proof_steps"]), 4)
+        self.assertNotEqual(exported["proof_steps"][0].get("claim"), "The whole proof follows from all the preceding reasoning.")
 
     async def test_agent_runner_logs_to_stderr(self) -> None:
         stderr = io.StringIO()
