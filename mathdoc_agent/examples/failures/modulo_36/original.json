@@ -1,0 +1,66 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "thm:cancel_c_mod_mc",
+        "header": "Theorem",
+        "hypothesis": [
+          {
+            "type": "assume_statement",
+            "assumption": "c > 0 and ac is congruent to bc modulo mc."
+          }
+        ],
+        "claim": "If ac is congruent to bc modulo mc and c > 0, then a is congruent to b modulo m.",
+        "proof": [
+          {
+            "type": "assume_statement",
+            "assumption": "c > 0 and ac is congruent to bc modulo mc."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "mc divides ac - bc.",
+            "proof_method": "By the definition of congruence modulo mc applied to the assumption that ac is congruent to bc modulo mc."
+          },
+          {
+            "type": "some_statement",
+            "variable_name": "k",
+            "variable_kind": "integer",
+            "properties": "ac - bc = (a - b)c = kmc",
+            "statement": "There exists an integer k such that ac - bc = (a - b)c = kmc."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "(a - b)c = (km)c.",
+            "proof_method": "This follows from rewriting ac - bc as (a - b)c and using ac - bc = kmc."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "c ≠ 0.",
+            "proof_method": "Since c > 0, c cannot be 0."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "a - b = km.",
+            "proof_method": "Cancel the nonzero factor c from both sides of (a - b)c = (km)c."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "m divides a - b.",
+            "proof_method": "Since a - b = km for some integer k, m divides a - b by definition of divisibility."
+          },
+          {
+            "type": "conclude_statement",
+            "claim": "a is congruent to b modulo m.",
+            "results_used": [
+              {
+                "statement": "By definition of congruence modulo m, m divides a - b if and only if a is congruent to b modulo m."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

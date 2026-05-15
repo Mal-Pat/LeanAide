@@ -1,0 +1,26 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "source.root.thm",
+        "header": "Theorem",
+        "claim": "If $ac$ is congruent to $bc$ modulo $mc$ and $c>0$, then $a$ is congruent to $b$ modulo $m$.",
+        "proof": {
+          "type": "Proof",
+          "proof_steps": [
+            {
+              "type": "assert_statement",
+              "claim": "If $ac$ is congruent to $bc$ modulo $mc$ and $c>0$, then $a$ is congruent to $b$ modulo $m$."
+            }
+          ],
+          "id": "source.root.thm.proof.root",
+          "status": "classified"
+        },
+        "id": "source.root.thm",
+        "status": "decomposed"
+      }
+    ]
+  }
+}

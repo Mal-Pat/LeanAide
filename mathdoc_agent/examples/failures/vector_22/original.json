@@ -1,0 +1,173 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "header": "Theorem",
+        "label": "thm:projection_shift_invertible",
+        "hypothesis": [
+          {
+            "type": "let_statement",
+            "variable_name": "V",
+            "variable_type": "finite-dimensional vector space",
+            "statement": "Assume that V is a finite-dimensional vector space."
+          },
+          {
+            "type": "let_statement",
+            "variable_name": "T",
+            "variable_type": "linear map T : V → V",
+            "properties": "T^2 = T",
+            "statement": "Assume that T : V → V is a linear map satisfying T^2 = T."
+          },
+          {
+            "type": "let_statement",
+            "variable_name": "λ",
+            "variable_type": "scalar",
+            "properties": "λ ≠ 0 and λ ≠ 1",
+            "statement": "Let λ be a scalar with λ ≠ 0 and λ ≠ 1."
+          },
+          {
+            "type": "let_statement",
+            "variable_name": "S",
+            "variable_type": "linear map S : V → V",
+            "value": "T - λ I",
+            "statement": "Define S = T - λ I, where I : V → V is the identity map."
+          }
+        ],
+        "claim": "The linear map S = T - λ I is invertible.",
+        "proof": [
+          {
+            "type": "assert_statement",
+            "claim": "For every v ∈ V we have T(T(v)) = T(v), and in particular for every v in im(T) we have T(v) = v.",
+            "proof_method": "direct computation from T^2 = T",
+            "results_used": [
+              {
+                "statement": "T^2 = T"
+              }
+            ]
+          },
+          {
+            "type": "assert_statement",
+            "claim": "For every v ∈ V, if v ∈ im(T) then T(v) = v.",
+            "proof_method": "apply T to v = T(u) for some u ∈ V and use T^2 = T",
+            "results_used": [
+              {
+                "statement": "If v = T(u) for some u ∈ V, then T(v) = T(T(u)) = T(u) = v, so T acts as the identity on im(T)."
+              }
+            ]
+          },
+          {
+            "type": "assert_statement",
+            "claim": "For every v ∈ V, the vector w := v - T(v) lies in ker(T).",
+            "proof_method": "direct computation",
+            "results_used": [
+              {
+                "statement": "T(w) = T(v - T(v)) = T(v) - T(T(v)) = T(v) - T(v) = 0, hence w ∈ ker(T)."
+              }
+            ]
+          },
+          {
+            "type": "assert_statement",
+            "claim": "Every v ∈ V can be written as v = w + T(v) with w ∈ ker(T) and T(v) ∈ im(T), so V = ker(T) + im(T).",
+            "proof_method": "use the decomposition v = (v - T(v)) + T(v)",
+            "results_used": [
+              {
+                "statement": "For each v ∈ V, w = v - T(v) ∈ ker(T) and T(v) ∈ im(T), so v is a sum of an element of ker(T) and an element of im(T)."
+              }
+            ]
+          },
+          {
+            "type": "assert_statement",
+            "claim": "ker(T) ∩ im(T) = {0}.",
+            "proof_method": "direct argument using T(v) = 0 and T(v) = v",
+            "results_used": [
+              {
+                "statement": "If v ∈ ker(T) ∩ im(T), then T(v) = 0 since v ∈ ker(T), and T(v) = v since v ∈ im(T); hence v = 0."
+              }
+            ]
+          },
+          {
+            "type": "assert_statement",
+            "claim": "V = ker(T) ⊕ im(T).",
+            "proof_method": "show the sum is direct and equals V",
+            "results_used": [
+              {
+                "statement": "V = ker(T) + im(T) and ker(T) ∩ im(T) = {0} together imply V = ker(T) ⊕ im(T)."
+              }
+            ]
+          },
+          {
+            "type": "assert_statement",
+            "claim": "For every v ∈ ker(T), S(v) = -λ v, so S acts on ker(T) as multiplication by the scalar -λ.",
+            "proof_method": "direct computation",
+            "results_used": [
+              {
+                "statement": "If v ∈ ker(T), then T(v) = 0, so S(v) = (T - λ I)(v) = T(v) - λ v = -λ v."
+              }
+            ]
+          },
+          {
+            "type": "assert_statement",
+            "claim": "The restriction of S to ker(T) is an invertible linear map from ker(T) to itself.",
+            "proof_method": "scalar multiplication by a nonzero scalar is invertible",
+            "results_used": [
+              {
+                "statement": "Since λ ≠ 0, the scalar -λ is invertible, so the map v ↦ -λ v on ker(T) is invertible."
+              }
+            ]
+          },
+          {
+            "type": "assert_statement",
+            "claim": "For every v ∈ im(T), S(v) = (1 - λ) v, so S acts on im(T) as multiplication by the scalar 1 - λ.",
+            "proof_method": "direct computation using T(v) = v on im(T)",
+            "results_used": [
+              {
+                "statement": "If v ∈ im(T), then T(v) = v, so S(v) = (T - λ I)(v) = T(v) - λ v = v - λ v = (1 - λ) v."
+              }
+            ]
+          },
+          {
+            "type": "assert_statement",
+            "claim": "The restriction of S to im(T) is an invertible linear map from im(T) to itself.",
+            "proof_method": "scalar multiplication by a nonzero scalar is invertible",
+            "results_used": [
+              {
+                "statement": "Since λ ≠ 1, the scalar 1 - λ is invertible, so the map v ↦ (1 - λ) v on im(T) is invertible."
+              }
+            ]
+          },
+          {
+            "type": "assert_statement",
+            "claim": "With respect to the direct sum decomposition V = ker(T) ⊕ im(T), the map S is block-diagonal with diagonal blocks -λ · id_{ker(T)} on ker(T) and (1 - λ) · id_{im(T)} on im(T).",
+            "proof_method": "use the decomposition v = x + y with x ∈ ker(T), y ∈ im(T) and linearity of S",
+            "results_used": [
+              {
+                "statement": "For v = x + y with x ∈ ker(T), y ∈ im(T), we have S(v) = S(x) + S(y) = -λ x + (1 - λ) y."
+              }
+            ]
+          },
+          {
+            "type": "assert_statement",
+            "claim": "There exists a linear map R : V → V such that R is both a left and right inverse of S.",
+            "proof_method": "define R on the direct sum decomposition and verify SR = RS = id_V",
+            "results_used": [
+              {
+                "statement": "For v = x + y with x ∈ ker(T), y ∈ im(T), define R(v) = -1/λ x + 1/(1 - λ) y; then S(R(v)) = v and R(S(v)) = v."
+              }
+            ]
+          },
+          {
+            "type": "conclude_statement",
+            "claim": "S is invertible as a linear map V → V.",
+            "results_used": [
+              {
+                "statement": "A linear map with a two-sided inverse is invertible."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
