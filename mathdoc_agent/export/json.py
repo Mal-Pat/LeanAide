@@ -461,6 +461,7 @@ def _structured_data(node: ProofNode) -> StructuredProofData:
 def _proof_node_data(node: ProofNode) -> Any:
     kind = kind_key(node.kind)
     if kind in {
+        ProofKind.logical_sequence.value,
         ProofKind.simple.value,
         ProofKind.theorem_application.value,
         ProofKind.definition_unfolding.value,

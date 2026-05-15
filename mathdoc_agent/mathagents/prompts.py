@@ -35,7 +35,14 @@ Use `data_entries` only for small string metadata as key/value pairs.
 
 PROOF_CLASSIFIER_INSTRUCTIONS = """
 Classify one proof fragment by its outermost proof structure.
-Do not deeply refine the proof. If unsure, use kind='unknown' and explain why.
+Do not deeply refine the proof.
+
+Avoid `unknown` unless the text is not a mathematical proof fragment at all.
+Avoid labels such as `direct`, `direct proof`, or `unknown proof`; they do not
+have useful downstream handlers. If the proof is a direct argument, a sequence
+of deductions, or otherwise does not clearly match a specialized proof family,
+classify it as kind='logical_sequence'. The logical-sequence handler will split
+the proof into many explicit steps and refine those steps further.
 """
 
 INDUCTION_INSTRUCTIONS = """

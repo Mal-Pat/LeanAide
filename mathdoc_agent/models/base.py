@@ -37,6 +37,7 @@ class DocumentKind(str, Enum):
 
 class ProofKind(str, Enum):
     unknown = "unknown"
+    logical_sequence = "logical_sequence"
     simple = "simple"
     calculation = "calculation"
     cases = "cases"

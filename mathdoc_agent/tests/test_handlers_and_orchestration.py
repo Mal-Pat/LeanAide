@@ -52,6 +52,16 @@ class ClassifierAgent:
         return {"kind": "simple", "confidence": 0.9}
 
 
+class DirectProofClassifierAgent:
+    def __call__(self, payload):
+        return {"kind": "direct proof", "confidence": 0.8}
+
+
+class UnknownProofClassifierAgent:
+    def __call__(self, payload):
+        return {"kind": "unknown", "confidence": 0.4}
+
+
 class InductionAgent:
     def __call__(self, payload):
         text = payload["node"]["text"]
@@ -315,6 +325,68 @@ class HandlerAndOrchestrationTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual([child.id for child in refined.root.children], ["iff.root.forward", "iff.root.reverse"])
         self.assertTrue(all(child.status == NodeStatus.resolved for child in refined.root.children))
 
+    async def test_direct_classifier_output_routes_to_logical_sequence(self) -> None:
+        registry = default_proof_handler_registry(
+            classifier_agent=DirectProofClassifierAgent(),
+            induction_agent=InductionAgent(),
+            cases_agent=CasesAgent(),
+            simple_agent=SimpleAgent(),
+            calculation_agent=CalculationAgent(),
+            structured_agent=StructuredAgent(),
+        )
+        tree = ProofTree(
+            id="direct",
+            theorem_statement="P",
+            root=ProofNode(
+                id="direct.root",
+                kind=ProofKind.unknown,
+                status=NodeStatus.raw,
+                text="A direct proof with several deductions.",
+            ),
+        )
+        stderr = io.StringIO()
+        with redirect_stderr(stderr):
+            refined = await refine_proof_tree(tree, registry, max_iterations=5)
+
+        self.assertEqual(refined.root.kind, ProofKind.logical_sequence.value)
+        self.assertEqual(refined.root.status, NodeStatus.resolved)
+        logs = stderr.getvalue()
+        self.assertIn("proof classification node=direct.root", logs)
+        self.assertIn("raw='direct proof'", logs)
+        self.assertIn("normalized='logical_sequence'", logs)
+
+    async def test_unknown_classifier_output_routes_to_logical_sequence(self) -> None:
+        registry = default_proof_handler_registry(
+            classifier_agent=UnknownProofClassifierAgent(),
+            induction_agent=InductionAgent(),
+            cases_agent=CasesAgent(),
+            simple_agent=SimpleAgent(),
+            calculation_agent=CalculationAgent(),
+            structured_agent=StructuredAgent(),
+        )
+        tree = ProofTree(
+            id="unknown",
+            theorem_statement="P",
+            root=ProofNode(
+                id="unknown.root",
+                kind=ProofKind.unknown,
+                status=NodeStatus.raw,
+                text="A proof whose specialized structure is unclear but has deductions.",
+            ),
+        )
+        refined = await refine_proof_tree(tree, registry, max_iterations=5)
+        self.assertEqual(refined.root.kind, ProofKind.logical_sequence.value)
+        self.assertEqual(refined.root.status, NodeStatus.resolved)
+        self.assertNotEqual(refined.root.kind, ProofKind.opaque)
+
+    def test_unsupported_handler_fallback_logs_to_stderr(self) -> None:
+        registry = proof_registry()
+        stderr = io.StringIO()
+        with redirect_stderr(stderr):
+            handler = registry.get("direct proof")
+        self.assertEqual(handler.kind, ProofKind.unknown.value)
+        self.assertIn("unsupported proof handler kind='direct proof'", stderr.getvalue())
+
     async def test_simple_proof_preserves_intermediate_steps(self) -> None:
         tree = ProofTree(
             id="group",
@@ -423,6 +495,7 @@ class HandlerAndOrchestrationTests(unittest.IsolatedAsyncioTestCase):
         registry = proof_registry()
         for kind in (
             ProofKind.contradiction,
+            ProofKind.logical_sequence,
             ProofKind.contrapositive,
             ProofKind.existence,
             ProofKind.uniqueness,

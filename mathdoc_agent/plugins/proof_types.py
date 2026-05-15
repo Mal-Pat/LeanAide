@@ -6,6 +6,7 @@ from mathdoc_agent.handlers.proof_handlers import (
     CasesHandler,
     InductionHandler,
     LocalClaimHandler,
+    LogicalSequenceHandler,
     OpaqueProofHandler,
     SimpleProofHandler,
     StructuredProofHandler,
@@ -28,6 +29,7 @@ def default_proof_handler_registry(
     registry = ProofHandlerRegistry()
     registry.register(ProofKind.unknown.value, UnknownProofHandler(classifier_agent))
     registry.register(ProofKind.opaque.value, OpaqueProofHandler())
+    registry.register(ProofKind.logical_sequence.value, LogicalSequenceHandler(simple_agent))
     registry.register(ProofKind.induction.value, InductionHandler(induction_agent))
     registry.register(ProofKind.cases.value, CasesHandler(cases_agent))
     registry.register(ProofKind.simple.value, SimpleProofHandler(simple_agent))

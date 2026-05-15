@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import sys
+
 from mathdoc_agent.models.base import NodeStatus, ProofKind
 from mathdoc_agent.models.proof import ProofNode, ProofTree
 from mathdoc_agent.orchestration.context import build_proof_context
@@ -38,9 +40,21 @@ async def refine_one_proof_node(
         candidate = await handler.refine(node, context)
         report = handler.validate(candidate, context)
     except Exception as exc:
+        print(
+            f"[mathdoc_agent] proof handler error node={node.id} kind={kind_key(node.kind)!r}: {exc}",
+            file=sys.stderr,
+            flush=True,
+        )
         candidate = mark_opaque(node, f"Marked opaque after handler exception: {exc}")
     else:
         if not report.ok:
+            print(
+                "[mathdoc_agent] proof validation error "
+                f"node={node.id} kind={kind_key(node.kind)!r}: "
+                + "; ".join(issue.message for issue in report.issues),
+                file=sys.stderr,
+                flush=True,
+            )
             candidate = mark_opaque(
                 node,
                 "Marked opaque after failed validation: "

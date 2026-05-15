@@ -31,6 +31,7 @@ class ProofNode(BaseModel):
         kind = self.kind.value if hasattr(self.kind, "value") else str(self.kind)
         return {
             ProofKind.unknown.value: "Proof",
+            ProofKind.logical_sequence.value: "Proof",
             ProofKind.simple.value: "assert_statement",
             ProofKind.calculation.value: "calculation",
             ProofKind.cases.value: "multi-condition_cases_proof",

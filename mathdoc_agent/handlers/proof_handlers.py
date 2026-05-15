@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+import sys
 from typing import Union
 
 from pydantic import BaseModel, Field
@@ -47,6 +48,33 @@ class UnknownProofHandler(ProofRefinementHandler[ClassificationSpec]):
     def __init__(self, agent) -> None:
         self.agent = agent
 
+    def _normalized_kind(self, kind: ProofKind | str) -> ProofKind | str:
+        key = kind_key(kind).strip().lower().replace("-", "_").replace(" ", "_")
+        aliases = {
+            "direct": ProofKind.logical_sequence.value,
+            "direct_proof": ProofKind.logical_sequence.value,
+            "simple_direct_proof": ProofKind.logical_sequence.value,
+            "logical_step_sequence": ProofKind.logical_sequence.value,
+            "logical_proof_sequence": ProofKind.logical_sequence.value,
+            "logical_sequence": ProofKind.logical_sequence.value,
+            "unknown": ProofKind.logical_sequence.value,
+            "unknown_proof": ProofKind.logical_sequence.value,
+        }
+        normalized = aliases.get(key, key)
+        try:
+            return ProofKind(normalized)
+        except ValueError:
+            return normalized
+
+    def _log_classification(self, node: ProofNode, original: ProofKind | str, normalized: ProofKind | str, confidence: float) -> None:
+        print(
+            "[mathdoc_agent] proof classification "
+            f"node={node.id} raw={kind_key(original)!r} normalized={kind_key(normalized)!r} "
+            f"confidence={confidence:.2f}",
+            file=sys.stderr,
+            flush=True,
+        )
+
     async def refine(self, node: ProofNode, context: ProofContext) -> ProofNode:
         spec = await run_agent_typed(
             self.agent,
@@ -57,18 +85,11 @@ class UnknownProofHandler(ProofRefinementHandler[ClassificationSpec]):
             },
             ClassificationSpec,
         )
-        if kind_key(spec.kind) == ProofKind.unknown.value:
-            return node.model_copy(
-                update={
-                    "kind": ProofKind.opaque,
-                    "status": NodeStatus.opaque,
-                    "confidence": spec.confidence,
-                    "notes": node.notes + spec.notes + ["Classifier could not identify proof structure."],
-                }
-            )
+        normalized_kind = self._normalized_kind(spec.kind)
+        self._log_classification(node, spec.kind, normalized_kind, spec.confidence)
         return node.model_copy(
             update={
-                "kind": spec.kind,
+                "kind": normalized_kind,
                 "status": NodeStatus.classified,
                 "confidence": spec.confidence,
                 "notes": node.notes + spec.notes,
@@ -383,7 +404,7 @@ class SimpleProofHandler(ProofRefinementHandler[SimpleProofRefinementSpec]):
                 )
                 return node.model_copy(
                     update={
-                        "kind": ProofKind.simple,
+                        "kind": self.kind,
                         "status": NodeStatus.decomposed,
                         "children": children,
                         "data": data.model_dump(),
@@ -404,7 +425,7 @@ class SimpleProofHandler(ProofRefinementHandler[SimpleProofRefinementSpec]):
         status = NodeStatus.resolved if (data.hints or data.referenced_lemmas or data.referenced_hypotheses or data.proof_steps or unresolved) else NodeStatus.locally_refined
         return node.model_copy(
             update={
-                "kind": ProofKind.simple,
+                "kind": self.kind,
                 "status": status,
                 "data": data.model_dump(),
                 "unresolved_details": unresolved,
@@ -425,6 +446,12 @@ class SimpleProofHandler(ProofRefinementHandler[SimpleProofRefinementSpec]):
             or data.proof_steps
             or node.unresolved_details
         )
+
+
+class LogicalSequenceHandler(SimpleProofHandler):
+    """Refine a broad direct proof as an explicit sequence of logical steps."""
+
+    kind = ProofKind.logical_sequence.value
 
 
 class CalculationHandler(ProofRefinementHandler[CalculationRefinementSpec]):

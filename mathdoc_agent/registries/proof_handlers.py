@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import sys
+
 from mathdoc_agent.handlers.base import ProofRefinementHandler
 
 
@@ -15,7 +17,17 @@ class ProofHandlerRegistry:
         if key in self._handlers:
             return self._handlers[key]
         if "unknown" not in self._handlers:
+            print(
+                f"[mathdoc_agent] unsupported proof handler kind={key!r}; no unknown fallback registered",
+                file=sys.stderr,
+                flush=True,
+            )
             raise KeyError("No proof handler registered for kind and no unknown fallback exists.")
+        print(
+            f"[mathdoc_agent] unsupported proof handler kind={key!r}; using unknown fallback",
+            file=sys.stderr,
+            flush=True,
+        )
         return self._handlers["unknown"]
 
     def kinds(self) -> list[str]:

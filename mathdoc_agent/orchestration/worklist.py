@@ -81,6 +81,7 @@ def proof_node_priority(node: ProofNode) -> tuple[int, int, int]:
         ProofKind.existence.value: 2,
         ProofKind.uniqueness.value: 2,
         ProofKind.calculation.value: 3,
+        ProofKind.logical_sequence.value: 4,
         ProofKind.simple.value: 4,
     }.get(kind_key(node.kind), 9)
     return (status_rank, kind_rank, -len(node.text))

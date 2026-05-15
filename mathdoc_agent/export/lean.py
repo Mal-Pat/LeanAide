@@ -16,7 +16,7 @@ def render_proof_skeleton(node: ProofNode, indent: int = 1) -> list[str]:
             lines.append(f"{pad}-- induction on {data.variable}")
         except Exception:
             pass
-    if kind == ProofKind.simple.value:
+    if kind in {ProofKind.logical_sequence.value, ProofKind.simple.value}:
         try:
             data = SimpleProofData.model_validate(node.data)
             for hint in data.hints:
