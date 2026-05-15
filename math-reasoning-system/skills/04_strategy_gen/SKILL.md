@@ -1,6 +1,8 @@
 # Skill: Strategy Generation (Dispatcher)
 
-**Goal:** Formulate concrete, step-by-step plans by selecting and applying appropriate mathematical techniques.
+**Goal:** Formulate concrete, step-by-step proof plans by selecting and applying appropriate mathematical techniques.
+
+**Scope:** Use this skill for `PROBLEM_SOLVING`. For `EXPLORATORY_RESEARCH`, use `skills/09_exploratory_probe/SKILL.md` unless a precise theorem has already been selected as the current target.
 
 **Instructions:**
 1. **Analyze Formalization:** Review `artifacts/01_problem_formalization.md`.

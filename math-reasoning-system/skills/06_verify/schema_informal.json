@@ -16,7 +16,11 @@
         "required": ["potential_flaw", "severity"]
       }
     },
-    "sanity_check_passed": { "type": "boolean" }
+    "sanity_check_passed": { "type": "boolean" },
+    "research_status": {
+      "type": "string",
+      "enum": ["supported", "refuted", "needs_hypotheses", "open"]
+    }
   },
   "required": ["is_sound", "sanity_check_passed"]
 }

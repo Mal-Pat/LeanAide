@@ -6,7 +6,11 @@
     "structural_mapping": { "type": "string" },
     "hypothesis_stress_testing": { "type": "string" },
     "generalization": { "type": "string" },
-    "aha_moment": { "type": "string" }
+    "aha_moment": { "type": "string" },
+    "research_leads": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
   },
   "required": ["structural_mapping", "hypothesis_stress_testing", "generalization", "aha_moment"]
 }

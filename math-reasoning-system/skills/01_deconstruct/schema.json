@@ -7,6 +7,14 @@
     "hypotheses": { "type": "array", "items": { "type": "string" } },
     "goal": { "type": "string" },
     "problem_type": { "type": "string" },
+    "objective_type": {
+      "type": "string",
+      "enum": ["well_stated_problem", "research_seed", "extension_request", "ambiguous"]
+    },
+    "question_seeds": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
     "definition_dictionary": {
       "type": "array",
       "items": {
