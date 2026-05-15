@@ -12,7 +12,8 @@
    - `analogy`: compare with a nearby theorem or field;
    - `source_check`: look for known results or named techniques.
 3. **Make the Probe Concrete:** Specify objects, parameters, computations, lemmas, or sources to inspect.
-4. **Record Evidence:** Write what the probe supports, refutes, or leaves undecided.
-5. **Update Trace:** Append results to `artifacts/04_research_trace.md`.
+4. **Construct Examples:** For `example_search` and `counterexample_search`, run or follow `skills/12_example_counterexample/SKILL.md`; record explicit objects, not just sketches.
+5. **Record Evidence:** Write what the probe supports, refutes, or leaves undecided.
+6. **Update Trace:** Append results to `artifacts/04_research_trace.md`.
 
 **Output:** Save an exploration plan to `artifacts/03_exploration_plan.md` or a probe result to `artifacts/04_research_trace.md`. If structured output is requested, use `schema.json`.

@@ -8,9 +8,11 @@
    - Is there a precise claim with fixed hypotheses and a fixed goal?
    - Is the request instead to extend, generalize, formulate questions, or look for conjectures?
    - Does it invoke advanced, highly specific machinery requiring source study?
+   - Are there obvious small, degenerate, or boundary examples that could immediately refute or clarify the statement?
 3. **Decision:** 
    - Return `DIRECT_PROOF` if the hypotheses and goal use standard definitions that can be manipulated directly.
    - Return `SOURCE_STUDY` if the problem requires adapting a complex known theorem. Suggest keywords or specific papers to search.
    - Return `EXPLORATORY_RESEARCH` if there is no fixed theorem to prove, or the user asks for extensions, questions, conjectures, examples, or research directions.
+4. **Auxiliary Example Check:** If the statement's truth is uncertain, hypotheses seem sharp, or definitions are ambiguous, request `skills/12_example_counterexample/SKILL.md` before strategy generation. This is an auxiliary action, not a separate terminal triage decision.
 
 **Regression Rule:** If the input is a normal theorem/exercise with an explicit goal, do not route to exploratory research merely because generalizations might be interesting.

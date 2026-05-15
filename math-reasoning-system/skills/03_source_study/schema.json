@@ -10,6 +10,10 @@
     "research_leads": {
       "type": "array",
       "items": { "type": "string" }
+    },
+    "examples_and_counterexamples": {
+      "type": "array",
+      "items": { "type": "string" }
     }
   },
   "required": ["structural_mapping", "hypothesis_stress_testing", "generalization", "aha_moment"]

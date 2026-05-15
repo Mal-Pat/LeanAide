@@ -18,6 +18,11 @@ Before starting, specify your modes:
 - `EXPLORATORY_RESEARCH`: Extend results, formulate questions, generate conjectures, and map promising directions.
 - `AUTO`: Use problem solving when a precise target theorem is present; otherwise use exploratory research.
 
+In all modes, the system may construct examples and counterexamples to clarify
+definitions, test sharpness, or refute candidate statements. For fixed theorem
+proving, examples are diagnostic only and never replace proof or Lean/formal
+verification.
+
 ## Quick Start
 1. Open your agentic CLI in this directory.
 2. Provide the problem and set the modes.

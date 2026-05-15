@@ -30,6 +30,10 @@
         "required": ["changed_hypothesis", "result"]
       }
     },
+    "explicit_counterexamples": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
     "classification": {
       "type": "string",
       "enum": ["plausible", "refuted", "needs_extra_hypotheses", "known_or_near_known", "open"]

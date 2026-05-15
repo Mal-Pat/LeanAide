@@ -23,6 +23,14 @@
             "type": "array",
             "items": { "type": "string" }
           },
+          "example_families": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "counterexample_families": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
           "status": {
             "type": "string",
             "enum": ["question", "conjecture_candidate", "known_result_candidate"]

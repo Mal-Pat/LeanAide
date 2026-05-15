@@ -19,6 +19,8 @@ Follow these phases strictly. Generate artifacts in `artifacts/` at each milesto
 **Phase 1: Formalization & Triage**
 - Run `skills/01_deconstruct/SKILL.md`. Save to `artifacts/01_problem_formalization.md`.
 - Run `skills/02_inspect_triage/SKILL.md`.
+  - If definitions are unfamiliar, hypotheses look sharp, or the statement may be false, run `skills/12_example_counterexample/SKILL.md`. Save to `artifacts/02_examples.md`.
+  - In `PROBLEM_SOLVING`, example generation is a sanity check only; it must not replace a proof.
   - If `Source Study`: Run `skills/03_source_study/SKILL.md`. Save to `artifacts/02_literature_review.md`.
   - If `Direct Proof`: Proceed.
   - If `Exploratory Research`: Run `skills/08_question_formulation/SKILL.md`. Save to `artifacts/02_research_questions.md`.
@@ -27,19 +29,22 @@ Follow these phases strictly. Generate artifacts in `artifacts/` at each milesto
 **Phase 2: Strategy**
 - For `PROBLEM_SOLVING`: Run `skills/04_strategy_gen/SKILL.md`. Save to `artifacts/03_strategy_plans.md`.
 - Classify steps as `easy`, `standard`, or `hard`.
+- Use `artifacts/02_examples.md`, if present, to eliminate false plans and identify likely sharp hypotheses.
 - For `EXPLORATORY_RESEARCH`: Run `skills/09_exploratory_probe/SKILL.md`. Save to `artifacts/03_exploration_plan.md`.
   - Classify probes as `low_cost`, `medium_cost`, or `high_cost`.
   - Mark each probe as `example_search`, `counterexample_search`, `generalization`, `specialization`, `analogy`, or `source_check`.
+  - Use `skills/12_example_counterexample/SKILL.md` for concrete example and counterexample probes.
 
 **Phase 3: Execution Engine**
 - In `PROBLEM_SOLVING`, select a proof plan and loop:
   1. **Execute:** Run `skills/05_execute_step/SKILL.md`.
      - *Recursion:* If step is 'hard', pause and restart this loop on the sub-lemma.
+     - If a new lemma or subclaim looks doubtful, run `skills/12_example_counterexample/SKILL.md` before investing in a long proof.
   2. **Verify:** Run `skills/06_verify/SKILL.md` using the active Verification Mode.
   3. **Assess:** Run `skills/07_metacognition/SKILL.md`. 
   - Update `artifacts/04_execution_trace.md`.
 - In `EXPLORATORY_RESEARCH`, select an exploration plan and loop:
-  1. **Probe:** Run `skills/09_exploratory_probe/SKILL.md` for the next concrete probe.
+  1. **Probe:** Run `skills/09_exploratory_probe/SKILL.md` for the next concrete probe; for example or counterexample construction, run `skills/12_example_counterexample/SKILL.md`.
   2. **Stress-Test:** Run `skills/10_conjecture_stress_test/SKILL.md` on any emerging conjecture or candidate extension.
   3. **Assess:** Run `skills/07_metacognition/SKILL.md` in research mode.
   - Update `artifacts/04_research_trace.md`.

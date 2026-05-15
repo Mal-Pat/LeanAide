@@ -10,8 +10,9 @@
    - refuted candidates;
    - open questions;
    - examples and counterexamples.
-3. **State Candidate Theorems:** For each surviving conjecture, write a precise theorem-style statement and list missing proof obligations.
-4. **Prioritize Next Work:** Recommend 3-5 next probes or proof attempts.
-5. **Avoid Overclaiming:** Do not present conjectural claims as established results.
+3. **Example Ledger:** Include a table of representative examples, counterexamples, boundary cases, and which hypotheses they test.
+4. **State Candidate Theorems:** For each surviving conjecture, write a precise theorem-style statement and list missing proof obligations.
+5. **Prioritize Next Work:** Recommend 3-5 next probes or proof attempts.
+6. **Avoid Overclaiming:** Do not present conjectural claims as established results.
 
 **Output:** Save to `artifacts/05_research_brief.md`. If structured output is requested, use `schema.json`.

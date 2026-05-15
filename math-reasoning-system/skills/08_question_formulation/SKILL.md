@@ -14,7 +14,8 @@
    - motivation;
    - expected difficulty;
    - first probes to try.
-4. **Rank:** Choose 2-3 primary questions by balancing plausibility, novelty, tractability, and relevance to the user's prompt.
-5. **Guardrails:** Mark speculative claims as questions or conjectures, not theorems.
+4. **Generate Test Objects:** For each primary question candidate, list representative examples and likely counterexample families to examine.
+5. **Rank:** Choose 2-3 primary questions by balancing plausibility, novelty, tractability, and relevance to the user's prompt.
+6. **Guardrails:** Mark speculative claims as questions or conjectures, not theorems.
 
 **Output:** Save to `artifacts/02_research_questions.md`. If structured output is requested, use `schema.json`.

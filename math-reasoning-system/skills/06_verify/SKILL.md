@@ -2,7 +2,7 @@
 
 ## Path A: INFORMAL_ONLY
 - **The Skeptic's Hat:** Act as a critical peer reviewer. Find gaps in topological/algebraic assumptions.
-- **Counter-examples:** Test result against edge cases.
+- **Counter-examples:** Test result against edge cases and any examples in `artifacts/02_examples.md`. If a plausible counterexample is found, run or request `skills/12_example_counterexample/SKILL.md` to make it explicit.
 - **Research Mode:** If checking a conjecture or proposed extension, label it as `supported`, `refuted`, `needs_hypotheses`, or `open`; do not upgrade it to a theorem without proof.
 - Use `schema_informal.json`.
 

@@ -20,6 +20,13 @@
     "research_status": {
       "type": "string",
       "enum": ["supported", "refuted", "needs_hypotheses", "open"]
+    },
+    "examples_checked": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "counterexample_candidate": {
+      "type": "string"
     }
   },
   "required": ["is_sound", "sanity_check_passed"]

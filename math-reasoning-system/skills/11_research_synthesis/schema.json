@@ -34,6 +34,21 @@
       "type": "array",
       "items": { "type": "string" }
     },
+    "example_ledger": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "example": { "type": "string" },
+          "role": {
+            "type": "string",
+            "enum": ["supporting_example", "counterexample", "boundary_case", "sharpness_example", "inconclusive_test"]
+          },
+          "lesson": { "type": "string" }
+        },
+        "required": ["example", "role", "lesson"]
+      }
+    },
     "open_questions": {
       "type": "array",
       "items": { "type": "string" }
