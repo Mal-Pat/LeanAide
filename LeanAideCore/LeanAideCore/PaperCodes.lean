@@ -1,6 +1,5 @@
 import LeanAideCore.CodegenCore
 import LeanAideCore.Translate
--- import LeanAide.StructToLean
 /-!
 # Code generation for LeanAide "PaperStructure" schema
 
@@ -157,29 +156,6 @@ def recallTheoremsAux : List DefData → TranslateM (Array Syntax.Tactic)
 def recallTheorems : TranslateM <| Array Syntax.Tactic := do
   recallTheoremsAux (← getDefs).toList
 
-/-
-"ResultUsed": {
-  "type": "object",
-  "properties": {
-    "statement": {
-      "type": "string",
-      "description": "The statement of the result used."
-    },
-    "target_identifier": {
-      "type": "string",
-      "description": "(OPTIONAL) The unique 'label' of the document element being referenced (e.g., 'sec:intro', 'thm:main', 'fig:,diagram')."
-    },
-    "mathlib_identifier": {
-      "type": "string",
-      "description": "(OPTIONAL) The name of the result being used in Lean Prover or its library Mathlib)."
-    }
-  },
-  "required": [
-    "statement"
-  ],
-  "additionalProperties": false
-},
--/
 /--
 Extract the `ResultUsed` from the JSON object. It tries to find either a `target_identifier` or a `mathlib_identifier`. If both are missing, it translates the `statement` to a proposition and returns it as a term. If `mathlib_identifier` is present, it returns an identifier for it. If `target_identifier` is present, it looks for the theorem with that identifier and returns its name.
 -/
@@ -228,7 +204,7 @@ def getProof (translator: CodeGenerator)(goal: MVarId) (js: Json) : TranslateM (
   | .ok "assert_statement" => getCodeTactics translator goal [js]
   | _ => getCode translator (some goal) ``tacticSeq js
 
-/-
+/--
 Generic parser for Lean code. We write an object with a single key value of the form:
 `{"lean": "<lean code>"}`
 -/
@@ -317,73 +293,6 @@ A bunch of cases that do not generate any code. This is used to mark elements th
 @[codegen "title","abstract", "remark", "metadata", "author", "bibliography", "citation", "internalreference", "paragraph", "figure", "table", "image"]
 def noGenCode := noCode
 
-/- Section
-{
-  "type": "object",
-  "description": "A section of the document.",
-  "properties": {
-    "type": {
-      "type": "string",
-      "const": "Section",
-      "description": "The type of this document element."
-    },
-    "content": {
-      "type": "array",
-      "description": "The content of the section.",
-      "items": {
-        "anyOf": [
-          {
-            "$ref": "#/$defs/Section"
-          },
-          {
-            "$ref": "#/$defs/Theorem"
-          },
-          {
-            "$ref": "#/$defs/Definition"
-          },
-          {
-            "$ref": "#/$defs/Remark"
-          },
-          {
-            "$ref": "#/$defs/LogicalStepSequence"
-          },
-          {
-            "$ref": "#/$defs/Paragraph"
-          },
-          {
-            "$ref": "#/$defs/Proof"
-          },
-          {
-            "$ref": "#/$defs/Figure"
-          },
-          {
-            "$ref": "#/$defs/Table"
-          }
-        ]
-      }
-    },
-    "label": {
-      "type": "string",
-      "description": "Section identifier."
-    },
-    "level": {
-      "type": "integer",
-      "description": "The section level such as `1` for a section, `2` for a subsection."
-    },
-    "header": {
-      "type": "string",
-      "description": "The section header."
-    }
-  },
-  "required": [
-    "type",
-    "label",
-    "header",
-    "content"
-  ],
-  "additionalProperties": false
-}
--/
 /--
 Generate commands or tactics for a section of the document. It processes the `content` array and generates the appropriate code based on the kind of content.
 -/
@@ -484,8 +393,6 @@ where
       | Except.ok h =>
         traceAide `leanaide.papercodes.info s!"hypothesis: {h} in proof"
         contextRun translator none ``tacticSeq (.arr h)
-        -- logToStdErr `leanaide.translate.info "Preludes added:"
-        -- logToStdErr `leanaide.translate.info <| ← withPreludes ""
         traceAide `leanaide.papercodes.info s!"Preludes added:\n {(← withPreludes "")}"
         pure h.size
       | Except.error _ => pure 0
@@ -527,8 +434,6 @@ where
     let thm ← withPreludes claim
     let name := (js.getObjValAs? Name "name").toOption.getD <| ← translator.server.theoremName thm
     traceAide `leanaide.papercodes.info s!"Theorem name from server: {name} for {thm}"
-    -- let name ← newName name
-    -- traceAide `leanaide.papercodes.info s!"New name: {name} for {thm}"
     let name :=
       if name.toString = "[anonymous]" then
 
@@ -543,61 +448,6 @@ where
     Translate.addTheorem <| {name := name, type := type, label := label, isProved := proof?.isSome, source:= js}
     logInfo m!"All theorems : {← allLabels}"
     return (typeStx, name, proofStx?, ← isProp type)
-
--- #check commandToTactic
-
-/- Definition
-{
-  "type": "object",
-  "description": "A mathematical definition.",
-  "properties": {
-    "type": {
-      "type": "string",
-      "const": "Definition",
-      "description": "The type of this document element."
-    },
-    "definition": {
-      "type": "string",
-      "description": "Definition content."
-    },
-    "label": {
-      "type": "string",
-      "description": "Definition identifier."
-    },
-    "header": {
-      "type": "string",
-      "description": "The definition type.",
-      "enum": [
-        "Definition",
-        "Notation",
-        "Terminology",
-        "Convention"
-      ]
-    },
-    "citations": {
-      "type": "array",
-      "description": "(OPTIONAL) Explicit list of citations relevant to this theorem statement.",
-      "items": {
-        "$ref": "#/$defs/Citation"
-      }
-    },
-    "internal_references": {
-      "type": "array",
-      "description": "(OPTIONAL) Explicit list of internal references mentioned in the theorem statement.",
-      "items": {
-        "$ref": "#/$defs/InternalReference"
-      }
-    }
-  },
-  "required": [
-    "type",
-    "label",
-    "header",
-    "definition"
-  ],
-  "additionalProperties": false
-}
--/
 
 /--
 Generate code for a definition. It processes the `definition` field to generate the appropriate Lean code.
@@ -660,43 +510,6 @@ where
           throwError s!"codegen: no definition translation found for {statement}; outputs: {outputs}\nError when trying existential definition:\n{innerMsg}"
 
 
-/- LogicalStepSequence
-{
-  "type": "array",
-  "description": "A sequence of structured logical steps, typically used within a proof or derivation, consisting of statements like 'let', 'assert', 'assume', etc.",
-  "items": {
-    "anyOf": [
-      {
-        "$ref": "#/$defs/let_statement"
-      },
-      {
-        "$ref": "#/$defs/assert_statement"
-      },
-      {
-        "$ref": "#/$defs/assume_statement"
-      },
-      {
-        "$ref": "#/$defs/some_statement"
-      },
-      {
-        "$ref": "#/$defs/cases_proof"
-      },
-      {
-        "$ref": "#/$defs/induction_proof"
-      },
-      {
-        "$ref": "#/$defs/calculate_statement"
-      },
-      {
-        "$ref": "#/$defs/contradiction_statement"
-      },
-      {
-        "$ref": "#/$defs/conclude_statement"
-      }
-    ]
-  }
-}
--/
 /--
 Generate code for a sequence of logical steps. It processes the items in the sequence and generates the appropriate Lean code, either as commands or tactics.
 -/
@@ -710,53 +523,6 @@ def logicalStepCode (translator : CodeGenerator := {}) : Option MVarId →  (kin
   getCodeTactics translator goal  content.toList
 | goal?, kind, _ => throwError
     s!"codegen: logicalStepSequence does not work for kind {kind}where goal present: {goal?.isSome}"
-
-/- Proof
-{
-  "type": "object",
-  "description": "A proof environment.",
-  "properties": {
-    "type": {
-      "type": "string",
-      "const": "Proof",
-      "description": "The type of this document element."
-    },
-    "claim_label": {
-      "type": "string",
-      "description": "Theorem label being proved."
-    },
-    "proof_steps": {
-      "type": "array",
-      "description": "Steps in the proof.",
-      "items": {
-        "anyOf": [
-          {
-            "$ref": "#/$defs/Remark"
-          },
-          {
-            "$ref": "#/$defs/LogicalStepSequence"
-          },
-          {
-            "$ref": "#/$defs/Paragraph"
-          },
-          {
-            "$ref": "#/$defs/Figure"
-          },
-          {
-            "$ref": "#/$defs/Table"
-          }
-        ]
-      }
-    }
-  },
-  "required": [
-    "type",
-    "claim_label",
-    "proof_steps"
-  ],
-  "additionalProperties": false
-}
--/
 
 /--
 Generate code for a proof environment, either a sequence of tactics or a command sequence. To generate a command sequence, it requires a `claim_label` to find the theorem being proved. It intros the variables of the theorem and generates the proof steps as tactics.
@@ -772,7 +538,6 @@ def proofCode (translator : CodeGenerator := {}) : Option MVarId →  (kind: Syn
   let goalType := labelledTheorem.type
   let goalExpr ← mkFreshExprMVar goalType
   let goal := goalExpr.mvarId!
-  -- logToStdErr `leanaide.translate.info s!"number of proof steps: {content.length}"
   traceAide `leanaide.papercodes.info s!"number of proof steps: {content.length}"
   let hypSize ←
     match labelledTheorem.source.getObjValAs? (Array Json)  "hypothesis" with
@@ -780,8 +545,6 @@ def proofCode (translator : CodeGenerator := {}) : Option MVarId →  (kind: Syn
         traceAide `leanaide.papercodes.info s!"hypothesis: {h} in proof"
         contextRun translator none ``tacticSeq (.arr h)
         traceAide `leanaide.papercodes.info s!"Ran hypothesis context"
-        -- logToStdErr `leanaide.translate.info "Preludes added:"
-        -- logToStdErr `leanaide.translate.info <| ← withPreludes ""
         traceAide `leanaide.papercodes.info s!"Preludes added:\n {(← withPreludes "")}"
         pure h.size
       | Except.error _ => pure 0
@@ -821,41 +584,6 @@ def proofCode (translator : CodeGenerator := {}) : Option MVarId →  (kind: Syn
   getCodeTactics translator goal  content
 | goal?, kind, _ => throwError
     s!"codegen: proof does not work for kind {kind}where goal present: {goal?.isSome}"
-
-/- let_statement
-{
-  "type": "object",
-  "description": "A statement introducing a new variable with given value, type and/or property.",
-  "properties": {
-    "type": {
-      "type": "string",
-      "const": "let_statement",
-      "description": "The type of this logical step."
-    },
-    "variable_name": {
-      "type": "string",
-      "description": "The variable being defined (use `<anonymous>` if there is no name such as in `We have a group structure on S`)"
-    },
-    "value": {
-      "type": "string",
-      "description": "(OPTIONAL) The value of the variable being defined"
-    },
-    "variable_type": {
-      "type": "string",
-      "description": "(OPTIONAL) The type of the variable, such as `real number`, `function from S to T`, `element of G` etc."
-    },
-    "properties": {
-      "type": "string",
-      "description": "(OPTIONAL) Specific properties of the variable beyond the type"
-    }
-  },
-  "required": [
-    "type",
-    "variable_name"
-  ],
-  "additionalProperties": false
-}
--/
 
 /--
 Generate code for a `let_statement`. If the let statement has a value, it generates a command or tactic that defines the variable with the given value. If there is no value, it simply adds a prelude statement.
@@ -904,7 +632,6 @@ def letCodeCore (translator : CodeGenerator := {})(goal? : Option (MVarId)) : (k
         -- If we have a definition, we add it to the definitions
         -- and return the command
         addDefn data
-        -- data.addDeclaration
       | none =>
         traceAide `leanaide.papercodes.info s!"codegen: No definition found for 'let_statement' {statement} with value {value}"
       addPrelude statement
@@ -969,41 +696,6 @@ def letCodeCore (translator : CodeGenerator := {})(goal? : Option (MVarId)) : (k
             throwError
               s!"codegen: no definition translation found for {statement'}"
 
-/- some_statement
-{
-  "type": "object",
-  "description": "A statement introducing a new variable and saying that **some** value of this variable is as required (i.e., an existence statement). This is possibly with given type and/or property. This corresponds to statements like 'for some integer `n` ...' or 'There exists an integer `n` ....'. **NOTE:** It is better to use `assert_statement` instead if the variable is not being defined but rather asserted to exist.",
-  "properties": {
-    "type": {
-      "type": "string",
-      "const": "some_statement",
-      "description": "The type of this logical step."
-    },
-    "variable_name": {
-      "type": "string",
-      "description": "The variable being defined (use `<anonymous>` if there is no name such as in `We have a group structure on S`)"
-    },
-    "variable_kind": {
-      "type": "string",
-      "description": "(OPTIONAL) The type of the variable, such as `real number`, `function from S to T`, `element of G` etc."
-    },
-    "properties": {
-      "type": "string",
-      "description": "(OPTIONAL) Specific properties of the variable beyond the type"
-    },
-    "statement": {
-      "type": "string",
-      "description": "The full statement made."
-    }
-  },
-  "required": [
-    "type",
-    "variable_name"
-  ],
-  "additionalProperties": false
-}
--/
-
 /--
 Add code for a "some" statement. This is used to introduce a variable with some properties, such as "there exists an integer `n` such that ...". The code is generated as an assertion statement, which is a claim that the variable exists with the given properties.
 -/
@@ -1033,46 +725,6 @@ def someCode (translator : CodeGenerator := {})(goal : Option (MVarId)) : (kind:
   getCode translator goal kind assJs
 
 
-/- assume_statement
-{
-  "type": "object",
-  "description": "A mathematical assumption being made. Use 'let_statement' or 'some_statement' if introducing variables.",
-  "properties": {
-    "type": {
-      "type": "string",
-      "const": "assume_statement",
-      "description": "The type of this logical step."
-    },
-    "assumption": {
-      "type": "string",
-      "description": "The assumption text."
-    },
-    "label": {
-      "type": "string",
-      "description": "(OPTIONAL) The label of the assumption, if any."
-    },
-    "citations": {
-      "type": "array",
-      "description": "(OPTIONAL) Citations supporting or related to the assumption.",
-      "items": {
-        "$ref": "#/$defs/Citation"
-      }
-    },
-    "internal_references": {
-      "type": "array",
-      "description": "(OPTIONAL) Internal references related to the assumption.",
-      "items": {
-        "$ref": "#/$defs/InternalReference"
-      }
-    }
-  },
-  "required": [
-    "type",
-    "assumption"
-  ],
-  "additionalProperties": false
-}
--/
 /--
 Generate code for an `assume_statement`. This is used to add an assumption to the proof or logical context. It simply adds a prelude statement with the assumption text.
 -/
@@ -1085,62 +737,6 @@ def assumeCode (_ : CodeGenerator := {})(_ : Option (MVarId)) : (kind: SyntaxNod
   addVarPrelude statement
   return none
 
-
-/- assert_statement
-{
-  "type": "object",
-  "description": "A mathematical statement whose proof is a straightforward consequence of given and known results following some method.",
-  "properties": {
-    "type": {
-      "type": "string",
-      "const": "assert_statement",
-      "description": "The type of this logical step."
-    },
-    "claim": {
-      "type": "string",
-      "description": "The mathematical claim being asserted, NOT INCLUDING proofs, justifications or results used. The claim should be purely a logical statement which is the *consequence* obtained."
-    },
-    "proof_method": {
-      "type": "string",
-      "description": "(OPTIONAL) The method used to prove the claim. This could be a direct proof, proof by contradiction, proof by induction, etc. this should be a single phrase or a fairly simple sentence; if a longer justification is needed break the step into smaller steps. If the method is deduction from a result, use `citations`or `internal_references`."
-    },
-    "label": {
-      "type": "string",
-      "description": "The label of the statement, if any. If this statement is used in a proof or as justification for an assertion, it should be labeled so that it can be referenced later."
-    },
-    "citations": {
-      "type": "array",
-      "description": "(OPTIONAL) Explicit list of citations relevant to this theorem statement.",
-      "items": {
-        "$ref": "#/$defs/Citation"
-      }
-    },
-    "results_used": {
-      "type": "array",
-      "description": "(OPTIONAL) Explicit list of internal references used in the proof, for example where the assertion says \"using ...\".",
-      "items": {
-        "$ref": "#/$defs/InternalReference"
-      }
-    },
-    "internal_references": {
-      "type": "array",
-      "description": "(OPTIONAL) Explicit list of internal references mentioned in the theorem statement.",
-      "items": {
-        "$ref": "#/$defs/InternalReference"
-      }
-    },
-    "calculate": {
-      "$ref": "#/$defs/calculate",
-      "description": "(OPTIONAL) An equation, inequality, short calculation etc."
-    }
-  },
-  "required": [
-    "type",
-    "claim"
-  ],
-  "additionalProperties": false
-}
--/
 
 /--
 Code generation for an `assert_statement`. This is used to assert a mathematical claim that follows from known results. It can generate a command, command sequence, or tactic sequence depending on the kind specified.
@@ -1160,7 +756,6 @@ def assertionCode (translator : CodeGenerator := {}) : Option MVarId →  (kind:
   let dfn: DefData :=
     { name := "assert_{hash₀}".toName, type := stx, value := stx, isProp := isProp, isNoncomputable := true, doc? := none}
   addDefn dfn
-  -- dfn.addDeclaration
   let resolvedCmds ←
     cmdResolveExistsHave stx
   mkCommandSeq <| #[head] ++ resolvedCmds
@@ -1185,34 +780,10 @@ where typeStx (js: Json) :
   let .ok  claim := js.getObjValAs? String "claim" | throwError
     s!"codegen: no claim found in 'assertion_statement'"
   let type ← translator.translateToPropStrict claim
-  -- let resultsUsed ←
-  --   getResultsUsed translator.toTranslator js
   let mvar ← mkFreshExprMVar type
   let tacs ← findTacticsI mvar.mvarId!
   addPrelude <| "Assume: " ++ claim
   return (← delabDetailed type, ← `(tacticSeq| $tacs*), ← isProp type)
-
-/- calculation
-{
-  "type": "object",
-  "description": "An equation, inequality, short calculation etc.",
-  "minProperties": 1,
-  "maxProperties": 1,
-  "properties": {
-    "inline_calculation": {
-      "type": "string",
-      "description": "A simple calculation or computation written as a single line."
-    },
-    "calculation_sequence": {
-      "type": "array",
-      "description": "A list of elements of type `calculation_step`.",
-      "items": {
-        "$ref": "#/$defs/calculation_step"
-      }
-    }
-  }
-}
--/
 
 /--
 Generate code for a `calculation` step. This can either be a single inline calculation or a sequence of calculations. If the `inline_calculation` is provided, it generates a tactic that asserts the calculation. If `calculation_sequence` is provided, it generates a sequence of tactics for each step in the calculation.
@@ -1223,8 +794,6 @@ def calculationCode (translator : CodeGenerator := {}) : Option MVarId →  (kin
   let tac ← `(tacticSeq | first | grind | simp | rfl)
   match js.getObjVal? "inline_calculation" with
   | Except.ok <| .str inline =>
-    -- let .ok inline := inlineJs.getObjValAs? String "inline_calculation" | throwError
-    --   s!"codegen: no 'inline_calculation' string found in 'calculation'"
     let stx ← typeStx inline
     let hash₀ := hash ((← ppTerm {env := ← getEnv} stx).pretty)
     let name := mkIdent <| Name.mkSimple s!"assert_{hash₀}"
@@ -1254,34 +823,6 @@ where typeStx (eqn: String) :
   delabDetailed type
 
 
-/-     "pattern_cases_proof": {
-      "type": "object",
-      "description": "A proof by cases, with cases determined by matching a pattern.",
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "pattern_cases_proof",
-          "description": "The type of this logical step."
-        },
-        "on": {
-          "type": "string",
-          "description": "The variable or expression which is being matched against patterns."
-        },
-        "proof_cases": {
-          "type": "array",
-          "description": "A list of elements of type `case`.",
-          "items": {
-            "$ref": "#/$defs/pattern_case"
-          }
-        },
-      "required": [
-        "type",
-        "on",
-        "proof_cases"
-      ],
-      "additionalProperties": false
-    },
--/
 open Lean.Parser.Term CodeGenerator Parser
 /--
 Generate code for a `pattern_cases_proof`. This is used to perform a proof by cases based on matching patterns against a given expression. It generates a `match` tactic with the specified patterns and their corresponding proofs.
@@ -1362,35 +903,6 @@ def patternCasesViaMulti (translator : CodeGenerator := {}) (goal : Option MVarI
   ]
   getCode translator goal kind multicondJs
 
-/- bi-implication_cases_proof
-    "bi-implication_cases_proof": {
-      "type": "object",
-      "description": "Proof of a statement `P ↔ Q`.",
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "bi-implication_cases_proof",
-          "description": "The type of this logical step."
-        },
-        "if_proof": {
-          "$ref": "#/$defs/Proof",
-          "description": "Proof that `P` implies `Q`."
-        },
-        "only_if_proof": {
-          "$ref": "#/$defs/Proof",
-          "description": "Proof that `Q` implies `P`."
-        },
-      "required": [
-        "type",
-        "antecedent",
-        "consequent",
-        "if_proof",
-        "only_if_proof"
-      ],
-      "additionalProperties": false
-    }
-  },
--/
 /--
 Generate code for a `bi-implication_cases_proof`. This is used to prove a bi-implication `P ↔ Q` by proving both directions: `P → Q` and `Q → P`. It recursively generates a sequence of tactics that handle both implications.
 -/
@@ -1413,38 +925,6 @@ def biequivalenceCode (translator : CodeGenerator := {}) : Option MVarId →  (k
 | goal?, kind ,_ => throwError
     s!"codegen: biequivalenceCode does not work for kind {kind} with goal present: {goal?.isSome}"
 
-/- condition_cases_proof
-    "condition_cases_proof": {
-      "type": "object",
-      "description": "Proof of a statement based on splitting into cases where a condition is true and false, i.e., an if-then-else proof.",
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "condition_cases_proof",
-          "description": "The type of this logical step."
-        },
-        "condition": {
-          "type": "string",
-          "description": "The condition based on which the proof is split."
-        },
-        "true_case_proof": {
-          "$ref": "#/$defs/Proof",
-          "description": "Proof of the case where the condition is true."
-        },
-        "false_case_proof": {
-          "$ref": "#/$defs/Proof",
-          "description": "Proof of the case where the condition is false."
-        },
-      "required": [
-        "type",
-        "condition",
-        "true_case_proof",
-        "false_case_proof"
-      ],
-      "additionalProperties": false
-    }
-  },
--/
 /--
 Generate code for a `condition_cases_proof`. This is used to prove a statement by splitting into two cases based on a condition. It generates an `if ... then ... else ...` tactic with the provided proofs for each case.
 -/
@@ -1542,36 +1022,6 @@ def multiConditionCasesAux (translator : CodeGenerator := {}) (goal: MVarId) (ca
     let tacs := #[← `(tactic| if $conditionBinder :  $conditionStx then $trueCaseProofStx else $falseCaseProofStx)]
     `(tacticSeq| $tacs*)
 
-/-
-    "multi-condition_cases_proof": {
-      "type": "object",
-      "description": "A proof by cases given by three or more conditions.",
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "multi-condtion_cases_proof",
-          "description": "The type of this logical step."
-        },
-        "proof_cases": {
-          "type": "array",
-          "description": "The conditions and proofs in the different cases.",
-          "items": {
-            "$ref": "#/$defs/condition_case"
-          }
-        },
-        "exhaustiveness": {
-          "$ref": "#/$defs/Proof",
-          "description": "(OPTIONAL) Proof that the cases are exhaustive."
-        }
-      },
-      "required": [
-        "type",
-        "proof_cases"
-      ],
-      "additionalProperties": false
-    },
--/
-
 /--
 Generate code for a multi-condition cases statement. This is used to handle proofs that involve multiple conditions, where each condition leads to a different case in the proof. It recursively generates tactics for each condition and its corresponding proof.
 -/
@@ -1611,38 +1061,6 @@ def multiConditionCasesCode (translator : CodeGenerator := {}) : Option MVarId �
   appendTacticSeqSeq tacs <| ← `(tacticSeq| done)
 | goal?, kind ,_ => throwError
     s!"codegen: conditionCasesCode does not work for kind {kind} with goal present: {goal?.isSome}"
-
-/- induction_proof
-    "induction_proof": {
-      "type": "object",
-      "description": "A proof by induction, with a base case and an induction step.",
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "induction_proof",
-          "description": "The type of this logical step."
-        },
-        "on": {
-          "type": "string",
-          "description": "The variable or expression on which induction is being done."
-        },
-        "base_case_proof": {
-          "$ref": "#/$defs/Proof",
-          "description": "Proof of the base case."
-        },
-        "induction_step_proof": {
-          "$ref": "#/$defs/Proof",
-          "description": "Proof of the induction step, which typically shows that if the statement holds for `n`, it holds for `n+1`."
-        }},
-      "required": [
-        "type",
-        "on",
-        "base_case_proof",
-        "induction_step_proof"
-      ],
-      "additionalProperties": false
-    },
--/
 
 /--
 Generate code for an `induction_proof`. This is used to perform a proof by induction on a variable or expression. It generates an `induction` tactic with the specified base case and induction step proofs.
@@ -1692,34 +1110,6 @@ def inductionCode (translator : CodeGenerator := {}) : Option MVarId →  (kind:
 | goal?, kind ,_ => throwError
     s!"codegen: induction does not work for kind {kind} with goal present: {goal?.isSome}"
 
-/- contradiction_statement
-{
-  "type": "object",
-  "description": "A proof by contradiction, with an assumption and a proof of the contradiction.",
-  "properties": {
-    "type": {
-      "type": "string",
-      "const": "contradiction_statement",
-      "description": "The type of this logical step."
-    },
-    "assumption": {
-      "type": "string",
-      "description": "The assumption being made to be contradicted."
-    },
-    "proof": {
-      "$ref": "#/$defs/Proof",
-      "description": "The proof of the contradiction given the assumption."
-    }
-  },
-  "required": [
-    "type",
-    "assumption",
-    "proof"
-  ],
-  "additionalProperties": false
-}
--/
-
 /--
 Generate code for a `contradiction_statement`. This is used to prove a statement by contradiction, where an assumption leads to a contradiction. It generates a tactic that introduces the assumption and then provides the proof of the contradiction.
 -/
@@ -1746,28 +1136,6 @@ def contradictCode (translator : CodeGenerator := {}) : Option MVarId →  (kind
     s!"codegen: conclude_statement does not work for kind {kind}"
 
 
-/- conclude_statement
-{
-  "type": "object",
-  "description": "Conclude a claim obtained from the steps so far. This is typically the final statement of a proof giving the conclusion of the theorem.",
-  "properties": {
-    "type": {
-      "type": "string",
-      "const": "conclude_statement",
-      "description": "The type of this logical step."
-    },
-    "claim": {
-      "type": "string",
-      "description": "The conclusion of the proof."
-    }
-  },
-  "required": [
-    "type",
-    "claim"
-  ],
-  "additionalProperties": false
-}
--/
 /--
 Generate code for a `conclude_statement`. This is used to conclude a proof with a final claim. It generates a tactic that asserts the claim as a theorem or lemma.
 -/
@@ -1794,7 +1162,6 @@ Generate code for a `general_induction_proof`. This is used to perform a proof b
 -/
 def generalInductionAux (translator : CodeGenerator := {}) (goal: MVarId) (cases : List (Expr ×Json × (Array String))) (inductionNames: Array Name)  : TranslateM (TSyntax ``tacticSeq) := match cases with
   | [] => goal.withContext do
-    -- let inductionIds := inductionNames.map Lean.mkIdent
     let pf ← findTacticsI goal
     `(tacticSeq| $pf*)
   | (conditionType, trueCaseProof, inductionHyps) :: tail => goal.withContext do
@@ -1835,37 +1202,6 @@ def generalInductionAux (translator : CodeGenerator := {}) (goal: MVarId) (cases
     let tacs := #[← `(tactic| if $conditionBinder :  $conditionStx then $trueCaseProofStx else $falseCaseProofStx)]
     `(tacticSeq| $tacs*)
 
-/-
-    "general_induction_proof": {
-      "type": "object",
-      "description": "A proof by cases given by three or more conditions.",
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "multi-condtion_cases_proof",
-          "description": "The type of this logical step."
-        },
-        "induction_principle": {
-          "type": "string",
-          "description": "The induction principle being used, such as 'strong induction for natural numbers' or 'structural induction for binary trees'."
-        },
-        "proof_cases": {
-          "type": "array",
-          "description": "The conditions and proofs in the different cases.",
-          "items": {
-            "$ref": "#/$defs/induction_case"
-          }
-        }
-      },
-      "required": [
-        "type",
-        "induction_principle",
-        "proof_cases"
-      ],
-      "additionalProperties": false
-    },
--/
-
 /--
 Generate code for a `general_induction_proof`. This is used to perform a proof by induction with multiple conditions, where each condition leads to a different case in the proof. It recursively generates tactics for each condition and its corresponding proof.
 -/
@@ -1892,83 +1228,6 @@ def generalInductionCode (translator : CodeGenerator := {}) : Option MVarId → 
     s!"codegen: conditionCasesCode does not work for kind {kind} with goal present: {goal?.isSome}"
 
 
-/- Figure
-{
-  "type": "object",
-  "description": "A figure or image.",
-  "properties": {
-    "type": {
-      "type": "string",
-      "const": "Figure",
-      "description": "The type of this document element."
-    },
-    "label": {
-      "type": "string",
-      "description": "Unique identifier/label for referencing (e.g., 'fig:flowchart')."
-    },
-    "source": {
-      "type": "string",
-      "description": "URL or path to the image file."
-    },
-    "caption": {
-      "type": "string",
-      "description": "(OPTIONAL) Caption describing the figure."
-    },
-    "alt_text": {
-      "type": "string",
-      "description": "(OPTIONAL) Alternative text for accessibility."
-    }
-  },
-  "required": [
-    "type",
-    "label",
-    "source"
-  ],
-  "additionalProperties": false
-}
--/
 #notImplementedCode "Figure"
 
-/- Table
-{
-  "type": "object",
-  "description": "A data table.",
-  "properties": {
-    "type": {
-      "type": "string",
-      "const": "Table",
-      "description": "The type of this document element."
-    },
-    "label": {
-      "type": "string",
-      "description": "Unique identifier/label for referencing (e.g., 'tab:results')."
-    },
-    "caption": {
-      "type": "string",
-      "description": "(OPTIONAL) Caption describing the table."
-    },
-    "content": {
-      "type": "array",
-      "description": "Table data, represented as an array of rows, where each row is an array of cell strings.",
-      "items": {
-        "type": "array",
-        "items": {
-          "type": "string"
-        }
-      }
-    },
-    "header_row": {
-      "type": "boolean",
-      "description": "(OPTIONAL) Indicates if the first row in 'content' is a header row. Default: false",
-      "default": false
-    }
-  },
-  "required": [
-    "type",
-    "label",
-    "content"
-  ],
-  "additionalProperties": false
-}
--/
 #notImplementedCode "Table"

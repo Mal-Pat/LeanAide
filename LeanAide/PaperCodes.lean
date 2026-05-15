@@ -1,6 +1,5 @@
 import LeanAide.Codegen
 import LeanAideCore.PaperCodes
--- import LeanAide.StructToLean
 import Hammer
 /-!
 # Code generation for LeanAide "PaperStructure" schema
@@ -117,8 +116,6 @@ where
       | Except.ok h =>
         traceAide `leanaide.papercodes.info s!"hypothesis: {h} in proof"
         contextRun translator none ``tacticSeq (.arr h)
-        -- logToStdErr `leanaide.translate.info "Preludes added:"
-        -- logToStdErr `leanaide.translate.info <| ← withPreludes ""
         traceAide `leanaide.papercodes.info s!"Preludes added:\n {(← withPreludes "")}"
         pure h.size
       | Except.error _ => pure 0
@@ -175,62 +172,6 @@ where
     logInfo m!"All theorems : {← allLabels}"
     return (typeStx, name, proofStx?, ← isProp type)
 
--- #check commandToTactic
-
-/- Definition
-{
-  "type": "object",
-  "description": "A mathematical definition.",
-  "properties": {
-    "type": {
-      "type": "string",
-      "const": "Definition",
-      "description": "The type of this document element."
-    },
-    "definition": {
-      "type": "string",
-      "description": "Definition content."
-    },
-    "label": {
-      "type": "string",
-      "description": "Definition identifier."
-    },
-    "header": {
-      "type": "string",
-      "description": "The definition type.",
-      "enum": [
-        "Definition",
-        "Notation",
-        "Terminology",
-        "Convention"
-      ]
-    },
-    "citations": {
-      "type": "array",
-      "description": "(OPTIONAL) Explicit list of citations relevant to this theorem statement.",
-      "items": {
-        "$ref": "#/$defs/Citation"
-      }
-    },
-    "internal_references": {
-      "type": "array",
-      "description": "(OPTIONAL) Explicit list of internal references mentioned in the theorem statement.",
-      "items": {
-        "$ref": "#/$defs/InternalReference"
-      }
-    }
-  },
-  "required": [
-    "type",
-    "label",
-    "header",
-    "definition"
-  ],
-  "additionalProperties": false
-}
--/
-
-
 /--
 Generate code for a `let_statement`. If the let statement has a value, it generates a command or tactic that defines the variable with the given value. If there is no value, it simply adds a prelude statement.
 If goal is a `there exists` statement and binderName matches variable_name, it returns `use` tactic.
@@ -282,7 +223,6 @@ def letCode (translator : CodeGenerator := {})(goal? : Option (MVarId)) : (kind:
         -- If we have a definition, we add it to the definitions
         -- and return the command
         addDefn data
-        -- data.addDeclaration
       | none =>
         traceAide `leanaide.papercodes.info s!"codegen: No definition found for 'let_statement' {statement} with value {value}"
       addPrelude statement
@@ -346,70 +286,3 @@ def letCode (translator : CodeGenerator := {})(goal? : Option (MVarId)) : (kind:
               traceAide `leanaide.papercodes.info s!"codegen: not a command:\n{e.text}"
             throwError
               s!"codegen: no definition translation found for {statement'}"
-
-/- some_statement
-{
-  "type": "object",
-  "description": "A statement introducing a new variable and saying that **some** value of this variable is as required (i.e., an existence statement). This is possibly with given type and/or property. This corresponds to statements like 'for some integer `n` ...' or 'There exists an integer `n` ....'. **NOTE:** It is better to use `assert_statement` instead if the variable is not being defined but rather asserted to exist.",
-  "properties": {
-    "type": {
-      "type": "string",
-      "const": "some_statement",
-      "description": "The type of this logical step."
-    },
-    "variable_name": {
-      "type": "string",
-      "description": "The variable being defined (use `<anonymous>` if there is no name such as in `We have a group structure on S`)"
-    },
-    "variable_kind": {
-      "type": "string",
-      "description": "(OPTIONAL) The type of the variable, such as `real number`, `function from S to T`, `element of G` etc."
-    },
-    "properties": {
-      "type": "string",
-      "description": "(OPTIONAL) Specific properties of the variable beyond the type"
-    },
-    "statement": {
-      "type": "string",
-      "description": "The full statement made."
-    }
-  },
-  "required": [
-    "type",
-    "variable_name"
-  ],
-  "additionalProperties": false
-}
--/
-
-
-/-
-    "general_induction_proof": {
-      "type": "object",
-      "description": "A proof by cases given by three or more conditions.",
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "multi-condtion_cases_proof",
-          "description": "The type of this logical step."
-        },
-        "induction_principle": {
-          "type": "string",
-          "description": "The induction principle being used, such as 'strong induction for natural numbers' or 'structural induction for binary trees'."
-        },
-        "proof_cases": {
-          "type": "array",
-          "description": "The conditions and proofs in the different cases.",
-          "items": {
-            "$ref": "#/$defs/induction_case"
-          }
-        }
-      },
-      "required": [
-        "type",
-        "induction_principle",
-        "proof_cases"
-      ],
-      "additionalProperties": false
-    },
--/
