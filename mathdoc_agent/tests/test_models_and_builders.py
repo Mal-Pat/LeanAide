@@ -11,8 +11,11 @@ from mathdoc_agent.models.document import DocumentNode
 from mathdoc_agent.models.payloads import (
     CalcRelation,
     CalcStep,
+    DeducedFromTheoremData,
     InductionData,
     InductiveConstructorData,
+    LogicalProofStepData,
+    SimpleProofData,
     StructureFieldData,
 )
 from mathdoc_agent.models.proof import ProofNode, ProofTree
@@ -31,6 +34,57 @@ class ModelAndBuilderTests(unittest.TestCase):
         round_trip = ProofTree.model_validate_json(tree.model_dump_json())
         self.assertEqual(round_trip.root.id, "p.root")
         self.assertEqual(round_trip.root.status, NodeStatus.resolved)
+
+    def test_assert_statement_dependencies_export(self) -> None:
+        node = ProofNode(
+            id="p.root",
+            kind=ProofKind.simple,
+            text="Therefore b is nonnegative.",
+            data=SimpleProofData(
+                proof_steps=[
+                    LogicalProofStepData(
+                        type="assert_statement",
+                        claim="b ≥ 0",
+                        proof_method="apply monotonicity",
+                        deduced_from_claim=["a ≥ 0 and a ≤ b"],
+                        deduced_from_theorem=[
+                            DeducedFromTheoremData(
+                                name="order transitivity",
+                                claim="If x ≤ y and 0 ≤ x, then 0 ≤ y.",
+                            )
+                        ],
+                    )
+                ]
+            ).model_dump(),
+        )
+        exported = json.loads(to_json(ProofTree(id="p", theorem_statement="b ≥ 0", root=node)))
+        self.assertEqual(exported["type"], "Proof")
+        step = exported["proof_steps"][0]
+        self.assertEqual(step["type"], "assert_statement")
+        self.assertEqual(step["deduced_from_claim"], ["a ≥ 0 and a ≤ b"])
+        self.assertEqual(step["deduced_from_theorem"][0]["name"], "order transitivity")
+
+    def test_single_assertion_simple_proof_dependencies_export(self) -> None:
+        node = ProofBuilder.simple(
+            id="p.root",
+            text="The result follows by convexity.",
+            goal="f is unbounded above",
+            method="convexity argument",
+            deduced_from_claim=["f''(x) > 0 for all x ∈ ℝ"],
+            deduced_from_theorem=[
+                DeducedFromTheoremData(
+                    name="convexity from positive second derivative",
+                    claim="If f'' is positive on an interval, then f is strictly convex there.",
+                )
+            ],
+        )
+        exported = json.loads(to_json(ProofTree(id="p", theorem_statement="f is unbounded above", root=node)))
+        self.assertEqual(exported["type"], "assert_statement")
+        self.assertEqual(exported["deduced_from_claim"], ["f''(x) > 0 for all x ∈ ℝ"])
+        self.assertEqual(
+            exported["deduced_from_theorem"][0]["claim"],
+            "If f'' is positive on an interval, then f is strictly convex there.",
+        )
 
     def test_document_node_with_proof_round_trip(self) -> None:
         node = DocumentBuilder.theorem_like(
@@ -97,7 +151,19 @@ class ModelAndBuilderTests(unittest.TestCase):
             text="a = b = c",
             calculation_kind="equality_chain",
             steps=[
-                CalcStep(lhs="a", relation=CalcRelation.eq, rhs="b", justification="h1"),
+                CalcStep(
+                    lhs="a",
+                    relation=CalcRelation.eq,
+                    rhs="b",
+                    justification="h1",
+                    deduced_from_claim=["a = b follows from the local hypothesis h1"],
+                    deduced_from_theorem=[
+                        DeducedFromTheoremData(
+                            name="substitution",
+                            claim="Equal terms may be substituted in any expression.",
+                        )
+                    ],
+                ),
                 CalcStep(lhs="b", relation=CalcRelation.eq, rhs="c", justification="h2"),
             ],
         )
@@ -106,6 +172,14 @@ class ModelAndBuilderTests(unittest.TestCase):
         self.assertEqual(core_json["goal_relation"], "=")
         self.assertEqual(core_json["steps"][0]["from"], "a")
         self.assertEqual(core_json["steps"][0]["to"], "b")
+        self.assertEqual(
+            core_json["steps"][0]["deduced_from_claim"],
+            ["a = b follows from the local hypothesis h1"],
+        )
+        self.assertEqual(
+            core_json["steps"][0]["deduced_from_theorem"][0]["claim"],
+            "Equal terms may be substituted in any expression.",
+        )
 
         for calculation_kind in CORE_CALCULATION_SCHEMAS:
             root = ProofBuilder.calculation(

@@ -290,6 +290,8 @@ class SimpleProofHandler(ProofRefinementHandler[SimpleProofRefinementSpec]):
             hints=spec.hints,
             referenced_lemmas=spec.referenced_lemmas,
             referenced_hypotheses=spec.referenced_hypotheses,
+            deduced_from_claim=spec.deduced_from_claim,
+            deduced_from_theorem=spec.deduced_from_theorem,
             proof_steps=proof_steps,
         )
         unresolved = node.unresolved_details + spec.unresolved_details

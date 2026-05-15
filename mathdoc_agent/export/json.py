@@ -67,8 +67,24 @@ def _attached_proof_details_data(proof: ProofTree | None) -> Any:
     return details
 
 
+def _dependency_data(value: Any) -> dict[str, Any]:
+    return {
+        "deduced_from_claim": value.deduced_from_claim or None,
+        "deduced_from_theorem": [
+            theorem.model_dump(exclude_none=True)
+            for theorem in value.deduced_from_theorem
+        ]
+        or None,
+    }
+
+
 def _logical_step_data(step) -> dict[str, Any]:
-    return _without_none(step.model_dump(exclude_none=True))
+    data = step.model_dump(exclude_none=True)
+    if not data.get("deduced_from_claim"):
+        data.pop("deduced_from_claim", None)
+    if not data.get("deduced_from_theorem"):
+        data.pop("deduced_from_theorem", None)
+    return data
 
 
 def _calculation_step_data(step: CalcStep) -> dict[str, Any]:
@@ -78,6 +94,7 @@ def _calculation_step_data(step: CalcStep) -> dict[str, Any]:
             "relation": step.relation.value,
             "to": step.rhs,
             "justification": step.justification,
+            **_dependency_data(step),
             "side_conditions": step.side_conditions or None,
         }
     )
@@ -415,6 +432,7 @@ def _simple_proof_data(node: ProofNode) -> dict[str, Any]:
             "type": "assert_statement",
             "claim": _claim_or_text(node),
             "proof_method": data.method,
+            **_dependency_data(data),
             "id": node.id,
             "status": node.status.value,
             "text": node.text,

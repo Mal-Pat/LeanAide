@@ -5,6 +5,7 @@ from pydantic import BaseModel, Field
 from mathdoc_agent.models.base import DocumentKind, ProofKind
 from mathdoc_agent.models.payloads import (
     CalcStep,
+    DeducedFromTheoremData,
     InductiveConstructorData,
     LogicalProofStepData,
     StructureFieldData,
@@ -50,6 +51,8 @@ class SimpleProofRefinementSpec(BaseModel):
     hints: list[str] = Field(default_factory=list)
     referenced_lemmas: list[str] = Field(default_factory=list)
     referenced_hypotheses: list[str] = Field(default_factory=list)
+    deduced_from_claim: list[str] = Field(default_factory=list)
+    deduced_from_theorem: list[DeducedFromTheoremData] = Field(default_factory=list)
     proof_steps: list[LogicalProofStepData] = Field(default_factory=list)
     unresolved_details: list[str] = Field(default_factory=list)
 

@@ -58,6 +58,21 @@ mathematical step as a `proof_steps` entry:
 - use `assume_statement` for fixed arbitrary variables or assumptions;
 - use `assert_statement` for equations, inequalities, derived claims, and final
   conclusions, with `proof_method` explaining the local justification.
+Whenever an `assert_statement` has a `proof_method`, also fill dependency
+fields when the source supports them:
+- `deduced_from_claim`: local/contextual claims used for the assertion, stated
+  as mathematical assertions. Use this for hypotheses or earlier derived
+  claims that are being specialized, rewritten, combined, or slightly restated
+  rather than copied verbatim from the immediate context.
+- `deduced_from_theorem`: standard theorem objects used for the assertion. Each
+  object must have a `claim` field giving the general theorem, and may have
+  `name` and `description` fields.
+Do not put method names, tactic names, or bare labels in `deduced_from_claim`.
+For example, do not write `Second derivative test` as a claim dependency; use
+`deduced_from_theorem` with a theorem object whose `claim` states the test.
+If the fragment is represented as one simple proof with `method` rather than
+separate `proof_steps`, use the top-level `deduced_from_claim` and
+`deduced_from_theorem` fields by the same rules.
 Every `assert_statement.claim` must be the mathematical assertion being proved,
 not an instruction. For example use `B(x, ε/3) ∩ B(y, ε/3) ≠ ∅`,
 `z ∈ B(x, ε/3) ∩ B(y, ε/3)`, or
@@ -70,6 +85,21 @@ algebraic rewrites that are present in the source text.
 CALCULATION_INSTRUCTIONS = """
 Refine a calculational proof fragment into calculation steps with lhs, relation,
 rhs, justification, and side conditions. Do not invent omitted steps.
+Whenever a step has a `justification`, also fill dependency fields when the
+source supports them:
+- `deduced_from_claim`: local/contextual claims used for the step, stated as
+  mathematical assertions. Use this for hypotheses or earlier derived claims
+  that are being specialized, rewritten, combined, or slightly restated rather
+  than copied verbatim from the immediate context.
+- `deduced_from_theorem`: standard theorem objects used for the step. Each
+  object must have a `claim` field giving the general mathematical theorem, and
+  may have `name` and `description` fields. For example, do not put "Second
+  derivative test" by itself in a dependency list; use an object such as
+  `{name: "second derivative test", claim: "If f''(x) > 0 on an interval, then
+  f is strictly convex on that interval"}`.
+Do not put method names, tactic names, or bare labels in `deduced_from_claim`.
+Keep local hypotheses out of `deduced_from_theorem`; reserve that field for
+standard mathematical results.
 Use the most specific `calculation_kind` when the source supports it. Core
 calculation kinds are:
 equality_chain, inequality_chain, mixed_relation_chain, rewrite_by_hypothesis,

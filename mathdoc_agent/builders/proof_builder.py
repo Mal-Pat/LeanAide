@@ -5,6 +5,7 @@ from mathdoc_agent.models.payloads import (
     CalcStep,
     CalculationData,
     CasesData,
+    DeducedFromTheoremData,
     InductionData,
     LocalClaimData,
     SimpleProofData,
@@ -24,12 +25,16 @@ class ProofBuilder:
         method: str | None = None,
         referenced_lemmas: list[str] | None = None,
         referenced_hypotheses: list[str] | None = None,
+        deduced_from_claim: list[str] | None = None,
+        deduced_from_theorem: list[DeducedFromTheoremData] | None = None,
     ) -> ProofNode:
         data = SimpleProofData(
             method=method,
             hints=hints or [],
             referenced_lemmas=referenced_lemmas or [],
             referenced_hypotheses=referenced_hypotheses or [],
+            deduced_from_claim=deduced_from_claim or [],
+            deduced_from_theorem=deduced_from_theorem or [],
         )
         return ProofNode(
             id=id,

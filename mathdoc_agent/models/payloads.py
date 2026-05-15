@@ -61,7 +61,38 @@ class InductiveTypeDefinitionData(DocumentKindData):
     constructors: list[InductiveConstructorData] = Field(default_factory=list)
 
 
-class LogicalProofStepData(BaseModel):
+class CalcRelation(str, Enum):
+    eq = "="
+    le = "<="
+    lt = "<"
+    ge = ">="
+    gt = ">"
+    iff = "<->"
+    implies = "->"
+    equiv_mod = "equiv_mod"
+
+
+class DeducedFromTheoremData(BaseModel):
+    claim: str = Field(description="The general mathematical statement of the theorem used.")
+    name: Optional[str] = Field(default=None, description="Optional standard name of the theorem.")
+    description: Optional[str] = Field(default=None, description="Optional note on how the theorem is used.")
+
+
+class DeducedFromDataMixin(BaseModel):
+    deduced_from_claim: list[str] = Field(
+        default_factory=list,
+        description=(
+            "Local/contextual claims used for this proof step, stated as mathematical assertions. "
+            "Use for claims deduced from context but not exactly matching it."
+        ),
+    )
+    deduced_from_theorem: list[DeducedFromTheoremData] = Field(
+        default_factory=list,
+        description="Standard theorem objects used for this proof step.",
+    )
+
+
+class LogicalProofStepData(DeducedFromDataMixin):
     type: str = "assert_statement"
     claim: Optional[str] = None
     proof_method: Optional[str] = None
@@ -71,7 +102,7 @@ class LogicalProofStepData(BaseModel):
     statement: Optional[str] = None
 
 
-class SimpleProofData(ProofKindData):
+class SimpleProofData(DeducedFromDataMixin, ProofKindData):
     method: Optional[str] = None
     hints: list[str] = Field(default_factory=list)
     referenced_lemmas: list[str] = Field(default_factory=list)
@@ -93,18 +124,7 @@ class CasesData(ProofKindData):
     case_ids: list[str] = Field(default_factory=list)
 
 
-class CalcRelation(str, Enum):
-    eq = "="
-    le = "<="
-    lt = "<"
-    ge = ">="
-    gt = ">"
-    iff = "<->"
-    implies = "->"
-    equiv_mod = "equiv_mod"
-
-
-class CalcStep(BaseModel):
+class CalcStep(DeducedFromDataMixin):
     lhs: str
     relation: CalcRelation
     rhs: str
