@@ -2,15 +2,22 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import json
 from pathlib import Path
+from typing import Any
 
-from mathdoc_agent.export.json import to_json
+from mathdoc_agent.export.json import paper_structure_data, to_json
+from mathdoc_agent.mathagents import definitions
 from mathdoc_agent.models.document import MathDocument
+from mathdoc_agent.orchestration.claim_audit import audit_claims_for_lean
 from mathdoc_agent.orchestration.document_orchestrator import document_from_text, refine_math_document
 from mathdoc_agent.plugins.document_types import default_document_handler_registry
 from mathdoc_agent.plugins.proof_types import default_proof_handler_registry
 from mathdoc_agent.registries.document_handlers import DocumentHandlerRegistry
 from mathdoc_agent.registries.proof_handlers import ProofHandlerRegistry
+
+
+_DEFAULT_CLAIM_AGENT = object()
 
 
 async def generate_math_document(
@@ -43,7 +50,14 @@ async def generate_math_document_json(
     document_iterations: int = 20,
     proof_iterations: int = 100,
     indent: int = 2,
+    claim_agent: Any | None = _DEFAULT_CLAIM_AGENT,
 ) -> str:
+    using_default_registries = document_registry is None and proof_registry is None
+    resolved_claim_agent = (
+        definitions.claim_audit_agent
+        if claim_agent is _DEFAULT_CLAIM_AGENT and using_default_registries
+        else (None if claim_agent is _DEFAULT_CLAIM_AGENT else claim_agent)
+    )
     document = await generate_math_document(
         source_text,
         id=id,
@@ -53,7 +67,10 @@ async def generate_math_document_json(
         document_iterations=document_iterations,
         proof_iterations=proof_iterations,
     )
-    return to_json(document, indent=indent)
+    if resolved_claim_agent is None:
+        return to_json(document, indent=indent)
+    data = await audit_claims_for_lean(paper_structure_data(document), resolved_claim_agent)
+    return json.dumps(data, indent=indent, ensure_ascii=False)
 
 
 def generate_math_document_json_sync(
@@ -66,6 +83,7 @@ def generate_math_document_json_sync(
     document_iterations: int = 20,
     proof_iterations: int = 100,
     indent: int = 2,
+    claim_agent: Any | None = _DEFAULT_CLAIM_AGENT,
 ) -> str:
     return asyncio.run(
         generate_math_document_json(
@@ -77,6 +95,7 @@ def generate_math_document_json_sync(
             document_iterations=document_iterations,
             proof_iterations=proof_iterations,
             indent=indent,
+            claim_agent=claim_agent,
         )
     )
 
@@ -109,6 +128,11 @@ def main() -> None:
         default=100,
         help="Maximum proof refinement iterations per proof.",
     )
+    parser.add_argument(
+        "--skip-claim-audit",
+        action="store_true",
+        help="Skip the final LLM audit that repairs claim fields for Lean codegen.",
+    )
     parser.add_argument("--indent", type=int, default=2, help="JSON indentation.")
     args = parser.parse_args()
 
@@ -120,6 +144,7 @@ def main() -> None:
         document_iterations=args.document_iterations,
         proof_iterations=args.proof_iterations,
         indent=args.indent,
+        claim_agent=None if args.skip_claim_audit else definitions.claim_audit_agent,
     )
     if args.output is None:
         print(json_text)

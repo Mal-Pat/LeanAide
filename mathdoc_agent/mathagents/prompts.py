@@ -140,3 +140,36 @@ local claim proved by that subproof. Do not create chains of child proof specs
 with the same `goal`; merge duplicate wrappers so each local claim appears once
 with its proof steps.
 """
+
+CLAIM_AUDIT_INSTRUCTIONS = """
+Audit generated PaperStructure JSON before it is sent to Lean code generation.
+The Lean side uses CodegenCore dispatch and the handlers in PaperCodes.lean.
+Every JSON field named `claim` must contain only a mathematical proposition
+suitable for a Lean theorem statement or `have` statement after natural-language
+translation. A valid claim may mention fixed variables and hypotheses, but it
+must not contain proof instructions, proof methods, reader tasks, tactic-like
+phrasing, or a sequence of several proof steps.
+
+For each supplied claim entry, decide whether the claim is already suitable for
+Lean proposition translation. Return patches only for entries that need repair.
+Do not patch claims that are already clean propositions.
+
+When repairing:
+- Use `replace_claim` when the problem is wording only. The replacement must be
+  a proposition, not a command. For example use `B(x, ε/3) ∩ B(y, ε/3) = ∅`,
+  not `conclude disjointness`.
+- Use `replace_assertion_with_steps` only when the enclosing object is an
+  `assert_statement` and the claim contains multiple mathematical assertions,
+  a proof sketch, or an imperative such as "choose", "show", "prove",
+  "verify", "negate", "derive", or "conclude". The replacement proof steps
+  must be smaller `assert_statement`, `assume_statement`, or `let_statement`
+  objects whose own `claim` fields are clean propositions.
+- If a claim says that a result follows by a named method, put the result as the
+  claim and put the method in `proof_method`; do not put the method in `claim`.
+- A dependency theorem object may have a `claim` field, but that field must be
+  the general theorem statement, not a theorem name.
+
+Preserve mathematical meaning and do not invent stronger results. If there is
+not enough mathematical content to form a proposition, leave the entry
+unpatched and add a note explaining the issue.
+"""

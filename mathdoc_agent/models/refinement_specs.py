@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Literal
+
 from pydantic import BaseModel, Field
 
 from mathdoc_agent.models.base import DocumentKind, ProofKind
@@ -113,4 +115,37 @@ class DocumentChildSpec(BaseModel):
 
 class DocumentRefinementSpec(BaseModel):
     children: list[DocumentChildSpec]
+    notes: list[str] = Field(default_factory=list)
+
+
+class ClaimPatchSpec(BaseModel):
+    path: str = Field(
+        description=(
+            "JSON pointer path to the claim field being repaired, for example "
+            "`/document/body/0/proof/proof_steps/1/claim`."
+        )
+    )
+    action: Literal["replace_claim", "replace_assertion_with_steps"] = Field(
+        description=(
+            "`replace_claim` rewrites only the claim string. "
+            "`replace_assertion_with_steps` replaces the enclosing assert_statement "
+            "with a Proof containing smaller proof_steps."
+        )
+    )
+    claim: str | None = Field(
+        default=None,
+        description="Clean proposition to use when action is `replace_claim`.",
+    )
+    proof_steps: list[LogicalProofStepData] = Field(
+        default_factory=list,
+        description=(
+            "Smaller mathematical proof steps to use when an assert_statement claim "
+            "contains several claims, a proof sketch, or an instruction."
+        ),
+    )
+    notes: list[str] = Field(default_factory=list)
+
+
+class ClaimAuditSpec(BaseModel):
+    patches: list[ClaimPatchSpec] = Field(default_factory=list)
     notes: list[str] = Field(default_factory=list)

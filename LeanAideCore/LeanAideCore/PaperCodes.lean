@@ -1228,6 +1228,83 @@ def generalInductionCode (translator : CodeGenerator := {}) : Option MVarId → 
     s!"codegen: conditionCasesCode does not work for kind {kind} with goal present: {goal?.isSome}"
 
 
+/- Figure
+{
+  "type": "object",
+  "description": "A figure or image.",
+  "properties": {
+    "type": {
+      "type": "string",
+      "const": "Figure",
+      "description": "The type of this document element."
+    },
+    "label": {
+      "type": "string",
+      "description": "Unique identifier/label for referencing (e.g., 'fig:flowchart')."
+    },
+    "source": {
+      "type": "string",
+      "description": "URL or path to the image file."
+    },
+    "caption": {
+      "type": "string",
+      "description": "(OPTIONAL) Caption describing the figure."
+    },
+    "alt_text": {
+      "type": "string",
+      "description": "(OPTIONAL) Alternative text for accessibility."
+    }
+  },
+  "required": [
+    "type",
+    "label",
+    "source"
+  ],
+  "additionalProperties": false
+}
+-/
 #notImplementedCode "Figure"
 
+/- Table
+{
+  "type": "object",
+  "description": "A data table.",
+  "properties": {
+    "type": {
+      "type": "string",
+      "const": "Table",
+      "description": "The type of this document element."
+    },
+    "label": {
+      "type": "string",
+      "description": "Unique identifier/label for referencing (e.g., 'tab:results')."
+    },
+    "caption": {
+      "type": "string",
+      "description": "(OPTIONAL) Caption describing the table."
+    },
+    "content": {
+      "type": "array",
+      "description": "Table data, represented as an array of rows, where each row is an array of cell strings.",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "header_row": {
+      "type": "boolean",
+      "description": "(OPTIONAL) Indicates if the first row in 'content' is a header row. Default: false",
+      "default": false
+    }
+  },
+  "required": [
+    "type",
+    "label",
+    "content"
+  ],
+  "additionalProperties": false
+}
+-/
 #notImplementedCode "Table"

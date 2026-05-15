@@ -20,6 +20,8 @@ from mathdoc_agent.models.payloads import (
 from mathdoc_agent.models.proof import ProofNode, ProofTree
 from mathdoc_agent.models.refinement_specs import (
     CalculationRefinementSpec,
+    ClaimAuditSpec,
+    ClaimPatchSpec,
     CasesRefinementSpec,
     ChildProofSpec,
     DocumentChildSpec,
@@ -29,6 +31,7 @@ from mathdoc_agent.models.refinement_specs import (
     StructuredProofRefinementSpec,
 )
 from mathdoc_agent.orchestration.context import build_proof_context
+from mathdoc_agent.orchestration.claim_audit import audit_claims_for_lean
 from mathdoc_agent.orchestration.document_orchestrator import document_from_text, refine_math_document
 from mathdoc_agent.orchestration.proof_orchestrator import refine_proof_tree
 from mathdoc_agent.orchestration.worklist import walk_proof_nodes
@@ -155,6 +158,32 @@ class StructuredAgent:
             summary="Single unresolved structured proof.",
             unresolved_details=["No decomposition supplied by fake agent."],
         )
+
+
+class ClaimAuditAgent:
+    def __call__(self, payload):
+        entries = {entry["claim"]: entry for entry in payload["claim_entries"]}
+        patches = []
+        if "Choose a positive delta." in entries:
+            patches.append(
+                ClaimPatchSpec(
+                    path=entries["Choose a positive delta."]["path"],
+                    action="replace_claim",
+                    claim="There exists δ > 0.",
+                )
+            )
+        if "Show the algebra and conclude." in entries:
+            patches.append(
+                ClaimPatchSpec(
+                    path=entries["Show the algebra and conclude."]["path"],
+                    action="replace_assertion_with_steps",
+                    proof_steps=[
+                        LogicalProofStepData(type="assert_statement", claim="x + 0 = x."),
+                        LogicalProofStepData(type="assert_statement", claim="The desired equality holds."),
+                    ],
+                )
+            )
+        return ClaimAuditSpec(patches=patches)
 
 
 class DocumentParserAgent:
@@ -359,6 +388,36 @@ class HandlerAndOrchestrationTests(unittest.IsolatedAsyncioTestCase):
         self.assertIn("calling Named logging agent -> SimpleProofRefinementSpec", logs)
         self.assertIn("completed Named logging agent -> SimpleProofRefinementSpec", logs)
         self.assertIn("node=p.root", logs)
+
+    async def test_claim_audit_repairs_claims_with_agent_patches(self) -> None:
+        data = {
+            "document": {
+                "body": [
+                    {
+                        "type": "Theorem",
+                        "claim": "Choose a positive delta.",
+                        "proof": {
+                            "type": "Proof",
+                            "proof_steps": [
+                                {
+                                    "type": "assert_statement",
+                                    "claim": "Show the algebra and conclude.",
+                                }
+                            ],
+                        },
+                    }
+                ]
+            }
+        }
+        audited = await audit_claims_for_lean(data, ClaimAuditAgent())
+        theorem = audited["document"]["body"][0]
+        self.assertEqual(theorem["claim"], "There exists δ > 0.")
+        replacement = theorem["proof"]["proof_steps"][0]
+        self.assertEqual(replacement["type"], "Proof")
+        self.assertEqual(
+            [step["claim"] for step in replacement["proof_steps"]],
+            ["x + 0 = x.", "The desired equality holds."],
+        )
 
     def test_default_registry_has_reasonable_taxonomy_handlers(self) -> None:
         registry = proof_registry()

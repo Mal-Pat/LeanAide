@@ -14,6 +14,7 @@ from typing import Any
 from mathdoc_agent.mathagents import prompts
 from mathdoc_agent.models.refinement_specs import (
     CalculationRefinementSpec,
+    ClaimAuditSpec,
     CasesRefinementSpec,
     DocumentRefinementSpec,
     InductionRefinementSpec,
@@ -86,4 +87,9 @@ structured_proof_agent = _agent(
     "Structured proof refiner",
     prompts.STRUCTURED_PROOF_INSTRUCTIONS,
     StructuredProofRefinementSpec,
+)
+claim_audit_agent = _agent(
+    "Lean claim auditor",
+    prompts.CLAIM_AUDIT_INSTRUCTIONS,
+    ClaimAuditSpec,
 )
