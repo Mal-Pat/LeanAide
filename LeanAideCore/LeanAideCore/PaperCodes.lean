@@ -510,6 +510,43 @@ where
           throwError s!"codegen: no definition translation found for {statement}; outputs: {outputs}\nError when trying existential definition:\n{innerMsg}"
 
 
+/- LogicalStepSequence
+{
+  "type": "array",
+  "description": "A sequence of structured logical steps, typically used within a proof or derivation, consisting of statements like 'let', 'assert', 'assume', etc.",
+  "items": {
+    "anyOf": [
+      {
+        "$ref": "#/$defs/let_statement"
+      },
+      {
+        "$ref": "#/$defs/assert_statement"
+      },
+      {
+        "$ref": "#/$defs/assume_statement"
+      },
+      {
+        "$ref": "#/$defs/some_statement"
+      },
+      {
+        "$ref": "#/$defs/cases_proof"
+      },
+      {
+        "$ref": "#/$defs/induction_proof"
+      },
+      {
+        "$ref": "#/$defs/calculate_statement"
+      },
+      {
+        "$ref": "#/$defs/contradiction_statement"
+      },
+      {
+        "$ref": "#/$defs/conclude_statement"
+      }
+    ]
+  }
+}
+-/
 /--
 Generate code for a sequence of logical steps. It processes the items in the sequence and generates the appropriate Lean code, either as commands or tactics.
 -/
@@ -1134,6 +1171,86 @@ def contradictCode (translator : CodeGenerator := {}) : Option MVarId →  (kind
   `(tacticSeq| have : $stx := by $fullTacs)
 | _, kind, _ => throwError
     s!"codegen: conclude_statement does not work for kind {kind}"
+
+/- contrapositive_proof
+{
+  "type": "object",
+  "description": "A proof by contrapositive.",
+  "properties": {
+    "type": {
+      "type": "string",
+      "const": "contrapositive_proof",
+      "description": "The type of this logical step."
+    },
+    "assumption": {
+      "type": "string",
+      "description": "The negated conclusion or contrapositive assumption."
+    },
+    "proof": {
+      "$ref": "#/$defs/Proof",
+      "description": "The proof deriving the negated hypothesis from the contrapositive assumption."
+    },
+    "conclusion": {
+      "type": "string",
+      "description": "(OPTIONAL) The final contrapositive conclusion, usually the negated hypothesis."
+    }
+  },
+  "required": [
+    "type",
+    "assumption",
+    "proof"
+  ],
+  "additionalProperties": false
+}
+-/
+
+/--
+Generate code for a `contrapositive_proof`. If the JSON contains a
+`conclusion`, this first proves the contrapositive implication
+`assumption → conclusion`, then lets automation close the original goal from
+that contrapositive form. Without `conclusion`, it falls back to a direct
+`Classical.byContradiction` proof of the current goal.
+-/
+@[codegen "contrapositive_proof"]
+def contrapositiveProofCode (translator : CodeGenerator := {}) :
+    Option MVarId → (kind : SyntaxNodeKinds) → Json → TranslateM (Option (TSyntax kind))
+| some goal, ``tacticSeq, js => goal.withContext do
+  let .ok assumptionText := js.getObjValAs? String "assumption" | throwError
+    s!"codegen: no 'assumption' found in 'contrapositive_proof'"
+  let .ok proof := js.getObjValAs? Json "proof" | throwError
+    s!"codegen: no 'proof' found in 'contrapositive_proof'"
+  let assumptionType ← translator.translateToPropStrict assumptionText
+  let contraId := mkIdent `contraHyp
+  match js.getObjValAs? String "conclusion" with
+  | .ok conclusionText =>
+      let conclusionType ← translator.translateToPropStrict conclusionText
+      let contraType ← mkArrow assumptionType conclusionType
+      let contraGoalExpr ← mkFreshExprMVar contraType
+      let contraGoal := contraGoalExpr.mvarId!
+      let [proofGoal] ← runAndGetMVars contraGoal #[← `(tactic| intro $contraId:term)] 1 | throwError
+        s!"codegen: contrapositive_proof failed to introduce assumption; contrapositive type: {← ppExpr contraType}"
+      let some proofStx ← withoutModifyingState do
+        getProof translator proofGoal proof | throwError
+        s!"codegen: no tactics found for contrapositive proof {proof}"
+      let fullProof ← appendTacticSeqSeq (← `(tacticSeq| intro $contraId:term)) proofStx
+      let contraTypeStx ← delabDetailed contraType
+      let contraName := mkIdent `contrapositiveHyp
+      `(tacticSeq|
+        have $contraName : $contraTypeStx := by
+          $fullProof
+        grind)
+  | .error _ =>
+      let contraTacs ← `(tacticSeq|
+        apply Classical.byContradiction
+        intro $contraId:term)
+      let [proofGoal] ← runAndGetMVars goal #[← `(tactic| apply Classical.byContradiction), ← `(tactic| intro $contraId:term)] 1 | throwError
+        s!"codegen: contrapositive_proof failed to introduce contrapositive assumption; goal: {← ppExpr <| ← goal.getType}"
+      let some proofStx ← withoutModifyingState do
+        getProof translator proofGoal proof | throwError
+        s!"codegen: no tactics found for contrapositive proof {proof}"
+      appendTacticSeqSeq contraTacs proofStx
+| goal?, kind, _ => throwError
+    s!"codegen: contrapositive_proof does not work for kind {kind} where goal present: {goal?.isSome}"
 
 
 /--
