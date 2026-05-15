@@ -37,6 +37,10 @@ matching field names.
 - `claim`: asserted proposition.
 - `proof_method`: optional metadata, currently ignored by Lean codegen.
 - `results_used`: optional references, currently ignored by Lean codegen.
+- `deduced_from_claim`: optional local/contextual claims used for the
+  assertion, currently ignored by Lean codegen.
+- `deduced_from_theorem`: optional standard theorem objects used for the
+  assertion, currently ignored by Lean codegen.
 
 ### `calculation`
 
@@ -104,6 +108,57 @@ implementation only requires `if_proof` and `only_if_proof`.
 
 Recommended action: keep Python as-is unless Lean codegen starts using the
 extra fields.
+
+## Dependency Field Support Needed
+
+`mathdoc_agent` now emits structured dependency fields on logical proof steps
+and calculation steps. Lean codegen should preserve and use these fields instead
+of treating them as disposable metadata.
+
+Primary fields:
+
+- `deduced_from_claim`: array of local/contextual mathematical claims. These are
+  not theorem names; they should be translated as propositions and used as
+  local facts, `have` candidates, or search context.
+- `deduced_from_theorem`: array of theorem objects. Each object has:
+  - `claim`: general theorem statement.
+  - `name`: optional theorem name.
+  - `description`: optional note on how the theorem is used.
+- `proof_method`: local proof hint or method label.
+- `hints`, `referenced_lemmas`, `referenced_hypotheses`: optional guidance from
+  coarse proof refinement.
+
+Recommended Lean-side behavior:
+
+- Extend `assertionCode` for `assert_statement` to read
+  `deduced_from_claim` and `deduced_from_theorem` before falling back to generic
+  tactic search from the translated `claim`.
+- For `deduced_from_theorem`, prefer an explicit `name` when it resolves to a
+  known theorem. If only `claim` is present, translate the claim and use
+  `getExactTerm?`/search as with `results_used`.
+- For `deduced_from_claim`, translate each claim and generate named local
+  `have` facts or add them to the search context before proving the assertion.
+- Keep compatibility with the older `results_used` array by either mapping it
+  into the new dependency representation or by making a shared helper read all
+  supported dependency fields.
+- Consider tolerating the misspelling `deduce_from_theorem` as an alias for
+  `deduced_from_theorem` if any saved examples contain it, but prefer emitting
+  and documenting the `deduced_from_theorem` spelling.
+
+Handlers that should share this dependency parser:
+
+- `assert_statement`: most important target; dependencies should guide the
+  generated `have` proof.
+- `Proof` / generic proof-step dispatch: preserve top-level dependency fields
+  when a simple proof fragment is not decomposed into separate steps.
+- Specific calculation handlers such as `equality_chain`, `inequality_chain`,
+  `rewrite_by_hypothesis`, and related calculation kinds: use dependency fields
+  attached to each calculation step's `justification`.
+- `conclude_statement`: accept the same fields when a conclusion step cites
+  local claims or standard theorems.
+- Future dedicated proof handlers in this note: any handler with an internal
+  `proof`, `proof_of_reduction`, `verification`, or `*_proof` field should pass
+  dependency metadata through to its generated subgoals.
 
 ## New `@[codegen]` Handlers Needed
 
