@@ -1,0 +1,270 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "thm:liminf-limsup-inequalities",
+        "header": "Theorem",
+        "hypothesis": [
+          {
+            "type": "assume_statement",
+            "assumption": "Let (a_n) be a real sequence and let L \\in \\mathbb{R} satisfy the following property: for every \\varepsilon > 0 there exists N \\in \\mathbb{N} such that for every n \\ge N there exists m \\ge n with |a_m - L| < \\varepsilon."
+          }
+        ],
+        "claim": "\\liminf_{n \\to \\infty} a_n \\le L \\le \\limsup_{n \\to \\infty} a_n.",
+        "proof": [
+          {
+            "type": "Paragraph",
+            "text": "We prove the two desired inequalities separately, using the standard definitions of limsup and liminf in terms of suprema and infima of tails of the sequence."
+          },
+          {
+            "type": "let_statement",
+            "variable_name": "s_n",
+            "statement": "For each n \\in \\mathbb{N} define s_n := \\sup\\{ a_k : k \\ge n \\}."
+          },
+          {
+            "type": "let_statement",
+            "variable_name": "i_n",
+            "statement": "For each n \\in \\mathbb{N} define i_n := \\inf\\{ a_k : k \\ge n \\}."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "The sequence (s_n) is decreasing and the sequence (i_n) is increasing.",
+            "proof_method": "This follows from the fact that as n increases, the tail sets {a_k : k \\ge n} become smaller, so their suprema form a decreasing sequence and their infima form an increasing sequence."
+          },
+          {
+            "type": "assert_statement",
+            "label": "eq:limsup-liminf-def",
+            "claim": "\\limsup_{n \\to \\infty} a_n = \\inf_{n \\in \\mathbb{N}} s_n and \\liminf_{n \\to \\infty} a_n = \\sup_{n \\in \\mathbb{N}} i_n.",
+            "proof_method": "This is the standard definition of limsup and liminf via suprema and infima of the tails of the sequence."
+          },
+          {
+            "type": "Paragraph",
+            "text": "We first prove the inequality L \\le \\limsup_{n \\to \\infty} a_n."
+          },
+          {
+            "type": "assert_statement",
+            "label": "goal:L-le-s_n",
+            "claim": "For every n \\in \\mathbb{N}, one has L \\le s_n.",
+            "proof_method": "We prove this by contradiction using the hypothesis on (a_n) and L."
+          },
+          {
+            "type": "assume_statement",
+            "label": "contra:L-gt-s_n",
+            "assumption": "There exists n_0 \\in \\mathbb{N} such that L > s_{n_0}."
+          },
+          {
+            "type": "let_statement",
+            "variable_name": "n",
+            "value": "n_0",
+            "statement": "Fix such an index and denote it by n = n_0."
+          },
+          {
+            "type": "let_statement",
+            "variable_name": "E_n",
+            "statement": "Let E_n := \\{ a_k : k \\ge n \\}, so that s_n = \\sup E_n."
+          },
+          {
+            "type": "let_statement",
+            "variable_name": "delta",
+            "statement": "Define \\delta := L - s_n."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "\\delta > 0.",
+            "proof_method": "This follows directly from the assumption L > s_n."
+          },
+          {
+            "type": "let_statement",
+            "variable_name": "epsilon",
+            "statement": "Set \\varepsilon := \\delta/2 > 0."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "There exists N \\in \\mathbb{N} such that for every p \\ge N there exists m \\ge p with |a_m - L| < \\delta/2.",
+            "proof_method": "Apply the hypothesis on (a_n) and L to the chosen \\varepsilon = \\delta/2."
+          },
+          {
+            "type": "let_statement",
+            "variable_name": "p",
+            "statement": "Set p := \\max\\{N, n\\}, so that p \\ge N and p \\ge n."
+          },
+          {
+            "type": "some_statement",
+            "variable_name": "m",
+            "variable_kind": "integer index",
+            "properties": "m \\ge p",
+            "statement": "By the choice of N, there exists m \\ge p such that |a_m - L| < \\delta/2."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "a_m \\in E_n and hence a_m \\le s_n.",
+            "proof_method": "Since m \\ge p \\ge n, we have m \\ge n, so a_m is in E_n; by definition of s_n as sup E_n, a_m \\le s_n."
+          },
+          {
+            "type": "assert_statement",
+            "label": "ineq:am-between",
+            "claim": "L - \\delta/2 < a_m < L + \\delta/2.",
+            "proof_method": "This is equivalent to the inequality |a_m - L| < \\delta/2."
+          },
+          {
+            "type": "assert_statement",
+            "label": "ineq:am-lower",
+            "claim": "(L + s_n)/2 < a_m.",
+            "proof_method": "Substitute \\delta = L - s_n into L - \\delta/2 < a_m to obtain L - (L - s_n)/2 < a_m, which simplifies to (L + s_n)/2 < a_m."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "(L + s_n)/2 < s_n.",
+            "proof_method": "Combine (L + s_n)/2 < a_m with a_m \\le s_n."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "L < s_n.",
+            "proof_method": "Multiply (L + s_n)/2 < s_n by 2 to obtain L + s_n < 2 s_n, hence L < s_n."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "L > s_n and L < s_n is a contradiction.",
+            "proof_method": "The assumption gave L > s_n, while the previous step yielded L < s_n."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "The assumption that there exists n with L > s_n is false, so for every n \\in \\mathbb{N} we have L \\le s_n.",
+            "proof_method": "Proof by contradiction: since assuming L > s_n for some n leads to a contradiction, we conclude L \\le s_n for all n."
+          },
+          {
+            "type": "conclude_statement",
+            "claim": "L \\le \\limsup_{n \\to \\infty} a_n.",
+            "results_used": [
+              {
+                "statement": "For every n, L \\le s_n, so L is a lower bound of the set {s_n : n \\in \\mathbb{N}}; therefore L \\le \\inf_{n \\in \\mathbb{N}} s_n = \\limsup_{n \\to \\infty} a_n.",
+                "target_identifier": "eq:limsup-liminf-def"
+              }
+            ]
+          },
+          {
+            "type": "Paragraph",
+            "text": "We now prove the inequality \\liminf_{n \\to \\infty} a_n \\le L."
+          },
+          {
+            "type": "assert_statement",
+            "label": "goal:i_n-le-L",
+            "claim": "For every n \\in \\mathbb{N}, one has i_n \\le L.",
+            "proof_method": "Again we argue by contradiction using the hypothesis on (a_n) and L."
+          },
+          {
+            "type": "assume_statement",
+            "label": "contra:i_n-gt-L",
+            "assumption": "There exists n_1 \\in \\mathbb{N} such that i_{n_1} > L."
+          },
+          {
+            "type": "let_statement",
+            "variable_name": "n",
+            "value": "n_1",
+            "statement": "Fix such an index and denote it by n = n_1."
+          },
+          {
+            "type": "let_statement",
+            "variable_name": "E_n",
+            "statement": "Let E_n := \\{ a_k : k \\ge n \\}, so that i_n = \\inf E_n."
+          },
+          {
+            "type": "let_statement",
+            "variable_name": "eta",
+            "statement": "Define \\eta := i_n - L."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "\\eta > 0.",
+            "proof_method": "This follows directly from the assumption i_n > L."
+          },
+          {
+            "type": "let_statement",
+            "variable_name": "epsilon",
+            "statement": "Set \\varepsilon := \\eta/2 > 0."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "There exists N \\in \\mathbb{N} such that for every p \\ge N there exists m \\ge p with |a_m - L| < \\eta/2.",
+            "proof_method": "Apply the hypothesis on (a_n) and L to the chosen \\varepsilon = \\eta/2."
+          },
+          {
+            "type": "let_statement",
+            "variable_name": "p",
+            "statement": "Set p := \\max\\{N, n\\}, so that p \\ge N and p \\ge n."
+          },
+          {
+            "type": "some_statement",
+            "variable_name": "m",
+            "variable_kind": "integer index",
+            "properties": "m \\ge p",
+            "statement": "By the choice of N, there exists m \\ge p such that |a_m - L| < \\eta/2."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "a_m \\in E_n and hence i_n \\le a_m.",
+            "proof_method": "Since m \\ge p \\ge n, we have m \\ge n, so a_m is in E_n; by definition of i_n as inf E_n, i_n \\le a_m."
+          },
+          {
+            "type": "assert_statement",
+            "label": "ineq:am-between-eta",
+            "claim": "L - \\eta/2 < a_m < L + \\eta/2.",
+            "proof_method": "This is equivalent to the inequality |a_m - L| < \\eta/2."
+          },
+          {
+            "type": "assert_statement",
+            "label": "ineq:am-upper",
+            "claim": "a_m < (L + i_n)/2.",
+            "proof_method": "Substitute \\eta = i_n - L into a_m < L + \\eta/2 to obtain a_m < L + (i_n - L)/2 = (L + i_n)/2."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "i_n \\le a_m < (L + i_n)/2.",
+            "proof_method": "Combine i_n \\le a_m with a_m < (L + i_n)/2."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "i_n < (L + i_n)/2.",
+            "proof_method": "From i_n \\le a_m < (L + i_n)/2, deduce i_n < (L + i_n)/2."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "i_n < L.",
+            "proof_method": "Multiply i_n < (L + i_n)/2 by 2 to get 2 i_n < L + i_n, hence i_n < L."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "i_n > L and i_n < L is a contradiction.",
+            "proof_method": "The assumption gave i_n > L, while the previous step yielded i_n < L."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "The assumption that there exists n with i_n > L is false, so for every n \\in \\mathbb{N} we have i_n \\le L.",
+            "proof_method": "Proof by contradiction: since assuming i_n > L for some n leads to a contradiction, we conclude i_n \\le L for all n."
+          },
+          {
+            "type": "conclude_statement",
+            "claim": "\\liminf_{n \\to \\infty} a_n \\le L.",
+            "results_used": [
+              {
+                "statement": "For every n, i_n \\le L, so L is an upper bound of the set {i_n : n \\in \\mathbb{N}}; therefore \\sup_{n \\in \\mathbb{N}} i_n \\le L, i.e., \\liminf_{n \\to \\infty} a_n = \\sup_{n \\in \\mathbb{N}} i_n \\le L.",
+                "target_identifier": "eq:limsup-liminf-def"
+              }
+            ]
+          },
+          {
+            "type": "conclude_statement",
+            "claim": "\\liminf_{n \\to \\infty} a_n \\le L \\le \\limsup_{n \\to \\infty} a_n.",
+            "results_used": [
+              {
+                "statement": "Combine the inequalities L \\le \\limsup_{n \\to \\infty} a_n and \\liminf_{n \\to \\infty} a_n \\le L."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

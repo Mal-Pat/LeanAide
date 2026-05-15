@@ -1,0 +1,236 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Definition",
+        "label": "def: S",
+        "header": "Definition",
+        "name": "S",
+        "definition": "S := { x ∈ ℝ ∣ x² < 4 }"
+      },
+      {
+        "type": "Theorem",
+        "header": "Lemma",
+        "label": "lem:nonnegativity_of_squares",
+        "claim": "∀ x : ℝ, 0 ≤ x².",
+        "proof": [
+          {
+            "type": "let_statement",
+            "variable_name": "x",
+            "variable_type": "ℝ",
+            "statement": "let x : ℝ"
+          },
+          {
+            "type": "assert_statement",
+            "claim": "x² = x * x"
+          },
+          {
+            "type": "assert_statement",
+            "claim": "0 ≤ x * x",
+            "proof_method": "order-field axiom that squares are nonnegative"
+          }
+        ]
+      },
+      {
+        "type": "Theorem",
+        "header": "Lemma",
+        "label": "lem:sqrt_strict_monotonicity",
+        "claim": "∀ a b : ℝ, 0 ≤ a → 0 ≤ b → a < b → sqrt a < sqrt b.",
+        "proof": [
+          {
+            "type": "assert_statement",
+            "claim": "sqrt a < sqrt b",
+            "results_used": [
+              {
+                "statement": "real.sqrt_lt_iff_lt",
+                "mathlib_identifier": "real.sqrt_lt_iff_lt"
+              },
+              {
+                "statement": "sqrt maps nonnegatives to nonnegatives"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Theorem",
+        "header": "Lemma",
+        "label": "lem:sqrt_of_square_abs",
+        "claim": "∀ x : ℝ, sqrt (x²) = |x|.",
+        "proof": [
+          {
+            "type": "assert_statement",
+            "claim": "sqrt (x²) = |x|",
+            "results_used": [
+              {
+                "statement": "defining property of real.sqrt on nonnegative arguments"
+              },
+              {
+                "statement": "abs_eq_sqrt_sq",
+                "mathlib_identifier": "abs_eq_sqrt_sq"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Theorem",
+        "header": "Lemma",
+        "label": "lem:strict_to_weak_inequality",
+        "claim": "∀ a b : ℝ, a < b → a ≤ b.",
+        "proof": [
+          {
+            "type": "assert_statement",
+            "claim": "a ≤ b",
+            "results_used": [
+              {
+                "statement": "lt.le",
+                "mathlib_identifier": "lt.le"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Theorem",
+        "header": "Lemma",
+        "label": "lem:abs_bounds",
+        "claim": "∀ x : ℝ, -|x| ≤ x ∧ x ≤ |x|.",
+        "proof": [
+          {
+            "type": "assert_statement",
+            "claim": "-|x| ≤ x ∧ x ≤ |x|",
+            "results_used": [
+              {
+                "statement": "definition of abs"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Theorem",
+        "header": "Lemma",
+        "label": "lem:abs_lt_implies_le",
+        "claim": "∀ x : ℝ, |x| < 2 → x ≤ 2.",
+        "proof": [
+          {
+            "type": "let_statement",
+            "variable_name": "x",
+            "variable_type": "ℝ",
+            "statement": "let x : ℝ"
+          },
+          {
+            "type": "assume_statement",
+            "assumption": "|x| < 2"
+          },
+          {
+            "type": "assert_statement",
+            "claim": "x ≤ |x|",
+            "internal_references": [
+              {
+                "target_identifier": "lem:abs_bounds"
+              }
+            ]
+          },
+          {
+            "type": "assert_statement",
+            "claim": "x < 2",
+            "proof_method": "transitivity of ≤ and <",
+            "results_used": [
+              {
+                "statement": "x ≤ |x|"
+              },
+              {
+                "statement": "|x| < 2"
+              }
+            ]
+          },
+          {
+            "type": "assert_statement",
+            "claim": "x ≤ 2",
+            "internal_references": [
+              {
+                "target_identifier": "lem:strict_to_weak_inequality"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Theorem",
+        "header": "Theorem",
+        "label": "thm:2_upper_bound",
+        "claim": "∀ x ∈ S, x ≤ 2.",
+        "proof": [
+          {
+            "type": "let_statement",
+            "variable_name": "x",
+            "variable_type": "ℝ",
+            "statement": "let x : ℝ"
+          },
+          {
+            "type": "assume_statement",
+            "assumption": "x² < 4"
+          },
+          {
+            "type": "assert_statement",
+            "claim": "0 ≤ x²",
+            "internal_references": [
+              {
+                "target_identifier": "lem:nonnegativity_of_squares"
+              }
+            ]
+          },
+          {
+            "type": "assert_statement",
+            "claim": "sqrt (x²) < sqrt 4",
+            "internal_references": [
+              {
+                "target_identifier": "lem:sqrt_strict_monotonicity"
+              }
+            ]
+          },
+          {
+            "type": "calculation",
+            "inline_calculation": "sqrt 4 = 2"
+          },
+          {
+            "type": "assert_statement",
+            "claim": "sqrt (x²) < 2",
+            "results_used": [
+              {
+                "statement": "sqrt (x²) < sqrt 4"
+              },
+              {
+                "statement": "sqrt 4 = 2"
+              }
+            ]
+          },
+          {
+            "type": "assert_statement",
+            "claim": "|x| < 2",
+            "internal_references": [
+              {
+                "target_identifier": "lem:sqrt_of_square_abs"
+              }
+            ]
+          },
+          {
+            "type": "assert_statement",
+            "claim": "x ≤ 2",
+            "internal_references": [
+              {
+                "target_identifier": "lem:abs_lt_implies_le"
+              }
+            ]
+          },
+          {
+            "type": "conclude_statement"
+          }
+        ]
+      }
+    ]
+  }
+}

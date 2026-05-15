@@ -1,0 +1,106 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "header": "Theorem",
+        "label": "thm:cubic_metric",
+        "hypothesis": [
+          {
+            "type": "let_statement",
+            "variable_name": "X",
+            "value": "\\mathbb{R}",
+            "variable_type": "set of real numbers",
+            "statement": "Let X = \\mathbb{R}."
+          },
+          {
+            "type": "let_statement",
+            "variable_name": "d",
+            "variable_type": "function d : \\mathbb{R} \\times \\mathbb{R} \\to \\mathbb{R}",
+            "properties": "given by d(x,y) = |x^{3} - y^{3}| for all x,y \\in \\mathbb{R}",
+            "statement": "Define d : \\mathbb{R} \\times \\mathbb{R} \\to \\mathbb{R} by d(x,y) = |x^{3} - y^{3}| for all x,y \\in \\mathbb{R}."
+          }
+        ],
+        "claim": "Then the function d is a metric on \\mathbb{R}.",
+        "proof": [
+          {
+            "type": "Paragraph",
+            "text": "We must show that d is a metric on \\mathbb{R}. This means that we must verify the following four properties for all x,y,z \\in \\mathbb{R}: (1) d(x,y) \\ge 0 (non-negativity), (2) d(x,y) = 0 if and only if x = y (identity of indiscernibles), (3) d(x,y) = d(y,x) (symmetry), and (4) d(x,z) \\le d(x,y) + d(y,z) (triangle inequality)."
+          },
+          {
+            "type": "Paragraph",
+            "text": "Non-negativity."
+          },
+          {
+            "type": "assume_statement",
+            "assumption": "x,y \\in \\mathbb{R} are arbitrary."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "d(x,y) = |x^{3} - y^{3}| \\ge 0 for all x,y \\in \\mathbb{R}.",
+            "proof_method": "Since the absolute value |t| of any real number t is always greater than or equal to 0, applying this to t = x^{3} - y^{3} gives |x^{3} - y^{3}| \\ge 0."
+          },
+          {
+            "type": "Paragraph",
+            "text": "Identity of indiscernibles."
+          },
+          {
+            "type": "assume_statement",
+            "assumption": "x,y \\in \\mathbb{R} are arbitrary."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "If d(x,y) = 0, then x = y.",
+            "proof_method": "From d(x,y) = 0 we get |x^{3} - y^{3}| = 0, hence x^{3} - y^{3} = 0 and so x^{3} = y^{3}. The function f : \\mathbb{R} \\to \\mathbb{R} defined by f(t) = t^{3} is strictly increasing and hence injective on \\mathbb{R}; thus x^{3} = y^{3} implies x = y."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "If x = y, then d(x,y) = 0.",
+            "proof_method": "From x = y we get x^{3} = y^{3}, so x^{3} - y^{3} = 0 and hence |x^{3} - y^{3}| = |0| = 0, which means d(x,y) = 0."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "For all x,y \\in \\mathbb{R}, d(x,y) = 0 if and only if x = y.",
+            "proof_method": "Combine the two implications just proved."
+          },
+          {
+            "type": "Paragraph",
+            "text": "Symmetry."
+          },
+          {
+            "type": "assume_statement",
+            "assumption": "x,y \\in \\mathbb{R} are arbitrary."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "d(x,y) = d(y,x) for all x,y \\in \\mathbb{R}.",
+            "proof_method": "We have d(x,y) = |x^{3} - y^{3}| and d(y,x) = |y^{3} - x^{3}| = |-(x^{3} - y^{3})|. Since | -t | = |t| for all real t, it follows that |y^{3} - x^{3}| = |x^{3} - y^{3}|, hence d(y,x) = d(x,y)."
+          },
+          {
+            "type": "Paragraph",
+            "text": "Triangle inequality."
+          },
+          {
+            "type": "assume_statement",
+            "assumption": "x,y,z \\in \\mathbb{R} are arbitrary."
+          },
+          {
+            "type": "assert_statement",
+            "claim": "d(x,z) \\le d(x,y) + d(y,z) for all x,y,z \\in \\mathbb{R}.",
+            "proof_method": "By definition, d(x,z) = |x^{3} - z^{3}| and d(x,y) + d(y,z) = |x^{3} - y^{3}| + |y^{3} - z^{3}|. Using the standard triangle inequality for the absolute value on \\mathbb{R}, |a + b| \\le |a| + |b| for all real a,b, and taking a = x^{3} - y^{3}, b = y^{3} - z^{3}, we have a + b = x^{3} - z^{3} so that |x^{3} - z^{3}| = |(x^{3} - y^{3}) + (y^{3} - z^{3})| \\le |x^{3} - y^{3}| + |y^{3} - z^{3}|. Rewriting in terms of d gives d(x,z) \\le d(x,y) + d(y,z).",
+            "results_used": [
+              {
+                "statement": "For all real numbers a,b, the absolute value satisfies the triangle inequality |a + b| \\le |a| + |b|."
+              }
+            ]
+          },
+          {
+            "type": "conclude_statement",
+            "claim": "Since d(x,y) = |x^{3} - y^{3}| satisfies non-negativity, identity of indiscernibles, symmetry, and the triangle inequality on \\mathbb{R}, the function d is a metric on \\mathbb{R}."
+          }
+        ]
+      }
+    ]
+  }
+}
