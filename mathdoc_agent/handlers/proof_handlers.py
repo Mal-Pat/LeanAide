@@ -51,8 +51,15 @@ class UnknownProofHandler(ProofRefinementHandler[ClassificationSpec]):
     def _normalized_kind(self, kind: ProofKind | str) -> ProofKind | str:
         key = kind_key(kind).strip().lower().replace("-", "_").replace(" ", "_")
         aliases = {
+            "axiom_check": ProofKind.logical_sequence.value,
+            "axiom_verification": ProofKind.logical_sequence.value,
+            "biconditional": ProofKind.equivalence.value,
             "direct": ProofKind.logical_sequence.value,
             "direct_proof": ProofKind.logical_sequence.value,
+            "double_inclusion": ProofKind.extensionality.value,
+            "iff": ProofKind.equivalence.value,
+            "iff_biconditional": ProofKind.equivalence.value,
+            "proof_by_double_inclusion": ProofKind.extensionality.value,
             "simple_direct_proof": ProofKind.logical_sequence.value,
             "logical_step_sequence": ProofKind.logical_sequence.value,
             "logical_proof_sequence": ProofKind.logical_sequence.value,
@@ -64,7 +71,7 @@ class UnknownProofHandler(ProofRefinementHandler[ClassificationSpec]):
         try:
             return ProofKind(normalized)
         except ValueError:
-            return normalized
+            return ProofKind.logical_sequence
 
     def _log_classification(self, node: ProofNode, original: ProofKind | str, normalized: ProofKind | str, confidence: float) -> None:
         print(
@@ -237,8 +244,10 @@ class SimpleProofHandler(ProofRefinementHandler[SimpleProofRefinementSpec]):
     kind = ProofKind.simple.value
     output_model = SimpleProofRefinementSpec
 
-    def __init__(self, agent) -> None:
+    def __init__(self, agent, *, kind: str | None = None) -> None:
         self.agent = agent
+        if kind is not None:
+            self.kind = kind
 
     def _looks_like_calculation(self, text: str) -> bool:
         return bool(re.search(r"(=|≤|>=|≥|<|>|\\le|\\ge)", text))

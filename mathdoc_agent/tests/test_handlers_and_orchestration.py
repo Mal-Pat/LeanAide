@@ -62,6 +62,14 @@ class UnknownProofClassifierAgent:
         return {"kind": "unknown", "confidence": 0.4}
 
 
+class UnsupportedProofClassifierAgent:
+    def __init__(self, kind: str) -> None:
+        self.kind = kind
+
+    def __call__(self, payload):
+        return {"kind": self.kind, "confidence": 0.8}
+
+
 class InductionAgent:
     def __call__(self, payload):
         text = payload["node"]["text"]
@@ -379,6 +387,53 @@ class HandlerAndOrchestrationTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(refined.root.status, NodeStatus.resolved)
         self.assertNotEqual(refined.root.kind, ProofKind.opaque)
 
+    async def test_unsupported_classifier_output_routes_to_logical_sequence(self) -> None:
+        registry = default_proof_handler_registry(
+            classifier_agent=UnsupportedProofClassifierAgent("axiom_verification"),
+            induction_agent=InductionAgent(),
+            cases_agent=CasesAgent(),
+            simple_agent=SimpleAgent(),
+            calculation_agent=CalculationAgent(),
+            structured_agent=StructuredAgent(),
+        )
+        tree = ProofTree(
+            id="axiom",
+            theorem_statement="P",
+            root=ProofNode(
+                id="axiom.root",
+                kind=ProofKind.unknown,
+                status=NodeStatus.raw,
+                text="Verify each axiom in sequence.",
+            ),
+        )
+        refined = await refine_proof_tree(tree, registry, max_iterations=5)
+        self.assertEqual(refined.root.kind, ProofKind.logical_sequence.value)
+        self.assertEqual(refined.root.status, NodeStatus.resolved)
+
+    async def test_classifier_iff_alias_routes_to_equivalence(self) -> None:
+        registry = default_proof_handler_registry(
+            classifier_agent=UnsupportedProofClassifierAgent("iff_biconditional"),
+            induction_agent=InductionAgent(),
+            cases_agent=CasesAgent(),
+            simple_agent=SimpleAgent(),
+            calculation_agent=CalculationAgent(),
+            structured_agent=StructuredAgent(),
+        )
+        tree = ProofTree(
+            id="iff_alias",
+            theorem_statement="P iff Q",
+            root=ProofNode(
+                id="iff_alias.root",
+                kind=ProofKind.unknown,
+                status=NodeStatus.raw,
+                text="Prove both implications.",
+                goal="P iff Q",
+            ),
+        )
+        refined = await refine_proof_tree(tree, registry, max_iterations=10)
+        self.assertEqual(refined.root.kind, ProofKind.equivalence)
+        self.assertEqual(refined.root.status, NodeStatus.resolved)
+
     def test_unsupported_handler_fallback_logs_to_stderr(self) -> None:
         registry = proof_registry()
         stderr = io.StringIO()
@@ -496,6 +551,8 @@ class HandlerAndOrchestrationTests(unittest.IsolatedAsyncioTestCase):
         for kind in (
             ProofKind.contradiction,
             ProofKind.logical_sequence,
+            ProofKind.theorem_application,
+            ProofKind.definition_unfolding,
             ProofKind.contrapositive,
             ProofKind.existence,
             ProofKind.uniqueness,

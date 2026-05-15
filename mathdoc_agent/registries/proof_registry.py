@@ -36,6 +36,8 @@ class ProofPayloadRegistry:
 proof_payload_registry = ProofPayloadRegistry()
 proof_payload_registry.register(ProofKind.logical_sequence, SimpleProofData)
 proof_payload_registry.register(ProofKind.simple, SimpleProofData)
+proof_payload_registry.register(ProofKind.theorem_application, SimpleProofData)
+proof_payload_registry.register(ProofKind.definition_unfolding, SimpleProofData)
 proof_payload_registry.register(ProofKind.induction, InductionData)
 proof_payload_registry.register(ProofKind.cases, CasesData)
 proof_payload_registry.register(ProofKind.calculation, CalculationData)

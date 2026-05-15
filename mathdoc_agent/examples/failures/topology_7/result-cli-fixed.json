@@ -1,0 +1,565 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "topology_7.root.thm",
+        "header": "Theorem",
+        "claim": "Let $X$ be an uncountable set equipped with the co-countable topology, where $U\\subseteq X$ is open iff $U=\\emptyset$ or $X\\setminus U$ is countable. A sequence $(x_n)$ in $X$ converges to a point $L\\in X$ if and only if there exists an integer $N$ such that for all $n\\ge N$, $x_n=L$.",
+        "proof": {
+          "type": "Proof",
+          "proof_steps": [
+            {
+              "type": "Theorem",
+              "label": "topology_7.root.thm.proof.root.step1",
+              "header": "Claim",
+              "claim": "Let $X$ be an uncountable set equipped with the co-countable topology, so a subset $U \\subseteq X$ is open if and only if either $U = \\emptyset$ or $X \\setminus U$ is countable.",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "let_statement",
+                    "variable_name": "X",
+                    "variable_type": "uncountable set equipped with the co-countable topology",
+                    "statement": "Let $X$ be an uncountable set equipped with the co-countable topology."
+                  },
+                  {
+                    "type": "assert_statement",
+                    "claim": "A subset $U \\subseteq X$ is open if and only if either $U = \\emptyset$ or $X \\setminus U$ is countable.",
+                    "proof_method": "Definition of the co-countable topology."
+                  }
+                ]
+              },
+              "id": "topology_7.root.thm.proof.root.step1",
+              "status": "resolved",
+              "text": "Let $X$ be an uncountable set equipped with the co-countable topology, so a subset $U \\subseteq X$ is open if and only if either $U = \\emptyset$ or $X \\setminus U$ is countable."
+            },
+            {
+              "type": "Proof",
+              "proof_steps": [
+                {
+                  "type": "let_statement",
+                  "variable_name": "x",
+                  "variable_type": "sequence in X",
+                  "statement": "Let $(x_n)_{n \\in \\mathbb{N}}$ be a sequence in $X$."
+                },
+                {
+                  "type": "let_statement",
+                  "variable_name": "L",
+                  "variable_type": "element of X",
+                  "statement": "Let $L \\in X$."
+                }
+              ]
+            },
+            {
+              "type": "assert_statement",
+              "claim": "$(x_n)$ converges to $L$ in this topology if and only if for every open set $U \\subseteq X$ with $L \\in U$, there exists $N \\in \\mathbb{N}$ such that for all $n \\ge N$, $x_n \\in U$.",
+              "id": "topology_7.root.thm.proof.root.step3",
+              "status": "classified",
+              "text": "To say that $(x_n)$ converges to $L$ in this topology means:"
+            },
+            {
+              "type": "Theorem",
+              "label": "topology_7.root.thm.proof.root.step4",
+              "header": "Claim",
+              "claim": "For every open set $U \\subseteq X$ with $L \\in U$, there exists $N \\in \\mathbb{N}$ such that for all $n \\ge N$, $x_n \\in U$.",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_theorem": [
+                      {
+                        "claim": "A sequence (x_n) in a topological space X converges to L if and only if for every open set U \\subseteq X with L \\in U, there exists N \\in \\mathbb{N} such that for all n \\ge N, x_n \\in U.",
+                        "name": "Definition of sequence convergence in a topological space",
+                        "description": "Used to obtain the neighborhood formulation of convergence."
+                      }
+                    ],
+                    "type": "assert_statement",
+                    "claim": "For every open set U \\subseteq X with L \\in U, there exists N \\in \\mathbb{N} such that for all n \\ge N, x_n \\in U.",
+                    "proof_method": "By the definition of convergence of a sequence in a topological space."
+                  }
+                ]
+              },
+              "id": "topology_7.root.thm.proof.root.step4",
+              "status": "resolved",
+              "text": "For every open set $U \\subseteq X$ with $L \\in U$, there exists $N \\in \\mathbb{N}$ such that for all $n \\ge N$, $x_n \\in U$."
+            },
+            {
+              "type": "assert_statement",
+              "claim": "The sequence $(x_n)$ is eventually constant with value $L$ if and only if there exists $N \\in \\mathbb{N}$ such that for all $n \\ge N$, $x_n = L$.",
+              "id": "topology_7.root.thm.proof.root.step5",
+              "status": "classified",
+              "text": "The sequence $(x_n)$ is eventually constant with value $L$ if:"
+            },
+            {
+              "type": "assert_statement",
+              "claim": "There exists $N \\in \\mathbb{N}$ such that for all $n \\ge N$, $x_n = L$.",
+              "id": "topology_7.root.thm.proof.root.step6",
+              "status": "classified",
+              "text": "There exists $N \\in \\mathbb{N}$ such that for all $n \\ge N$, $x_n = L$."
+            },
+            {
+              "type": "Theorem",
+              "label": "topology_7.root.thm.proof.root.step7",
+              "header": "Claim",
+              "claim": "$(x_n)$ converges to $L$ if and only if $(x_n)$ is eventually constant with value $L$.",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assert_statement",
+                    "claim": "$(x_n)$ converges to $L$ if and only if $(x_n)$ is eventually constant with value $L$.",
+                    "proof_method": "This is the goal to be shown."
+                  }
+                ]
+              },
+              "id": "topology_7.root.thm.proof.root.step7",
+              "status": "resolved",
+              "text": "The goal is to show that $(x_n)$ converges to $L$ if and only if $(x_n)$ is eventually constant with value $L$."
+            },
+            {
+              "type": "assert_statement",
+              "claim": "---",
+              "id": "topology_7.root.thm.proof.root.step8",
+              "status": "classified",
+              "text": "---"
+            },
+            {
+              "type": "assert_statement",
+              "claim": "$(x_n)$ converges to $L$.",
+              "id": "topology_7.root.thm.proof.root.step9",
+              "status": "classified",
+              "text": "First, assume that $(x_n)$ converges to $L$."
+            },
+            {
+              "type": "assert_statement",
+              "claim": "Define the subset",
+              "id": "topology_7.root.thm.proof.root.step10",
+              "status": "classified",
+              "text": "Define the subset"
+            },
+            {
+              "type": "definition_unfolding",
+              "start": "A",
+              "target": "X",
+              "goal_relation": "mixed",
+              "steps": [
+                {
+                  "from": "A",
+                  "relation": "=",
+                  "to": "\\{x_n \\mid n \\in \\mathbb{N},\\ x_n \\neq L\\}",
+                  "justification": "Definition of A."
+                },
+                {
+                  "from": "\\{x_n \\mid n \\in \\mathbb{N},\\ x_n \\neq L\\}",
+                  "relation": "<=",
+                  "to": "X",
+                  "justification": "Each x_n is a term of the sequence in X, so x_n \\in X for all n \\in \\mathbb{N}.",
+                  "side_conditions": [
+                    "(x_n) is a sequence in X"
+                  ]
+                }
+              ],
+              "id": "topology_7.root.thm.proof.root.step11",
+              "status": "resolved",
+              "text": "A := \\{x_n \\mid n \\in \\mathbb{N},\\ x_n \\neq L\\} \\subseteq X."
+            },
+            {
+              "type": "Theorem",
+              "label": "topology_7.root.thm.proof.root.step12",
+              "header": "Claim",
+              "claim": "The set $A$ is the set of all values taken by the sequence which are different from $L$.",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assert_statement",
+                    "claim": "A=\\{x_n : n\\in\\mathbb{N},\\ x_n\\ne L\\}",
+                    "proof_method": "This restates the definition of A as the set of all values taken by the sequence that are different from L."
+                  }
+                ]
+              },
+              "id": "topology_7.root.thm.proof.root.step12",
+              "status": "resolved",
+              "text": "The set $A$ is the set of all values taken by the sequence which are different from $L$."
+            },
+            {
+              "type": "Theorem",
+              "label": "topology_7.root.thm.proof.root.step13",
+              "header": "Claim",
+              "claim": "Since the sequence $(x_n)$ is indexed by $\\mathbb{N}$, the set of all values $\\{x_n \\mid n \\in \\mathbb{N}\\}$ is at most countable.",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_claim": [
+                      "(x_n) is a sequence indexed by \\mathbb{N}"
+                    ],
+                    "deduced_from_theorem": [
+                      {
+                        "claim": "The image of a countable set under any function is at most countable.",
+                        "description": "Applied to the map n \\mapsto x_n from \\mathbb{N} to X."
+                      }
+                    ],
+                    "type": "assert_statement",
+                    "claim": "\\{x_n \\mid n \\in \\mathbb{N}\\} is at most countable.",
+                    "proof_method": "Since the sequence (x_n) is indexed by \\mathbb{N}, its set of values is the image of \\mathbb{N} under n \\mapsto x_n; images of countable sets are at most countable."
+                  }
+                ]
+              },
+              "id": "topology_7.root.thm.proof.root.step13",
+              "status": "resolved",
+              "text": "Since the sequence $(x_n)$ is indexed by $\\mathbb{N}$, the set of all values $\\{x_n \\mid n \\in \\mathbb{N}\\}$ is at most countable."
+            },
+            {
+              "type": "assert_statement",
+              "claim": "A \\text{ is countable}.",
+              "id": "topology_7.root.thm.proof.root.step14",
+              "status": "classified",
+              "text": "Therefore $A$ is a subset of a countable set, hence $A$ is countable."
+            },
+            {
+              "type": "assert_statement",
+              "claim": "Consider the set",
+              "id": "topology_7.root.thm.proof.root.step15",
+              "status": "classified",
+              "text": "Consider the set"
+            },
+            {
+              "type": "definition_unfolding",
+              "start": "U",
+              "target": "X \\setminus A",
+              "goal_relation": "=",
+              "steps": [
+                {
+                  "from": "U",
+                  "relation": "=",
+                  "to": "X \\setminus A",
+                  "justification": "Definition/assignment of U."
+                }
+              ],
+              "id": "topology_7.root.thm.proof.root.step16",
+              "status": "resolved",
+              "text": "U := X \\setminus A."
+            },
+            {
+              "type": "Theorem",
+              "label": "topology_7.root.thm.proof.root.step17",
+              "header": "Claim",
+              "claim": "Since $A$ is countable, its complement $U$ is open in the co-countable topology.",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_claim": [
+                      "A is countable",
+                      "U = X \\setminus A"
+                    ],
+                    "deduced_from_theorem": [
+                      {
+                        "claim": "In the co-countable topology on X, a subset U \\subseteq X is open if and only if U=\\emptyset or X\\setminus U is countable.",
+                        "name": "Definition of co-countable topology",
+                        "description": "Applied to the complement U of the countable set A."
+                      }
+                    ],
+                    "type": "assert_statement",
+                    "claim": "U is open in the co-countable topology.",
+                    "proof_method": "Since A is countable and U is its complement, X \\setminus U = A is countable; hence U is open by the definition of the co-countable topology."
+                  }
+                ]
+              },
+              "id": "topology_7.root.thm.proof.root.step17",
+              "status": "resolved",
+              "text": "Since $A$ is countable, its complement $U$ is open in the co-countable topology."
+            },
+            {
+              "type": "Theorem",
+              "label": "topology_7.root.thm.proof.root.step18",
+              "header": "Claim",
+              "claim": "Furthermore, $L \\notin A$ by definition of $A$ (every element of $A$ is different from $L$), hence $L \\in U$.",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_claim": [
+                      "Every element of A is different from L."
+                    ],
+                    "type": "assert_statement",
+                    "claim": "L \\notin A",
+                    "proof_method": "By the definition of A."
+                  },
+                  {
+                    "deduced_from_claim": [
+                      "L \\notin A."
+                    ],
+                    "type": "assert_statement",
+                    "claim": "L \\in U",
+                    "proof_method": "From the preceding assertion and the contextual relation between U and A."
+                  }
+                ]
+              },
+              "id": "topology_7.root.thm.proof.root.step18",
+              "status": "resolved",
+              "text": "Furthermore, $L \\notin A$ by definition of $A$ (every element of $A$ is different from $L$), hence $L \\in U$."
+            },
+            {
+              "type": "Theorem",
+              "label": "topology_7.root.thm.proof.root.step19",
+              "header": "Claim",
+              "claim": "Because $(x_n)$ converges to $L$, and $U$ is an open set containing $L$, there exists some $N \\in \\mathbb{N}$ such that for all $n \\ge N$, $x_n \\in U$.",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_claim": [
+                      "(x_n) converges to L.",
+                      "U is an open set containing L."
+                    ],
+                    "deduced_from_theorem": [
+                      {
+                        "claim": "A sequence (x_n) in a topological space converges to L if and only if for every open set U containing L, there exists N ∈ ℕ such that for all n ≥ N, x_n ∈ U.",
+                        "name": "Definition of sequence convergence in a topological space",
+                        "description": "Specialized to the open neighborhood U of L."
+                      }
+                    ],
+                    "type": "assert_statement",
+                    "claim": "There exists some N ∈ ℕ such that for all n ≥ N, x_n ∈ U.",
+                    "proof_method": "Apply the definition of convergence of a sequence in a topological space to the open neighborhood U of L."
+                  }
+                ]
+              },
+              "id": "topology_7.root.thm.proof.root.step19",
+              "status": "resolved",
+              "text": "Because $(x_n)$ converges to $L$, and $U$ is an open set containing $L$, there exists some $N \\in \\mathbb{N}$ such that for all $n \\ge N$, $x_n \\in U$."
+            },
+            {
+              "type": "Theorem",
+              "label": "topology_7.root.thm.proof.root.step20",
+              "header": "Claim",
+              "claim": "By the definition of $U = X \\setminus A$, the condition $x_n \\in U$ is equivalent to $x_n \\notin A$, which means $x_n = L$ (since the only values excluded from $U$ are those in $A$, i.e., those not equal to $L$).",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_claim": [
+                      "U = X \\setminus A"
+                    ],
+                    "type": "assert_statement",
+                    "claim": "x_n \\in U \\iff x_n \\notin A",
+                    "proof_method": "by the definition of U as the complement X \\setminus A"
+                  },
+                  {
+                    "deduced_from_claim": [
+                      "A is the set of values not equal to L"
+                    ],
+                    "type": "assert_statement",
+                    "claim": "x_n \\notin A \\iff x_n = L",
+                    "proof_method": "by the definition of A; the elements excluded from U are precisely those in A, namely those not equal to L"
+                  },
+                  {
+                    "deduced_from_claim": [
+                      "x_n \\in U \\iff x_n \\notin A",
+                      "x_n \\notin A \\iff x_n = L"
+                    ],
+                    "type": "assert_statement",
+                    "claim": "x_n \\in U \\iff x_n = L",
+                    "proof_method": "by transitivity of logical equivalence"
+                  }
+                ]
+              },
+              "id": "topology_7.root.thm.proof.root.step20",
+              "status": "resolved",
+              "text": "By the definition of $U = X \\setminus A$, the condition $x_n \\in U$ is equivalent to $x_n \\notin A$, which means $x_n = L$ (since the only values excluded from $U$ are those in $A$, i.e., those not equal to $L$)."
+            },
+            {
+              "type": "assert_statement",
+              "claim": "For all $n \\ge N$, $x_n = L$.",
+              "id": "topology_7.root.thm.proof.root.step21",
+              "status": "classified",
+              "text": "Thus, for all $n \\ge N$, we have $x_n = L$."
+            },
+            {
+              "type": "assert_statement",
+              "claim": "The sequence $(x_n)$ is eventually constant with value $L$.",
+              "id": "topology_7.root.thm.proof.root.step22",
+              "status": "classified",
+              "text": "This shows that the sequence $(x_n)$ is eventually constant with value $L$."
+            },
+            {
+              "type": "assert_statement",
+              "claim": "---",
+              "id": "topology_7.root.thm.proof.root.step23",
+              "status": "classified",
+              "text": "---"
+            },
+            {
+              "type": "Theorem",
+              "label": "topology_7.root.thm.proof.root.step24",
+              "header": "Claim",
+              "claim": "Conversely, assume that the sequence $(x_n)$ is eventually constant with value $L$.",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assume_statement",
+                    "assumption": "The sequence $(x_n)$ is eventually constant with value $L$.",
+                    "statement": "Conversely, assume that the sequence $(x_n)$ is eventually constant with value $L$."
+                  }
+                ]
+              },
+              "id": "topology_7.root.thm.proof.root.step24",
+              "status": "resolved",
+              "text": "Conversely, assume that the sequence $(x_n)$ is eventually constant with value $L$."
+            },
+            {
+              "type": "Theorem",
+              "label": "topology_7.root.thm.proof.root.step25",
+              "header": "Claim",
+              "claim": "Then there exists $N \\in \\mathbb{N}$ such that for all $n \\ge N$, $x_n = L$.",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assert_statement",
+                    "claim": "There exists N \\in \\mathbb{N} such that for all n \\ge N, x_n = L."
+                  }
+                ]
+              },
+              "id": "topology_7.root.thm.proof.root.step25",
+              "status": "resolved",
+              "text": "Then there exists $N \\in \\mathbb{N}$ such that for all $n \\ge N$, $x_n = L$."
+            },
+            {
+              "type": "Proof",
+              "proof_steps": [
+                {
+                  "type": "let_statement",
+                  "variable_name": "U",
+                  "variable_type": "open subset of X containing L",
+                  "statement": "Let $U \\subseteq X$ be an open set such that $L \\in U$."
+                }
+              ]
+            },
+            {
+              "type": "Theorem",
+              "label": "topology_7.root.thm.proof.root.step27",
+              "header": "Claim",
+              "claim": "There exists $M \\in \\mathbb{N}$ such that for all $n \\ge M$, $x_n \\in U$.",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assert_statement",
+                    "claim": "There exists M \\in \\mathbb{N} such that for all n \\ge M, x_n \\in U.",
+                    "proof_method": "This is the stated goal to prove for the open neighborhood U."
+                  }
+                ]
+              },
+              "id": "topology_7.root.thm.proof.root.step27",
+              "status": "resolved",
+              "text": "We must show that there exists $M \\in \\mathbb{N}$ such that for all $n \\ge M$, $x_n \\in U$."
+            },
+            {
+              "type": "assert_statement",
+              "claim": "For all $n \\ge N$, $x_n = L$.",
+              "id": "topology_7.root.thm.proof.root.step28",
+              "status": "classified",
+              "text": "By assumption, for all $n \\ge N$, we have $x_n = L$."
+            },
+            {
+              "type": "assert_statement",
+              "claim": "For all $n \\ge N$, $x_n \\in U$.",
+              "id": "topology_7.root.thm.proof.root.step29",
+              "status": "classified",
+              "text": "Since $L \\in U$, it follows that for all $n \\ge N$, $x_n \\in U$."
+            },
+            {
+              "type": "assert_statement",
+              "claim": "M = N.",
+              "id": "topology_7.root.thm.proof.root.step30",
+              "status": "classified",
+              "text": "Thus we can take $M = N$."
+            },
+            {
+              "type": "Theorem",
+              "label": "topology_7.root.thm.proof.root.step31",
+              "header": "Claim",
+              "claim": "$(x_n)$ converges to $L$ in the co-countable topology.",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assert_statement",
+                    "claim": "For every open set $U$ containing $L$, there exists $M$ such that for all $n \\ge M$, $x_n \\in U$.",
+                    "proof_method": "This is the neighborhood condition established for convergence to $L$."
+                  },
+                  {
+                    "deduced_from_claim": [
+                      "For every open set $U$ containing $L$, there exists $M$ such that for all $n \\ge M$, $x_n \\in U$."
+                    ],
+                    "deduced_from_theorem": [
+                      {
+                        "claim": "A sequence $(x_n)$ converges to $L$ in a topological space iff for every open set $U$ containing $L$, there exists $M$ such that for all $n\\ge M$, $x_n\\in U$.",
+                        "name": "Definition of convergence in a topological space",
+                        "description": "Applied to the co-countable topology on $X$."
+                      }
+                    ],
+                    "type": "assert_statement",
+                    "claim": "$(x_n)$ converges to $L$ in the co-countable topology.",
+                    "proof_method": "By the definition of convergence in a topological space."
+                  }
+                ]
+              },
+              "id": "topology_7.root.thm.proof.root.step31",
+              "status": "resolved",
+              "text": "Therefore, for every open set $U$ containing $L$, there exists $M$ such that for all $n \\ge M$, $x_n \\in U$, which means that $(x_n)$ converges to $L$ in the co-countable topology."
+            },
+            {
+              "type": "assert_statement",
+              "claim": "---",
+              "id": "topology_7.root.thm.proof.root.step32",
+              "status": "classified",
+              "text": "---"
+            },
+            {
+              "type": "Theorem",
+              "label": "topology_7.root.thm.proof.root.step33",
+              "header": "Claim",
+              "claim": "The sequence $(x_n)$ converges to $L$ if and only if it is eventually constant with value $L$.",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_claim": [
+                      "If the sequence (x_n) converges to L, then there exists an integer N such that for all n ≥ N, x_n = L.",
+                      "If there exists an integer N such that for all n ≥ N, x_n = L, then the sequence (x_n) converges to L."
+                    ],
+                    "deduced_from_theorem": [
+                      {
+                        "claim": "For propositions P and Q, if P implies Q and Q implies P, then P if and only if Q.",
+                        "name": "biconditional introduction",
+                        "description": "Used to combine the two directions into an if and only if statement."
+                      }
+                    ],
+                    "type": "assert_statement",
+                    "claim": "The sequence (x_n) converges to L if and only if it is eventually constant with value L.",
+                    "proof_method": "Combining both previously established directions."
+                  }
+                ]
+              },
+              "id": "topology_7.root.thm.proof.root.step33",
+              "status": "resolved",
+              "text": "Combining both directions, the sequence $(x_n)$ converges to $L$ if and only if it is eventually constant with value $L$."
+            }
+          ],
+          "id": "topology_7.root.thm.proof.root",
+          "status": "decomposed",
+          "text": "Let $X$ be an uncountable set equipped with the co-countable topology, so a subset $U \\subseteq X$ is open if and only if either $U = \\emptyset$ or $X \\setminus U$ is countable.\n\nLet $(x_n)_{n \\in \\mathbb{N}}$ be a sequence in $X$, and let $L \\in X$.\n\nTo say that $(x_n)$ converges to $L$ in this topology means:\n\nFor every open set $U \\subseteq X$ with $L \\in U$, there exists $N \\in \\mathbb{N}$ such that for all $n \\ge N$, $x_n \\in U$.\n\nThe sequence $(x_n)$ is eventually constant with value $L$ if:\n\nThere exists $N \\in \\mathbb{N}$ such that for all $n \\ge N$, $x_n = L$.\n\nThe goal is to show that $(x_n)$ converges to $L$ if and only if $(x_n)$ is eventually constant with value $L$.\n\n---\n\nFirst, assume that $(x_n)$ converges to $L$. Define the subset\n\\[\nA := \\{x_n \\mid n \\in \\mathbb{N},\\ x_n \\neq L\\} \\subseteq X.\n\\]\nThe set $A$ is the set of all values taken by the sequence which are different from $L$.\n\nSince the sequence $(x_n)$ is indexed by $\\mathbb{N}$, the set of all values $\\{x_n \\mid n \\in \\mathbb{N}\\}$ is at most countable. Therefore $A$ is a subset of a countable set, hence $A$ is countable.\n\nConsider the set\n\\[\nU := X \\setminus A.\n\\]\nSince $A$ is countable, its complement $U$ is open in the co-countable topology. Furthermore, $L \\notin A$ by definition of $A$ (every element of $A$ is different from $L$), hence $L \\in U$.\n\nBecause $(x_n)$ converges to $L$, and $U$ is an open set containing $L$, there exists some $N \\in \\mathbb{N}$ such that for all $n \\ge N$, $x_n \\in U$.\n\nBy the definition of $U = X \\setminus A$, the condition $x_n \\in U$ is equivalent to $x_n \\notin A$, which means $x_n = L$ (since the only values excluded from $U$ are those in $A$, i.e., those not equal to $L$). Thus, for all $n \\ge N$, we have $x_n = L$.\n\nThis shows that the sequence $(x_n)$ is eventually constant with value $L$.\n\n---\n\nConversely, assume that the sequence $(x_n)$ is eventually constant with value $L$. Then there exists $N \\in \\mathbb{N}$ such that for all $n \\ge N$, $x_n = L$.\n\nLet $U \\subseteq X$ be any open set such that $L \\in U$. We must show that there exists $M \\in \\mathbb{N}$ such that for all $n \\ge M$, $x_n \\in U$.\n\nBy assumption, for all $n \\ge N$, we have $x_n = L$. Since $L \\in U$, it follows that for all $n \\ge N$, $x_n \\in U$. Thus we can take $M = N$.\n\nTherefore, for every open set $U$ containing $L$, there exists $M$ such that for all $n \\ge M$, $x_n \\in U$, which means that $(x_n)$ converges to $L$ in the co-countable topology.\n\n---\n\nCombining both directions, the sequence $(x_n)$ converges to $L$ if and only if it is eventually constant with value $L$."
+        },
+        "id": "topology_7.root.thm",
+        "status": "decomposed"
+      }
+    ]
+  }
+}

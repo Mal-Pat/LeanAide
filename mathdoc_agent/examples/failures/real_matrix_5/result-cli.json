@@ -1,0 +1,281 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "real_matrix_5.root.thm",
+        "header": "Theorem",
+        "claim": "Let $A$ be an $n \\times n$ matrix with entries in $\\mathbb{R}$. If $A^2 = -I_n$, where $I_n$ is the $n \\times n$ identity matrix, then $n$ is even.",
+        "proof": {
+          "type": "Proof",
+          "proof_steps": [
+            {
+              "type": "assume_statement",
+              "assumption": "A is an n × n real matrix satisfying A^2 = -I_n."
+            },
+            {
+              "type": "assert_statement",
+              "claim": "A^2 + I_n = 0 as a linear map on \\mathbb{R}^n.",
+              "proof_method": "Rewrite the assumed matrix identity A^2 = -I_n by adding I_n to both sides."
+            },
+            {
+              "deduced_from_claim": [
+                "A^2 + I_n = 0"
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "If a linear operator T satisfies p(T)=0, then its minimal polynomial m_T divides p.",
+                  "name": "Minimal polynomial divisibility property",
+                  "description": "Applied with p(x)=x^2+1."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "The minimal polynomial m_A(x) of A divides x^2+1.",
+              "proof_method": "Use the defining divisibility property of the minimal polynomial."
+            },
+            {
+              "type": "assert_statement",
+              "claim": "The polynomial x^2+1 has distinct complex roots i and -i.",
+              "proof_method": "Compute its roots over C."
+            },
+            {
+              "deduced_from_claim": [
+                "The polynomial x^2+1 has distinct complex roots i and -i."
+              ],
+              "type": "assert_statement",
+              "claim": "The polynomial x^2+1 has no repeated roots.",
+              "proof_method": "Distinct roots imply no repeated roots."
+            },
+            {
+              "deduced_from_claim": [
+                "The polynomial x^2+1 has no repeated roots."
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "Every divisor of a square-free polynomial is square-free.",
+                  "description": "Used to pass from x^2+1 to its divisor m_A(x)."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "Any divisor of x^2+1 has no repeated roots.",
+              "proof_method": "Use that divisors of polynomials with no repeated roots also have no repeated roots."
+            },
+            {
+              "deduced_from_claim": [
+                "m_A(x) divides x^2+1.",
+                "Any divisor of x^2+1 has no repeated roots."
+              ],
+              "type": "assert_statement",
+              "claim": "The minimal polynomial m_A(x) of A has no repeated roots.",
+              "proof_method": "Apply the preceding divisor statement to m_A(x)."
+            },
+            {
+              "deduced_from_claim": [
+                "The minimal polynomial m_A(x) of A has no repeated roots."
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "A matrix is diagonalizable over an algebraically closed field if and only if its minimal polynomial splits into distinct linear factors.",
+                  "name": "Diagonalizability criterion via minimal polynomial",
+                  "description": "Applied after extending scalars to C."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "A is diagonalizable over C.",
+              "proof_method": "Use the minimal-polynomial criterion for diagonalizability over C."
+            },
+            {
+              "deduced_from_claim": [
+                "A is diagonalizable over C."
+              ],
+              "type": "assert_statement",
+              "claim": "There exists a basis of C^n with respect to which the matrix of A is diagonal.",
+              "proof_method": "Unpack the meaning of diagonalizability over C."
+            },
+            {
+              "deduced_from_claim": [
+                "The minimal polynomial m_A(x) divides x^2+1."
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "Every eigenvalue of a linear operator is a root of its minimal polynomial.",
+                  "description": "Together with m_A(x) | x^2+1, this implies eigenvalues are roots of x^2+1."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "All eigenvalues of A over C are roots of x^2+1.",
+              "proof_method": "Eigenvalues are roots of the minimal polynomial, and the minimal polynomial divides x^2+1."
+            },
+            {
+              "deduced_from_claim": [
+                "All eigenvalues of A over C are roots of x^2+1.",
+                "The roots of x^2+1 over C are i and -i."
+              ],
+              "type": "assert_statement",
+              "claim": "Every eigenvalue of A is either i or -i.",
+              "proof_method": "Use the computed roots of x^2+1."
+            },
+            {
+              "type": "let_statement",
+              "variable_name": "λ_1, …, λ_n",
+              "variable_type": "the eigenvalues of A over C, listed with algebraic multiplicity"
+            },
+            {
+              "deduced_from_claim": [
+                "Every eigenvalue of A is either i or -i."
+              ],
+              "type": "assert_statement",
+              "claim": "Each λ_j belongs to {i,-i}.",
+              "proof_method": "Specialize the statement about all eigenvalues to the listed eigenvalues λ_1,…,λ_n."
+            },
+            {
+              "type": "let_statement",
+              "variable_name": "k",
+              "variable_type": "the number of indices j such that λ_j=i"
+            },
+            {
+              "deduced_from_claim": [
+                "k is the number of indices j such that λ_j=i.",
+                "Each λ_j belongs to {i,-i}."
+              ],
+              "type": "assert_statement",
+              "claim": "The number of indices j such that λ_j=-i is n-k.",
+              "proof_method": "The n listed eigenvalues are partitioned into those equal to i and those equal to -i."
+            },
+            {
+              "deduced_from_claim": [
+                "A is diagonalizable over C with eigenvalues λ_1,…,λ_n."
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "The determinant of a diagonalizable matrix equals the product of its eigenvalues, counted with algebraic multiplicity.",
+                  "description": "Applied to A over C."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "det(A)=∏_{j=1}^n λ_j.",
+              "proof_method": "Use the determinant of the diagonal form of A."
+            },
+            {
+              "deduced_from_claim": [
+                "det(A)=∏_{j=1}^n λ_j.",
+                "k eigenvalues are i and n-k eigenvalues are -i."
+              ],
+              "type": "assert_statement",
+              "claim": "det(A)=i^k\\cdot(-i)^{n-k}.",
+              "proof_method": "Group the eigenvalue product according to whether λ_j=i or λ_j=-i."
+            },
+            {
+              "deduced_from_claim": [
+                "A^2=-I_n"
+              ],
+              "type": "assert_statement",
+              "claim": "det(A^2)=det(-I_n).",
+              "proof_method": "Take determinants on both sides of A^2=-I_n."
+            },
+            {
+              "deduced_from_theorem": [
+                {
+                  "claim": "For square matrices B and C of the same size, det(BC)=det(B)det(C).",
+                  "name": "Multiplicativity of determinant",
+                  "description": "Applied with B=C=A."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "det(A^2)=(det A)^2.",
+              "proof_method": "Use multiplicativity of the determinant."
+            },
+            {
+              "deduced_from_theorem": [
+                {
+                  "claim": "For an n×n scalar matrix cI_n, det(cI_n)=c^n det(I_n), and det(I_n)=1.",
+                  "description": "Applied with c=-1."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "det(-I_n)=(-1)^n.",
+              "proof_method": "Compute the determinant of the scalar matrix -I_n."
+            },
+            {
+              "deduced_from_claim": [
+                "det(A^2)=det(-I_n).",
+                "det(A^2)=(det A)^2.",
+                "det(-I_n)=(-1)^n."
+              ],
+              "type": "assert_statement",
+              "claim": "(det A)^2=(-1)^n.",
+              "proof_method": "Substitute the computed determinants into det(A^2)=det(-I_n)."
+            },
+            {
+              "deduced_from_claim": [
+                "A has real entries."
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "The determinant of a real matrix is a real number.",
+                  "description": "Applied to A."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "det A is a real number.",
+              "proof_method": "A determinant is a polynomial expression in the entries of the matrix, so real entries give a real determinant."
+            },
+            {
+              "deduced_from_claim": [
+                "det A is a real number."
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "The square of a real number is nonnegative.",
+                  "description": "Applied to det A."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "(det A)^2 is a nonnegative real number.",
+              "proof_method": "Square a real number."
+            },
+            {
+              "deduced_from_claim": [
+                "(det A)^2=(-1)^n.",
+                "(det A)^2 is a nonnegative real number."
+              ],
+              "type": "assert_statement",
+              "claim": "(-1)^n is a nonnegative real number.",
+              "proof_method": "Use the scalar equation (det A)^2=(-1)^n."
+            },
+            {
+              "deduced_from_claim": [
+                "(-1)^n is a nonnegative real number.",
+                "The only real values of (-1)^n are 1 and -1, and -1 is not nonnegative."
+              ],
+              "type": "assert_statement",
+              "claim": "(-1)^n=1.",
+              "proof_method": "Exclude the value -1 since it is not nonnegative."
+            },
+            {
+              "deduced_from_claim": [
+                "(-1)^n=1"
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "For an integer n, (-1)^n=1 if and only if n is even.",
+                  "name": "Parity characterization by powers of -1",
+                  "description": "Used to convert the sign equation into parity."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "n is an even integer.",
+              "proof_method": "Apply the basic parity characterization of powers of -1."
+            }
+          ],
+          "id": "real_matrix_5.root.thm.proof.root",
+          "status": "resolved",
+          "text": "Assume that $A$ is an $n \\times n$ real matrix satisfying $A^2 = -I_n$. The goal is to prove that $n$ is an even integer.\n\nFirst, consider $A$ as a linear operator on the real vector space $\\mathbb{R}^n$. The equation $A^2 = -I_n$ implies that, as a linear map, $A$ satisfies the polynomial equation\n\\[\nA^2 + I_n = 0.\n\\]\nEquivalently, the minimal polynomial $m_A(x)$ of $A$ divides the polynomial\n\\[\np(x) := x^2 + 1.\n\\]\n\nThe polynomial $x^2 + 1$ has distinct complex roots, namely $i$ and $-i$. Therefore $x^2 + 1$ has no repeated roots. Consequently, any divisor of $x^2+1$ also has no repeated roots. Hence the minimal polynomial $m_A(x)$ of $A$ has no repeated roots.\n\nA real matrix whose minimal polynomial has no repeated roots is diagonalizable over $\\mathbb{C}$. Thus, after extending scalars from $\\mathbb{R}$ to $\\mathbb{C}$, there exists a basis of $\\mathbb{C}^n$ with respect to which the matrix of $A$ is diagonal. In particular, all eigenvalues of $A$ (over $\\mathbb{C}$) are roots of the polynomial $x^2 + 1$, hence every eigenvalue of $A$ is either $i$ or $-i$.\n\nLet $\\lambda_1, \\dots, \\lambda_n$ denote the eigenvalues of $A$ over $\\mathbb{C}$, listed with algebraic multiplicity. Then each $\\lambda_j$ belongs to the set $\\{i,-i\\}$. Let $k$ denote the number of indices $j$ such that $\\lambda_j = i$. Then the number of indices $j$ such that $\\lambda_j = -i$ is $n-k$.\n\nConsider the determinant of $A$ viewed as a complex matrix. Since $A$ is diagonalizable over $\\mathbb{C}$ with eigenvalues $\\lambda_1,\\dots,\\lambda_n$, the determinant of $A$ equals the product of its eigenvalues:\n\\[\n\\det(A) = \\prod_{j=1}^n \\lambda_j = i^k \\cdot (-i)^{n-k}.\n\\]\nOn the other hand, the matrix identity $A^2 = -I_n$ implies a relation for the determinant. Taking determinants on both sides and using multiplicativity of the determinant, we obtain\n\\[\n\\det(A^2) = \\det(-I_n).\n\\]\nThe left-hand side is\n\\[\n\\det(A^2) = (\\det A)^2.\n\\]\nThe right-hand side is\n\\[\n\\det(-I_n) = (-1)^n \\det(I_n) = (-1)^n.\n\\]\nThus we obtain the scalar equation\n\\[\n(\\det A)^2 = (-1)^n.\n\\]\n\nSince $A$ has real entries, its determinant $\\det A$ is a real number. Therefore $(\\det A)^2$ is a nonnegative real number. Hence $(-1)^n$ must be a nonnegative real number. This forces $(-1)^n = 1$, because the only real values of $(-1)^n$ are $1$ and $-1$, and the value $-1$ is not nonnegative. Thus\n\\[\n(-1)^n = 1.\n\\]\nBy the basic properties of integer parity, the equality $(-1)^n = 1$ holds if and only if $n$ is an even integer.\n\nTherefore $n$ is even."
+        },
+        "id": "real_matrix_5.root.thm",
+        "status": "resolved"
+      }
+    ]
+  }
+}

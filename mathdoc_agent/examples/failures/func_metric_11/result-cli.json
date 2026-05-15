@@ -1,0 +1,26 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "func_metric_11.root.thm",
+        "header": "Theorem",
+        "claim": "Let $X = \\mathbb{R}$ and define $d: \\mathbb{R} \\times \\mathbb{R} \\to \\mathbb{R}$ by $d(x,y)=|x^3-y^3|$. Then $d$ is a metric on $\\mathbb{R}$.",
+        "proof": {
+          "type": "Proof",
+          "proof_steps": [
+            {
+              "type": "assert_statement",
+              "claim": "Let $X = \\mathbb{R}$ and define $d: \\mathbb{R} \\times \\mathbb{R} \\to \\mathbb{R}$ by $d(x,y)=|x^3-y^3|$. Then $d$ is a metric on $\\mathbb{R}$."
+            }
+          ],
+          "id": "func_metric_11.root.thm.proof.root",
+          "status": "classified"
+        },
+        "id": "func_metric_11.root.thm",
+        "status": "decomposed"
+      }
+    ]
+  }
+}

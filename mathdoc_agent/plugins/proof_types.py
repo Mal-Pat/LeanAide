@@ -33,6 +33,14 @@ def default_proof_handler_registry(
     registry.register(ProofKind.induction.value, InductionHandler(induction_agent))
     registry.register(ProofKind.cases.value, CasesHandler(cases_agent))
     registry.register(ProofKind.simple.value, SimpleProofHandler(simple_agent))
+    registry.register(
+        ProofKind.theorem_application.value,
+        SimpleProofHandler(simple_agent, kind=ProofKind.theorem_application.value),
+    )
+    registry.register(
+        ProofKind.definition_unfolding.value,
+        SimpleProofHandler(simple_agent, kind=ProofKind.definition_unfolding.value),
+    )
     registry.register(ProofKind.calculation.value, CalculationHandler(calculation_agent))
     registry.register(ProofKind.local_claim.value, LocalClaimHandler(local_claim_agent))
     for structured_kind in STRUCTURED_PROOF_KINDS:

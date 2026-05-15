@@ -1,0 +1,345 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "func_metric_11.root.thm",
+        "header": "Theorem",
+        "claim": "Let $X = \\mathbb{R}$ and define $d: \\mathbb{R} \\times \\mathbb{R} \\to \\mathbb{R}$ by $d(x,y)=|x^3-y^3|$. Then $d$ is a metric on $\\mathbb{R}$.",
+        "proof": {
+          "type": "Proof",
+          "proof_steps": [
+            {
+              "type": "let_statement",
+              "variable_name": "X",
+              "variable_type": "set",
+              "statement": "Let X = R."
+            },
+            {
+              "type": "let_statement",
+              "variable_name": "d",
+              "variable_type": "function R × R → R",
+              "statement": "Define d(x,y) = |x^3 - y^3| for all x,y ∈ R."
+            },
+            {
+              "deduced_from_theorem": [
+                {
+                  "claim": "A function d on a set X is a metric if it satisfies non-negativity, identity of indiscernibles, symmetry, and the triangle inequality for all points of X.",
+                  "name": "Metric axioms",
+                  "description": "Used to reduce the goal to verifying the four metric properties."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "For all x,y,z ∈ R, d(x,y) ≥ 0, d(x,y)=0 if and only if x=y, d(x,y)=d(y,x), and d(x,z) ≤ d(x,y)+d(y,z).",
+              "proof_method": "By the definition of a metric."
+            },
+            {
+              "type": "assume_statement",
+              "assumption": "x,y ∈ R are arbitrary.",
+              "variable_name": "x,y",
+              "variable_type": "real numbers",
+              "statement": "Fix arbitrary x,y ∈ R."
+            },
+            {
+              "deduced_from_claim": [
+                "d(x,y) = |x^3 - y^3|"
+              ],
+              "type": "assert_statement",
+              "claim": "d(x,y) = |x^3 - y^3|.",
+              "proof_method": "By definition of d."
+            },
+            {
+              "deduced_from_theorem": [
+                {
+                  "claim": "For every real number t, |t| ≥ 0.",
+                  "name": "Non-negativity of absolute value",
+                  "description": "Applied with t = x^3 - y^3."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "|x^3 - y^3| ≥ 0.",
+              "proof_method": "By non-negativity of absolute value applied to t = x^3 - y^3."
+            },
+            {
+              "deduced_from_claim": [
+                "d(x,y) = |x^3 - y^3|",
+                "|x^3 - y^3| ≥ 0"
+              ],
+              "type": "assert_statement",
+              "claim": "d(x,y) ≥ 0 for all x,y ∈ R.",
+              "proof_method": "Substitute the definition of d into the preceding inequality."
+            },
+            {
+              "type": "assume_statement",
+              "assumption": "x,y ∈ R are arbitrary.",
+              "variable_name": "x,y",
+              "variable_type": "real numbers",
+              "statement": "Fix arbitrary x,y ∈ R for identity of indiscernibles."
+            },
+            {
+              "type": "assume_statement",
+              "assumption": "d(x,y) = 0.",
+              "statement": "Assume d(x,y) = 0."
+            },
+            {
+              "deduced_from_claim": [
+                "d(x,y) = |x^3 - y^3|",
+                "d(x,y) = 0"
+              ],
+              "type": "assert_statement",
+              "claim": "|x^3 - y^3| = 0.",
+              "proof_method": "By the definition of d and the assumption d(x,y)=0."
+            },
+            {
+              "deduced_from_claim": [
+                "|x^3 - y^3| = 0"
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "For every real number t, |t| = 0 if and only if t = 0.",
+                  "name": "Zero absolute value criterion",
+                  "description": "Applied with t = x^3 - y^3."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "x^3 - y^3 = 0.",
+              "proof_method": "By the criterion |t|=0 iff t=0."
+            },
+            {
+              "deduced_from_claim": [
+                "x^3 - y^3 = 0"
+              ],
+              "type": "assert_statement",
+              "claim": "x^3 = y^3.",
+              "proof_method": "Rearranging x^3 - y^3 = 0."
+            },
+            {
+              "deduced_from_claim": [
+                "x^3 = y^3"
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "The function f:R→R defined by f(t)=t^3 is strictly increasing and hence injective on R.",
+                  "name": "Injectivity of the cubic function",
+                  "description": "Used to infer x=y from x^3=y^3."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "x = y.",
+              "proof_method": "Since t ↦ t^3 is injective on R."
+            },
+            {
+              "type": "assume_statement",
+              "assumption": "x = y.",
+              "statement": "Conversely, assume x = y."
+            },
+            {
+              "deduced_from_claim": [
+                "x = y"
+              ],
+              "type": "assert_statement",
+              "claim": "x^3 = y^3.",
+              "proof_method": "Cubing equal real numbers preserves equality."
+            },
+            {
+              "deduced_from_claim": [
+                "x^3 = y^3"
+              ],
+              "type": "assert_statement",
+              "claim": "x^3 - y^3 = 0.",
+              "proof_method": "Subtracting equal quantities gives zero."
+            },
+            {
+              "deduced_from_claim": [
+                "x^3 - y^3 = 0"
+              ],
+              "type": "assert_statement",
+              "claim": "|x^3 - y^3| = |0| = 0.",
+              "proof_method": "Taking absolute values and evaluating |0|."
+            },
+            {
+              "deduced_from_claim": [
+                "d(x,y) = |x^3 - y^3|",
+                "|x^3 - y^3| = 0"
+              ],
+              "type": "assert_statement",
+              "claim": "d(x,y) = 0.",
+              "proof_method": "By the definition of d."
+            },
+            {
+              "deduced_from_claim": [
+                "d(x,y)=0 implies x=y",
+                "x=y implies d(x,y)=0"
+              ],
+              "type": "assert_statement",
+              "claim": "d(x,y) = 0 if and only if x = y.",
+              "proof_method": "Combining the two directions."
+            },
+            {
+              "type": "assume_statement",
+              "assumption": "x,y ∈ R are arbitrary.",
+              "variable_name": "x,y",
+              "variable_type": "real numbers",
+              "statement": "Fix arbitrary x,y ∈ R for symmetry."
+            },
+            {
+              "deduced_from_claim": [
+                "d(x,y) = |x^3 - y^3|"
+              ],
+              "type": "assert_statement",
+              "claim": "d(x,y) = |x^3 - y^3|.",
+              "proof_method": "By definition of d."
+            },
+            {
+              "deduced_from_claim": [
+                "d(y,x) = |y^3 - x^3|"
+              ],
+              "type": "assert_statement",
+              "claim": "d(y,x) = |y^3 - x^3|.",
+              "proof_method": "By definition of d."
+            },
+            {
+              "type": "assert_statement",
+              "claim": "y^3 - x^3 = -(x^3 - y^3).",
+              "proof_method": "Algebraic rearrangement."
+            },
+            {
+              "deduced_from_claim": [
+                "d(y,x) = |y^3 - x^3|",
+                "y^3 - x^3 = -(x^3 - y^3)"
+              ],
+              "type": "assert_statement",
+              "claim": "d(y,x) = |y^3 - x^3| = |-(x^3 - y^3)|.",
+              "proof_method": "Substitute y^3 - x^3 = -(x^3 - y^3)."
+            },
+            {
+              "deduced_from_theorem": [
+                {
+                  "claim": "For every real number t, |-t| = |t|.",
+                  "name": "Absolute value of a negative",
+                  "description": "Applied with t = x^3 - y^3."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "|-(x^3 - y^3)| = |x^3 - y^3|.",
+              "proof_method": "By the absolute value identity |-t|=|t|."
+            },
+            {
+              "deduced_from_claim": [
+                "d(y,x) = |y^3 - x^3| = |-(x^3 - y^3)|",
+                "|-(x^3 - y^3)| = |x^3 - y^3|",
+                "d(x,y) = |x^3 - y^3|"
+              ],
+              "type": "assert_statement",
+              "claim": "d(y,x) = |y^3 - x^3| = |x^3 - y^3| = d(x,y).",
+              "proof_method": "Chain the equalities above."
+            },
+            {
+              "deduced_from_claim": [
+                "d(y,x) = d(x,y)"
+              ],
+              "type": "assert_statement",
+              "claim": "d(x,y) = d(y,x).",
+              "proof_method": "Symmetry of equality."
+            },
+            {
+              "type": "assume_statement",
+              "assumption": "x,y,z ∈ R are arbitrary.",
+              "variable_name": "x,y,z",
+              "variable_type": "real numbers",
+              "statement": "Fix arbitrary x,y,z ∈ R for the triangle inequality."
+            },
+            {
+              "type": "assert_statement",
+              "claim": "d(x,z) ≤ d(x,y) + d(y,z).",
+              "proof_method": "This is the triangle inequality axiom for the fixed points x,y,z."
+            },
+            {
+              "deduced_from_claim": [
+                "d(x,z)=|x^3-z^3|",
+                "d(x,y)=|x^3-y^3|",
+                "d(y,z)=|y^3-z^3|"
+              ],
+              "type": "assert_statement",
+              "claim": "d(x,z) ≤ d(x,y) + d(y,z) if and only if |x^3 - z^3| ≤ |x^3 - y^3| + |y^3 - z^3|.",
+              "proof_method": "Rewrite each occurrence of d by its definition."
+            },
+            {
+              "type": "let_statement",
+              "variable_name": "a",
+              "variable_type": "real number",
+              "statement": "Let a = x^3 - y^3."
+            },
+            {
+              "type": "let_statement",
+              "variable_name": "b",
+              "variable_type": "real number",
+              "statement": "Let b = y^3 - z^3."
+            },
+            {
+              "deduced_from_claim": [
+                "a = x^3 - y^3",
+                "b = y^3 - z^3"
+              ],
+              "type": "assert_statement",
+              "claim": "a + b = (x^3 - y^3) + (y^3 - z^3) = x^3 - z^3.",
+              "proof_method": "Substitute the definitions of a and b and simplify."
+            },
+            {
+              "deduced_from_claim": [
+                "a = x^3 - y^3",
+                "b = y^3 - z^3",
+                "a+b = x^3 - z^3"
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "For all real numbers a,b, |a+b| ≤ |a| + |b|.",
+                  "name": "Triangle inequality for absolute value",
+                  "description": "Applied to a = x^3-y^3 and b = y^3-z^3."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "|x^3 - z^3| = |(x^3 - y^3) + (y^3 - z^3)| ≤ |x^3 - y^3| + |y^3 - z^3|.",
+              "proof_method": "Apply the standard triangle inequality for absolute value and use a+b=x^3-z^3."
+            },
+            {
+              "deduced_from_claim": [
+                "|x^3 - z^3| ≤ |x^3 - y^3| + |y^3 - z^3|",
+                "d(x,z)=|x^3-z^3|",
+                "d(x,y)=|x^3-y^3|",
+                "d(y,z)=|y^3-z^3|"
+              ],
+              "type": "assert_statement",
+              "claim": "d(x,z) ≤ d(x,y) + d(y,z).",
+              "proof_method": "Rewrite the inequality by the definition of d."
+            },
+            {
+              "deduced_from_claim": [
+                "For all x,y ∈ R, d(x,y) ≥ 0.",
+                "For all x,y ∈ R, d(x,y)=0 iff x=y.",
+                "For all x,y ∈ R, d(x,y)=d(y,x).",
+                "For all x,y,z ∈ R, d(x,z) ≤ d(x,y)+d(y,z)."
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "A function d on a set X is a metric if it satisfies non-negativity, identity of indiscernibles, symmetry, and the triangle inequality for all points of X.",
+                  "name": "Metric axioms",
+                  "description": "Used to conclude that d is a metric after all four axioms are verified."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "d is a metric on R.",
+              "proof_method": "All four metric axioms have been verified for d(x,y)=|x^3-y^3|."
+            }
+          ],
+          "id": "func_metric_11.root.thm.proof.root",
+          "status": "resolved",
+          "text": "Let $X = \\mathbb{R}$ and define $d : \\mathbb{R} \\times \\mathbb{R} \\to \\mathbb{R}$ by $d(x,y) = |x^{3} - y^{3}|$ for all $x,y \\in \\mathbb{R}$. The goal is to show that $d$ is a metric on $\\mathbb{R}$. This means that we must verify the following four properties for all $x,y,z \\in \\mathbb{R}$:\n\n1. $d(x,y) \\ge 0$ (non-negativity),\n2. $d(x,y) = 0$ if and only if $x = y$ (identity of indiscernibles),\n3. $d(x,y) = d(y,x)$ (symmetry),\n4. $d(x,z) \\le d(x,y) + d(y,z)$ (triangle inequality).\n\nEach property will be checked in turn.\n\n1. For non-negativity, fix arbitrary $x,y \\in \\mathbb{R}$. By definition, $d(x,y) = |x^{3} - y^{3}|$. The absolute value $|t|$ of any real number $t$ is always greater than or equal to $0$. Applying this to $t = x^{3} - y^{3}$, we obtain $|x^{3} - y^{3}| \\ge 0$. Therefore $d(x,y) \\ge 0$ for all $x,y \\in \\mathbb{R}$.\n\n2. For the identity of indiscernibles, fix arbitrary $x,y \\in \\mathbb{R}$. First assume that $d(x,y) = 0$. Then $|x^{3} - y^{3}| = 0$. For any real number $t$, we have $|t| = 0$ if and only if $t = 0$. Applying this to $t = x^{3} - y^{3}$, it follows that $x^{3} - y^{3} = 0$, hence $x^{3} = y^{3}$. The function $f : \\mathbb{R} \\to \\mathbb{R}$ defined by $f(t) = t^{3}$ is strictly increasing and hence injective on $\\mathbb{R}$. In particular, if $x^{3} = y^{3}$ then $x = y$. Thus from $d(x,y) = 0$ we conclude $x = y$.\n\nConversely, assume $x = y$. Then $x^{3} = y^{3}$, so $x^{3} - y^{3} = 0$. Taking absolute values, we obtain $|x^{3} - y^{3}| = |0| = 0$, hence $d(x,y) = 0$. Combining the two directions, we have shown that $d(x,y) = 0$ if and only if $x = y$.\n\n3. For symmetry, fix arbitrary $x,y \\in \\mathbb{R}$. By definition,\n\\[\nd(x,y) = |x^{3} - y^{3}|.\n\\]\nOn the other hand,\n\\[\nd(y,x) = |y^{3} - x^{3}|.\n\\]\nSince $y^{3} - x^{3} = -(x^{3} - y^{3})$, we have\n\\[\nd(y,x) = |y^{3} - x^{3}| = |-(x^{3} - y^{3})|.\n\\]\nFor any real number $t$, we have $|-t| = |t|$. Applying this to $t = x^{3} - y^{3}$, we obtain $|-(x^{3} - y^{3})| = |x^{3} - y^{3}|$. Therefore\n\\[\nd(y,x) = |y^{3} - x^{3}| = |x^{3} - y^{3}| = d(x,y).\n\\]\nThis proves symmetry.\n\n4. For the triangle inequality, fix arbitrary $x,y,z \\in \\mathbb{R}$. We must show that\n\\[\nd(x,z) \\le d(x,y) + d(y,z).\n\\]\nBy definition of $d$, this inequality becomes\n\\[\n|x^{3} - z^{3}| \\le |x^{3} - y^{3}| + |y^{3} - z^{3}|.\n\\]\nWe use the standard triangle inequality for the absolute value on $\\mathbb{R}$, which states that for all real numbers $a,b$ we have\n\\[\n|a + b| \\le |a| + |b|.\n\\]\nApply this with\n\\[\na = x^{3} - y^{3} \\quad \\text{and} \\quad b = y^{3} - z^{3}.\n\\]\nThen $a + b = (x^{3} - y^{3}) + (y^{3} - z^{3}) = x^{3} - z^{3}$. Therefore\n\\[\n|x^{3} - z^{3}| = |(x^{3} - y^{3}) + (y^{3} - z^{3})| \\le |x^{3} - y^{3}| + |y^{3} - z^{3}|.\n\\]\nBy the definition of $d$, this inequality can be rewritten as\n\\[\nd(x,z) \\le d(x,y) + d(y,z).\n\\]\nThis establishes the triangle inequality.\n\nSince all four metric axioms have been verified for the function $d(x,y) = |x^{3} - y^{3}|$ on $\\mathbb{R}$, the function $d$ is a metric on $\\mathbb{R}$."
+        },
+        "id": "func_metric_11.root.thm",
+        "status": "resolved"
+      }
+    ]
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "real_34.root.theorem",
+        "header": "Theorem",
+        "claim": "2 is an upper bound for the set of real numbers whose square is less than 4.",
+        "proof": {
+          "type": "Proof",
+          "proof_steps": [
+            {
+              "type": "let_statement",
+              "variable_name": "S",
+              "variable_type": "set of real numbers",
+              "statement": "Let S := { x ∈ ℝ ∣ x² < 4 }."
+            },
+            {
+              "type": "assert_statement",
+              "claim": "∀ x ∈ S, x ≤ 2",
+              "proof_method": "Definition of upper bound for S."
+            },
+            {
+              "deduced_from_theorem": [
+                {
+                  "claim": "For every real number x, 0 ≤ x².",
+                  "name": "Lemma 1 (nonnegativity of squares)",
+                  "description": "Established from the order-field axiom that squares are nonnegative."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "∀ x : ℝ, 0 ≤ x².",
+              "proof_method": "Lemma 1."
+            },
+            {
+              "deduced_from_theorem": [
+                {
+                  "claim": "For all real a,b, if 0 ≤ a, 0 ≤ b, and a < b, then sqrt a < sqrt b.",
+                  "name": "Lemma 2 (strict monotonicity of sqrt on nonnegatives)",
+                  "description": "Used to compare sqrt(x²) and sqrt 4."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "∀ a b : ℝ, 0 ≤ a → 0 ≤ b → a < b → sqrt a < sqrt b.",
+              "proof_method": "Lemma 2."
+            },
+            {
+              "deduced_from_theorem": [
+                {
+                  "claim": "For every real x, sqrt(x²) = |x|.",
+                  "name": "Lemma 3 (sqrt of a square is absolute value)",
+                  "description": "Used to rewrite sqrt(x²) as |x|."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "∀ x : ℝ, sqrt(x²) = |x|.",
+              "proof_method": "Lemma 3."
+            },
+            {
+              "deduced_from_theorem": [
+                {
+                  "claim": "For all real a,b, if a < b then a ≤ b.",
+                  "name": "Lemma 4 (strict-to-weak inequality)",
+                  "description": "Used inside Lemma 6."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "∀ a b : ℝ, a < b → a ≤ b.",
+              "proof_method": "Lemma 4."
+            },
+            {
+              "deduced_from_theorem": [
+                {
+                  "claim": "For every real x, -|x| ≤ x and x ≤ |x|.",
+                  "name": "Lemma 5 (abs bounds the number)",
+                  "description": "Used inside Lemma 6 to get x ≤ |x|."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "∀ x : ℝ, -|x| ≤ x ∧ x ≤ |x|.",
+              "proof_method": "Lemma 5."
+            },
+            {
+              "deduced_from_claim": [
+                "For every real x, -|x| ≤ x and x ≤ |x|.",
+                "For all real a,b, if a < b then a ≤ b."
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "If x ≤ y and y < z, then x < z.",
+                  "name": "transitivity of ≤ and <",
+                  "description": "Used in the proof of Lemma 6."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "∀ x : ℝ, |x| < 2 → x ≤ 2.",
+              "proof_method": "Lemma 6, proved using Lemma 5, transitivity of ≤ and <, and Lemma 4."
+            },
+            {
+              "type": "assume_statement",
+              "assumption": "x : ℝ and h : x² < 4",
+              "variable_name": "x",
+              "variable_type": "ℝ",
+              "statement": "Let x : ℝ and assume h : x² < 4."
+            },
+            {
+              "deduced_from_claim": [
+                "∀ y : ℝ, 0 ≤ y²."
+              ],
+              "type": "assert_statement",
+              "claim": "0 ≤ x²",
+              "proof_method": "Apply Lemma 1 to x."
+            },
+            {
+              "deduced_from_claim": [
+                "0 ≤ x²",
+                "0 ≤ 4",
+                "x² < 4",
+                "∀ a b : ℝ, 0 ≤ a → 0 ≤ b → a < b → sqrt a < sqrt b."
+              ],
+              "type": "assert_statement",
+              "claim": "sqrt(x²) < sqrt 4",
+              "proof_method": "Apply Lemma 2 with a = x² and b = 4."
+            },
+            {
+              "type": "assert_statement",
+              "claim": "sqrt 4 = 2",
+              "proof_method": "Evaluation of the square root of 4."
+            },
+            {
+              "deduced_from_claim": [
+                "sqrt(x²) < sqrt 4",
+                "sqrt 4 = 2"
+              ],
+              "type": "assert_statement",
+              "claim": "sqrt(x²) < 2",
+              "proof_method": "Rewrite sqrt 4 as 2 in the previous inequality."
+            },
+            {
+              "deduced_from_claim": [
+                "∀ y : ℝ, sqrt(y²) = |y|."
+              ],
+              "type": "assert_statement",
+              "claim": "|x| = sqrt(x²)",
+              "proof_method": "Apply Lemma 3 to x and use symmetry of equality."
+            },
+            {
+              "deduced_from_claim": [
+                "|x| = sqrt(x²)",
+                "sqrt(x²) < 2"
+              ],
+              "type": "assert_statement",
+              "claim": "|x| < 2",
+              "proof_method": "Rewrite sqrt(x²) as |x| in sqrt(x²) < 2."
+            },
+            {
+              "deduced_from_claim": [
+                "|x| < 2",
+                "∀ y : ℝ, |y| < 2 → y ≤ 2."
+              ],
+              "type": "assert_statement",
+              "claim": "x ≤ 2",
+              "proof_method": "Apply Lemma 6 to |x| < 2."
+            },
+            {
+              "deduced_from_claim": [
+                "For arbitrary x : ℝ, x² < 4 implies x ≤ 2.",
+                "S = { x ∈ ℝ ∣ x² < 4 }"
+              ],
+              "type": "assert_statement",
+              "claim": "∀ x ∈ S, x ≤ 2",
+              "proof_method": "Since x : ℝ with x² < 4 was arbitrary, generalize the implication and unfold membership in S."
+            },
+            {
+              "deduced_from_claim": [
+                "∀ x ∈ S, x ≤ 2"
+              ],
+              "type": "assert_statement",
+              "claim": "2 is an upper bound of S.",
+              "proof_method": "Definition of upper bound."
+            }
+          ],
+          "id": "real_34.root.theorem.proof.root",
+          "status": "resolved",
+          "text": "Definitions and Lemmas\n\nLet S := { x ∈ ℝ ∣ x² < 4 }.\nWe prove that 2 is an upper bound of S, i.e. ∀ x ∈ S, x ≤ 2.\n\nLemma 1 (nonnegativity of squares):\n  ∀ x : ℝ, 0 ≤ x².\n\nProof of Lemma 1.\n  For each x : ℝ, x² = x * x.  By the order‐field axiom that squares are nonnegative, 0 ≤ x * x. □\n\nLemma 2 (strict monotonicity of sqrt on nonnegatives):\n  ∀ a b : ℝ, 0 ≤ a → 0 ≤ b → a < b → sqrt a < sqrt b.\n\nProof of Lemma 2.\n  This follows from the property `real.sqrt_lt_iff_lt` and the fact that `sqrt` maps nonnegatives to nonnegatives. □\n\nLemma 3 (sqrt of a square is absolute value):\n  ∀ x : ℝ, sqrt (x²) = |x|.\n\nProof of Lemma 3.\n  This is the defining property of `real.sqrt` on nonnegative arguments together with `abs_eq_sqrt_sq`. □\n\nLemma 4 (strict‐to‐weak inequality):\n  ∀ a b : ℝ, a < b → a ≤ b.\n\nProof of Lemma 4.\n  This is the axiom `lt.le`. □\n\nLemma 5 (abs bounds the number):\n  ∀ x : ℝ, -|x| ≤ x ∧ x ≤ |x|.\n\nProof of Lemma 5.\n  This is the definition of `abs`. □\n\nLemma 6 (from |x| < 2 to x ≤ 2):\n  ∀ x : ℝ, |x| < 2 → x ≤ 2.\n\nProof of Lemma 6.\n  Let x : ℝ and h₁₀ : |x| < 2.\n  From Lemma 5 we have h₅.1 : x ≤ |x|.\n  From h₅.1 and h₁₀, by transitivity of ≤ and <, we get h₆₁ : x < 2.\n  From h₆₁ and Lemma 4 we conclude x ≤ 2. □\n\nMain proof\n\nLet x : ℝ and assume h : x² < 4.\n1. From Lemma 1 we have h₁ : 0 ≤ x².\n2. From h₁, the fact 0 ≤ 4, and h, Lemma 2 gives\n     sqrt (x²) < sqrt 4 = 2.\n3. Lemma 3 yields |x| = sqrt (x²), so |x| < 2.\n4. Lemma 6 applied to |x| < 2 yields x ≤ 2.\n\nSince x : ℝ with x² < 4 was arbitrary, we conclude ∀ x ∈ S, x ≤ 2. Hence 2 is an upper bound of S."
+        },
+        "id": "real_34.root.theorem",
+        "status": "resolved"
+      }
+    ]
+  }
+}

@@ -1,0 +1,212 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "group_1.root.thm",
+        "header": "Theorem",
+        "claim": "A group G satisfying \\((a*b)^2 = a^2*b^2\\) for all \\(a,b\\in G\\) is Abelian.",
+        "proof": {
+          "type": "Proof",
+          "proof_steps": [
+            {
+              "type": "let_statement",
+              "variable_name": "G",
+              "variable_type": "a group such that for all \\(a,b\\in G\\), \\((ab)^2=a^2b^2\\)",
+              "statement": "Let \\(G\\) be a group such that for all \\(a,b\\in G\\), \\((ab)^2=a^2b^2\\)."
+            },
+            {
+              "deduced_from_claim": [
+                "For all \\(a,b\\in G\\), \\((ab)^2=a^2b^2\\)."
+              ],
+              "type": "assert_statement",
+              "claim": "For all \\(a,b\\in G\\), \\(abab=aabb\\).",
+              "proof_method": "Expand the squares in the given identity using the definition of powers/products in a group."
+            },
+            {
+              "type": "assume_statement",
+              "assumption": "\\(a,b\\in G\\) are arbitrary.",
+              "statement": "Fix arbitrary elements \\(a,b\\in G\\)."
+            },
+            {
+              "deduced_from_claim": [
+                "For all \\(a,b\\in G\\), \\(abab=aabb\\).",
+                "\\(a,b\\in G\\)."
+              ],
+              "type": "assert_statement",
+              "claim": "\\(abab=aabb\\).",
+              "proof_method": "Specialize the expanded identity to the fixed arbitrary elements \\(a,b\\)."
+            },
+            {
+              "deduced_from_claim": [
+                "\\(abab=aabb\\)."
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "If \\(x=y\\) in a group, then \\(gx=gy\\) for any group element \\(g\\).",
+                  "name": "compatibility of equality with left multiplication",
+                  "description": "Used with \\(g=a^{-1}\\)."
+                },
+                {
+                  "claim": "A group operation is associative: \\((xy)z=x(yz)\\) for all group elements.",
+                  "name": "associativity",
+                  "description": "Used to reassociate the products after multiplying by \\(a^{-1}\\)."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "\\(a^{-1}(abab)=a^{-1}(aabb)\\).",
+              "proof_method": "Multiply both sides of \\(abab=aabb\\) on the left by \\(a^{-1}\\), using associativity."
+            },
+            {
+              "deduced_from_claim": [
+                "\\(a^{-1}(abab)=a^{-1}(aabb)\\)."
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "A group operation is associative: \\((xy)z=x(yz)\\) for all group elements.",
+                  "name": "associativity",
+                  "description": "Used to rewrite each side."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "\\((a^{-1}a)bab=(a^{-1}a)abb\\).",
+              "proof_method": "Rewrite each side using associativity."
+            },
+            {
+              "deduced_from_claim": [
+                "\\((a^{-1}a)bab=(a^{-1}a)abb\\)."
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "For every group element \\(x\\), \\(x^{-1}x=e\\).",
+                  "name": "inverse law",
+                  "description": "Used with \\(x=a\\)."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "\\(ebab=eabb\\).",
+              "proof_method": "Substitute \\(a^{-1}a=e\\)."
+            },
+            {
+              "deduced_from_claim": [
+                "\\(ebab=eabb\\)."
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "For every group element \\(x\\), \\(ex=x\\).",
+                  "name": "left identity law",
+                  "description": "Used to remove the leading identity element from both sides."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "\\(bab=abb\\).",
+              "proof_method": "Simplify using the identity law."
+            },
+            {
+              "deduced_from_claim": [
+                "\\(bab=abb\\)."
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "If \\(x=y\\) in a group, then \\(xh=yh\\) for any group element \\(h\\).",
+                  "name": "compatibility of equality with right multiplication",
+                  "description": "Used with \\(h=b^{-1}\\)."
+                },
+                {
+                  "claim": "A group operation is associative: \\((xy)z=x(yz)\\) for all group elements.",
+                  "name": "associativity",
+                  "description": "Used to reassociate the products after multiplying by \\(b^{-1}\\)."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "\\((bab)b^{-1}=(abb)b^{-1}\\).",
+              "proof_method": "Multiply both sides on the right by \\(b^{-1}\\), using associativity."
+            },
+            {
+              "deduced_from_claim": [
+                "\\((bab)b^{-1}=(abb)b^{-1}\\)."
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "A group operation is associative: \\((xy)z=x(yz)\\) for all group elements.",
+                  "name": "associativity",
+                  "description": "Used to rewrite each side."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "\\(ba(bb^{-1})=ab(bb^{-1})\\).",
+              "proof_method": "Rewrite each side using associativity."
+            },
+            {
+              "deduced_from_claim": [
+                "\\(ba(bb^{-1})=ab(bb^{-1})\\)."
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "For every group element \\(x\\), \\(xx^{-1}=e\\).",
+                  "name": "inverse law",
+                  "description": "Used with \\(x=b\\)."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "\\(bae=abe\\).",
+              "proof_method": "Substitute \\(bb^{-1}=e\\)."
+            },
+            {
+              "deduced_from_claim": [
+                "\\(bae=abe\\)."
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "For every group element \\(x\\), \\(xe=x\\).",
+                  "name": "right identity law",
+                  "description": "Used to remove the trailing identity element from both sides."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "\\(ba=ab\\).",
+              "proof_method": "Simplify using the right identity law."
+            },
+            {
+              "deduced_from_claim": [
+                "\\(a,b\\in G\\) were arbitrary.",
+                "\\(ba=ab\\)."
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "If an assertion holds for arbitrary elements of a set, then it holds for all elements of that set.",
+                  "name": "universal generalization",
+                  "description": "Used to conclude the equality for all pairs of elements."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "For all \\(a,b\\in G\\), \\(ab=ba\\).",
+              "proof_method": "Since \\(a\\) and \\(b\\) were arbitrary, generalize the equality to all elements of \\(G\\)."
+            },
+            {
+              "deduced_from_claim": [
+                "For all \\(a,b\\in G\\), \\(ab=ba\\)."
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "A group is Abelian if and only if its operation is commutative, i.e. \\(xy=yx\\) for all elements \\(x,y\\) of the group.",
+                  "name": "definition of Abelian group",
+                  "description": "Used to identify commutativity as the Abelian property."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "\\(G\\) is Abelian.",
+              "proof_method": "Apply the definition of an Abelian group."
+            }
+          ],
+          "id": "group_1.root.thm.proof.root",
+          "status": "resolved",
+          "text": "Let $G$ be a group such that for all $a,b \\in G$ we have\n\\[\n(ab)^2 = a^2 b^2.\n\\]\nBy the definition of the group operation, this identity means\n\\[\nabab = aabb\n\\]\nfor all $a,b \\in G$.\n\nFix arbitrary elements $a,b \\in G$. We want to prove that $ab = ba$. Since $abab = aabb$, we can manipulate this equality using the group axioms.\n\nFirst, multiply both sides on the left by $a^{-1}$. Using associativity of the group operation, this gives\n\\[\na^{-1}(abab) = a^{-1}(aabb).\n\\]\nRewriting each side using associativity:\n\\[\n(a^{-1}a)bab = (a^{-1}a)abb.\n\\]\nSince $a^{-1}a = e$, where $e$ is the identity element of $G$, this simplifies to\n\\[\nebab = eabb,\n\\]\nso\n\\[\nbab = abb.\n\\]\n\nNext, multiply both sides of this new equality on the right by $b^{-1}$. Using associativity again, we obtain\n\\[\n(bab)b^{-1} = (abb)b^{-1}.\n\\]\nRewriting each side:\n\\[\nba(bb^{-1}) = ab(b b^{-1}).\n\\]\nSince $bb^{-1} = e$, this becomes\n\\[\nba e = ab e.\n\\]\nBecause $xe = x$ for all $x \\in G$, we have\n\\[\nba = ab.\n\\]\n\nSince $a$ and $b$ were arbitrary elements of $G$, this shows that $ab = ba$ for all $a,b \\in G$. Therefore $G$ is Abelian."
+        },
+        "id": "group_1.root.thm",
+        "status": "resolved"
+      }
+    ]
+  }
+}
