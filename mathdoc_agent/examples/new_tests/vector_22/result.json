@@ -1,0 +1,406 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "source.root.theorem",
+        "header": "Theorem",
+        "claim": "Let $T : V \\to V$ be a linear transformation on a finite-dimensional vector space satisfying $T^2 = T$. Let $\\lambda$ be a scalar with $\\lambda \\neq 0,1$. Define $S = T - \\lambda I$. Then $S$ is invertible.",
+        "proof": {
+          "type": "Proof",
+          "proof_steps": [
+            {
+              "type": "assume_statement",
+              "assumption": "V is a finite-dimensional vector space, T : V → V is linear, T^2 = T, λ ≠ 0, λ ≠ 1, and S = T - λI."
+            },
+            {
+              "deduced_from_claim": [
+                "T^2 = T"
+              ],
+              "type": "assert_statement",
+              "claim": "For every v ∈ V, T(T(v)) = T(v).",
+              "proof_method": "Unfold the operator equality T^2 = T."
+            },
+            {
+              "type": "assume_statement",
+              "assumption": "v ∈ im(T).",
+              "variable_name": "v",
+              "variable_type": "vector in V"
+            },
+            {
+              "deduced_from_claim": [
+                "v ∈ im(T)"
+              ],
+              "type": "assert_statement",
+              "claim": "There exists u ∈ V such that v = T(u).",
+              "proof_method": "By the definition of image."
+            },
+            {
+              "deduced_from_claim": [
+                "v = T(u)",
+                "For every z ∈ V, T(T(z)) = T(z)."
+              ],
+              "type": "assert_statement",
+              "claim": "T(v) = v.",
+              "proof_method": "Substitute v = T(u) and use T(T(u)) = T(u)."
+            },
+            {
+              "deduced_from_claim": [
+                "For every v ∈ im(T), T(v) = v."
+              ],
+              "type": "assert_statement",
+              "claim": "T restricts to the identity map on im(T).",
+              "proof_method": "Since each vector in im(T) is fixed by T."
+            },
+            {
+              "type": "assume_statement",
+              "assumption": "v ∈ V is arbitrary.",
+              "variable_name": "v",
+              "variable_type": "vector in V"
+            },
+            {
+              "type": "let_statement",
+              "variable_name": "w",
+              "variable_type": "vector in V",
+              "statement": "w := v - T(v)."
+            },
+            {
+              "deduced_from_claim": [
+                "w = v - T(v)",
+                "T^2 = T"
+              ],
+              "type": "assert_statement",
+              "claim": "T(w) = 0.",
+              "proof_method": "Use the definition of w, linearity of T, and T(T(v)) = T(v)."
+            },
+            {
+              "deduced_from_claim": [
+                "T(w) = 0"
+              ],
+              "type": "assert_statement",
+              "claim": "w ∈ ker(T).",
+              "proof_method": "By the definition of kernel."
+            },
+            {
+              "type": "assert_statement",
+              "claim": "T(v) ∈ im(T).",
+              "proof_method": "By the definition of image."
+            },
+            {
+              "deduced_from_claim": [
+                "w := v - T(v)"
+              ],
+              "type": "assert_statement",
+              "claim": "v = w + T(v).",
+              "proof_method": "Rearrange the definition w = v - T(v)."
+            },
+            {
+              "deduced_from_claim": [
+                "For every v ∈ V, v can be written as w + T(v) with w ∈ ker(T) and T(v) ∈ im(T)."
+              ],
+              "type": "assert_statement",
+              "claim": "V = ker(T) + im(T).",
+              "proof_method": "Every vector of V is a sum of a vector in ker(T) and a vector in im(T)."
+            },
+            {
+              "type": "assume_statement",
+              "assumption": "v ∈ ker(T) ∩ im(T).",
+              "variable_name": "v",
+              "variable_type": "vector in V"
+            },
+            {
+              "deduced_from_claim": [
+                "v ∈ ker(T)"
+              ],
+              "type": "assert_statement",
+              "claim": "T(v) = 0.",
+              "proof_method": "By the definition of kernel."
+            },
+            {
+              "deduced_from_claim": [
+                "v ∈ im(T)",
+                "T restricts to the identity map on im(T)."
+              ],
+              "type": "assert_statement",
+              "claim": "T(v) = v.",
+              "proof_method": "Use the previously shown fact that T fixes im(T)."
+            },
+            {
+              "deduced_from_claim": [
+                "T(v) = 0",
+                "T(v) = v"
+              ],
+              "type": "assert_statement",
+              "claim": "v = 0.",
+              "proof_method": "Combine the two equalities."
+            },
+            {
+              "deduced_from_claim": [
+                "Every vector in ker(T) ∩ im(T) is 0."
+              ],
+              "type": "assert_statement",
+              "claim": "ker(T) ∩ im(T) = {0}.",
+              "proof_method": "The intersection contains only the zero vector."
+            },
+            {
+              "deduced_from_claim": [
+                "V = ker(T) + im(T)",
+                "ker(T) ∩ im(T) = {0}"
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "If U and W are subspaces of V, V = U + W, and U ∩ W = {0}, then V = U ⊕ W.",
+                  "name": "Criterion for internal direct sum",
+                  "description": "Applied to U = ker(T) and W = im(T)."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "V = ker(T) ⊕ im(T).",
+              "proof_method": "By the criterion for an internal direct sum."
+            },
+            {
+              "type": "assume_statement",
+              "assumption": "v ∈ ker(T).",
+              "variable_name": "v",
+              "variable_type": "vector in V"
+            },
+            {
+              "deduced_from_claim": [
+                "v ∈ ker(T)"
+              ],
+              "type": "assert_statement",
+              "claim": "T(v) = 0.",
+              "proof_method": "By the definition of kernel."
+            },
+            {
+              "deduced_from_claim": [
+                "S = T - λI",
+                "T(v) = 0"
+              ],
+              "type": "assert_statement",
+              "claim": "S(v) = -λ v.",
+              "proof_method": "Use the definition of S and T(v)=0."
+            },
+            {
+              "deduced_from_claim": [
+                "For every v ∈ ker(T), S(v) = -λv."
+              ],
+              "type": "assert_statement",
+              "claim": "S acts on ker(T) as multiplication by the scalar -λ.",
+              "proof_method": "This is exactly the displayed formula on ker(T)."
+            },
+            {
+              "deduced_from_claim": [
+                "λ ≠ 0"
+              ],
+              "type": "assert_statement",
+              "claim": "The scalar -λ is invertible.",
+              "proof_method": "A nonzero scalar has a multiplicative inverse."
+            },
+            {
+              "deduced_from_claim": [
+                "S acts on ker(T) as multiplication by the invertible scalar -λ."
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "Multiplication by a nonzero scalar on a vector space is an invertible linear map.",
+                  "description": "Applied to the scalar -λ on ker(T)."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "The restriction of S to ker(T) is an invertible linear map from ker(T) to itself.",
+              "proof_method": "Scalar multiplication by an invertible scalar is invertible."
+            },
+            {
+              "type": "assume_statement",
+              "assumption": "v ∈ im(T).",
+              "variable_name": "v",
+              "variable_type": "vector in V"
+            },
+            {
+              "deduced_from_claim": [
+                "v ∈ im(T)",
+                "T restricts to the identity map on im(T)."
+              ],
+              "type": "assert_statement",
+              "claim": "T(v) = v.",
+              "proof_method": "Use the previously shown fact that T fixes im(T)."
+            },
+            {
+              "deduced_from_claim": [
+                "S = T - λI",
+                "T(v) = v"
+              ],
+              "type": "assert_statement",
+              "claim": "S(v) = (1 - λ) v.",
+              "proof_method": "Use the definition of S and T(v)=v."
+            },
+            {
+              "deduced_from_claim": [
+                "For every v ∈ im(T), S(v) = (1 - λ)v."
+              ],
+              "type": "assert_statement",
+              "claim": "S acts on im(T) as multiplication by the scalar 1 - λ.",
+              "proof_method": "This is exactly the displayed formula on im(T)."
+            },
+            {
+              "deduced_from_claim": [
+                "λ ≠ 1"
+              ],
+              "type": "assert_statement",
+              "claim": "The scalar 1 - λ is invertible.",
+              "proof_method": "Since λ ≠ 1, the scalar 1 - λ is nonzero and hence invertible."
+            },
+            {
+              "deduced_from_claim": [
+                "S acts on im(T) as multiplication by the invertible scalar 1 - λ."
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "Multiplication by a nonzero scalar on a vector space is an invertible linear map.",
+                  "description": "Applied to the scalar 1 - λ on im(T)."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "The restriction of S to im(T) is an invertible linear map from im(T) to itself.",
+              "proof_method": "Scalar multiplication by an invertible scalar is invertible."
+            },
+            {
+              "deduced_from_claim": [
+                "V = ker(T) ⊕ im(T)"
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "In an internal direct sum V = U ⊕ W, every v ∈ V can be written uniquely as v = u + w with u ∈ U and w ∈ W.",
+                  "name": "Unique decomposition in a direct sum",
+                  "description": "Applied to U = ker(T) and W = im(T)."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "Every vector v ∈ V can be written uniquely as v = x + y with x ∈ ker(T) and y ∈ im(T).",
+              "proof_method": "Use uniqueness of decomposition in the internal direct sum."
+            },
+            {
+              "type": "assume_statement",
+              "assumption": "v = x + y with x ∈ ker(T) and y ∈ im(T).",
+              "variable_name": "v",
+              "variable_type": "vector in V"
+            },
+            {
+              "deduced_from_claim": [
+                "S(x) = -λx for x ∈ ker(T)",
+                "S(y) = (1 - λ)y for y ∈ im(T)"
+              ],
+              "type": "assert_statement",
+              "claim": "S(v) = -λ x + (1 - λ) y.",
+              "proof_method": "Use linearity of S and its action on the two summands."
+            },
+            {
+              "deduced_from_claim": [
+                "S(v) = -λx + (1 - λ)y on the decomposition v = x + y"
+              ],
+              "type": "assert_statement",
+              "claim": "S is block-diagonal with respect to V = ker(T) ⊕ im(T), with diagonal blocks -λ·id_{ker(T)} and (1 - λ)·id_{im(T)}.",
+              "proof_method": "The formula for S(v) separates the ker(T) and im(T) components."
+            },
+            {
+              "deduced_from_claim": [
+                "S is block-diagonal with invertible diagonal blocks on ker(T) and im(T)."
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "A linear map that preserves each summand of a direct sum decomposition and is invertible on each summand is invertible on the whole direct sum.",
+                  "description": "Used as a conceptual justification before constructing the explicit inverse."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "S is invertible on V.",
+              "proof_method": "A block-diagonal linear map with invertible diagonal blocks is invertible."
+            },
+            {
+              "deduced_from_claim": [
+                "V = ker(T) ⊕ im(T)"
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "In an internal direct sum V = U ⊕ W, every v ∈ V can be written uniquely as v = u + w with u ∈ U and w ∈ W.",
+                  "name": "Unique decomposition in a direct sum",
+                  "description": "Applied to define R using the unique decomposition."
+                }
+              ],
+              "type": "let_statement",
+              "variable_name": "R",
+              "variable_type": "linear map V → V",
+              "statement": "For v ∈ V, write uniquely v = x + y with x ∈ ker(T) and y ∈ im(T), and set R(v) := -(1/λ)x + (1/(1 - λ))y."
+            },
+            {
+              "type": "Proof",
+              "proof_steps": [
+                {
+                  "type": "assert_statement",
+                  "claim": "R is well-defined.",
+                  "proof_method": "The decomposition is direct and the coefficients are scalars."
+                },
+                {
+                  "deduced_from_claim": [
+                    "R is well-defined."
+                  ],
+                  "type": "assert_statement",
+                  "claim": "R is linear.",
+                  "proof_method": "The decomposition is direct and the coefficients are scalars."
+                }
+              ]
+            },
+            {
+              "type": "assume_statement",
+              "assumption": "v = x + y with x ∈ ker(T) and y ∈ im(T).",
+              "variable_name": "v",
+              "variable_type": "vector in V"
+            },
+            {
+              "deduced_from_claim": [
+                "R(v) = -(1/λ)x + (1/(1 - λ))y",
+                "S acts as multiplication by -λ on ker(T)",
+                "S acts as multiplication by 1 - λ on im(T)"
+              ],
+              "type": "assert_statement",
+              "claim": "S(R(v)) = v.",
+              "proof_method": "Compute using the definition of R and the action of S on the two summands."
+            },
+            {
+              "deduced_from_claim": [
+                "S(v) = -λx + (1 - λ)y",
+                "R acts by -(1/λ) on ker(T) and by 1/(1 - λ) on im(T)"
+              ],
+              "type": "assert_statement",
+              "claim": "R(S(v)) = v.",
+              "proof_method": "Compute using the definition of R and the formula for S(v)."
+            },
+            {
+              "deduced_from_claim": [
+                "For every v ∈ V, S(R(v)) = v",
+                "For every v ∈ V, R(S(v)) = v"
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "If a linear map has a two-sided inverse, then it is invertible.",
+                  "name": "Two-sided inverse criterion",
+                  "description": "Applied to S with inverse R."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "S is invertible.",
+              "proof_method": "R is both a left and right inverse of S."
+            }
+          ],
+          "id": "source.root.theorem.proof.root",
+          "status": "resolved",
+          "text": "Assume that $V$ is a finite-dimensional vector space and that $T : V \\to V$ is a linear map satisfying $T^2 = T$. Let $\\lambda$ be a scalar with $\\lambda \\neq 0$ and $\\lambda \\neq 1$, and define $S = T - \\lambda I$, where $I : V \\to V$ denotes the identity map.\n\nFirst, note that the condition $T^2 = T$ implies that for every $v \\in V$ we have $T(T(v)) = T(v)$. In particular, if $v \\in \\operatorname{im}(T)$, then there exists $u \\in V$ such that $v = T(u)$, and hence\n\\[\nT(v) = T(T(u)) = T(u) = v.\n\\]\nTherefore $T$ restricts to the identity map on $\\operatorname{im}(T)$.\n\nNext, we show that every vector $v \\in V$ can be written as a sum of a vector in $\\ker(T)$ and a vector in $\\operatorname{im}(T)$. Let $v \\in V$ be arbitrary and define\n\\[\nw := v - T(v).\n\\]\nThen\n\\[\nT(w) = T(v - T(v)) = T(v) - T(T(v)) = T(v) - T(v) = 0,\n\\]\nso $w \\in \\ker(T)$. By definition, $T(v) \\in \\operatorname{im}(T)$. Hence every $v \\in V$ can be written as\n\\[\nv = w + T(v)\n\\]\nwith $w \\in \\ker(T)$ and $T(v) \\in \\operatorname{im}(T)$, which shows that\n\\[\nV = \\ker(T) + \\operatorname{im}(T).\n\\]\n\nWe now prove that the sum $\\ker(T) + \\operatorname{im}(T)$ is direct. Let $v \\in \\ker(T) \\cap \\operatorname{im}(T)$. Since $v \\in \\ker(T)$, we have $T(v) = 0$. Since $v \\in \\operatorname{im}(T)$, we have seen above that $T(v) = v$. Combining these equalities, we obtain\n\\[\nv = T(v) = 0.\n\\]\nThus $\\ker(T) \\cap \\operatorname{im}(T) = \\{0\\}$, and hence\n\\[\nV = \\ker(T) \\oplus \\operatorname{im}(T).\n\\]\n\nWe describe the action of $S$ on $\\ker(T)$ and on $\\operatorname{im}(T)$. Let $v \\in \\ker(T)$. Then $T(v) = 0$, and therefore\n\\[\nS(v) = (T - \\lambda I)(v) = T(v) - \\lambda v = 0 - \\lambda v = -\\lambda v.\n\\]\nThus $S$ acts on $\\ker(T)$ as multiplication by the scalar $-\\lambda$. Since $\\lambda \\neq 0$, the scalar $-\\lambda$ is invertible, and hence the restriction of $S$ to $\\ker(T)$ is an invertible linear map from $\\ker(T)$ to itself.\n\nSimilarly, let $v \\in \\operatorname{im}(T)$. Then, as shown above, $T(v) = v$, and therefore\n\\[\nS(v) = (T - \\lambda I)(v) = T(v) - \\lambda v = v - \\lambda v = (1 - \\lambda)v.\n\\]\nThus $S$ acts on $\\operatorname{im}(T)$ as multiplication by the scalar $1 - \\lambda$. Since $\\lambda \\neq 1$, the scalar $1 - \\lambda$ is invertible, and hence the restriction of $S$ to $\\operatorname{im}(T)$ is an invertible linear map from $\\operatorname{im}(T)$ to itself.\n\nBecause $V$ is the internal direct sum\n\\[\nV = \\ker(T) \\oplus \\operatorname{im}(T),\n\\]\nevery vector $v \\in V$ can be written uniquely as $v = x + y$ with $x \\in \\ker(T)$ and $y \\in \\operatorname{im}(T)$. On such a decomposition, the map $S$ is given by\n\\[\nS(v) = S(x + y) = S(x) + S(y) = -\\lambda x + (1 - \\lambda)y.\n\\]\nThe map $S$ is block-diagonal with respect to the decomposition $V = \\ker(T) \\oplus \\operatorname{im}(T)$, with invertible diagonal blocks $-\\lambda \\cdot \\operatorname{id}_{\\ker(T)}$ on $\\ker(T)$ and $(1 - \\lambda) \\cdot \\operatorname{id}_{\\operatorname{im}(T)}$ on $\\operatorname{im}(T)$. A linear map that is invertible on each direct summand of a direct sum decomposition, and preserves that decomposition in this way, is invertible on the whole space.\n\nMore explicitly, define a linear map $R : V \\to V$ as follows. For $v \\in V$, write uniquely $v = x + y$ with $x \\in \\ker(T)$ and $y \\in \\operatorname{im}(T)$, and set\n\\[\nR(v) := -\\tfrac{1}{\\lambda}x + \\tfrac{1}{1 - \\lambda}y.\n\\]\nThis is well-defined and linear because the decomposition is direct and the coefficients are scalars. Then, for such $v = x + y$, we compute\n\\[\nS(R(v)) = S\\bigl(-\\tfrac{1}{\\lambda}x + \\tfrac{1}{1 - \\lambda}y\\bigr)\n= -\\lambda\\bigl(-\\tfrac{1}{\\lambda}x\\bigr) + (1 - \\lambda)\\bigl(\\tfrac{1}{1 - \\lambda}y\\bigr)\n= x + y\n= v,\n\\]\nand\n\\[\nR(S(v)) = R\\bigl(-\\lambda x + (1 - \\lambda)y\\bigr)\n= -\\tfrac{1}{\\lambda}(-\\lambda x) + \\tfrac{1}{1 - \\lambda}((1 - \\lambda)y)\n= x + y\n= v.\n\\]\nThus $R$ is both a left and right inverse of $S$, so $S$ is invertible."
+        },
+        "id": "source.root.theorem",
+        "status": "resolved"
+      }
+    ]
+  }
+}

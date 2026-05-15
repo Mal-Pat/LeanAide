@@ -1,0 +1,128 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "source.root.theorem",
+        "header": "Theorem",
+        "claim": "If $Q$ is an orthogonal matrix, i.e. $Q Q^T = I$, then $\\det(Q)=1$ or $\\det(Q)=-1$.",
+        "proof": {
+          "type": "Proof",
+          "proof_steps": [
+            {
+              "type": "let_statement",
+              "variable_name": "n",
+              "variable_type": "natural number",
+              "statement": "Let n be a natural number."
+            },
+            {
+              "type": "let_statement",
+              "variable_name": "Q",
+              "variable_type": "real n × n matrix",
+              "statement": "Let Q be a real n × n matrix."
+            },
+            {
+              "type": "assume_statement",
+              "assumption": "h_Q : Q Q^T = I_n",
+              "statement": "Assume h_Q : Q Q^T = I_n."
+            },
+            {
+              "deduced_from_claim": [
+                "Q Q^T = I_n"
+              ],
+              "type": "assert_statement",
+              "claim": "Q Q^T = I_n",
+              "proof_method": "This is exactly the hypothesis h_Q."
+            },
+            {
+              "deduced_from_theorem": [
+                {
+                  "claim": "For all real n × n matrices A and B, det(A B)=det(A) det(B).",
+                  "name": "Multiplicativity of the determinant",
+                  "description": "Applied with A=Q and B=Q^T."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "det(Q Q^T)=det(Q) det(Q^T)",
+              "proof_method": "By Lemma 1, determinant multiplicativity."
+            },
+            {
+              "deduced_from_claim": [
+                "Q Q^T = I_n"
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "For the real identity matrix I_n, det(I_n)=1.",
+                  "name": "Determinant of the identity",
+                  "description": "Used after rewriting Q Q^T as I_n."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "det(Q Q^T)=det(I_n)=1",
+              "proof_method": "By Lemma 2 and the equality Q Q^T=I_n."
+            },
+            {
+              "deduced_from_claim": [
+                "det(Q Q^T)=det(Q) det(Q^T)",
+                "det(Q Q^T)=1"
+              ],
+              "type": "assert_statement",
+              "claim": "det(Q) det(Q^T)=1",
+              "proof_method": "Combine the determinant equality from multiplicativity with det(Q Q^T)=1."
+            },
+            {
+              "deduced_from_theorem": [
+                {
+                  "claim": "For every real n × n matrix A, det(A^T)=det(A).",
+                  "name": "Invariance under transpose",
+                  "description": "Applied with A=Q."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "det(Q^T)=det(Q)",
+              "proof_method": "By Lemma 3, determinant is invariant under transpose."
+            },
+            {
+              "deduced_from_claim": [
+                "det(Q) det(Q^T)=1",
+                "det(Q^T)=det(Q)"
+              ],
+              "type": "assert_statement",
+              "claim": "det(Q)^2=1",
+              "proof_method": "Substitute det(Q^T)=det(Q) into det(Q) det(Q^T)=1."
+            },
+            {
+              "deduced_from_claim": [
+                "det(Q)^2=1"
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "For every real number x, if x^2=1 then x=1 or x=-1.",
+                  "name": "Solutions of x^2=1 over R",
+                  "description": "Applied with x=det(Q)."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "det(Q)=1 or det(Q)=-1",
+              "proof_method": "By Lemma 4 applied to x=det(Q)."
+            },
+            {
+              "deduced_from_claim": [
+                "det(Q)=1 or det(Q)=-1"
+              ],
+              "type": "assert_statement",
+              "claim": "det(Q) ∈ {1,-1}",
+              "proof_method": "Restatement of the preceding disjunction as set membership."
+            }
+          ],
+          "id": "source.root.theorem.proof.root",
+          "status": "resolved",
+          "text": "**Assumptions.**\nLet \\(n\\) be a natural number.\nLet \\(Q\\) be a real \\(n\\times n\\) matrix.\nAssume\n\\[\n  h_Q : Q\\,Q^T = I_n.\n\\]\n**Goal.**  Prove \\(\\det(Q)=1\\) or \\(\\det(Q)=-1\\).\n\n---\n**Lemma 1 (multiplicativity of the determinant).**\nFor all real \\(n\\times n\\) matrices \\(A\\) and \\(B\\),\n\\[\n  \\det(A\\,B)=\\det(A)\\,\\det(B).\n\\]\n\n**Proof of Lemma 1.**  Follows from the usual expansion of \\(\\det\\) as a sum over permutations.\n\n---\n**Lemma 2 (determinant of the identity).**\nFor the real identity matrix \\(I_n\\),\n\\[\n  \\det(I_n)=1.\n\\]\n\n**Proof of Lemma 2.**  In the sum defining \\(\\det(I_n)\\), only the identity permutation contributes \\(1\\).\n\n---\n**Lemma 3 (invariance under transpose).**\nFor every real \\(n\\times n\\) matrix \\(A\\),\n\\[\n  \\det(A^T)=\\det(A).\n\\]\n\n**Proof of Lemma 3.**  Transposing exchanges entries according to the sign of each permutation, leaving the total sum unchanged.\n\n---\n**Lemma 4 (solutions of \\(x^2=1\\) over \\(\\mathbb{R}\\)).**\nFor every real number \\(x\\), if \\(x^2=1\\) then \\(x=1\\) or \\(x=-1\\).\n\n**Proof of Lemma 4.**  Factor \\(x^2-1=(x-1)(x+1)\\) and apply the zero–product property in \\(\\mathbb{R}\\).\n\n---\n**Main argument.**\n1. From \\(h_Q\\) we have\n   \\[\n     Q\\,Q^T = I_n.\n   \\]\n2.  Lemma 1 yields\n   \\[\n     \\det(Q\\,Q^T)=\\det(Q)\\,\\det(Q^T).\n   \\]\n3.  By Lemma 2 and \\(Q\\,Q^T=I_n\\) we obtain\n   \\[\n     \\det(Q\\,Q^T)=\\det(I_n)=1.\n   \\]\n4.  Combining steps 2 and 3 gives\n   \\[\n     \\det(Q)\\,\\det(Q^T)=1.\n   \\]\n5.  Lemma 3 gives \\(\\det(Q^T)=\\det(Q)\\), hence\n   \\[\n     \\det(Q)^2=1.\n   \\]\n6.  Lemma 4 applied to \\(x=\\det(Q)\\) yields \\(\\det(Q)=1\\) or \\(\\det(Q)=-1\\).\n\nTherefore \\(\\det(Q)\\in\\{1,-1\\}\\)."
+        },
+        "id": "source.root.theorem",
+        "status": "resolved"
+      }
+    ]
+  }
+}

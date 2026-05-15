@@ -1,0 +1,277 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "source.root.theorem",
+        "header": "Theorem",
+        "claim": "Let $X$ be an uncountable set equipped with the co-countable topology, where $U\\subseteq X$ is open iff $U=\\emptyset$ or $X\\setminus U$ is countable. A sequence $(x_n)$ in $X$ converges to a point $L\\in X$ if and only if there exists an integer $N$ such that for all $n\\ge N$, $x_n=L$.",
+        "proof": {
+          "type": "bi-implication_cases_proof",
+          "if_proof": {
+            "type": "Proof",
+            "claim_label": "If $(x_n)$ converges to $L$ in the co-countable topology, then there exists $N\\in\\mathbb N$ such that for all $n\\ge N$, $x_n=L$.",
+            "proof_steps": [
+              {
+                "type": "assume_statement",
+                "assumption": "$(x_n)$ converges to $L$."
+              },
+              {
+                "type": "let_statement",
+                "variable_name": "A",
+                "variable_type": "subset of $X$",
+                "statement": "Let $A=\\{x_n\\mid n\\in\\mathbb N,\\ x_n\\ne L\\}$."
+              },
+              {
+                "deduced_from_claim": [
+                  "$A=\\{x_n\\mid n\\in\\mathbb N,\\ x_n\\ne L\\}$."
+                ],
+                "deduced_from_theorem": [
+                  {
+                    "claim": "The image of a countable set under a sequence is at most countable.",
+                    "description": "Applied to the set of non-$L$ values appearing in the sequence."
+                  }
+                ],
+                "type": "assert_statement",
+                "claim": "$A$ is at most countable.",
+                "proof_method": "Because $A$ is the set of values of a sequence indexed by $\\mathbb N$, restricted to those values not equal to $L$."
+              },
+              {
+                "deduced_from_claim": [
+                  "$X$ has the co-countable topology.",
+                  "$A$ is at most countable."
+                ],
+                "deduced_from_theorem": [
+                  {
+                    "claim": "In the co-countable topology on $X$, a subset $U\\subseteq X$ is open if and only if $U=\\emptyset$ or $X\\setminus U$ is countable.",
+                    "name": "Definition of the co-countable topology",
+                    "description": "Used with $U=X\\setminus A$, whose complement is $A$."
+                  }
+                ],
+                "type": "assert_statement",
+                "claim": "$U=X\\setminus A$ is open.",
+                "proof_method": "Since $X\\setminus U=A$ is at most countable, $U$ is open in the co-countable topology.",
+                "variable_name": "U",
+                "variable_type": "subset of $X$"
+              },
+              {
+                "deduced_from_claim": [
+                  "$A=\\{x_n\\mid n\\in\\mathbb N,\\ x_n\\ne L\\}$.",
+                  "$U=X\\setminus A$.",
+                  "$L\\in X$."
+                ],
+                "type": "assert_statement",
+                "claim": "$L\\in U$.",
+                "proof_method": "By construction, $A$ contains only sequence values not equal to $L$, so $L\\notin A$ and hence $L\\in X\\setminus A=U$."
+              },
+              {
+                "deduced_from_claim": [
+                  "$(x_n)$ converges to $L$.",
+                  "$U$ is open.",
+                  "$L\\in U$."
+                ],
+                "deduced_from_theorem": [
+                  {
+                    "claim": "If a sequence $(x_n)$ converges to $L$, then for every open set $U$ containing $L$, there exists $N\\in\\mathbb N$ such that for all $n\\ge N$, $x_n\\in U$.",
+                    "name": "Definition of convergence in a topological space",
+                    "description": "Applied to the open neighbourhood $U$ of $L$."
+                  }
+                ],
+                "type": "assert_statement",
+                "claim": "There is $N\\in\\mathbb N$ such that $x_n\\in U$ for all $n\\ge N$.",
+                "proof_method": "By convergence of $(x_n)$ to $L$ applied to the open set $U$ containing $L$.",
+                "variable_name": "N",
+                "variable_type": "natural number"
+              },
+              {
+                "deduced_from_claim": [
+                  "$U=X\\setminus A$.",
+                  "$A=\\{x_n\\mid n\\in\\mathbb N,\\ x_n\\ne L\\}$.",
+                  "There is $N\\in\\mathbb N$ such that $x_n\\in U$ for all $n\\ge N$."
+                ],
+                "type": "assert_statement",
+                "claim": "$x_n=L$ for all $n\\ge N$.",
+                "proof_method": "Any sequence value in $U=X\\setminus A$ cannot be a non-$L$ value, so each $x_n\\in U$ with $n\\ge N$ must equal $L$."
+              }
+            ],
+            "id": "source.root.theorem.proof.root.forward",
+            "status": "resolved",
+            "text": "Assume $(x_n)$ converges to $L$. Let $A=\\{x_n\\mid n\\in\\mathbb N,\\ x_n\\ne L\\}$. Since $A$ is at most countable, $U=X\\setminus A$ is open, and $L\\in U$. By convergence, there is $N$ such that $x_n\\in U$ for all $n\\ge N$. Since any sequence value in $U$ cannot be a non-$L$ value, $x_n=L$ for all $n\\ge N$."
+          },
+          "only_if_proof": {
+            "type": "Proof",
+            "claim_label": "If there exists $N\\in\\mathbb N$ such that for all $n\\ge N$, $x_n=L$, then $(x_n)$ converges to $L$ in the co-countable topology.",
+            "proof_steps": [
+              {
+                "type": "Theorem",
+                "label": "source.root.theorem.proof.root.reverse.arbitrary_neighborhood",
+                "header": "Claim",
+                "claim": "U \\subseteq X \\land U \\text{ is open in } X \\land L \\in U.",
+                "proof": {
+                  "type": "Proof",
+                  "proof_steps": [
+                    {
+                      "type": "Theorem",
+                      "label": "source.root.theorem.proof.root.reverse.arbitrary_neighborhood.arbitrary_neighborhood",
+                      "header": "Claim",
+                      "claim": "U is an open subset of X and L∈U.",
+                      "proof": {
+                        "type": "Proof",
+                        "proof_steps": [
+                          {
+                            "type": "Theorem",
+                            "label": "source.root.theorem.proof.root.reverse.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_neighborhood_setup.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary_neighborhood.arbitrary-neighborhood.arbitrary_neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary_U.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_U.arbitrary-neighborhood.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary-U.arbitrary_U.arbitrary_neighborhood",
+                            "header": "Claim",
+                            "claim": "U\\subseteq X, U is open in X, and L\\in U.",
+                            "proof": {
+                              "type": "Proof",
+                              "proof_steps": [
+                                {
+                                  "type": "Theorem",
+                                  "label": "source.root.theorem.proof.root.reverse.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_neighborhood_setup.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary_neighborhood.arbitrary-neighborhood.arbitrary_neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary_U.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_U.arbitrary-neighborhood.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary-U.arbitrary_U.arbitrary_neighborhood.arbitrary_U.arbitrary_U",
+                                  "header": "Claim",
+                                  "claim": "U\\subseteq X, U \\text{ is open in } X, \\text{ and } L\\in U.",
+                                  "proof": {
+                                    "type": "Proof",
+                                    "proof_steps": [
+                                      {
+                                        "type": "Theorem",
+                                        "label": "source.root.theorem.proof.root.reverse.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_neighborhood_setup.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary_neighborhood.arbitrary-neighborhood.arbitrary_neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary_U.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_U.arbitrary-neighborhood.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary-U.arbitrary_U.arbitrary_neighborhood.arbitrary_U.arbitrary_U.arbitrary-neighborhood",
+                                        "header": "Claim",
+                                        "claim": "U\\subseteq X,\\ U\\text{ is open in }X,\\text{ and }L\\in U.",
+                                        "proof": {
+                                          "type": "Proof",
+                                          "proof_steps": [
+                                            {
+                                              "type": "assert_statement",
+                                              "claim": "U\\subseteq X,\\ U\\text{ is open in }X,\\text{ and }L\\in U."
+                                            }
+                                          ]
+                                        },
+                                        "id": "source.root.theorem.proof.root.reverse.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_neighborhood_setup.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary_neighborhood.arbitrary-neighborhood.arbitrary_neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary_U.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_U.arbitrary-neighborhood.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary-U.arbitrary_U.arbitrary_neighborhood.arbitrary_U.arbitrary_U.arbitrary-neighborhood",
+                                        "status": "decomposed"
+                                      }
+                                    ]
+                                  },
+                                  "id": "source.root.theorem.proof.root.reverse.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_neighborhood_setup.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary_neighborhood.arbitrary-neighborhood.arbitrary_neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary_U.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_U.arbitrary-neighborhood.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary-U.arbitrary_U.arbitrary_neighborhood.arbitrary_U.arbitrary_U",
+                                  "status": "decomposed"
+                                }
+                              ]
+                            },
+                            "id": "source.root.theorem.proof.root.reverse.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_neighborhood_setup.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary_neighborhood.arbitrary-neighborhood.arbitrary_neighborhood.arbitrary-neighborhood.arbitrary-neighborhood.arbitrary_U.arbitrary_neighborhood.arbitrary_neighborhood.arbitrary_U.arbitrary-neighborhood.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary_U.arbitrary-U.arbitrary_U.arbitrary_neighborhood",
+                            "status": "decomposed"
+                          }
+                        ]
+                      },
+                      "id": "source.root.theorem.proof.root.reverse.arbitrary_neighborhood.arbitrary_neighborhood",
+                      "status": "decomposed"
+                    }
+                  ]
+                },
+                "id": "source.root.theorem.proof.root.reverse.arbitrary_neighborhood",
+                "status": "decomposed"
+              },
+              {
+                "type": "Theorem",
+                "label": "source.root.theorem.proof.root.reverse.eventual_membership",
+                "header": "Claim",
+                "claim": "For all n≥N, x_n∈U.",
+                "proof": {
+                  "type": "Proof",
+                  "proof_steps": [
+                    {
+                      "type": "assume_statement",
+                      "assumption": "n≥N",
+                      "variable_name": "n",
+                      "variable_type": "natural number",
+                      "statement": "Let n≥N be arbitrary."
+                    },
+                    {
+                      "deduced_from_claim": [
+                        "There exists N∈ℕ such that for all n≥N, x_n=L.",
+                        "n≥N"
+                      ],
+                      "type": "assert_statement",
+                      "claim": "x_n=L",
+                      "proof_method": "By the eventual equality hypothesis applied to n."
+                    },
+                    {
+                      "deduced_from_claim": [
+                        "x_n=L",
+                        "L∈U"
+                      ],
+                      "type": "assert_statement",
+                      "claim": "x_n∈U",
+                      "proof_method": "Since x_n=L and L∈U."
+                    },
+                    {
+                      "deduced_from_claim": [
+                        "For arbitrary n≥N, x_n∈U."
+                      ],
+                      "deduced_from_theorem": [
+                        {
+                          "claim": "If an element satisfying an arbitrary condition was chosen arbitrarily and a property was proved for it, then the property holds for all elements satisfying that condition.",
+                          "name": "Universal generalization",
+                          "description": "Used to conclude the statement for all n≥N."
+                        }
+                      ],
+                      "type": "assert_statement",
+                      "claim": "For all n≥N, x_n∈U.",
+                      "proof_method": "By universal generalization from the arbitrary n≥N."
+                    }
+                  ]
+                },
+                "id": "source.root.theorem.proof.root.reverse.eventual_membership",
+                "status": "resolved",
+                "text": "For all n≥N, x_n=L∈U, so x_n∈U."
+              },
+              {
+                "type": "Theorem",
+                "label": "source.root.theorem.proof.root.reverse.convergence_condition",
+                "header": "Claim",
+                "claim": "There exists M∈ℕ such that for all n≥M, x_n∈U.",
+                "proof": {
+                  "type": "Proof",
+                  "proof_steps": [
+                    {
+                      "type": "Theorem",
+                      "label": "source.root.theorem.proof.root.reverse.convergence_condition.witness_verification",
+                      "header": "Claim",
+                      "claim": "For all n≥M, x_n∈U.",
+                      "proof": {
+                        "type": "Proof",
+                        "proof_steps": [
+                          {
+                            "deduced_from_claim": [
+                              "M=N",
+                              "∀ n ≥ N, x_n ∈ U"
+                            ],
+                            "type": "assert_statement",
+                            "claim": "For all n≥M, x_n∈U.",
+                            "proof_method": "Rewrite M as N, then apply the hypothesis that for all n≥N, x_n∈U."
+                          }
+                        ]
+                      },
+                      "id": "source.root.theorem.proof.root.reverse.convergence_condition.witness_verification",
+                      "status": "resolved",
+                      "text": "With M=N, the hypothesis gives for all n≥M, x_n∈U."
+                    }
+                  ]
+                },
+                "id": "source.root.theorem.proof.root.reverse.convergence_condition",
+                "status": "resolved"
+              }
+            ],
+            "id": "source.root.theorem.proof.root.reverse",
+            "status": "decomposed"
+          },
+          "id": "source.root.theorem.proof.root",
+          "status": "decomposed"
+        },
+        "id": "source.root.theorem",
+        "status": "decomposed"
+      }
+    ]
+  }
+}

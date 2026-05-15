@@ -1,0 +1,330 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "source.root.thm",
+        "header": "Theorem",
+        "claim": "2 is an upper bound for the set of real numbers whose square is less than 4.",
+        "id": "source.root.thm",
+        "status": "resolved"
+      },
+      {
+        "type": "Section",
+        "label": "source.root.proof_section",
+        "level": 1,
+        "header": "Proof",
+        "content": [],
+        "id": "source.root.proof_section",
+        "status": "resolved"
+      },
+      {
+        "type": "Definition",
+        "label": "source.root.def_S",
+        "header": "Definition",
+        "definition": "Let S := { x ∈ ℝ ∣ x² < 4 }.",
+        "name": "source.root.def_S",
+        "id": "source.root.def_S",
+        "status": "resolved"
+      },
+      {
+        "type": "Theorem",
+        "label": "source.root.goal",
+        "header": "Proposition",
+        "claim": "2 is an upper bound of S, i.e. ∀ x ∈ S, x ≤ 2.",
+        "id": "source.root.goal",
+        "status": "resolved"
+      },
+      {
+        "type": "Theorem",
+        "label": "source.root.lemma1",
+        "header": "Lemma",
+        "claim": "∀ x : ℝ, 0 ≤ x².",
+        "proof": {
+          "type": "Proof",
+          "proof_steps": [
+            {
+              "type": "assume_statement",
+              "assumption": "Let x : ℝ be arbitrary.",
+              "variable_name": "x",
+              "variable_type": "ℝ"
+            },
+            {
+              "deduced_from_theorem": [
+                {
+                  "claim": "For every real number x, x² = x * x.",
+                  "name": "Definition of square",
+                  "description": "Used to rewrite x² as x * x."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "x² = x * x",
+              "proof_method": "By the definition of square."
+            },
+            {
+              "deduced_from_claim": [
+                "x² = x * x"
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "For every real number x, 0 ≤ x * x.",
+                  "name": "Nonnegativity of squares",
+                  "description": "Applied to the arbitrary real number x."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "0 ≤ x * x",
+              "proof_method": "By the order-field axiom that squares are nonnegative."
+            },
+            {
+              "deduced_from_claim": [
+                "x² = x * x",
+                "0 ≤ x * x"
+              ],
+              "type": "assert_statement",
+              "claim": "0 ≤ x²",
+              "proof_method": "Rewrite x * x as x² using x² = x * x."
+            },
+            {
+              "deduced_from_claim": [
+                "For arbitrary x : ℝ, 0 ≤ x²"
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "If an assertion P(x) holds for an arbitrary element x of a type, then ∀ x, P(x).",
+                  "name": "Universal introduction",
+                  "description": "Used to conclude the universally quantified theorem."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "∀ x : ℝ, 0 ≤ x²",
+              "proof_method": "Since x : ℝ was arbitrary, generalize the result."
+            }
+          ],
+          "id": "source.root.lemma1.proof.root",
+          "status": "resolved",
+          "text": "Proof of Lemma 1.\n  For each x : ℝ, x² = x * x.  By the order‐field axiom that squares are nonnegative, 0 ≤ x * x. □"
+        },
+        "id": "source.root.lemma1",
+        "status": "resolved"
+      },
+      {
+        "type": "Theorem",
+        "label": "source.root.lemma2",
+        "header": "Lemma",
+        "claim": "∀ a b : ℝ, 0 ≤ a → 0 ≤ b → a < b → sqrt a < sqrt b.",
+        "proof": {
+          "type": "Proof",
+          "proof_steps": [
+            {
+              "deduced_from_theorem": [
+                {
+                  "claim": "For real numbers x and y, under the required nonnegativity hypotheses, sqrt x < sqrt y is equivalent to x < y.",
+                  "name": "real.sqrt_lt_iff_lt",
+                  "description": "Applied with x = a and y = b."
+                },
+                {
+                  "claim": "For every real number x, 0 ≤ sqrt x.",
+                  "description": "Supplies the needed nonnegativity facts for square roots."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "∀ a b : ℝ, 0 ≤ a → 0 ≤ b → a < b → sqrt a < sqrt b.",
+              "proof_method": "This follows directly from `real.sqrt_lt_iff_lt` together with the fact that `sqrt` maps nonnegative real numbers to nonnegative real numbers."
+            }
+          ],
+          "id": "source.root.lemma2.proof.root",
+          "status": "resolved",
+          "text": "Proof of Lemma 2.\n  This follows from the property `real.sqrt_lt_iff_lt` and the fact that `sqrt` maps nonnegatives to nonnegatives. □"
+        },
+        "id": "source.root.lemma2",
+        "status": "resolved"
+      },
+      {
+        "type": "Theorem",
+        "label": "source.root.lemma3",
+        "header": "Lemma",
+        "claim": "∀ x : ℝ, sqrt (x²) = |x|.",
+        "proof": {
+          "type": "Proof",
+          "proof_steps": [
+            {
+              "type": "assume_statement",
+              "variable_name": "x",
+              "variable_type": "ℝ",
+              "statement": "Let x : ℝ be arbitrary."
+            },
+            {
+              "deduced_from_claim": [
+                "0 ≤ x²"
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "For every real number x, 0 ≤ x².",
+                  "description": "Ensures the argument x² is nonnegative so the defining property of real.sqrt applies."
+                },
+                {
+                  "claim": "For every real number x, |x| = sqrt (x²).",
+                  "name": "abs_eq_sqrt_sq",
+                  "description": "Identifies the absolute value with the square root of the square."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "sqrt (x²) = |x|",
+              "proof_method": "By the defining property of real.sqrt on nonnegative arguments together with abs_eq_sqrt_sq."
+            },
+            {
+              "deduced_from_claim": [
+                "∀ x : ℝ, sqrt (x²) = |x|"
+              ],
+              "type": "assert_statement",
+              "claim": "∀ x : ℝ, sqrt (x²) = |x|",
+              "proof_method": "Since x was arbitrary, generalize the equality to all real x."
+            }
+          ],
+          "id": "source.root.lemma3.proof.root",
+          "status": "resolved",
+          "text": "Proof of Lemma 3.\n  This is the defining property of `real.sqrt` on nonnegative arguments together with `abs_eq_sqrt_sq`. □"
+        },
+        "id": "source.root.lemma3",
+        "status": "resolved"
+      },
+      {
+        "type": "Theorem",
+        "label": "source.root.lemma4",
+        "header": "Lemma",
+        "claim": "∀ a b : ℝ, a < b → a ≤ b.",
+        "proof": {
+          "type": "Proof",
+          "proof_steps": [
+            {
+              "deduced_from_theorem": [
+                {
+                  "claim": "For all real numbers a and b, if a < b, then a ≤ b.",
+                  "name": "lt.le",
+                  "description": "This axiom exactly matches the goal."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "∀ a b : ℝ, a < b → a ≤ b.",
+              "proof_method": "This is exactly the axiom `lt.le`."
+            }
+          ],
+          "id": "source.root.lemma4.proof.root",
+          "status": "resolved",
+          "text": "Proof of Lemma 4.\n  This is the axiom `lt.le`. □"
+        },
+        "id": "source.root.lemma4",
+        "status": "resolved"
+      },
+      {
+        "type": "Theorem",
+        "label": "source.root.lemma5",
+        "header": "Lemma",
+        "claim": "∀ x : ℝ, -|x| ≤ x ∧ x ≤ |x|.",
+        "proof": {
+          "type": "Proof",
+          "proof_steps": [
+            {
+              "deduced_from_theorem": [
+                {
+                  "claim": "For every real number x, -|x| ≤ x and x ≤ |x|.",
+                  "name": "basic property of absolute value",
+                  "description": "Obtained by unfolding the definition of absolute value."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "∀ x : ℝ, -|x| ≤ x ∧ x ≤ |x|.",
+              "proof_method": "This is the definition of absolute value."
+            }
+          ],
+          "id": "source.root.lemma5.proof.root",
+          "status": "resolved",
+          "text": "Proof of Lemma 5.\n  This is the definition of `abs`. □"
+        },
+        "id": "source.root.lemma5",
+        "status": "resolved"
+      },
+      {
+        "type": "Theorem",
+        "label": "source.root.lemma6",
+        "header": "Lemma",
+        "claim": "∀ x : ℝ, |x| < 2 → x ≤ 2.",
+        "proof": {
+          "type": "Proof",
+          "proof_steps": [
+            {
+              "type": "let_statement",
+              "variable_name": "x",
+              "variable_type": "ℝ",
+              "statement": "Let x : ℝ."
+            },
+            {
+              "type": "assume_statement",
+              "assumption": "h₁₀ : |x| < 2",
+              "statement": "Assume h₁₀ : |x| < 2."
+            },
+            {
+              "deduced_from_theorem": [
+                {
+                  "claim": "∀ x : ℝ, -|x| ≤ x ∧ x ≤ |x|.",
+                  "name": "Lemma 5",
+                  "description": "Specialized at x and projected to the second conjunct."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "x ≤ |x|",
+              "proof_method": "from Lemma 5, specialize at x and take the conjunct x ≤ |x|",
+              "statement": "From Lemma 5 we have h₅.1 : x ≤ |x|."
+            },
+            {
+              "deduced_from_claim": [
+                "x ≤ |x|",
+                "|x| < 2"
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "If a ≤ b and b < c, then a < c.",
+                  "name": "transitivity of ≤ and <",
+                  "description": "Applied with a = x, b = |x|, and c = 2."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "x < 2",
+              "proof_method": "from h₅.1 and h₁₀ by transitivity of ≤ and <",
+              "statement": "From h₅.1 and h₁₀, by transitivity of ≤ and <, we get h₆₁ : x < 2."
+            },
+            {
+              "deduced_from_claim": [
+                "x < 2"
+              ],
+              "deduced_from_theorem": [
+                {
+                  "claim": "∀ a b : ℝ, a < b → a ≤ b.",
+                  "name": "Lemma 4",
+                  "description": "Specialized to a = x and b = 2."
+                }
+              ],
+              "type": "assert_statement",
+              "claim": "x ≤ 2",
+              "proof_method": "from h₆₁ and Lemma 4",
+              "statement": "From h₆₁ and Lemma 4 we conclude x ≤ 2."
+            }
+          ],
+          "id": "source.root.lemma6.proof.root",
+          "status": "resolved",
+          "text": "Proof of Lemma 6.\n  Let x : ℝ and h₁₀ : |x| < 2.\n  From Lemma 5 we have h₅.1 : x ≤ |x|.\n  From h₅.1 and h₁₀, by transitivity of ≤ and <, we get h₆₁ : x < 2.\n  From h₆₁ and Lemma 4 we conclude x ≤ 2. □"
+        },
+        "id": "source.root.lemma6",
+        "status": "resolved"
+      },
+      {
+        "type": "Paragraph",
+        "text": "Main proof\n\nLet x : ℝ and assume h : x² < 4.\n1. From Lemma 1 we have h₁ : 0 ≤ x².\n2. From h₁, the fact 0 ≤ 4, and h, Lemma 2 gives\n     sqrt (x²) < sqrt 4 = 2.\n3. Lemma 3 yields |x| = sqrt (x²), so |x| < 2.\n4. Lemma 6 applied to |x| < 2 yields x ≤ 2.\n\nSince x : ℝ with x² < 4 was arbitrary, we conclude ∀ x ∈ S, x ≤ 2. Hence 2 is an upper bound of S.",
+        "id": "source.root.main_proof",
+        "status": "resolved"
+      }
+    ]
+  }
+}

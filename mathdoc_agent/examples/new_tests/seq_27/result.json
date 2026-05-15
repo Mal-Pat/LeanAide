@@ -1,0 +1,1857 @@
+{
+  "document": {
+    "type": "document",
+    "body": [
+      {
+        "type": "Theorem",
+        "label": "source.root.thm",
+        "header": "Theorem",
+        "claim": "Let $(a_n)$ be a real sequence and let $L \\in \\mathbb{R}$. If\n\\[\n\\forall \\varepsilon > 0,\\;\n\\exists N,\\;\n\\forall n \\ge N,\\;\n\\exists m \\ge n,\\;\n|a_m - L| < \\varepsilon,\n\\]\nthen\n\\[\n\\liminf a_n \\le L \\le \\limsup a_n.\n\\]",
+        "proof": {
+          "type": "Proof",
+          "proof_steps": [
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step1",
+              "header": "Claim",
+              "claim": "$(a_n)$ is a real sequence and $L \\in \\mathbb{R}$ satisfies $\\forall \\varepsilon > 0,\\;\\exists N \\in \\mathbb{N},\\;\\forall n \\ge N,\\;\\exists m \\ge n,\\;|a_m-L|<\\varepsilon$.",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assume_statement",
+                    "assumption": "$(a_n)$ is a real sequence and $L \\in \\mathbb{R}$ satisfies the stated hypothesis",
+                    "statement": "Assume that $(a_n)$ is a real sequence and $L \\in \\mathbb{R}$ satisfies the following property."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step1",
+              "status": "resolved",
+              "text": "Assume that $(a_n)$ is a real sequence and $L \\in \\mathbb{R}$ satisfies the following property:"
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step2",
+              "header": "Claim",
+              "claim": "For every $\\varepsilon > 0$ there exists $N \\in \\mathbb{N}$ such that for every $n \\ge N$ there exists $m \\ge n$ with $|a_m - L| < \\varepsilon$.",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assert_statement",
+                    "claim": "For every $\\varepsilon > 0$ there exists $N \\in \\mathbb{N}$ such that for every $n \\ge N$ there exists $m \\ge n$ with $|a_m - L| < \\varepsilon$.",
+                    "proof_method": "This is exactly the assumed hypothesis in the implication being proved."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step2",
+              "status": "resolved",
+              "text": "For every $\\varepsilon > 0$ there exists $N \\in \\mathbb{N}$ such that for every $n \\ge N$ there exists $m \\ge n$ with $|a_m - L| < \\varepsilon$."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step3",
+              "header": "Claim",
+              "claim": "\\liminf_{n \\to \\infty} a_n \\le L \\le \\limsup_{n \\to \\infty} a_n",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assert_statement",
+                    "claim": "\\liminf_{n \\to \\infty} a_n \\le L \\le \\limsup_{n \\to \\infty} a_n"
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step3",
+              "status": "resolved",
+              "text": "The goal is to prove that $\\liminf_{n \\to \\infty} a_n \\le L \\le \\limsup_{n \\to \\infty} a_n$."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step4",
+              "header": "Claim",
+              "claim": "\\limsup a_n = \\inf_N \\sup_{m\\ge N} a_m \\text{ and } \\liminf a_n = \\sup_N \\inf_{m\\ge N} a_m",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_theorem": [
+                      {
+                        "claim": "For a real sequence (a_n), \\limsup a_n = \\inf_N \\sup_{n\\ge N} a_n and \\liminf a_n = \\sup_N \\inf_{n\\ge N} a_n, when these quantities are defined in the extended real sense.",
+                        "name": "Definitions of limsup and liminf",
+                        "description": "The step invokes the standard definitions in terms of suprema and infima of tails."
+                      }
+                    ],
+                    "type": "assert_statement",
+                    "claim": "\\limsup a_n and \\liminf a_n are given by the standard tail formulas using suprema and infima of tails.",
+                    "proof_method": "By the standard definitions of \\limsup and \\liminf."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step4",
+              "status": "resolved",
+              "text": "First, recall the standard definitions of $\\limsup$ and $\\liminf$ in terms of suprema and infima of tails."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step5",
+              "header": "Claim",
+              "claim": "For each $n \\in \\mathbb{N}$ define",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "let_statement",
+                    "variable_type": "object depending on n",
+                    "statement": "For each $n \\in \\mathbb{N}$ define"
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step5",
+              "status": "resolved",
+              "text": "For each $n \\in \\mathbb{N}$ define"
+            },
+            {
+              "type": "definition_unfolding",
+              "start": "s_n",
+              "target": "\\inf\\{a_k : k \\ge n\\}",
+              "goal_relation": "=",
+              "steps": [
+                {
+                  "from": "s_n",
+                  "relation": "=",
+                  "to": "\\sup\\{a_k : k \\ge n\\}",
+                  "justification": "Definition of s_n."
+                },
+                {
+                  "from": "i_n",
+                  "relation": "=",
+                  "to": "\\inf\\{a_k : k \\ge n\\}",
+                  "justification": "Definition of i_n."
+                }
+              ],
+              "id": "source.root.thm.proof.root.step6",
+              "status": "resolved",
+              "text": "s_n := \\sup\\{ a_k : k \\ge n \\}, \\qquad i_n := \\inf\\{ a_k : k \\ge n \\}."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step7",
+              "header": "Claim",
+              "claim": "$(s_n)$ is decreasing and $(i_n)$ is increasing",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assert_statement",
+                    "claim": "The sequence $(s_n)$ is decreasing.",
+                    "proof_method": "By definition."
+                  },
+                  {
+                    "type": "assert_statement",
+                    "claim": "The sequence $(i_n)$ is increasing.",
+                    "proof_method": "By definition."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step7",
+              "status": "resolved",
+              "text": "Then the sequence $(s_n)$ is decreasing, the sequence $(i_n)$ is increasing, and by definition"
+            },
+            {
+              "type": "definition_unfolding",
+              "start": "\\limsup_{n \\to \\infty} a_n",
+              "target": "\\sup_{n \\in \\mathbb{N}} i_n",
+              "goal_relation": "=",
+              "steps": [
+                {
+                  "from": "\\limsup_{n \\to \\infty} a_n",
+                  "relation": "=",
+                  "to": "\\inf_{n \\in \\mathbb{N}} s_n",
+                  "justification": "Definition of limsup as the infimum of tail suprema.",
+                  "deduced_from_theorem": [
+                    {
+                      "claim": "For a real sequence (a_n), if s_n = sup_{m >= n} a_m and i_n = inf_{m >= n} a_m, then limsup_{n->infty} a_n = inf_{n in N} s_n and liminf_{n->infty} a_n = sup_{n in N} i_n.",
+                      "name": "definitions of limsup and liminf via tail suprema and infima",
+                      "description": "The displayed equalities state the standard definitions using tail suprema s_n and tail infima i_n."
+                    }
+                  ],
+                  "side_conditions": [
+                    "s_n = \\sup_{m \\ge n} a_m for each n",
+                    "The relevant tail suprema exist in the extended real sense, or are finite under the intended hypotheses."
+                  ]
+                },
+                {
+                  "from": "\\liminf_{n \\to \\infty} a_n",
+                  "relation": "=",
+                  "to": "\\sup_{n \\in \\mathbb{N}} i_n",
+                  "justification": "Definition of liminf as the supremum of tail infima.",
+                  "deduced_from_theorem": [
+                    {
+                      "claim": "For a real sequence (a_n), if s_n = sup_{m >= n} a_m and i_n = inf_{m >= n} a_m, then limsup_{n->infty} a_n = inf_{n in N} s_n and liminf_{n->infty} a_n = sup_{n in N} i_n.",
+                      "name": "definitions of limsup and liminf via tail suprema and infima",
+                      "description": "The displayed equalities state the standard definitions using tail suprema s_n and tail infima i_n."
+                    }
+                  ],
+                  "side_conditions": [
+                    "i_n = \\inf_{m \\ge n} a_m for each n",
+                    "The relevant tail infima exist in the extended real sense, or are finite under the intended hypotheses."
+                  ]
+                }
+              ],
+              "id": "source.root.thm.proof.root.step8",
+              "status": "resolved",
+              "text": "\\limsup_{n \\to \\infty} a_n = \\inf_{n \\in \\mathbb{N}} s_n, \\qquad \\liminf_{n \\to \\infty} a_n = \\sup_{n \\in \\mathbb{N}} i_n."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step9",
+              "header": "Claim",
+              "claim": "\\bigl(\\forall n \\in \\mathbb{N},\\; L \\le s_n\\bigr) \\to L \\le \\limsup_{n \\to \\infty} a_n",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_theorem": [
+                      {
+                        "claim": "For a real sequence, if s_n = sup_{m >= n} a_m and L <= s_n for every n, then L <= inf_n s_n = limsup_{n\\to\\infty} a_n.",
+                        "name": "Characterization of limsup by tail suprema",
+                        "description": "Used to justify that it suffices to prove L <= s_n for every n."
+                      }
+                    ],
+                    "type": "assert_statement",
+                    "claim": "\\bigl(\\forall n \\in \\mathbb{N},\\; L \\le s_n\\bigr) \\to L \\le \\limsup_{n \\to \\infty} a_n",
+                    "proof_method": "By the characterization of limsup as the infimum of the tail suprema s_n."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step9",
+              "status": "resolved",
+              "text": "To prove $L \\le \\limsup_{n \\to \\infty} a_n$, it is enough to show that $L \\le s_n$ for every $n \\in \\mathbb{N}$."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step10",
+              "header": "Claim",
+              "claim": "\\bigl(\\forall n \\in \\mathbb{N},\\; L \\le s_n\\bigr) \\to \\bigl(L \\text{ is a lower bound of } \\{s_n : n \\in \\mathbb{N}\\} \\text{ and } L \\le \\inf_{n \\in \\mathbb{N}} s_n = \\limsup_{n \\to \\infty} a_n\\bigr)",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assume_statement",
+                    "assumption": "L \\le s_n holds for all n",
+                    "statement": "Assume that L \\le s_n for all n."
+                  },
+                  {
+                    "deduced_from_claim": [
+                      "L \\le s_n for all n"
+                    ],
+                    "type": "assert_statement",
+                    "claim": "L is a lower bound of the set \\{s_n : n \\in \\mathbb{N}\\}.",
+                    "proof_method": "By the definition of a lower bound applied to the assumption L \\le s_n for every n."
+                  },
+                  {
+                    "deduced_from_claim": [
+                      "L is a lower bound of the set \\{s_n : n \\in \\mathbb{N}\\}."
+                    ],
+                    "deduced_from_theorem": [
+                      {
+                        "claim": "If \\alpha is a lower bound of a set S \\subset \\mathbb{R}, then \\alpha \\le \\inf S.",
+                        "name": "Greatest-lower-bound property of the infimum",
+                        "description": "Applied to S = \\{s_n : n \\in \\mathbb{N}\\} and \\alpha = L."
+                      }
+                    ],
+                    "type": "assert_statement",
+                    "claim": "L \\le \\inf_{n \\in \\mathbb{N}} s_n.",
+                    "proof_method": "Since L is a lower bound of \\{s_n : n \\in \\mathbb{N}\\}, the infimum is at least L."
+                  },
+                  {
+                    "deduced_from_claim": [
+                      "\\inf_{n \\in \\mathbb{N}} s_n = \\limsup_{n \\to \\infty} a_n",
+                      "L \\le \\inf_{n \\in \\mathbb{N}} s_n"
+                    ],
+                    "type": "assert_statement",
+                    "claim": "L \\le \\inf_{n \\in \\mathbb{N}} s_n = \\limsup_{n \\to \\infty} a_n.",
+                    "proof_method": "Combine the inequality L \\le \\inf_{n \\in \\mathbb{N}} s_n with the stated identification \\inf_{n \\in \\mathbb{N}} s_n = \\limsup_{n \\to \\infty} a_n."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step10",
+              "status": "resolved",
+              "text": "Indeed, if $L \\le s_n$ holds for all $n$, then $L$ is a lower bound of the set $\\{s_n : n \\in \\mathbb{N}\\}$, and consequently $L \\le \\inf_{n \\in \\mathbb{N}} s_n = \\limsup_{n \\to \\infty} a_n$."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step11",
+              "header": "Claim",
+              "claim": "n \\in \\mathbb{N}",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assume_statement",
+                    "assumption": "n \\in \\mathbb{N}",
+                    "variable_name": "n",
+                    "variable_type": "\\mathbb{N}",
+                    "statement": "Fix an arbitrary $n \\in \\mathbb{N}$."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step11",
+              "status": "resolved",
+              "text": "Fix an arbitrary $n \\in \\mathbb{N}$."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step12",
+              "header": "Claim",
+              "claim": "Let",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "let_statement",
+                    "statement": "Let"
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step12",
+              "status": "resolved",
+              "text": "Let"
+            },
+            {
+              "type": "definition_unfolding",
+              "start": "E_n",
+              "target": "\\{a_k : k \\ge n\\}",
+              "goal_relation": "=",
+              "steps": [
+                {
+                  "from": "E_n",
+                  "relation": "=",
+                  "to": "\\{a_k : k \\ge n\\}",
+                  "justification": "Definition of E_n."
+                }
+              ],
+              "id": "source.root.thm.proof.root.step13",
+              "status": "resolved",
+              "text": "E_n := \\{ a_k : k \\ge n \\},"
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step14",
+              "header": "Claim",
+              "claim": "s_n = \\sup E_n",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assert_statement",
+                    "claim": "s_n = \\sup E_n",
+                    "proof_method": "This is asserted from the preceding definition or choice of notation for s_n and E_n."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step14",
+              "status": "resolved",
+              "text": "so that $s_n = \\sup E_n$."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step15",
+              "header": "Claim",
+              "claim": "L > s_n",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assume_statement",
+                    "proof_method": "assumption for contradiction",
+                    "assumption": "L > s_n",
+                    "statement": "Assume for contradiction that L > s_n."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step15",
+              "status": "resolved",
+              "text": "Assume for contradiction that $L > s_n$."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step16",
+              "header": "Claim",
+              "claim": "Define",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assert_statement",
+                    "claim": "Define"
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step16",
+              "status": "resolved",
+              "text": "Define"
+            },
+            {
+              "type": "definition_unfolding",
+              "start": "\\delta",
+              "target": "L - s_n",
+              "goal_relation": "=",
+              "steps": [
+                {
+                  "from": "\\delta",
+                  "relation": "=",
+                  "to": "L - s_n",
+                  "justification": "Definition of \\(\\delta\\)."
+                }
+              ],
+              "id": "source.root.thm.proof.root.step17",
+              "status": "resolved",
+              "text": "\\delta := L - s_n."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step18",
+              "header": "Claim",
+              "claim": "Then $\\delta > 0$.",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assert_statement",
+                    "claim": "\\delta > 0"
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step18",
+              "status": "resolved",
+              "text": "Then $\\delta > 0$."
+            },
+            {
+              "deduced_from_claim": [
+                "\\(\\delta/2>0\\)",
+                "\\(\\forall \\varepsilon > 0,\\;\\exists N,\\;\\forall n \\ge N,\\;\\exists m \\ge n,\\;|a_m-L|<\\varepsilon\\)"
+              ],
+              "type": "assert_statement",
+              "claim": "\\(\\exists N,\\;\\forall n \\ge N,\\;\\exists m \\ge n,\\;|a_m-L|<\\delta/2\\)",
+              "proof_method": "Specialize the hypothesis to \\(\\varepsilon:=\\delta/2>0\\)."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step20",
+              "header": "Claim",
+              "claim": "\\exists N \\in \\mathbb{N}\\;\\forall p \\ge N\\;\\exists m \\ge p,\\; |a_m-L|<\\varepsilon",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_claim": [
+                      "\\forall \\varepsilon > 0,\\;\\exists N,\\;\\forall n \\ge N,\\;\\exists m \\ge n,\\;|a_m-L|<\\varepsilon"
+                    ],
+                    "type": "assert_statement",
+                    "claim": "\\exists N \\in \\mathbb{N}\\text{ such that for every }p\\ge N\\text{ there exists }m\\ge p\\text{ with }|a_m-L|<\\varepsilon",
+                    "proof_method": "Apply the assumption on $(a_n)$ and $L$ to the chosen positive value of \\varepsilon."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step20",
+              "status": "resolved",
+              "text": "By the assumption on $(a_n)$ and $L$, there exists $N \\in \\mathbb{N}$ such that for every $p \\ge N$ there exists $m \\ge p$ with"
+            },
+            {
+              "type": "inequality_chain",
+              "start": "|a_m - L|",
+              "target": "\\delta/2",
+              "goal_relation": "<",
+              "steps": [
+                {
+                  "from": "|a_m - L|",
+                  "relation": "<",
+                  "to": "\\delta/2"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step21",
+              "status": "resolved",
+              "text": "|a_m - L| < \\delta/2."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step22",
+              "header": "Claim",
+              "claim": "p = \\max\\{N,n\\}",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "let_statement",
+                    "variable_name": "p",
+                    "statement": "p := \\max\\{N,n\\}"
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step22",
+              "status": "resolved",
+              "text": "Set $p := \\max\\{N, n\\}$."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step23",
+              "header": "Claim",
+              "claim": "Then $p \\ge N$ and $p \\ge n$.",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_claim": [
+                      "p \\ge \\max(N,n)"
+                    ],
+                    "type": "assert_statement",
+                    "claim": "p \\ge N \\text{ and } p \\ge n",
+                    "proof_method": "Since p is at least the maximum of N and n, it is at least each of N and n."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step23",
+              "status": "resolved",
+              "text": "Then $p \\ge N$ and $p \\ge n$."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step24",
+              "header": "Claim",
+              "claim": "\\exists m \\ge p,\\; |a_m-L|<\\varepsilon",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_claim": [
+                      "For all n ≥ N, there exists m ≥ n such that |a_m - L| < ε.",
+                      "p ≥ N."
+                    ],
+                    "type": "assert_statement",
+                    "claim": "There exists m ≥ p such that |a_m - L| < ε.",
+                    "proof_method": "Specialize the defining property of N to n = p."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step24",
+              "status": "resolved",
+              "text": "By the choice of $N$, there exists $m \\ge p$ with"
+            },
+            {
+              "type": "inequality_chain",
+              "start": "|a_m - L|",
+              "target": "\\delta/2",
+              "goal_relation": "<",
+              "steps": [
+                {
+                  "from": "|a_m - L|",
+                  "relation": "<",
+                  "to": "\\delta/2"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step25",
+              "status": "resolved",
+              "text": "|a_m - L| < \\delta/2."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step26",
+              "header": "Claim",
+              "claim": "a_m \\in E_n \\text{ and } a_m \\le s_n",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_claim": [
+                      "m \\ge p",
+                      "p \\ge n",
+                      "E_n is the tail set containing all a_k with k \\ge n"
+                    ],
+                    "deduced_from_theorem": [
+                      {
+                        "claim": "If x \\ge y and y \\ge z, then x \\ge z.",
+                        "name": "Transitivity of order",
+                        "description": "Used to infer m \\ge n from m \\ge p \\ge n."
+                      }
+                    ],
+                    "type": "assert_statement",
+                    "claim": "a_m \\in E_n",
+                    "proof_method": "Since m \\ge p \\ge n, we have m \\ge n, so a_m belongs to the tail set E_n."
+                  },
+                  {
+                    "deduced_from_claim": [
+                      "a_m \\in E_n",
+                      "s_n = \\sup E_n"
+                    ],
+                    "deduced_from_theorem": [
+                      {
+                        "claim": "If s = \\sup E and x \\in E, then x \\le s.",
+                        "name": "Upper-bound property of supremum",
+                        "description": "Used to obtain the corresponding inequality from membership in E_n and the definition of s_n as a supremum."
+                      }
+                    ],
+                    "type": "assert_statement",
+                    "claim": "a_m \\le s_n",
+                    "proof_method": "By the definition of s_n as a supremum of E_n."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step26",
+              "status": "resolved",
+              "text": "Since $m \\ge p \\ge n$, we have $a_m \\in E_n$, and hence by the definition of $s_n$ as a supremum we obtain"
+            },
+            {
+              "type": "inequality_chain",
+              "start": "a_m",
+              "target": "s_n",
+              "goal_relation": "<=",
+              "steps": [
+                {
+                  "from": "a_m",
+                  "relation": "<=",
+                  "to": "s_n"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step27",
+              "status": "resolved",
+              "text": "a_m \\le s_n."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step28",
+              "header": "Claim",
+              "claim": "L-\\delta/2 < a_m \\text{ and } a_m < L+\\delta/2",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_claim": [
+                      "|a_m-L|<\\delta/2"
+                    ],
+                    "type": "assert_statement",
+                    "proof_method": "Deduction from the inequality |a_m-L|<\\delta/2 is indicated, but the resulting assertion is omitted in the fragment.",
+                    "statement": "On the other hand, from $|a_m - L| < \\delta/2$ we deduce"
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step28",
+              "status": "resolved",
+              "text": "On the other hand, from $|a_m - L| < \\delta/2$ we deduce"
+            },
+            {
+              "type": "mixed_relation_chain",
+              "start": "L - \\delta/2",
+              "target": "L + \\delta/2",
+              "goal_relation": "<",
+              "steps": [
+                {
+                  "from": "L - \\delta/2",
+                  "relation": "<",
+                  "to": "a_m"
+                },
+                {
+                  "from": "a_m",
+                  "relation": "<",
+                  "to": "L + \\delta/2"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step29",
+              "status": "resolved",
+              "text": "L - \\delta/2 < a_m < L + \\delta/2."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step30",
+              "header": "Claim",
+              "claim": "L-(L-s_n)/2 < a_m",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_claim": [
+                      "\\(\\delta = L - s_n\\)"
+                    ],
+                    "type": "assert_statement",
+                    "claim": "L-(L-s_n)/2 < a_m",
+                    "proof_method": "substitute the definition \\(\\delta = L - s_n\\) into the left inequality"
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step30",
+              "status": "resolved",
+              "text": "Using the definition $\\delta = L - s_n$, the left inequality becomes"
+            },
+            {
+              "type": "inequality_chain",
+              "start": "L - \\frac{L - s_n}{2}",
+              "target": "a_m",
+              "goal_relation": "<",
+              "steps": [
+                {
+                  "from": "L - \\frac{L - s_n}{2}",
+                  "relation": "<",
+                  "to": "a_m"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step31",
+              "status": "resolved",
+              "text": "L - \\frac{L - s_n}{2} < a_m,"
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step32",
+              "header": "Claim",
+              "claim": "(L+s_n)/2 < a_m",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assert_statement",
+                    "proof_method": "Simplification of a preceding expression, but the expression to be simplified is not provided in the fragment."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step32",
+              "status": "resolved",
+              "text": "which simplifies to"
+            },
+            {
+              "type": "inequality_chain",
+              "start": "\\frac{L+s_n}{2}",
+              "target": "a_m",
+              "goal_relation": "<",
+              "steps": [
+                {
+                  "from": "\\frac{L+s_n}{2}",
+                  "relation": "<",
+                  "to": "a_m"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step33",
+              "status": "resolved",
+              "text": "\\frac{L + s_n}{2} < a_m."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step34",
+              "header": "Claim",
+              "claim": "(L+s_n)/2 < s_n",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_claim": [
+                      "The previously obtained inequality holds.",
+                      "a_m \\le s_n"
+                    ],
+                    "deduced_from_theorem": [
+                      {
+                        "claim": "If x \\le y and y \\le z, then x \\le z.",
+                        "name": "Transitivity of \\(\\le\\)",
+                        "description": "Used to combine the prior inequality with \\(a_m \\le s_n\\)."
+                      }
+                    ],
+                    "type": "assert_statement",
+                    "proof_method": "by combining the previous inequality with \\(a_m \\le s_n\\), using transitivity of inequalities"
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step34",
+              "status": "resolved",
+              "text": "Combining this with $a_m \\le s_n$ yields"
+            },
+            {
+              "type": "inequality_chain",
+              "start": "\\frac{L+s_n}{2}",
+              "target": "s_n",
+              "goal_relation": "<",
+              "steps": [
+                {
+                  "from": "\\frac{L+s_n}{2}",
+                  "relation": "<",
+                  "to": "s_n"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step35",
+              "status": "resolved",
+              "text": "\\frac{L + s_n}{2} < s_n."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step36",
+              "header": "Claim",
+              "claim": "L+s_n < 2s_n",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assert_statement",
+                    "proof_method": "Multiply the preceding inequality or equation by 2."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step36",
+              "status": "resolved",
+              "text": "Multiplying by $2$ gives"
+            },
+            {
+              "type": "inequality_chain",
+              "start": "L + s_n",
+              "target": "2 s_n",
+              "goal_relation": "<",
+              "steps": [
+                {
+                  "from": "L + s_n",
+                  "relation": "<",
+                  "to": "2 s_n"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step37",
+              "status": "resolved",
+              "text": "L + s_n < 2 s_n,"
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step38",
+              "header": "Claim",
+              "claim": "L < s_n",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assert_statement",
+                    "proof_method": "The phrase “and hence” indicates a conclusion from preceding steps, but no preceding mathematical assertion is included in this fragment."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step38",
+              "status": "resolved",
+              "text": "and hence"
+            },
+            {
+              "type": "inequality_chain",
+              "start": "L",
+              "target": "s_n",
+              "goal_relation": "<",
+              "steps": [
+                {
+                  "from": "L",
+                  "relation": "<",
+                  "to": "s_n"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step39",
+              "status": "resolved",
+              "text": "L < s_n."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step40",
+              "header": "Claim",
+              "claim": "\\bot",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_claim": [
+                      "A previously derived assertion is incompatible with the assumption L > s_n."
+                    ],
+                    "type": "assert_statement",
+                    "claim": "\\bot",
+                    "proof_method": "By contradiction from the previously established incompatible statement and the assumption L > s_n."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step40",
+              "status": "resolved",
+              "text": "This contradicts the assumption $L > s_n$."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step41",
+              "header": "Claim",
+              "claim": "\\neg (L > s_n)",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_claim": [
+                      "The assumption L > s_n leads to a contradiction."
+                    ],
+                    "deduced_from_theorem": [
+                      {
+                        "claim": "If an assumption leads to a contradiction, then that assumption is false.",
+                        "name": "Proof by contradiction",
+                        "description": "Used to rule out the temporary assumption L > s_n."
+                      }
+                    ],
+                    "type": "assert_statement",
+                    "claim": "\\neg (L > s_n)",
+                    "proof_method": "This follows from the contradiction derived under the assumption L > s_n."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step41",
+              "status": "resolved",
+              "text": "Therefore the assumption $L > s_n$ is impossible, and it follows that"
+            },
+            {
+              "type": "inequality_chain",
+              "start": "L",
+              "target": "s_n \\quad \\text{for all } n \\in \\mathbb{N}",
+              "goal_relation": "<=",
+              "steps": [
+                {
+                  "from": "L",
+                  "relation": "<=",
+                  "to": "s_n \\quad \\text{for all } n \\in \\mathbb{N}"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step42",
+              "status": "resolved",
+              "text": "L \\le s_n \\quad \\text{for all } n \\in \\mathbb{N}."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step43",
+              "header": "Claim",
+              "claim": "\\inf_n s_n \\ge L",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_theorem": [
+                      {
+                        "claim": "If b_n \\le c for all n, then \\inf_n b_n \\le c.",
+                        "name": "Monotonicity of infimum",
+                        "description": "Taking the infimum over all n preserves the upper bound."
+                      }
+                    ],
+                    "type": "assert_statement",
+                    "claim": "\\inf_n b_n \\le c",
+                    "proof_method": "Taking the infimum over all n"
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step43",
+              "status": "resolved",
+              "text": "Taking the infimum over all $n$ yields"
+            },
+            {
+              "type": "mixed_relation_chain",
+              "start": "L",
+              "target": "\\limsup_{n \\to \\infty} a_n",
+              "goal_relation": "mixed",
+              "steps": [
+                {
+                  "from": "L",
+                  "relation": "<=",
+                  "to": "\\inf_{n \\in \\mathbb{N}} s_n"
+                },
+                {
+                  "from": "\\inf_{n \\in \\mathbb{N}} s_n",
+                  "relation": "=",
+                  "to": "\\limsup_{n \\to \\infty} a_n"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step44",
+              "status": "resolved",
+              "text": "L \\le \\inf_{n \\in \\mathbb{N}} s_n = \\limsup_{n \\to \\infty} a_n."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step45",
+              "header": "Claim",
+              "claim": "\\bigl(\\forall n \\in \\mathbb{N},\\; i_n \\le L\\bigr) \\to \\liminf_{n \\to \\infty} a_n \\le L",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_theorem": [
+                      {
+                        "claim": "If i_n is the infimum of the tail \\{a_k : k \\ge n\\}, then \\liminf_{n\\to\\infty} a_n is the limit/supremum of the nondecreasing sequence (i_n); in particular, if i_n \\le L for every n, then \\liminf_{n\\to\\infty} a_n \\le L.",
+                        "name": "Characterization of liminf by tail infima",
+                        "description": "This reduction shows the desired inequality follows from pointwise bounds on all tail infima."
+                      }
+                    ],
+                    "type": "assert_statement",
+                    "claim": "\\bigl(\\forall n \\in \\mathbb{N},\\; i_n \\le L\\bigr) \\to \\liminf_{n \\to \\infty} a_n \\le L",
+                    "proof_method": "Reduce the liminf inequality to pointwise upper bounds on the tail infima \\(i_n\\)."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step45",
+              "status": "resolved",
+              "text": "Next, to prove $\\liminf_{n \\to \\infty} a_n \\le L$, it suffices to show that $i_n \\le L$ for every $n \\in \\mathbb{N}$."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step46",
+              "header": "Claim",
+              "claim": "\\bigl(\\forall n \\in \\mathbb{N},\\; i_n \\le L\\bigr) \\to L \\text{ is an upper bound of } \\{i_n : n \\in \\mathbb{N}\\}",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assume_statement",
+                    "assumption": "i_n \\le L for all n"
+                  },
+                  {
+                    "deduced_from_claim": [
+                      "i_n \\le L for all n"
+                    ],
+                    "deduced_from_theorem": [
+                      {
+                        "claim": "A number M is an upper bound of a set S if every element of S is less than or equal to M.",
+                        "name": "Definition of upper bound",
+                        "description": "Applied to the set \\{i_n : n \\in \\mathbb{N}\\} with M=L."
+                      }
+                    ],
+                    "type": "assert_statement",
+                    "claim": "L is an upper bound of the set \\{i_n : n \\in \\mathbb{N}\\}",
+                    "proof_method": "By the definition of upper bound, since every element i_n of the set satisfies i_n \\le L."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step46",
+              "status": "resolved",
+              "text": "Indeed, if $i_n \\le L$ for all $n$, then $L$ is an upper bound of the set $\\{i_n : n \\in \\mathbb{N}\\}$ and therefore"
+            },
+            {
+              "type": "inequality_chain",
+              "start": "\\sup_{n \\in \\mathbb{N}} i_n",
+              "target": "L",
+              "goal_relation": "<=",
+              "steps": [
+                {
+                  "from": "\\sup_{n \\in \\mathbb{N}} i_n",
+                  "relation": "<=",
+                  "to": "L"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step47",
+              "status": "resolved",
+              "text": "\\sup_{n \\in \\mathbb{N}} i_n \\le L,"
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step48",
+              "header": "Claim",
+              "claim": "that is,",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assert_statement",
+                    "proof_method": "This phrase indicates a restatement of the preceding assertion, but no mathematical assertion is present in the fragment.",
+                    "statement": "that is,"
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step48",
+              "status": "resolved",
+              "text": "that is,"
+            },
+            {
+              "type": "mixed_relation_chain",
+              "start": "\\liminf_{n \\to \\infty} a_n",
+              "target": "L",
+              "goal_relation": "mixed",
+              "steps": [
+                {
+                  "from": "\\liminf_{n \\to \\infty} a_n",
+                  "relation": "=",
+                  "to": "\\sup_{n \\in \\mathbb{N}} i_n",
+                  "justification": "By the definition of \\liminf in terms of the tail infima i_n.",
+                  "deduced_from_theorem": [
+                    {
+                      "claim": "For a real sequence (a_n), if i_n = \\inf\\{a_k : k \\ge n\\}, then \\liminf_{n\\to\\infty} a_n = \\sup_{n\\in\\mathbb N} i_n.",
+                      "name": "definition of liminf",
+                      "description": "Identifies the liminf with the supremum of the tail infima."
+                    }
+                  ],
+                  "side_conditions": [
+                    "i_n denotes the tail infimum \\inf\\{a_k : k \\ge n\\}."
+                  ]
+                },
+                {
+                  "from": "\\sup_{n \\in \\mathbb{N}} i_n",
+                  "relation": "<=",
+                  "to": "L",
+                  "justification": "Previously established upper bound for the supremum of the tail infima.",
+                  "deduced_from_claim": [
+                    "\\sup_{n \\in \\mathbb{N}} i_n \\le L"
+                  ]
+                }
+              ],
+              "id": "source.root.thm.proof.root.step49",
+              "status": "resolved",
+              "text": "\\liminf_{n \\to \\infty} a_n = \\sup_{n \\in \\mathbb{N}} i_n \\le L."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step50",
+              "header": "Claim",
+              "claim": "n \\in \\mathbb{N}",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assume_statement",
+                    "variable_name": "n",
+                    "variable_type": "\\mathbb{N}",
+                    "statement": "Fix an arbitrary n \\in \\mathbb{N}."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step50",
+              "status": "resolved",
+              "text": "Fix an arbitrary $n \\in \\mathbb{N}$."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step51",
+              "header": "Claim",
+              "claim": "As before, let",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "let_statement",
+                    "statement": "As before, let"
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step51",
+              "status": "resolved",
+              "text": "As before, let"
+            },
+            {
+              "type": "definition_unfolding",
+              "start": "E_n",
+              "target": "\\{a_k : k \\ge n\\}",
+              "goal_relation": "=",
+              "steps": [
+                {
+                  "from": "E_n",
+                  "relation": "=",
+                  "to": "\\{a_k : k \\ge n\\}",
+                  "justification": "Definition/notation introduced in the proof fragment."
+                }
+              ],
+              "id": "source.root.thm.proof.root.step52",
+              "status": "resolved",
+              "text": "E_n := \\{ a_k : k \\ge n \\},"
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step53",
+              "header": "Claim",
+              "claim": "i_n = \\inf E_n",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assert_statement",
+                    "claim": "i_n = \\inf E_n",
+                    "proof_method": "This is the stated conclusion of the preceding setup, likely by definition or construction of i_n."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step53",
+              "status": "resolved",
+              "text": "so that $i_n = \\inf E_n$."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step54",
+              "header": "Claim",
+              "claim": "i_n > L",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assume_statement",
+                    "proof_method": "Assume the negation of the desired inequality for contradiction.",
+                    "assumption": "i_n > L",
+                    "statement": "Assume for contradiction that $i_n > L$."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step54",
+              "status": "resolved",
+              "text": "Assume for contradiction that $i_n > L$."
+            },
+            {
+              "type": "assert_statement",
+              "claim": "Define",
+              "proof_method": "Define",
+              "id": "source.root.thm.proof.root.step55",
+              "status": "resolved",
+              "text": "Define"
+            },
+            {
+              "type": "definition_unfolding",
+              "start": "\\eta",
+              "target": "i_n - L",
+              "goal_relation": "=",
+              "steps": [
+                {
+                  "from": "\\eta",
+                  "relation": "=",
+                  "to": "i_n - L",
+                  "justification": "definition/assignment of \\eta"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step56",
+              "status": "resolved",
+              "text": "\\eta := i_n - L."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step57",
+              "header": "Claim",
+              "claim": "Then $\\eta > 0$.",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_theorem": [
+                      {
+                        "claim": "If a real number is chosen to be positive, then it is greater than 0.",
+                        "description": "Used to justify the stated positivity of η."
+                      }
+                    ],
+                    "type": "assert_statement",
+                    "claim": "\\eta > 0",
+                    "proof_method": "from the prior choice or definition of \\eta as a positive quantity"
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step57",
+              "status": "resolved",
+              "text": "Then $\\eta > 0$."
+            },
+            {
+              "type": "assert_statement",
+              "claim": "η/2 > 0",
+              "proof_method": "This is required in order to instantiate the hypothesis at ε = η/2."
+            },
+            {
+              "deduced_from_claim": [
+                "∀ ε > 0, ∃ N, ∀ n ≥ N, ∃ m ≥ n, |a_m - L| < ε",
+                "η/2 > 0"
+              ],
+              "type": "assert_statement",
+              "claim": "∃ N, ∀ n ≥ N, ∃ m ≥ n, |a_m - L| < η/2",
+              "proof_method": "Instantiate the hypothesis with ε = η/2."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step59",
+              "header": "Claim",
+              "claim": "\\exists N \\in \\mathbb{N}\\;\\forall p \\ge N\\;\\exists m \\ge p,\\; |a_m-L|<\\varepsilon",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_claim": [
+                      "∀ ε > 0, ∃ N, ∀ n ≥ N, ∃ m ≥ n, |a_m - L| < ε"
+                    ],
+                    "type": "assert_statement",
+                    "claim": "There exists N ∈ ℕ such that for every p ≥ N there exists m ≥ p with |a_m - L| < ε.",
+                    "proof_method": "By the assumption on (a_n) and L, applied to the current positive ε."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step59",
+              "status": "resolved",
+              "text": "By the assumption on $(a_n)$ and $L$, there exists $N \\in \\mathbb{N}$ such that for every $p \\ge N$ there exists $m \\ge p$ with"
+            },
+            {
+              "type": "inequality_chain",
+              "start": "|a_m - L|",
+              "target": "\\eta/2",
+              "goal_relation": "<",
+              "steps": [
+                {
+                  "from": "|a_m - L|",
+                  "relation": "<",
+                  "to": "\\eta/2"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step60",
+              "status": "resolved",
+              "text": "|a_m - L| < \\eta/2."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step61",
+              "header": "Claim",
+              "claim": "p = \\max\\{N,n\\}",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "let_statement",
+                    "variable_name": "p",
+                    "statement": "p := \\max\\{N,n\\}"
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step61",
+              "status": "resolved",
+              "text": "Again set $p := \\max\\{N, n\\}$."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step62",
+              "header": "Claim",
+              "claim": "Then $p \\ge N$ and $p \\ge n$.",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assert_statement",
+                    "claim": "p \\ge N \\text{ and } p \\ge n",
+                    "proof_method": "Directly from the preceding choice or definition of p in the omitted context."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step62",
+              "status": "resolved",
+              "text": "Then $p \\ge N$ and $p \\ge n$."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step63",
+              "header": "Claim",
+              "claim": "\\exists m \\ge p,\\; |a_m-L|<\\varepsilon",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_claim": [
+                      "For every n ≥ N, there exists m ≥ n such that |a_m - L| < ε.",
+                      "p ≥ N."
+                    ],
+                    "type": "assert_statement",
+                    "claim": "There exists m ≥ p such that |a_m - L| < ε.",
+                    "proof_method": "Specialize the defining property obtained by the choice of N at n = p."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step63",
+              "status": "resolved",
+              "text": "By the choice of $N$, there exists $m \\ge p$ with"
+            },
+            {
+              "type": "inequality_chain",
+              "start": "|a_m - L|",
+              "target": "\\eta/2",
+              "goal_relation": "<",
+              "steps": [
+                {
+                  "from": "|a_m - L|",
+                  "relation": "<",
+                  "to": "\\eta/2"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step64",
+              "status": "resolved",
+              "text": "|a_m - L| < \\eta/2."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step65",
+              "header": "Claim",
+              "claim": "a_m \\in E_n \\text{ and } i_n \\le a_m",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_claim": [
+                      "m \\ge p \\ge n",
+                      "E_n is the tail set containing all a_k with k \\ge n"
+                    ],
+                    "type": "assert_statement",
+                    "claim": "a_m \\in E_n",
+                    "proof_method": "Since m \\ge p \\ge n, we have m \\ge n, so a_m belongs to the tail set E_n."
+                  },
+                  {
+                    "deduced_from_claim": [
+                      "a_m \\in E_n",
+                      "i_n = \\inf E_n"
+                    ],
+                    "deduced_from_theorem": [
+                      {
+                        "claim": "If i=\\inf E and x\\in E, then i\\le x.",
+                        "name": "Infimum lower-bound property",
+                        "description": "Applied with i=i_n, E=E_n, and x=a_m."
+                      }
+                    ],
+                    "type": "assert_statement",
+                    "claim": "i_n \\le a_m",
+                    "proof_method": "By the definition of i_n as the infimum of E_n."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step65",
+              "status": "resolved",
+              "text": "Since $m \\ge p \\ge n$, we have $a_m \\in E_n$, and by the definition of $i_n$ as an infimum we conclude"
+            },
+            {
+              "type": "inequality_chain",
+              "start": "i_n",
+              "target": "a_m",
+              "goal_relation": "<=",
+              "steps": [
+                {
+                  "from": "i_n",
+                  "relation": "<=",
+                  "to": "a_m"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step66",
+              "status": "resolved",
+              "text": "i_n \\le a_m."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step67",
+              "header": "Claim",
+              "claim": "L-\\eta/2 < a_m \\text{ and } a_m < L+\\eta/2",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assert_statement",
+                    "claim": "|a_m - L| < \\eta/2",
+                    "proof_method": "This is the assumed bound from which the following step proceeds."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step67",
+              "status": "resolved",
+              "text": "From $|a_m - L| < \\eta/2$ we have"
+            },
+            {
+              "type": "mixed_relation_chain",
+              "start": "L - \\eta/2",
+              "target": "L + \\eta/2",
+              "goal_relation": "<",
+              "steps": [
+                {
+                  "from": "L - \\eta/2",
+                  "relation": "<",
+                  "to": "a_m"
+                },
+                {
+                  "from": "a_m",
+                  "relation": "<",
+                  "to": "L + \\eta/2"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step68",
+              "status": "resolved",
+              "text": "L - \\eta/2 < a_m < L + \\eta/2."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step69",
+              "header": "Claim",
+              "claim": "a_m < L+(i_n-L)/2",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_claim": [
+                      "\\eta = i_n - L"
+                    ],
+                    "type": "assert_statement",
+                    "proof_method": "Substitute \\(\\eta = i_n-L\\) into the previously established right inequality."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step69",
+              "status": "resolved",
+              "text": "Using $\\eta = i_n - L$, the right inequality becomes"
+            },
+            {
+              "type": "mixed_relation_chain",
+              "start": "a_m",
+              "target": "\\frac{L + i_n}{2}",
+              "goal_relation": "mixed",
+              "steps": [
+                {
+                  "from": "a_m",
+                  "relation": "<",
+                  "to": "L + \\frac{i_n - L}{2}"
+                },
+                {
+                  "from": "L + \\frac{i_n - L}{2}",
+                  "relation": "=",
+                  "to": "\\frac{L + i_n}{2}",
+                  "justification": "algebraic simplification"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step70",
+              "status": "resolved",
+              "text": "a_m < L + \\frac{i_n - L}{2} = \\frac{L + i_n}{2}."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step71",
+              "header": "Claim",
+              "claim": "i_n < L+(i_n-L)/2",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_claim": [
+                      "i_n \\le a_m"
+                    ],
+                    "type": "assert_statement",
+                    "proof_method": "Combining the preceding assertion with \\(i_n \\le a_m\\)."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step71",
+              "status": "resolved",
+              "text": "Combining this with $i_n \\le a_m$ yields"
+            },
+            {
+              "type": "mixed_relation_chain",
+              "start": "i_n",
+              "target": "\\frac{L + i_n}{2}",
+              "goal_relation": "mixed",
+              "steps": [
+                {
+                  "from": "i_n",
+                  "relation": "<=",
+                  "to": "a_m"
+                },
+                {
+                  "from": "a_m",
+                  "relation": "<",
+                  "to": "\\frac{L + i_n}{2}"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step72",
+              "status": "resolved",
+              "text": "i_n \\le a_m < \\frac{L + i_n}{2}."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step73",
+              "header": "Claim",
+              "claim": "i_n+L < 2L",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assert_statement",
+                    "claim": "\\liminf a_n \\le L \\le \\limsup a_n",
+                    "proof_method": "Conclusion indicated by the transitional word \"Thus\"; the source fragment provides no explicit intermediate justification."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step73",
+              "status": "resolved",
+              "text": "Thus"
+            },
+            {
+              "type": "inequality_chain",
+              "start": "i_n",
+              "target": "\\frac{L+i_n}{2}",
+              "goal_relation": "<",
+              "steps": [
+                {
+                  "from": "i_n",
+                  "relation": "<",
+                  "to": "\\frac{L+i_n}{2}"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step74",
+              "status": "resolved",
+              "text": "i_n < \\frac{L + i_n}{2}."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step75",
+              "header": "Claim",
+              "claim": "i_n+L < 2L",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assert_statement",
+                    "proof_method": "Multiplication by 2 is applied to a previously established inequality or equation, but the source fragment does not state that prior assertion or the resulting assertion.",
+                    "statement": "Multiplying by $2$ gives"
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step75",
+              "status": "resolved",
+              "text": "Multiplying by $2$ gives"
+            },
+            {
+              "type": "inequality_chain",
+              "start": "2 i_n",
+              "target": "L + i_n",
+              "goal_relation": "<",
+              "steps": [
+                {
+                  "from": "2 i_n",
+                  "relation": "<",
+                  "to": "L + i_n"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step76",
+              "status": "resolved",
+              "text": "2 i_n < L + i_n,"
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step77",
+              "header": "Claim",
+              "claim": "i_n < L",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assert_statement",
+                    "proof_method": "and hence"
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step77",
+              "status": "resolved",
+              "text": "and hence"
+            },
+            {
+              "type": "inequality_chain",
+              "start": "i_n",
+              "target": "L",
+              "goal_relation": "<",
+              "steps": [
+                {
+                  "from": "i_n",
+                  "relation": "<",
+                  "to": "L"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step78",
+              "status": "resolved",
+              "text": "i_n < L."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step79",
+              "header": "Claim",
+              "claim": "\\bot",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_claim": [
+                      "i_n \\le L",
+                      "i_n > L"
+                    ],
+                    "type": "assert_statement",
+                    "claim": "\\bot",
+                    "proof_method": "Contradiction with the previously derived inequality i_n \\le L and the assumption i_n > L."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step79",
+              "status": "resolved",
+              "text": "This contradicts the assumption $i_n > L$."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step80",
+              "header": "Claim",
+              "claim": "\\neg (i_n > L)",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assert_statement",
+                    "claim": "\\neg (i_n > L)",
+                    "proof_method": "This is concluded from the preceding contradiction argument, which is not included in the fragment."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step80",
+              "status": "resolved",
+              "text": "Therefore the assumption $i_n > L$ is impossible, and it follows that"
+            },
+            {
+              "type": "inequality_chain",
+              "start": "i_n",
+              "target": "L",
+              "goal_relation": "<=",
+              "steps": [
+                {
+                  "from": "i_n",
+                  "relation": "<=",
+                  "to": "L",
+                  "side_conditions": [
+                    "n \\in \\mathbb{N}"
+                  ]
+                }
+              ],
+              "id": "source.root.thm.proof.root.step81",
+              "status": "resolved",
+              "text": "i_n \\le L \\quad \\text{for all } n \\in \\mathbb{N}."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step82",
+              "header": "Claim",
+              "claim": "\\sup_n i_n \\le L",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_theorem": [
+                      {
+                        "claim": "If x_n \\le y for all n, then \\sup_n x_n \\le y, provided the supremum exists.",
+                        "name": "Supremum monotonicity",
+                        "description": "Taking the supremum over all n preserves the inequality."
+                      }
+                    ],
+                    "type": "assert_statement",
+                    "proof_method": "Take the supremum over all n."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step82",
+              "status": "resolved",
+              "text": "Taking the supremum over all $n$ yields"
+            },
+            {
+              "type": "inequality_chain",
+              "start": "\\sup_{n \\in \\mathbb{N}} i_n",
+              "target": "L",
+              "goal_relation": "<=",
+              "steps": [
+                {
+                  "from": "\\sup_{n \\in \\mathbb{N}} i_n",
+                  "relation": "<=",
+                  "to": "L"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step83",
+              "status": "resolved",
+              "text": "\\sup_{n \\in \\mathbb{N}} i_n \\le L,"
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step84",
+              "header": "Claim",
+              "claim": "that is,",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "type": "assert_statement",
+                    "claim": "\\liminf a_n \\le L \\le \\limsup a_n",
+                    "proof_method": "This is the assertion being restated by “that is” in the context of the theorem conclusion."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step84",
+              "status": "resolved",
+              "text": "that is,"
+            },
+            {
+              "type": "mixed_relation_chain",
+              "start": "\\liminf_{n \\to \\infty} a_n",
+              "target": "L",
+              "goal_relation": "mixed",
+              "steps": [
+                {
+                  "from": "\\liminf_{n \\to \\infty} a_n",
+                  "relation": "=",
+                  "to": "\\sup_{n \\in \\mathbb{N}} i_n",
+                  "justification": "By the definition of \\(\\liminf\\) in terms of the tail infima \\(i_n\\).",
+                  "deduced_from_theorem": [
+                    {
+                      "claim": "For a real sequence (a_n), if i_n = inf_{k >= n} a_k, then liminf_{n -> infinity} a_n = sup_{n in N} i_n.",
+                      "name": "definition of liminf via tail infima",
+                      "description": "Identifies the limit inferior with the supremum of the sequence of tail infima."
+                    }
+                  ],
+                  "side_conditions": [
+                    "i_n denotes the tail infimum \\(\\inf_{k \\ge n} a_k\\)."
+                  ]
+                },
+                {
+                  "from": "\\sup_{n \\in \\mathbb{N}} i_n",
+                  "relation": "<=",
+                  "to": "L"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step85",
+              "status": "resolved",
+              "text": "\\liminf_{n \\to \\infty} a_n = \\sup_{n \\in \\mathbb{N}} i_n \\le L."
+            },
+            {
+              "type": "Theorem",
+              "label": "source.root.thm.proof.root.step86",
+              "header": "Claim",
+              "claim": "\\liminf a_n \\le L \\le \\limsup a_n",
+              "proof": {
+                "type": "Proof",
+                "proof_steps": [
+                  {
+                    "deduced_from_claim": [
+                      "\\liminf a_n \\le L",
+                      "L \\le \\limsup a_n"
+                    ],
+                    "type": "assert_statement",
+                    "claim": "\\liminf a_n \\le L \\le \\limsup a_n",
+                    "proof_method": "Combining the two inequalities obtained above."
+                  }
+                ]
+              },
+              "id": "source.root.thm.proof.root.step86",
+              "status": "resolved",
+              "text": "Combining the two inequalities obtained above, one obtains"
+            },
+            {
+              "type": "mixed_relation_chain",
+              "start": "\\liminf_{n \\to \\infty} a_n",
+              "target": "\\limsup_{n \\to \\infty} a_n",
+              "goal_relation": "<=",
+              "steps": [
+                {
+                  "from": "\\liminf_{n \\to \\infty} a_n",
+                  "relation": "<=",
+                  "to": "L"
+                },
+                {
+                  "from": "L",
+                  "relation": "<=",
+                  "to": "\\limsup_{n \\to \\infty} a_n"
+                }
+              ],
+              "id": "source.root.thm.proof.root.step87",
+              "status": "resolved",
+              "text": "\\liminf_{n \\to \\infty} a_n \\le L \\le \\limsup_{n \\to \\infty} a_n."
+            }
+          ],
+          "id": "source.root.thm.proof.root",
+          "status": "resolved",
+          "text": "Assume that $(a_n)$ is a real sequence and $L \\in \\mathbb{R}$ satisfies the following property:\n\nFor every $\\varepsilon > 0$ there exists $N \\in \\mathbb{N}$ such that for every $n \\ge N$ there exists $m \\ge n$ with $|a_m - L| < \\varepsilon$.\n\nThe goal is to prove that $\\liminf_{n \\to \\infty} a_n \\le L \\le \\limsup_{n \\to \\infty} a_n$.\n\nFirst, recall the standard definitions of $\\limsup$ and $\\liminf$ in terms of suprema and infima of tails. For each $n \\in \\mathbb{N}$ define\n\\[\ns_n := \\sup\\{ a_k : k \\ge n \\}, \\qquad i_n := \\inf\\{ a_k : k \\ge n \\}.\n\\]\nThen the sequence $(s_n)$ is decreasing, the sequence $(i_n)$ is increasing, and by definition\n\\[\n\\limsup_{n \\to \\infty} a_n = \\inf_{n \\in \\mathbb{N}} s_n, \\qquad\n\\liminf_{n \\to \\infty} a_n = \\sup_{n \\in \\mathbb{N}} i_n.\n\\]\n\nTo prove $L \\le \\limsup_{n \\to \\infty} a_n$, it is enough to show that $L \\le s_n$ for every $n \\in \\mathbb{N}$. Indeed, if $L \\le s_n$ holds for all $n$, then $L$ is a lower bound of the set $\\{s_n : n \\in \\mathbb{N}\\}$, and consequently $L \\le \\inf_{n \\in \\mathbb{N}} s_n = \\limsup_{n \\to \\infty} a_n$.\n\nFix an arbitrary $n \\in \\mathbb{N}$. Let\n\\[\nE_n := \\{ a_k : k \\ge n \\},\n\\]\nso that $s_n = \\sup E_n$. Assume for contradiction that $L > s_n$. Define\n\\[\n\\delta := L - s_n.\n\\]\nThen $\\delta > 0$. Apply the hypothesis to $\\varepsilon := \\delta/2 > 0$. By the assumption on $(a_n)$ and $L$, there exists $N \\in \\mathbb{N}$ such that for every $p \\ge N$ there exists $m \\ge p$ with\n\\[\n|a_m - L| < \\delta/2.\n\\]\nSet $p := \\max\\{N, n\\}$. Then $p \\ge N$ and $p \\ge n$. By the choice of $N$, there exists $m \\ge p$ with\n\\[\n|a_m - L| < \\delta/2.\n\\]\nSince $m \\ge p \\ge n$, we have $a_m \\in E_n$, and hence by the definition of $s_n$ as a supremum we obtain\n\\[\na_m \\le s_n.\n\\]\n\nOn the other hand, from $|a_m - L| < \\delta/2$ we deduce\n\\[\nL - \\delta/2 < a_m < L + \\delta/2.\n\\]\nUsing the definition $\\delta = L - s_n$, the left inequality becomes\n\\[\nL - \\frac{L - s_n}{2} < a_m,\n\\]\nwhich simplifies to\n\\[\n\\frac{L + s_n}{2} < a_m.\n\\]\nCombining this with $a_m \\le s_n$ yields\n\\[\n\\frac{L + s_n}{2} < s_n.\n\\]\nMultiplying by $2$ gives\n\\[\nL + s_n < 2 s_n,\n\\]\nand hence\n\\[\nL < s_n.\n\\]\nThis contradicts the assumption $L > s_n$. Therefore the assumption $L > s_n$ is impossible, and it follows that\n\\[\nL \\le s_n \\quad \\text{for all } n \\in \\mathbb{N}.\n\\]\nTaking the infimum over all $n$ yields\n\\[\nL \\le \\inf_{n \\in \\mathbb{N}} s_n = \\limsup_{n \\to \\infty} a_n.\n\\]\n\nNext, to prove $\\liminf_{n \\to \\infty} a_n \\le L$, it suffices to show that $i_n \\le L$ for every $n \\in \\mathbb{N}$. Indeed, if $i_n \\le L$ for all $n$, then $L$ is an upper bound of the set $\\{i_n : n \\in \\mathbb{N}\\}$ and therefore\n\\[\n\\sup_{n \\in \\mathbb{N}} i_n \\le L,\n\\]\nthat is,\n\\[\n\\liminf_{n \\to \\infty} a_n = \\sup_{n \\in \\mathbb{N}} i_n \\le L.\n\\]\n\nFix an arbitrary $n \\in \\mathbb{N}$. As before, let\n\\[\nE_n := \\{ a_k : k \\ge n \\},\n\\]\nso that $i_n = \\inf E_n$. Assume for contradiction that $i_n > L$. Define\n\\[\n\\eta := i_n - L.\n\\]\nThen $\\eta > 0$. Apply the hypothesis to $\\varepsilon := \\eta/2 > 0$. By the assumption on $(a_n)$ and $L$, there exists $N \\in \\mathbb{N}$ such that for every $p \\ge N$ there exists $m \\ge p$ with\n\\[\n|a_m - L| < \\eta/2.\n\\]\nAgain set $p := \\max\\{N, n\\}$. Then $p \\ge N$ and $p \\ge n$. By the choice of $N$, there exists $m \\ge p$ with\n\\[\n|a_m - L| < \\eta/2.\n\\]\nSince $m \\ge p \\ge n$, we have $a_m \\in E_n$, and by the definition of $i_n$ as an infimum we conclude\n\\[\ni_n \\le a_m.\n\\]\n\nFrom $|a_m - L| < \\eta/2$ we have\n\\[\nL - \\eta/2 < a_m < L + \\eta/2.\n\\]\nUsing $\\eta = i_n - L$, the right inequality becomes\n\\[\na_m < L + \\frac{i_n - L}{2} = \\frac{L + i_n}{2}.\n\\]\nCombining this with $i_n \\le a_m$ yields\n\\[\ni_n \\le a_m < \\frac{L + i_n}{2}.\n\\]\nThus\n\\[\ni_n < \\frac{L + i_n}{2}.\n\\]\nMultiplying by $2$ gives\n\\[\n2 i_n < L + i_n,\n\\]\nand hence\n\\[\ni_n < L.\n\\]\nThis contradicts the assumption $i_n > L$. Therefore the assumption $i_n > L$ is impossible, and it follows that\n\\[\ni_n \\le L \\quad \\text{for all } n \\in \\mathbb{N}.\n\\]\nTaking the supremum over all $n$ yields\n\\[\n\\sup_{n \\in \\mathbb{N}} i_n \\le L,\n\\]\nthat is,\n\\[\n\\liminf_{n \\to \\infty} a_n = \\sup_{n \\in \\mathbb{N}} i_n \\le L.\n\\]\n\nCombining the two inequalities obtained above, one obtains\n\\[\n\\liminf_{n \\to \\infty} a_n \\le L \\le \\limsup_{n \\to \\infty} a_n.\n\\]"
+        },
+        "id": "source.root.thm",
+        "status": "resolved"
+      }
+    ]
+  }
+}
